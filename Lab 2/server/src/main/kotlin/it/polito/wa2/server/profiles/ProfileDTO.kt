@@ -10,3 +10,12 @@ data class ProfileDTO(
 fun Profile.toDTO(): ProfileDTO {
     return ProfileDTO(email, firstName, lastName, phone)
 }
+
+fun ProfileDTO.toProfile(): Profile {
+    val p = Profile()
+    p.email = email
+    p.firstName = firstName
+    p.lastName = lastName
+    p.phone = phone
+    return p
+}
