@@ -5,10 +5,10 @@ import jakarta.persistence.Table
 import jakarta.persistence.Id
 
 @Entity
-@Table(name="products")
+@Table(name = "products")
 class Product {
     @Id
-    var ean = ""
+    var productId = ""
     var name = ""
     var brand = ""
 }

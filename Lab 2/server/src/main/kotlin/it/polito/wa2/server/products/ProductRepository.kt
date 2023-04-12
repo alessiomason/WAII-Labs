@@ -5,6 +5,4 @@ import org.springframework.stereotype.Repository
 
 // Stores and fetches things from a database, with a primary key that is a string
 @Repository
-interface ProductRepository: JpaRepository<Product, String> {
-
-}
+interface ProductRepository: JpaRepository<Product, String>
