@@ -5,6 +5,10 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom'
 import {Button, Col, Row} from "react-bootstrap";
+import {ProductList} from "./ProductList";
+import {ProductById} from "./ProductById";
+import {ProfileByMail} from "./ProfileByMail";
+import {FormModifyProfile} from "./FormModifyProfile";
 
 function App() {
   <Router>
@@ -20,22 +24,15 @@ function App2() {
         console.log(err);
     }
 
-    useEffect(() => {
-        API.getProducts()
-            .then((p) => { setProducts(p); setDirty(false); console.log(p)})
-            .catch(err => handleError(err));
-    }, [dirty]);
-
-
-  return (
+    return (
       <>
           <Routes>
-          <Route path='/ciao' element={<ListaRoute/>}/>
-            {/*<Route path='/products' element={}/>*/}
-            {/*<Route path='/products/:id' element={}/>
-            {/*<Route path='/profiles' element={}/>*/}
-            {/*<Route path='/getProfiles/:email' element={}/>*/}
-            {/*<Route path='/putProfiles/:email' element={}/> </>*/}
+          <Route path='/' element={<ListaRoute/>}/>
+            <Route path='/products' element={<ProductList handleError={handleError()}/>}/>
+            <Route path='/products/:id' element={<ProductById handleError={handleError()}/>}/>
+            <Route path='/profiles'/>
+            <Route path='/getProfiles/:email' element={<ProfileByMail handleError={handleError()}/>}/>
+            <Route path='/putProfiles/:email' element={<FormModifyProfile handleError={handleError()}/>}/>
         </Routes>
       </>
   );
