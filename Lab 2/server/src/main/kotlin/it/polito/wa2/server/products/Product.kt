@@ -1,5 +1,6 @@
 package it.polito.wa2.server.products
 
+import jakarta.persistence.Column
 import jakarta.persistence.Entity
 import jakarta.persistence.Table
 import jakarta.persistence.Id
@@ -8,7 +9,8 @@ import jakarta.persistence.Id
 @Table(name = "products")
 class Product {
     @Id
-    var productId = ""
+    @Column(updatable = false, nullable = false)
+    var ean = ""
     var name = ""
     var brand = ""
 }
