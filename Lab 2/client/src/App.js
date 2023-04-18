@@ -1,4 +1,3 @@
-import logo from './logo.svg';
 import './App.css';
 import API from './API'
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -16,9 +15,6 @@ function App() {
   </Router>
 }
 function App2() {
-
-    const [products, setProducts] = useState('');
-    const [dirty, setDirty] = useState('');
 
     function handleError(err) {
         console.log(err);
