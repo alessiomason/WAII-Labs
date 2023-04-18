@@ -21,6 +21,10 @@ class ProblemDetailsHandler: ResponseEntityExceptionHandler() {
     fun handleDuplicateProduct(e: DuplicateProductException) = ProblemDetail
         .forStatusAndDetail(HttpStatus.CONFLICT, e.message!!)
 
+    @ExceptionHandler(DuplicateProfileException::class)
+    fun handleDuplicateProfile(e: DuplicateProfileException) = ProblemDetail
+        .forStatusAndDetail(HttpStatus.CONFLICT, e.message!!)
+
     @ExceptionHandler(ConstraintViolationException::class)
     fun handleInvalidConstraint(e: ConstraintViolationException) = ProblemDetail
         .forStatusAndDetail(HttpStatus.UNPROCESSABLE_ENTITY, e.message!!)

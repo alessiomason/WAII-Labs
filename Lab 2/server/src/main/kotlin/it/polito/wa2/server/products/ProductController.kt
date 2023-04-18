@@ -19,6 +19,6 @@ class ProductController(
 
     @GetMapping("/API/products/{ean}")
     fun getProductById(@PathVariable @Size(min=13, max=13) ean: String): ProductDTO {
-        return productService.getProduct(ean) ?: throw ProductNotFoundException()
+        return productService.getProduct(ean)
     }
 }

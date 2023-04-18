@@ -19,7 +19,7 @@ class ProfileController(
 ) {
     @GetMapping("/API/profiles/{email}")
     fun getProfileById(@PathVariable @Email email: String): ProfileDTO {
-        return profileService.getProfile(email) ?: throw ProfileNotFoundException()
+        return profileService.getProfile(email)
     }
 
     @PostMapping("/API/profiles")
