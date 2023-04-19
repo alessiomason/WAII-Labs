@@ -41,7 +41,7 @@ function FormModifyProfile(props) {
                         <Form onSubmit={handleSubmit}>
                             <Form.Group>
                                 <Form.Label>Email</Form.Label>
-                                <Form.Control type='text' value={email} readOnly={true} }>
+                                <Form.Control type='text' value={email} readOnly={true} >
                                 </Form.Control>
                             </Form.Group>
                             <Form.Group>

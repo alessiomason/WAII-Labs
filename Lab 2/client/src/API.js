@@ -1,8 +1,8 @@
-const APIURL = 'http://localhost:8080/API'
+const APIURL = new URL('http://localhost:8080/API/')
 
 async function getProducts() {
     // call /api/products
-    const response = await fetch(new URL('/products', APIURL));
+    const response = await fetch(new URL('products', APIURL));
     const products = await response.json();
     if (response.ok)
         return products.map((prod) => ({

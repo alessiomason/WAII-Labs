@@ -5,7 +5,7 @@ import {useNavigate } from 'react-router-dom';
 import API from './API';
 function ProductList(props) {
 
-    const [products, setProducts] = useState('');
+    const [products, setProducts] = useState([]);
 
     useEffect(() => {
         API.getProducts()
@@ -27,7 +27,7 @@ function ProductList(props) {
                 <tbody>
                 {
                     // props.exams.map((ex) => <ExamRow exam={ex} key={ex.code} deleteExam={props.deleteExam} />)
-                    products.map((p) => <ProdottoRow key={p.ean} prod={p} />)
+                    products.map(p => <ProdottoRow key={p.ean} prod={p} />)
                 }
                 </tbody>
             </Table>
