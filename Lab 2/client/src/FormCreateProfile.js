@@ -15,18 +15,28 @@ function FormCreateProfile(props) {
 
     const handleSubmit = (event) => {
         event.preventDefault();
-        // POST API
+
+        const newProfile = {
+            email: email,
+            firstName: firstName,
+            lastName: lastName,
+            phone: phone
+        }
+        API.createProfile(newProfile);
+        props.setDirty(true);
+        navigate('/');
     }
     return (
         <>
             <Container>
+                <h1 className="title_profiles">Create Profile</h1>
                 <Row>
                     <Col>
                         {errorMsg ? <Alert variant='danger' onClose={() => setErrorMsg('')} dismissible>{errorMsg}</Alert> : false}
                         <Form onSubmit={handleSubmit}>
                             <Form.Group>
                                 <Form.Label>Email</Form.Label>
-                                <Form.Control type='text' value={email} readOnly={true} >
+                                <Form.Control type='email' value={email} onChange={ev => setEmail(ev.target.value)} >
                                 </Form.Control>
                             </Form.Group>
                             <Form.Group>
@@ -44,7 +54,7 @@ function FormCreateProfile(props) {
                                 <Form.Control type='text' value={phone} onChange={ev => setPhone(ev.target.value)}>
                                 </Form.Control>
                             </Form.Group>
-                            <Button type='submit' >Save</Button>
+                            <Button type='submit' className='save_button'>Save</Button>
                         </Form>
                     </Col>
                 </Row>

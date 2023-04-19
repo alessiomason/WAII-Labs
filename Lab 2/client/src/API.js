@@ -1,7 +1,7 @@
 const APIURL = new URL('http://localhost:8080/API/')
 
 async function getProducts() {
-    // call /api/products
+    // call /API/products
     const response = await fetch(new URL('products', APIURL));
     const products = await response.json();
     if (response.ok)
@@ -14,7 +14,7 @@ async function getProducts() {
 }
 
 async function getProductById(ean) {
-    // call /api/products/:ean
+    // call /API/products/:ean
     const response = await fetch(new URL('products/' + ean, APIURL));
     const product = await response.json();
     if (response.ok)
@@ -27,13 +27,13 @@ async function getProductById(ean) {
 }
 
 async function getProfileById(email) {
-    // call /api/profiles/:email
+    // call /API/profiles/:email
     const response = await fetch(new URL('profiles/' + email, APIURL));
     const profile = await response.json();
     if (response.ok)
         return ({
-            email: profile.name,
-            firstName: profile.name,
+            email: profile.email,
+            firstName: profile.firstName,
             lastName: profile.lastName,
             phone: profile.phone
         });
@@ -41,7 +41,7 @@ async function getProfileById(email) {
 }
 
 function createProfile(profile) {
-    // call: POST /api/profiles
+    // call: POST /API/profiles
     return new Promise((resolve, reject) => {
         fetch(new URL('profiles', APIURL), {
             method: 'POST',
@@ -51,7 +51,7 @@ function createProfile(profile) {
 
             body: JSON.stringify({
                 email: profile.email,
-                firstName: profile.name,
+                firstName: profile.firstName,
                 lastName: profile.lastName,
                 phone: profile.phone
             }),
@@ -70,14 +70,15 @@ function createProfile(profile) {
 }
 
 function editProfile(editedProfile) {
-    // call: PUT /api/profiles/:email
+    // call: PUT /API/profiles/:email
     return new Promise((resolve, reject) => {
-        fetch(new URL('profiles/' , APIURL), {
+        fetch(new URL('profiles/' + editedProfile.email , APIURL), {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json',
             },
             body: JSON.stringify({
+                email: editedProfile.email,
                 firstName: editedProfile.firstName,
                 lastName: editedProfile.lastName,
                 phone: editedProfile.phone

@@ -1,27 +1,27 @@
-
 import { Table, Button } from 'react-bootstrap';
 import { useEffect, useState } from 'react';
 import {useNavigate } from 'react-router-dom';
 import API from './API';
+import './ProductList.css';
 function ProductList(props) {
 
     const [products, setProducts] = useState([]);
 
     useEffect(() => {
         API.getProducts()
-            .then((p) => { setProducts(p); console.log(p)})
+            .then((p) => { setProducts(p) })
             .catch(err =>props.handleError(err));
-    }, []);
+    }, [props]);
 
     return (
         <>
-            <h1>Products list</h1>
+            <h1 className="title_products">Products List</h1>
             <Table>
                 <thead>
                 <tr>
-                    <th>Product id</th>
-                    <th>name</th>
-                    <th>brand</th>
+                    <th>EAN</th>
+                    <th>Name</th>
+                    <th>Brand</th>
                 </tr>
                 </thead>
                 <tbody>

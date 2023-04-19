@@ -36,3 +36,14 @@
     transform: rotate(360deg);
   }
 }
+
+.list_routes_title {
+  margin-top: 1rem;
+  margin-bottom: 0.5rem;
+  text-align: center;
+}
+
+.string_list {
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+}

@@ -3,45 +3,55 @@ import { Container, Row, Col } from 'react-bootstrap';
 import {useEffect, useState} from 'react';
 import {useNavigate, useParams} from 'react-router-dom';
 import API from "./API";
+import './ProfileList.css'
 
 
 function FormModifyProfile(props) {
-    const [email,setEmail] = useState("");
+    const [emailAddress,setEmailAddress] = useState("");
     const [firstName, setFirstName] = useState('');
     const [lastName,setLastName]=useState("");
     const [phone, setPhone] = useState("");
     const [errorMsg, setErrorMsg] = useState('');  // stringa vuota '' = non c'e' errore
-    const {mail}  =useParams();
+    const {email}  =useParams();
 
     const navigate = useNavigate();
 
     const handleSubmit = (event) => {
         event.preventDefault();
-        // PUT API
+        const editedProfile = {
+            email: email,
+            firstName: firstName,
+            lastName: lastName,
+            phone: phone
+        }
+        API.editProfile(editedProfile);
+        props.setDirty(true);
+        navigate('/getProfiles/' + email);
     }
 
     useEffect(() => {
-        API.getProfileById(mail)
+        API.getProfileById(email)
             .then((p) => {
-                setEmail(p.email);
+                setEmailAddress(p.email);
                 setFirstName(p.firstName);
                 setLastName(p.lastName);
                 setPhone(p.phone);
                 setErrorMsg('');
             })
-            .catch(err =>props.handleError(err));
-    }, []);
+            .catch(err => props.handleError(err));
+    }, [email, props]);
 
     return (
         <>
             <Container>
+                <h1 className="title_profiles">Editing Profile...</h1>
                 <Row>
                     <Col>
                         {errorMsg ? <Alert variant='danger' onClose={() => setErrorMsg('')} dismissible>{errorMsg}</Alert> : false}
                         <Form onSubmit={handleSubmit}>
                             <Form.Group>
                                 <Form.Label>Email</Form.Label>
-                                <Form.Control type='text' value={email} readOnly={true} >
+                                <Form.Control type='text' value={emailAddress} disabled readOnly={true} >
                                 </Form.Control>
                             </Form.Group>
                             <Form.Group>
@@ -59,7 +69,8 @@ function FormModifyProfile(props) {
                                 <Form.Control type='text' value={phone} onChange={ev => setPhone(ev.target.value)}>
                                 </Form.Control>
                             </Form.Group>
-                            <Button type='submit' >Save</Button>
+                            <Button type='submit' className='save_button'>Save</Button>
+                            <Button className='back_button' onClick={() => navigate('/getProfiles/' + email)}>Back</Button>
                         </Form>
                     </Col>
                 </Row>
