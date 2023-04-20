@@ -26,7 +26,7 @@ function FormModifyProfile(props) {
         }
         API.editProfile(editedProfile);
         props.setDirty(true);
-        navigate('/getProfiles/' + email);
+        navigate('/profiles/' + email);
     }
 
     useEffect(() => {
@@ -70,7 +70,7 @@ function FormModifyProfile(props) {
                                 </Form.Control>
                             </Form.Group>
                             <Button type='submit' className='save_button'>Save</Button>
-                            <Button className='back_button' onClick={() => navigate('/getProfiles/' + email)}>Back</Button>
+                            <Button className='back_button' onClick={() => navigate('/profiles/' + email)}>Back</Button>
                         </Form>
                     </Col>
                 </Row>

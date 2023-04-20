@@ -37,7 +37,7 @@ function ProfileByMail(props) {
                 }
                 </tbody>
             </Table>
-                <Button className='edit_button' onClick={() => navigate('/putProfiles/' + email)}>Edit profile</Button>
+                <Button className='edit_button' onClick={() => navigate('/editProfile/' + email)}>Edit profile</Button>
             </Container> }
         </>
     );
