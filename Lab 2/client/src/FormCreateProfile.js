@@ -1,14 +1,14 @@
 import { Button, Alert, Form } from 'react-bootstrap';
 import { Container, Row, Col } from 'react-bootstrap';
-import {useEffect, useState} from 'react';
-import {useNavigate, useParams} from 'react-router-dom';
+import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import API from "./API";
 
 
 function FormCreateProfile(props) {
-    const [email,setEmail] = useState("");
+    const [email, setEmail] = useState("");
     const [firstName, setFirstName] = useState('');
-    const [lastName,setLastName]=useState("");
+    const [lastName, setLastName] = useState("");
     const [phone, setPhone] = useState("");
     const [errorMsg, setErrorMsg] = useState('');  // stringa vuota '' = non c'e' errore
     const navigate = useNavigate();
@@ -63,4 +63,4 @@ function FormCreateProfile(props) {
     );
 }
 
-export {FormCreateProfile};
+export { FormCreateProfile };

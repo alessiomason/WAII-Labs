@@ -1,4 +1,4 @@
-import { Table, Button } from 'react-bootstrap';
+import { Table } from 'react-bootstrap';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import API from './API';
