@@ -8,3 +8,8 @@
     margin-top: 4rem;
     text-align:center;
 }
+
+.highlighted-table-row:hover {
+    background-color: rgba(173, 216, 230, 0.2);
+    cursor: pointer;
+}
