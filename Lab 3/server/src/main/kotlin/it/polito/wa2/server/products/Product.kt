@@ -7,10 +7,10 @@ import jakarta.persistence.Id
 
 @Entity
 @Table(name = "products")
-class Product {
+class Product (
     @Id
     @Column(updatable = false, nullable = false)
-    var ean = ""
-    var name = ""
-    var brand = ""
-}
+    val ean: String,
+    var name: String,
+    var brand: String,
+)

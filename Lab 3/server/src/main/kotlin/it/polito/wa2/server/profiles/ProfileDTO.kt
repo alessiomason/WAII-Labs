@@ -12,10 +12,5 @@ fun Profile.toDTO(): ProfileDTO {
 }
 
 fun ProfileDTO.toProfile(): Profile {
-    val p = Profile()
-    p.email = email
-    p.firstName = firstName
-    p.lastName = lastName
-    p.phone = phone
-    return p
+    return Profile(email, firstName, lastName, phone)
 }

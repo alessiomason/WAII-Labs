@@ -7,11 +7,11 @@ import jakarta.persistence.Table
 
 @Entity
 @Table(name = "profiles")
-class Profile {
+class Profile (
     @Id
     @Column(updatable = false, nullable = false)
-    var email: String = ""
-    var firstName: String = ""
-    var lastName: String = ""
-    var phone: String = ""
-}
+    val email: String,
+    var firstName: String,
+    var lastName: String,
+    var phone: String
+)
