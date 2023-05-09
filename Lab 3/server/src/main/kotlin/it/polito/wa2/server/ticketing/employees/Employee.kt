@@ -1,4 +1,4 @@
-package it.polito.wa2.server.ticketing
+package it.polito.wa2.server.ticketing.employees
 
 import jakarta.persistence.Column
 import jakarta.persistence.GeneratedValue

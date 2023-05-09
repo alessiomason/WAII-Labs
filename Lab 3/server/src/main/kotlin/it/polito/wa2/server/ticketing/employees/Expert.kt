@@ -1,5 +1,6 @@
-package it.polito.wa2.server.ticketing
+package it.polito.wa2.server.ticketing.employees
 
+import it.polito.wa2.server.ticketing.tickets.Ticket
 import jakarta.persistence.Entity
 import jakarta.persistence.OneToMany
 import jakarta.persistence.Table

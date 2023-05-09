@@ -1,4 +1,4 @@
-package it.polito.wa2.server.ticketing
+package it.polito.wa2.server.ticketing.purchases
 
 class PurchaseServiceImpl(
     private val purchaseRepository: PurchaseRepository

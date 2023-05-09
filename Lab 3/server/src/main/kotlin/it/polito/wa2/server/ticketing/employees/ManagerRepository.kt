@@ -1,7 +1,7 @@
-package it.polito.wa2.server.ticketing
+package it.polito.wa2.server.ticketing.employees
 
 import org.springframework.data.jpa.repository.JpaRepository
 import org.springframework.stereotype.Repository
 
 @Repository
-interface TicketRepository: JpaRepository<Ticket, Int>
+interface ManagerRepository: JpaRepository<Manager, Int>

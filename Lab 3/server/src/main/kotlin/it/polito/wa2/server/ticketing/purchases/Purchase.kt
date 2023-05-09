@@ -1,7 +1,8 @@
-package it.polito.wa2.server.ticketing
+package it.polito.wa2.server.ticketing.purchases
 
 import it.polito.wa2.server.products.Product
 import it.polito.wa2.server.profiles.Profile
+import it.polito.wa2.server.ticketing.tickets.Ticket
 import jakarta.persistence.Column
 import jakarta.persistence.Entity
 import jakarta.persistence.Id
@@ -13,7 +14,7 @@ import jakarta.persistence.Table
 @Table(name = "purchases")
 class Purchase (
     @OneToOne
-    val user: Profile,
+    val customer: Profile,
     @OneToOne
     val product: Product
 ) {
