@@ -1,6 +1,5 @@
 package it.polito.wa2.server.ticketing.employees
 
-import it.polito.wa2.server.exceptions.IncoherentParametersException
 import jakarta.validation.Valid
 import org.springframework.validation.annotation.Validated
 import org.springframework.web.bind.annotation.CrossOrigin
@@ -27,11 +26,8 @@ class ExpertController(
         expertService.createExpert(expertDTO)
     }
 
-    @PutMapping("/API/experts/{id}")
-    fun editExpert(@PathVariable id: Int, @RequestBody @Valid expertDTO: ExpertDTO) {
-        if (id != expertDTO.id)
-            throw IncoherentParametersException()
-
+    @PutMapping("/API/experts")
+    fun editExpert(@RequestBody @Valid expertDTO: ExpertDTO) {
         expertService.editExpert(expertDTO)
     }
 }

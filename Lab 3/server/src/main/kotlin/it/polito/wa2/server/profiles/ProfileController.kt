@@ -1,7 +1,5 @@
 package it.polito.wa2.server.profiles
 
-import it.polito.wa2.server.exceptions.IncoherentParametersException
-import it.polito.wa2.server.exceptions.ProfileNotFoundException
 import jakarta.validation.Valid
 import jakarta.validation.constraints.Email
 import org.springframework.validation.annotation.Validated
@@ -23,11 +21,8 @@ class ProfileController(
         profileService.createProfile(profileDTO)
     }
 
-    @PutMapping("/API/profiles/{email}")
-    fun editProfile(@PathVariable @Email email: String, @RequestBody @Valid profileDTO: ProfileDTO) {
-        if (email != profileDTO.email)
-            throw IncoherentParametersException()
-
+    @PutMapping("/API/profiles")
+    fun editProfile(@RequestBody @Valid profileDTO: ProfileDTO) {
         profileService.editProfile(profileDTO)
     }
 }
