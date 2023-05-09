@@ -1,15 +1,8 @@
 package it.polito.wa2.server.ticketing.tickets
 
-import it.polito.wa2.server.ticketing.purchases.PurchaseDTO
 import jakarta.validation.Valid
 import org.springframework.validation.annotation.Validated
-import org.springframework.web.bind.annotation.CrossOrigin
-import org.springframework.web.bind.annotation.GetMapping
-import org.springframework.web.bind.annotation.PathVariable
-import org.springframework.web.bind.annotation.PostMapping
-import org.springframework.web.bind.annotation.PutMapping
-import org.springframework.web.bind.annotation.RequestBody
-import org.springframework.web.bind.annotation.RestController
+import org.springframework.web.bind.annotation.*
 
 @RestController
 @CrossOrigin("http://localhost:3000")
@@ -31,11 +24,6 @@ class TicketController(
     fun createTicket(@RequestBody @Valid newTicketDTO: NewTicketDTO): TicketDTO {
         return ticketService.createTicket(newTicketDTO)
     }
-
-    //-- Test new ticket --
-    //-- NewSomethingDTO per tutte le create --
-    //-- return DTO in create --
-    //-- non set ma list in DTO --
 
     @PutMapping("/API/tickets")
     fun editTicketDescription(@RequestBody @Valid ticketDTO: TicketDTO) {

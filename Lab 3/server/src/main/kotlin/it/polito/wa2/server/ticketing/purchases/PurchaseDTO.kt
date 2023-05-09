@@ -4,8 +4,6 @@ import it.polito.wa2.server.products.ProductDTO
 import it.polito.wa2.server.products.toDTO
 import it.polito.wa2.server.profiles.ProfileDTO
 import it.polito.wa2.server.profiles.toDTO
-import it.polito.wa2.server.ticketing.tickets.TicketDTO
-import it.polito.wa2.server.ticketing.tickets.toDTO
 
 data class PurchaseDTO(
     val id: Int,

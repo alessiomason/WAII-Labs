@@ -1,6 +1,5 @@
 package it.polito.wa2.server.ticketing.employees
 
-import it.polito.wa2.server.exceptions.DuplicateProfileException
 import it.polito.wa2.server.exceptions.ProfileNotFoundException
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Service

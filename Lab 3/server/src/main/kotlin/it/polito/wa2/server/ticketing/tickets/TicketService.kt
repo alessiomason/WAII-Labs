@@ -1,7 +1,5 @@
 package it.polito.wa2.server.ticketing.tickets
 
-import it.polito.wa2.server.ticketing.purchases.PurchaseDTO
-
 interface TicketService {
     fun getAllTickets(): List<TicketDTO>
 

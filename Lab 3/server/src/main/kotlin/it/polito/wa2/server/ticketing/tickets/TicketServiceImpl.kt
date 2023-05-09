@@ -3,7 +3,6 @@ package it.polito.wa2.server.ticketing.tickets
 import it.polito.wa2.server.exceptions.ProfileNotFoundException
 import it.polito.wa2.server.ticketing.employees.Expert
 import it.polito.wa2.server.ticketing.employees.ExpertRepository
-import it.polito.wa2.server.ticketing.purchases.PurchaseDTO
 import it.polito.wa2.server.ticketing.purchases.PurchaseRepository
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Service

@@ -1,4 +1,63 @@
+create table if not exists experts
+(
+    id         integer not null
+        primary key,
+    first_name varchar(255),
+    last_name  varchar(255)
+);
 
+create table if not exists managers
+(
+    id         integer not null
+        primary key,
+    first_name varchar(255),
+    last_name  varchar(255)
+);
+
+create table if not exists products
+(
+    ean   varchar(255) not null
+        primary key,
+    brand varchar(255),
+    name  varchar(255)
+);
+
+create table if not exists profiles
+(
+    email      varchar(255) not null
+        primary key,
+    first_name varchar(255),
+    last_name  varchar(255),
+    phone      varchar(255)
+);
+
+create table if not exists purchases
+(
+    id             integer not null
+        primary key,
+    customer_email varchar(255)
+        constraint fkgb6df7h5mv80u72cpk6mrwqsi
+            references profiles,
+    product_ean    varchar(255)
+        constraint fkigpc93qq7e03j6e34h90ra3a4
+            references products
+);
+
+create table tickets
+(
+    id             integer not null
+        primary key,
+    description    varchar(255),
+    priority_level smallint,
+    ticket_status  smallint,
+    title          varchar(255),
+    expert_id      integer
+        constraint fkdqocj5l89sf10g9jguw7l5df9
+            references experts,
+    purchase_id    integer
+        constraint fk3nm1cjn5rky5ue3or5wbtf5sa
+            references purchases
+);
 
 INSERT INTO profiles (email, first_name, last_name, phone) VALUES ('flongwood0@vk.com', 'Franky', 'Longwood', '+33 616 805 6213');
 INSERT INTO profiles (email, first_name, last_name, phone) VALUES ('grengger1@cloudflare.com', 'Grant', 'Rengger', '+62 982 796 8613');
