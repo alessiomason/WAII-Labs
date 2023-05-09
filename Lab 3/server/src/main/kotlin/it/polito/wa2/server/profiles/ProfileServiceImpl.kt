@@ -17,13 +17,18 @@ class ProfileServiceImpl(
         if (profileRepository.findByIdOrNull(profileDTO.email) != null)
             throw DuplicateProfileException()
 
-        profileRepository.save(profileDTO.toProfile())
+        val newProfile = Profile(profileDTO.email, profileDTO.firstName, profileDTO.lastName, profileDTO.phone)
+        profileRepository.save(newProfile)
     }
 
     override fun editProfile(profileDTO: ProfileDTO) {
-        if (profileRepository.findByIdOrNull(profileDTO.email) == null)
-            throw ProfileNotFoundException()
+        val profile = profileRepository.findByIdOrNull(profileDTO.email) ?: throw ProfileNotFoundException()
 
-        profileRepository.save(profileDTO.toProfile())
+        // modify all fields except primary key
+        profile.firstName = profileDTO.firstName
+        profile.lastName = profileDTO.lastName
+        profile.phone = profileDTO.phone
+
+        profileRepository.save(profile)
     }
 }

@@ -9,24 +9,17 @@ import org.springframework.stereotype.Service
 class ExpertServiceImpl(
     private val expertRepository: ExpertRepository
 ): ExpertService {
-    fun ExpertDTO.toExpert(): Expert {
-        return expertRepository.findByIdOrNull(this.id) ?: throw ProfileNotFoundException()
-    }
-
     override fun getExpert(id: Int): ExpertDTO {
         return expertRepository.findByIdOrNull(id)?.toDTO() ?: throw ProfileNotFoundException()
     }
 
     override fun createExpert(expertDTO: ExpertDTO) {
-        if (expertRepository.findByIdOrNull(expertDTO.id) != null)
-            throw DuplicateProfileException()
-
         val newExpert = Expert(expertDTO.firstName, expertDTO.lastName)
         expertRepository.save(newExpert)
     }
 
     override fun editExpert(expertDTO: ExpertDTO) {
-        val expert = expertDTO.toExpert()
+        val expert = expertRepository.findByIdOrNull(expertDTO.id) ?: throw ProfileNotFoundException()
 
         // modify all fields except id
         expert.firstName = expertDTO.firstName

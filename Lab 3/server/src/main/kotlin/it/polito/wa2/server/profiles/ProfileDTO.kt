@@ -10,7 +10,3 @@ data class ProfileDTO(
 fun Profile.toDTO(): ProfileDTO {
     return ProfileDTO(email, firstName, lastName, phone)
 }
-
-fun ProfileDTO.toProfile(): Profile {
-    return Profile(email, firstName, lastName, phone)
-}
