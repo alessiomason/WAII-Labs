@@ -7,9 +7,14 @@ data class ExpertDTO(
     override val id: Int,
     override val firstName: String,
     override val lastName: String,
-    val tickets: Set<TicketDTO>
+    val tickets: List<TicketDTO>
 ): EmployeeDTO(id, firstName, lastName)
 
+data class NewExpertDTO(
+    val firstName: String,
+    val lastName: String
+)
+
 fun Expert.toDTO(): ExpertDTO {
-    return ExpertDTO(id, firstName, lastName, tickets.map { it.toDTO() }.toSet())
+    return ExpertDTO(id, firstName, lastName, tickets.map { it.toDTO() })
 }

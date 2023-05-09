@@ -5,5 +5,5 @@ interface PurchaseService {
 
     fun getPurchase(id: Int): PurchaseDTO
 
-    fun createPurchase(purchaseDTO: PurchaseDTO)
+    fun createPurchase(newPurchaseDTO: NewPurchaseDTO): PurchaseDTO
 }

@@ -26,7 +26,7 @@ class PurchaseController(
     }
 
     @PostMapping("/API/purchases")
-    fun createPurchase(@RequestBody @Valid purchaseDTO: PurchaseDTO) {
-        purchaseService.createPurchase(purchaseDTO)
+    fun createPurchase(@RequestBody @Valid newPurchaseDTO: NewPurchaseDTO): PurchaseDTO {
+        return purchaseService.createPurchase(newPurchaseDTO)
     }
 }

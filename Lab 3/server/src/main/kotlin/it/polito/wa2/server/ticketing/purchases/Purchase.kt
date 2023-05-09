@@ -5,6 +5,7 @@ import it.polito.wa2.server.profiles.Profile
 import it.polito.wa2.server.ticketing.tickets.Ticket
 import jakarta.persistence.Column
 import jakarta.persistence.Entity
+import jakarta.persistence.GeneratedValue
 import jakarta.persistence.Id
 import jakarta.persistence.OneToMany
 import jakarta.persistence.OneToOne
@@ -19,6 +20,7 @@ class Purchase (
     val product: Product
 ) {
     @Id
+    @GeneratedValue
     @Column(updatable = false, nullable = false)
     var id: Int = 0
     @OneToMany(mappedBy = "purchase")

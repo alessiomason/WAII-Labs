@@ -28,12 +28,27 @@ class TicketController(
     }
 
     @PostMapping("/API/tickets")
-    fun createTicket(@RequestBody @Valid purchaseDTO: PurchaseDTO) {
-        ticketService.createTicket(purchaseDTO)
+    fun createTicket(@RequestBody @Valid newTicketDTO: NewTicketDTO): TicketDTO {
+        return ticketService.createTicket(newTicketDTO)
     }
 
+    //-- Test new ticket --
+    //-- NewSomethingDTO per tutte le create --
+    //-- return DTO in create --
+    //-- non set ma list in DTO --
+
     @PutMapping("/API/tickets")
-    fun editTicket(@RequestBody @Valid ticketDTO: TicketDTO) {
-        ticketService.editTicket(ticketDTO)
+    fun editTicketDescription(@RequestBody @Valid ticketDTO: TicketDTO) {
+        ticketService.editTicketDescription(ticketDTO)
+    }
+
+    @PutMapping("/API/tickets/properties")
+    fun editTicketProperties(@RequestBody @Valid ticketDTO: TicketDTO) {
+        ticketService.editTicketProperties(ticketDTO)
+    }
+
+    @PostMapping("/API/tickets/expert")
+    fun assignExpert(@RequestBody @Valid ticketDTO: TicketDTO) {
+        ticketService.assignExpert(ticketDTO)
     }
 }

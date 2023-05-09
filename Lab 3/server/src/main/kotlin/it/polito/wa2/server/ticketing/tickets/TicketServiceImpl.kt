@@ -22,22 +22,43 @@ class TicketServiceImpl(
         return ticketRepository.findByIdOrNull(id)?.toDTO() ?: throw ProfileNotFoundException()
     }
 
-    override fun createTicket(purchaseDTO: PurchaseDTO) {
-        val purchase = purchaseRepository.findByIdOrNull(purchaseDTO.id) ?: throw ProfileNotFoundException()
+    override fun createTicket(newTicketDTO: NewTicketDTO): TicketDTO {
+        val purchase = purchaseRepository.findByIdOrNull(newTicketDTO.purchase.id) ?: throw ProfileNotFoundException()
 
-        val newTicket = Ticket(purchase)
+        val newTicket = Ticket(newTicketDTO.title, newTicketDTO.description, purchase)
         ticketRepository.save(newTicket)
+
+        return newTicket.toDTO()
     }
 
-    override fun editTicket(ticketDTO: TicketDTO) {
+    override fun editTicketDescription(ticketDTO: TicketDTO) {
+        val ticket = ticketRepository.findByIdOrNull(ticketDTO.id) ?: throw ProfileNotFoundException()
+
+        ticket.title = ticketDTO.title
+        ticket.description = ticketDTO.description
+    }
+
+    override fun editTicketProperties(ticketDTO: TicketDTO) {
+        val ticket = ticketRepository.findByIdOrNull(ticketDTO.id) ?: throw ProfileNotFoundException()
+
+        ticket.ticketStatus = ticketDTO.ticketStatus
+        ticket.priorityLevel = ticketDTO.priorityLevel
+    }
+
+    override fun assignExpert(ticketDTO: TicketDTO) {
         val ticket = ticketRepository.findByIdOrNull(ticketDTO.id) ?: throw ProfileNotFoundException()
         var expert: Expert? = null
         if (ticketDTO.expert != null)
-            expert = expertRepository.findByIdOrNull(ticketDTO.expert.id) ?: throw ProfileNotFoundException()
+            expert = expertRepository.findByIdOrNull(ticketDTO.expert.id)
 
-        // modify all fields except id
+        if (expert == null)
+            throw ProfileNotFoundException()
+
+        if (ticket.ticketStatus != TicketStatus.OPEN)
+            throw ProfileNotFoundException()
+
         ticket.expert = expert
-        ticket.ticketStatus = ticketDTO.ticketStatus
+        ticket.ticketStatus = TicketStatus.IN_PROGRESS
         ticket.priorityLevel = ticketDTO.priorityLevel
     }
 }

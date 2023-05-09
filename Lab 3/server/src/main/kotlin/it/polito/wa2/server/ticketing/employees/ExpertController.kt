@@ -22,8 +22,8 @@ class ExpertController(
     }
 
     @PostMapping("/API/experts")
-    fun createExpert(@RequestBody @Valid expertDTO: ExpertDTO) {
-        expertService.createExpert(expertDTO)
+    fun createExpert(@RequestBody @Valid newExpertDTO: NewExpertDTO): ExpertDTO {
+        return expertService.createExpert(newExpertDTO)
     }
 
     @PutMapping("/API/experts")

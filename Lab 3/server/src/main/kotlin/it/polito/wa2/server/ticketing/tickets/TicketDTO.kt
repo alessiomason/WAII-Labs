@@ -7,12 +7,20 @@ import it.polito.wa2.server.ticketing.purchases.toDTO
 
 data class TicketDTO(
     val id: Int,
+    val title: String,
+    val description: String,
     val purchase: PurchaseDTO,
     val expert: ExpertDTO?,
     val ticketStatus: TicketStatus,
     val priorityLevel: PriorityLevel
 )
 
+data class NewTicketDTO(
+    val title: String,
+    val description: String,
+    val purchase: PurchaseDTO
+)
+
 fun Ticket.toDTO(): TicketDTO {
-    return TicketDTO(id, purchase.toDTO(), expert?.toDTO(), ticketStatus, priorityLevel)
+    return TicketDTO(id, title, description, purchase.toDTO(), expert?.toDTO(), ticketStatus, priorityLevel)
 }

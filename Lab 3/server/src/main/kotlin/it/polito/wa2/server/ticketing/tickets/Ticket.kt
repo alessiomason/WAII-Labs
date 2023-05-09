@@ -4,6 +4,7 @@ import it.polito.wa2.server.ticketing.employees.Expert
 import it.polito.wa2.server.ticketing.purchases.Purchase
 import jakarta.persistence.Column
 import jakarta.persistence.Entity
+import jakarta.persistence.GeneratedValue
 import jakarta.persistence.Id
 import jakarta.persistence.ManyToOne
 import jakarta.persistence.Table
@@ -19,10 +20,13 @@ enum class PriorityLevel {
 @Entity
 @Table(name = "tickets")
 class Ticket (
+    var title: String,
+    var description: String,
     @ManyToOne
     val purchase: Purchase
 ) {
     @Id
+    @GeneratedValue
     @Column(updatable = false, nullable = false)
     var id: Int = 0
     @ManyToOne

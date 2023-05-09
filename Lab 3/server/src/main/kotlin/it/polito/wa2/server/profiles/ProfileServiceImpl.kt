@@ -13,12 +13,14 @@ class ProfileServiceImpl(
         return profileRepository.findByIdOrNull(email)?.toDTO() ?: throw ProfileNotFoundException()
     }
 
-    override fun createProfile(profileDTO: ProfileDTO) {
+    override fun createProfile(profileDTO: ProfileDTO): ProfileDTO {
         if (profileRepository.findByIdOrNull(profileDTO.email) != null)
             throw DuplicateProfileException()
 
         val newProfile = Profile(profileDTO.email, profileDTO.firstName, profileDTO.lastName, profileDTO.phone)
         profileRepository.save(newProfile)
+
+        return newProfile.toDTO()
     }
 
     override fun editProfile(profileDTO: ProfileDTO) {

@@ -17,8 +17,8 @@ class ProfileController(
     }
 
     @PostMapping("/API/profiles")
-    fun createProfile(@RequestBody @Valid profileDTO: ProfileDTO) {
-        profileService.createProfile(profileDTO)
+    fun createProfile(@RequestBody @Valid profileDTO: ProfileDTO): ProfileDTO {
+        return profileService.createProfile(profileDTO)
     }
 
     @PutMapping("/API/profiles")

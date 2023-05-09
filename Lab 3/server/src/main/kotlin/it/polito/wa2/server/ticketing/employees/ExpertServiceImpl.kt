@@ -13,9 +13,11 @@ class ExpertServiceImpl(
         return expertRepository.findByIdOrNull(id)?.toDTO() ?: throw ProfileNotFoundException()
     }
 
-    override fun createExpert(expertDTO: ExpertDTO) {
-        val newExpert = Expert(expertDTO.firstName, expertDTO.lastName)
+    override fun createExpert(newExpertDTO: NewExpertDTO): ExpertDTO {
+        val newExpert = Expert(newExpertDTO.firstName, newExpertDTO.lastName)
         expertRepository.save(newExpert)
+
+        return newExpert.toDTO()
     }
 
     override fun editExpert(expertDTO: ExpertDTO) {

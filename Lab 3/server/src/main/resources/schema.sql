@@ -1,19 +1,4 @@
-create table profiles (
-    email      text not null
-        constraint profiles_pk
-            primary key,
-    first_name text,
-    last_name  text,
-    phone      text
-);
 
-create table products (
-    ean text not null
-        constraint products_pk
-            primary key,
-    name       text,
-    brand      text
-);
 
 INSERT INTO profiles (email, first_name, last_name, phone) VALUES ('flongwood0@vk.com', 'Franky', 'Longwood', '+33 616 805 6213');
 INSERT INTO profiles (email, first_name, last_name, phone) VALUES ('grengger1@cloudflare.com', 'Grant', 'Rengger', '+62 982 796 8613');

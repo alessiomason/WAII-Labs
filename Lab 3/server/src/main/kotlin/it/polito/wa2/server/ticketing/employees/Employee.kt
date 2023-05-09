@@ -10,8 +10,8 @@ open class Employee (
     var firstName: String,
     var lastName: String
 ) {
-    @GeneratedValue
     @Id
+    @GeneratedValue
     @Column(updatable = false, nullable = false)
     var id: Int = 0
 }

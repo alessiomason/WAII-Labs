@@ -21,11 +21,13 @@ class PurchaseServiceImpl(
         return purchaseRepository.findByIdOrNull(id)?.toDTO() ?: throw ProfileNotFoundException()
     }
 
-    override fun createPurchase(purchaseDTO: PurchaseDTO) {
-        val customer = profileRepository.findByIdOrNull(purchaseDTO.customer.email) ?: throw ProfileNotFoundException()
-        val product = productRepository.findByIdOrNull(purchaseDTO.product.ean) ?: throw ProductNotFoundException()
+    override fun createPurchase(newPurchaseDTO: NewPurchaseDTO): PurchaseDTO {
+        val customer = profileRepository.findByIdOrNull(newPurchaseDTO.customer.email) ?: throw ProfileNotFoundException()
+        val product = productRepository.findByIdOrNull(newPurchaseDTO.product.ean) ?: throw ProductNotFoundException()
 
         val newPurchase = Purchase(customer, product)
         purchaseRepository.save(newPurchase)
+
+        return newPurchase.toDTO()
     }
 }
