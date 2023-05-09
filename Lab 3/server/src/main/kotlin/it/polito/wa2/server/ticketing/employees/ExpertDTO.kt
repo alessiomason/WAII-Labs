@@ -1,7 +1,7 @@
 package it.polito.wa2.server.ticketing.employees
 
 import it.polito.wa2.server.ticketing.tickets.TicketDTO
-import it.polito.wa2.server.ticketing.purchases.toDTO
+import it.polito.wa2.server.ticketing.tickets.toDTO
 
 data class ExpertDTO(
     override val id: Int,

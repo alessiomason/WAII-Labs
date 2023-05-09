@@ -8,4 +8,4 @@ class DuplicateProductException: RuntimeException("The product is already presen
 
 class DuplicateProfileException: RuntimeException("The profile is already present!")
 
-class IncoherentParametersException: RuntimeException("The email in the parameters and in the request body do not correspond!")
+class IncoherentParametersException: RuntimeException("The fields in the parameters and in the request body do not correspond!")
