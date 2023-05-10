@@ -43,7 +43,7 @@ create table if not exists purchases
             references products
 );
 
-create table tickets
+create table if not exists tickets
 (
     id             integer not null
         primary key,
