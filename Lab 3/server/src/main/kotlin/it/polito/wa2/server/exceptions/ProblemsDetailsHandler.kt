@@ -17,6 +17,26 @@ class ProblemDetailsHandler: ResponseEntityExceptionHandler() {
     fun handleProfileNotFound(e: ProfileNotFoundException) = ProblemDetail
         .forStatusAndDetail(HttpStatus.NOT_FOUND, e.message!!)
 
+    @ExceptionHandler(ExpertNotFoundException::class)
+    fun handleExpertNotFound(e: ExpertNotFoundException) = ProblemDetail
+        .forStatusAndDetail(HttpStatus.NOT_FOUND, e.message!!)
+
+    @ExceptionHandler(ManagerNotFoundException::class)
+    fun handleManagerNotFound(e: ManagerNotFoundException) = ProblemDetail
+        .forStatusAndDetail(HttpStatus.NOT_FOUND, e.message!!)
+
+    @ExceptionHandler(PurchaseNotFoundException::class)
+    fun handlePurchaseNotFound(e: PurchaseNotFoundException) = ProblemDetail
+        .forStatusAndDetail(HttpStatus.NOT_FOUND, e.message!!)
+
+    @ExceptionHandler(TicketNotFoundException::class)
+    fun handleTicketNotFound(e: TicketNotFoundException) = ProblemDetail
+        .forStatusAndDetail(HttpStatus.NOT_FOUND, e.message!!)
+
+    @ExceptionHandler(TicketStatusException::class)
+    fun handleTicketStatus(e: TicketStatusException) = ProblemDetail
+        .forStatusAndDetail(HttpStatus.UNPROCESSABLE_ENTITY, e.message!!)
+
     @ExceptionHandler(DuplicateProductException::class)
     fun handleDuplicateProduct(e: DuplicateProductException) = ProblemDetail
         .forStatusAndDetail(HttpStatus.CONFLICT, e.message!!)

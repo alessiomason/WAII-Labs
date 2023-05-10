@@ -2,6 +2,7 @@ package it.polito.wa2.server.ticketing.purchases
 
 import it.polito.wa2.server.exceptions.ProductNotFoundException
 import it.polito.wa2.server.exceptions.ProfileNotFoundException
+import it.polito.wa2.server.exceptions.PurchaseNotFoundException
 import it.polito.wa2.server.products.ProductRepository
 import it.polito.wa2.server.profiles.ProfileRepository
 import org.springframework.data.repository.findByIdOrNull
@@ -18,7 +19,7 @@ class PurchaseServiceImpl(
     }
 
     override fun getPurchase(id: Int): PurchaseDTO {
-        return purchaseRepository.findByIdOrNull(id)?.toDTO() ?: throw ProfileNotFoundException()
+        return purchaseRepository.findByIdOrNull(id)?.toDTO() ?: throw PurchaseNotFoundException()
     }
 
     override fun createPurchase(newPurchaseDTO: NewPurchaseDTO): PurchaseDTO {

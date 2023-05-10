@@ -1,6 +1,6 @@
 package it.polito.wa2.server.ticketing.employees
 
-import it.polito.wa2.server.exceptions.ProfileNotFoundException
+import it.polito.wa2.server.exceptions.ExpertNotFoundException
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Service
 
@@ -9,7 +9,7 @@ class ExpertServiceImpl(
     private val expertRepository: ExpertRepository
 ): ExpertService {
     override fun getExpert(id: Int): ExpertDTO {
-        return expertRepository.findByIdOrNull(id)?.toDTO() ?: throw ProfileNotFoundException()
+        return expertRepository.findByIdOrNull(id)?.toDTO() ?: throw ExpertNotFoundException()
     }
 
     override fun createExpert(newExpertDTO: NewExpertDTO): ExpertDTO {
@@ -20,7 +20,7 @@ class ExpertServiceImpl(
     }
 
     override fun editExpert(expertDTO: ExpertDTO) {
-        val expert = expertRepository.findByIdOrNull(expertDTO.id) ?: throw ProfileNotFoundException()
+        val expert = expertRepository.findByIdOrNull(expertDTO.id) ?: throw ExpertNotFoundException()
 
         // modify all fields except id
         expert.firstName = expertDTO.firstName
