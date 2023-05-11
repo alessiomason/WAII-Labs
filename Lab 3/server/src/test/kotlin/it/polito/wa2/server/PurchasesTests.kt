@@ -1,15 +1,10 @@
 package it.polito.wa2.server
 
 import it.polito.wa2.server.products.Product
-import it.polito.wa2.server.products.ProductDTO
 import it.polito.wa2.server.products.ProductRepository
-import it.polito.wa2.server.products.toDTO
 import it.polito.wa2.server.profiles.Profile
 import it.polito.wa2.server.profiles.ProfileRepository
-import it.polito.wa2.server.ticketing.employees.*
-import it.polito.wa2.server.ticketing.employees.toDTO
 import it.polito.wa2.server.ticketing.purchases.*
-import it.polito.wa2.server.ticketing.tickets.toDTO
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.BeforeEach

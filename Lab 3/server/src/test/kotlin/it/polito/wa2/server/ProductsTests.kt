@@ -12,7 +12,6 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.boot.test.web.client.TestRestTemplate
-import org.springframework.boot.test.web.server.LocalServerPort
 import org.springframework.core.ParameterizedTypeReference
 import org.springframework.http.HttpMethod
 import org.springframework.http.HttpStatus
@@ -49,8 +48,6 @@ class ProductsTests {
 
 	}
 
-	@LocalServerPort
-	protected var port: Int = 0
 	@Autowired
 	lateinit var restTemplate: TestRestTemplate
 	@Autowired
@@ -68,22 +65,8 @@ class ProductsTests {
 		productRepository.deleteAll()
 	}
 
-	/*
-	@Test
-	fun someTest() {
-		//Write here your integration test
-		val p = Profile("a@me.com", "A", "B", "+39")
-		//userRepository.save(p)
-
-		val pr = Product("1", "A", "C")
-		val res = restTemplate.postForEntity<ProfileDTO>("/API/profiles", p, ProfileDTO::class)
-		println(res.statusCode)
-		print(userRepository.findAll().first().toDTO().toString())
-	}*/
-
 	@Test
 	fun getAllProducts() {
-		//val res = restTemplate.getForEntity<List<ProductDTO>>("/API/products")
 		val res = restTemplate.exchange(baseUrl, HttpMethod.GET, null, typeReference<List<ProductDTO>>())
 
 		Assertions.assertEquals(HttpStatus.OK, res.statusCode)
