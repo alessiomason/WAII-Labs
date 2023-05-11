@@ -42,6 +42,9 @@ class TicketServiceImpl(
     override fun editTicketProperties(ticketDTO: TicketDTO) {
         val ticket = ticketRepository.findByIdOrNull(ticketDTO.id) ?: throw TicketNotFoundException()
 
+        if (!ticketStatusTransitionAllowed(currentTicketStatus = ticket.ticketStatus, newTicketStatus = ticketDTO.ticketStatus))
+            throw TicketStatusException()
+
         ticket.ticketStatus = ticketDTO.ticketStatus
         ticket.priorityLevel = ticketDTO.priorityLevel
 
@@ -54,7 +57,7 @@ class TicketServiceImpl(
         if (ticketDTO.expert != null)   // ticketDTO can be null (to remove the expert), if not null, it has to be present
             expert = expertRepository.findByIdOrNull(ticketDTO.expert.id) ?: throw ExpertNotFoundException()
 
-        if (ticket.ticketStatus != TicketStatus.OPEN)
+        if (ticket.ticketStatus != TicketStatus.OPEN && ticket.ticketStatus != TicketStatus.REOPENED)
             throw TicketStatusException()
 
         ticket.expert = expert
@@ -62,5 +65,45 @@ class TicketServiceImpl(
         ticket.priorityLevel = ticketDTO.priorityLevel
 
         ticketRepository.save(ticket)
+    }
+
+    private fun ticketStatusTransitionAllowed(currentTicketStatus: TicketStatus, newTicketStatus: TicketStatus): Boolean {
+        return when (currentTicketStatus) {
+            TicketStatus.OPEN -> when (newTicketStatus) {
+                TicketStatus.OPEN -> true
+                TicketStatus.IN_PROGRESS -> true
+                TicketStatus.CLOSED -> true
+                TicketStatus.REOPENED -> false
+                TicketStatus.RESOLVED -> true
+            }
+            TicketStatus.IN_PROGRESS -> when (newTicketStatus) {
+                TicketStatus.OPEN -> true
+                TicketStatus.IN_PROGRESS -> true
+                TicketStatus.CLOSED -> true
+                TicketStatus.REOPENED -> false
+                TicketStatus.RESOLVED -> true
+            }
+            TicketStatus.CLOSED -> when (newTicketStatus) {
+                TicketStatus.OPEN -> false
+                TicketStatus.IN_PROGRESS -> false
+                TicketStatus.CLOSED -> true
+                TicketStatus.REOPENED -> true
+                TicketStatus.RESOLVED -> false
+            }
+            TicketStatus.REOPENED -> when (newTicketStatus) {
+                TicketStatus.OPEN -> false
+                TicketStatus.IN_PROGRESS -> true
+                TicketStatus.CLOSED -> true
+                TicketStatus.REOPENED -> true
+                TicketStatus.RESOLVED -> true
+            }
+            TicketStatus.RESOLVED -> when (newTicketStatus) {
+                TicketStatus.OPEN -> false
+                TicketStatus.IN_PROGRESS -> false
+                TicketStatus.CLOSED -> true
+                TicketStatus.REOPENED -> true
+                TicketStatus.RESOLVED -> true
+            }
+        }
     }
 }

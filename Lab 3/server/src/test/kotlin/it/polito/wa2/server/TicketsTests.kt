@@ -299,6 +299,23 @@ class TicketsTests {
     }
 
     @Test
+    fun editTicketPropertiesTicketStatusTransitionNotAllowed() {
+        val editedTicket = TicketDTO(
+            ticket1.id,
+            ticket1.title,
+            ticket1.description,
+            PurchaseDTO(ticket1.purchase.id, ticket1.purchase.customer.toDTO(), ticket1.purchase.product.toDTO(), listOf(ticket1.id)),
+            ticket1.expert?.toDTO(),
+            TicketStatus.REOPENED,      // cannot go from OPEN to REOPENED
+            ticket1.priorityLevel
+        )
+        val requestEntity = HttpEntity(editedTicket)
+        val res = restTemplate.exchange("$baseUrl/properties", HttpMethod.PUT, requestEntity, typeReference<Unit>())
+
+        Assertions.assertEquals(HttpStatus.UNPROCESSABLE_ENTITY, res.statusCode)
+    }
+
+    @Test
     fun editTicketPropertiesNotFound() {
         val editedTicket = TicketDTO(
             0,
