@@ -21,3 +21,7 @@ data class NewPurchaseDTO(
 fun Purchase.toDTO(): PurchaseDTO {
     return PurchaseDTO(id, customer.toDTO(), product.toDTO(), tickets.map { it.id })
 }
+
+fun Purchase.toNewDTO(): NewPurchaseDTO {
+    return NewPurchaseDTO(customer.toDTO(), product.toDTO())
+}

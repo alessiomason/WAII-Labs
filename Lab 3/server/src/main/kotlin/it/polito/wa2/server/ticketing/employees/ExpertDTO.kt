@@ -18,3 +18,7 @@ data class NewExpertDTO(
 fun Expert.toDTO(): ExpertDTO {
     return ExpertDTO(id, firstName, lastName, tickets.map { it.toDTO() })
 }
+
+fun Expert.toNewDTO(): NewExpertDTO {
+    return NewExpertDTO(firstName, lastName)
+}

@@ -24,3 +24,7 @@ data class NewTicketDTO(
 fun Ticket.toDTO(): TicketDTO {
     return TicketDTO(id, title, description, purchase.toDTO(), expert?.toDTO(), ticketStatus, priorityLevel)
 }
+
+fun Ticket.toNewDTO(): NewTicketDTO {
+    return NewTicketDTO(title, description, purchase.toDTO())
+}

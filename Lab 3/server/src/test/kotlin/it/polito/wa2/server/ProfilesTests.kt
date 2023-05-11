@@ -11,7 +11,6 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.boot.test.web.client.TestRestTemplate
-import org.springframework.boot.test.web.server.LocalServerPort
 import org.springframework.core.ParameterizedTypeReference
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.http.HttpEntity
@@ -45,8 +44,6 @@ class ProfilesTests {
         val testProfile2 = Profile("grengger1@cloudflare.com", "Grant", "Rengger", "+62 982 796 8613")
     }
 
-    @LocalServerPort
-    protected var port: Int = 0
     @Autowired
     lateinit var restTemplate: TestRestTemplate
     @Autowired
