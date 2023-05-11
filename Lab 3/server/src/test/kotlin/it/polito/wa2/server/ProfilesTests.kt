@@ -77,8 +77,9 @@ class ProfilesTests {
         Assertions.assertEquals(HttpStatusCode.valueOf(200), res.statusCode)
         Assertions.assertEquals(testProfile2.toDTO(), res.body)
 
-        val profileFromDb = profileRepository.findByIdOrNull(testProfile2.email)
-        Assertions.assertEquals(testProfile2.toDTO(), profileFromDb!!.toDTO())
+        val res2 = restTemplate.exchange("/API/profiles/${testProfile2.email}", HttpMethod.GET, null, typeReference<ProfileDTO>())
+        Assertions.assertEquals(HttpStatusCode.valueOf(200), res.statusCode)
+        Assertions.assertEquals(testProfile2.toDTO(), res2.body)
     }
 
     @Test
@@ -98,7 +99,8 @@ class ProfilesTests {
 
         Assertions.assertEquals(HttpStatusCode.valueOf(200), res.statusCode)
 
-        val profileFromDb = profileRepository.findByIdOrNull(testProfile1.email)
-        Assertions.assertEquals(editedProfile, profileFromDb!!.toDTO())
+        val res2 = restTemplate.exchange("/API/profiles/${editedProfile.email}", HttpMethod.GET, null, typeReference<ProfileDTO>())
+        Assertions.assertEquals(HttpStatusCode.valueOf(200), res.statusCode)
+        Assertions.assertEquals(editedProfile, res2.body)
     }
 }
