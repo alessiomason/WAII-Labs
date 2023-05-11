@@ -110,8 +110,7 @@ class PurchasesTests {
 
     @Test
     fun purchaseNotFound() {
-        // using purchase4.id, which is 0 as it has not been saved
-        val res = restTemplate.exchange("$baseUrl/${purchase4.id}", HttpMethod.GET, null, typeReference<Unit>())
+        val res = restTemplate.exchange("$baseUrl/0", HttpMethod.GET, null, typeReference<Unit>())
 
         Assertions.assertEquals(HttpStatus.NOT_FOUND, res.statusCode)
     }

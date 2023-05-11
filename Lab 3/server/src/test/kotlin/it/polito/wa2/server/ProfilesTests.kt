@@ -112,4 +112,13 @@ class ProfilesTests {
         Assertions.assertEquals(HttpStatus.OK, res.statusCode)
         Assertions.assertEquals(editedProfile, res2.body)
     }
+
+    @Test
+    fun editProfileNotFound() {
+        val editedProfile = ProfileDTO("notexisting@email.com", profile2.firstName, profile2.lastName, profile2.phone)
+        val requestEntity = HttpEntity(editedProfile)
+        val res = restTemplate.exchange(baseUrl, HttpMethod.PUT, requestEntity, typeReference<Unit>())
+
+        Assertions.assertEquals(HttpStatus.NOT_FOUND, res.statusCode)
+    }
 }

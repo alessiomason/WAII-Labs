@@ -73,8 +73,7 @@ class ExpertsTests {
 
     @Test
     fun expertNotFound() {
-        // using expert2.id, which is 0 as it has not been saved
-        val res = restTemplate.exchange("$baseUrl/${expert2.id}", HttpMethod.GET, null, typeReference<Unit>())
+        val res = restTemplate.exchange("$baseUrl/0", HttpMethod.GET, null, typeReference<Unit>())
 
         Assertions.assertEquals(HttpStatus.NOT_FOUND, res.statusCode)
     }
@@ -113,8 +112,8 @@ class ExpertsTests {
 
     @Test
     fun editExpert() {
-        // edit testExpert1 with testExpert2 fields
-        val editedExpert = ExpertDTO(expert1.id, expert2.firstName, expert2.lastName, expert2.tickets.map { it.toDTO() })
+        // edit expert1 with expert2 fields
+        val editedExpert = ExpertDTO(expert1.id, expert2.firstName, expert2.lastName, expert2.tickets.map { it.id })
         val requestEntity = HttpEntity(editedExpert)
         val res = restTemplate.exchange(baseUrl, HttpMethod.PUT, requestEntity, typeReference<Unit>())
 
@@ -123,5 +122,14 @@ class ExpertsTests {
         val res2 = restTemplate.exchange("$baseUrl/${editedExpert.id}", HttpMethod.GET, null, typeReference<ExpertDTO>())
         Assertions.assertEquals(HttpStatus.OK, res.statusCode)
         Assertions.assertEquals(editedExpert, res2.body)
+    }
+
+    @Test
+    fun editExpertNotFound() {
+        val editedExpert = ExpertDTO(0, expert2.firstName, expert2.lastName, expert2.tickets.map { it.id })
+        val requestEntity = HttpEntity(editedExpert)
+        val res = restTemplate.exchange(baseUrl, HttpMethod.PUT, requestEntity, typeReference<Unit>())
+
+        Assertions.assertEquals(HttpStatus.NOT_FOUND, res.statusCode)
     }
 }

@@ -35,6 +35,8 @@ class TicketServiceImpl(
 
         ticket.title = ticketDTO.title
         ticket.description = ticketDTO.description
+
+        ticketRepository.save(ticket)
     }
 
     override fun editTicketProperties(ticketDTO: TicketDTO) {
@@ -42,16 +44,15 @@ class TicketServiceImpl(
 
         ticket.ticketStatus = ticketDTO.ticketStatus
         ticket.priorityLevel = ticketDTO.priorityLevel
+
+        ticketRepository.save(ticket)
     }
 
     override fun assignExpert(ticketDTO: TicketDTO) {
         val ticket = ticketRepository.findByIdOrNull(ticketDTO.id) ?: throw TicketNotFoundException()
         var expert: Expert? = null
-        if (ticketDTO.expert != null)
-            expert = expertRepository.findByIdOrNull(ticketDTO.expert.id)
-
-        if (expert == null)
-            throw ExpertNotFoundException()
+        if (ticketDTO.expert != null)   // ticketDTO can be null (to remove the expert), if not null, it has to be present
+            expert = expertRepository.findByIdOrNull(ticketDTO.expert.id) ?: throw ExpertNotFoundException()
 
         if (ticket.ticketStatus != TicketStatus.OPEN)
             throw TicketStatusException()
@@ -59,5 +60,7 @@ class TicketServiceImpl(
         ticket.expert = expert
         ticket.ticketStatus = TicketStatus.IN_PROGRESS
         ticket.priorityLevel = ticketDTO.priorityLevel
+
+        ticketRepository.save(ticket)
     }
 }
