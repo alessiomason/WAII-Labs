@@ -38,8 +38,8 @@ class ProductsTests {
 			registry.add("spring.jpa.hibernate.ddl-auto") {"create-drop"}
 		}
 
-		inline fun <reified T> typeReference() = object : ParameterizedTypeReference<T>() {}
-		private val testProduct = Product("8712725728528", "Walter Trout Unspoiled by Progress CD B23b", "Mascot")
+		inline fun <reified T> typeReference() = object: ParameterizedTypeReference<T>() {}
+		private val testProduct1 = Product("8712725728528", "Walter Trout Unspoiled by Progress CD B23b", "Mascot")
 		private val testProduct2 = Product("5011781900125", "Nitty Gritty Dirt Band Will The Circle Be Unbroken Volume 2 CD USA MCA 1989 20", "MCA")
 		private val testProduct3 = Product("3532041192835", "Glow Worm Flexicom Upward Piping Frame A2041500", "Glow-Worm")
 		private val testProduct4 = Product("5010559400423", "Draper 40042 Expert No2 X 38mm PZ Type Screwdriver Display Packed", "Draper")
@@ -55,7 +55,7 @@ class ProductsTests {
 
 	@BeforeEach
 	fun populateDb() {
-		productRepository.save(testProduct)
+		productRepository.save(testProduct1)
 		productRepository.save(testProduct2)
 		productRepository.save(testProduct3)
 	}
@@ -79,15 +79,15 @@ class ProductsTests {
 		val res = restTemplate.exchange("/API/products", HttpMethod.GET, null, typeReference<List<ProductDTO>>())
 
 		Assertions.assertEquals(HttpStatusCode.valueOf(200), res.statusCode)
-		Assertions.assertEquals(listOf(testProduct.toDTO(), testProduct2.toDTO(), testProduct3.toDTO()), res.body)
+		Assertions.assertEquals(listOf(testProduct1.toDTO(), testProduct2.toDTO(), testProduct3.toDTO()), res.body)
 	}
 
 	@Test
 	fun getProduct() {
-		val res = restTemplate.exchange("/API/products/${testProduct.ean}", HttpMethod.GET, null, typeReference<ProductDTO>())
+		val res = restTemplate.exchange("/API/products/${testProduct1.ean}", HttpMethod.GET, null, typeReference<ProductDTO>())
 
 		Assertions.assertEquals(HttpStatusCode.valueOf(200), res.statusCode)
-		Assertions.assertEquals(testProduct.toDTO(), res.body)
+		Assertions.assertEquals(testProduct1.toDTO(), res.body)
 	}
 
 	@Test
