@@ -4,6 +4,7 @@ import it.polito.wa2.server.profiles.Profile
 import it.polito.wa2.server.profiles.ProfileDTO
 import it.polito.wa2.server.profiles.ProfileRepository
 import it.polito.wa2.server.profiles.toDTO
+import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
@@ -39,8 +40,8 @@ class ProfilesTests {
         }
 
         inline fun <reified T> typeReference() = object: ParameterizedTypeReference<T>() {}
-        val testProfile1 = Profile("flongwood0@vk.com", "Franky", "Longwood", "+33 616 805 6213")
-        val testProfile2 = Profile("grengger1@cloudflare.com", "Grant", "Rengger", "+62 982 796 8613")
+        private val profile1 = Profile("flongwood0@vk.com", "Franky", "Longwood", "+33 616 805 6213")
+        private val profile2 = Profile("grengger1@cloudflare.com", "Grant", "Rengger", "+62 982 796 8613")
     }
 
     @Autowired
@@ -50,42 +51,47 @@ class ProfilesTests {
 
     @BeforeEach
     fun populateDb() {
-        profileRepository.save(testProfile1)
+        profileRepository.save(profile1)
+    }
+
+    @AfterEach
+    fun emptyDb() {
+        profileRepository.deleteAll()
     }
 
     @Test
     fun getProfile() {
-        val res = restTemplate.exchange("/API/profiles/${testProfile1.email}", HttpMethod.GET, null, typeReference<ProfileDTO>())
+        val res = restTemplate.exchange("/API/profiles/${profile1.email}", HttpMethod.GET, null, typeReference<ProfileDTO>())
 
         Assertions.assertEquals(HttpStatus.OK, res.statusCode)
-        Assertions.assertEquals(testProfile1.toDTO(), res.body)
+        Assertions.assertEquals(profile1.toDTO(), res.body)
     }
 
     @Test
     fun profileNotFound() {
-        val res = restTemplate.exchange("/API/profiles/${testProfile2.email}", HttpMethod.GET, null, typeReference<Unit>())
+        val res = restTemplate.exchange("/API/profiles/${profile2.email}", HttpMethod.GET, null, typeReference<Unit>())
 
         Assertions.assertEquals(HttpStatus.NOT_FOUND, res.statusCode)
     }
 
     @Test
     fun createProfile() {
-        val requestEntity = HttpEntity(testProfile2.toDTO())
+        val requestEntity = HttpEntity(profile2.toDTO())
         val res = restTemplate.exchange("/API/profiles", HttpMethod.POST, requestEntity, typeReference<ProfileDTO>())
 
         Assertions.assertEquals(HttpStatus.OK, res.statusCode)
-        Assertions.assertEquals(testProfile2.toDTO(), res.body)
+        Assertions.assertEquals(profile2.toDTO(), res.body)
 
-        val res2 = restTemplate.exchange("/API/profiles/${testProfile2.email}", HttpMethod.GET, null, typeReference<ProfileDTO>())
+        val res2 = restTemplate.exchange("/API/profiles/${profile2.email}", HttpMethod.GET, null, typeReference<ProfileDTO>())
         Assertions.assertEquals(HttpStatus.OK, res.statusCode)
-        Assertions.assertEquals(testProfile2.toDTO(), res2.body)
+        Assertions.assertEquals(profile2.toDTO(), res2.body)
 
         println(profileRepository.findAll().map { it.toDTO() })
     }
 
     @Test
     fun creatingAlreadyExistingProfileShouldFail() {
-        val requestEntity = HttpEntity(testProfile1.toDTO())
+        val requestEntity = HttpEntity(profile1.toDTO())
         val res = restTemplate.exchange("/API/profiles", HttpMethod.POST, requestEntity, typeReference<Unit>())
 
         Assertions.assertEquals(HttpStatus.CONFLICT, res.statusCode)
@@ -94,7 +100,7 @@ class ProfilesTests {
     @Test
     fun editProfile() {
         // edit testProfile1 with testProfile2 fields
-        val editedProfile = ProfileDTO(testProfile1.email, testProfile2.firstName, testProfile2.lastName, testProfile2.phone)
+        val editedProfile = ProfileDTO(profile1.email, profile2.firstName, profile2.lastName, profile2.phone)
         val requestEntity = HttpEntity(editedProfile)
         val res = restTemplate.exchange("/API/profiles", HttpMethod.PUT, requestEntity, typeReference<Unit>())
 
