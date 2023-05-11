@@ -30,6 +30,9 @@ class ProductsTests {
 		@Container
 		val postgres = PostgreSQLContainer("postgres:latest")
 
+		inline fun <reified T> typeReference() = object: ParameterizedTypeReference<T>() {}
+		private const val baseUrl = "/API/products"
+
 		@JvmStatic
 		@DynamicPropertySource
 		fun properties(registry: DynamicPropertyRegistry) {
@@ -39,7 +42,6 @@ class ProductsTests {
 			registry.add("spring.jpa.hibernate.ddl-auto") {"create-drop"}
 		}
 
-		inline fun <reified T> typeReference() = object: ParameterizedTypeReference<T>() {}
 		private val product1 = Product("8712725728528", "Walter Trout Unspoiled by Progress CD B23b", "Mascot")
 		private val product2 = Product("5011781900125", "Nitty Gritty Dirt Band Will The Circle Be Unbroken Volume 2 CD USA MCA 1989 20", "MCA")
 		private val product3 = Product("3532041192835", "Glow Worm Flexicom Upward Piping Frame A2041500", "Glow-Worm")
@@ -82,7 +84,7 @@ class ProductsTests {
 	@Test
 	fun getAllProducts() {
 		//val res = restTemplate.getForEntity<List<ProductDTO>>("/API/products")
-		val res = restTemplate.exchange("/API/products", HttpMethod.GET, null, typeReference<List<ProductDTO>>())
+		val res = restTemplate.exchange(baseUrl, HttpMethod.GET, null, typeReference<List<ProductDTO>>())
 
 		Assertions.assertEquals(HttpStatus.OK, res.statusCode)
 		Assertions.assertEquals(listOf(product1.toDTO(), product2.toDTO(), product3.toDTO()), res.body)
@@ -90,7 +92,7 @@ class ProductsTests {
 
 	@Test
 	fun getProduct() {
-		val res = restTemplate.exchange("/API/products/${product1.ean}", HttpMethod.GET, null, typeReference<ProductDTO>())
+		val res = restTemplate.exchange("$baseUrl/${product1.ean}", HttpMethod.GET, null, typeReference<ProductDTO>())
 
 		Assertions.assertEquals(HttpStatus.OK, res.statusCode)
 		Assertions.assertEquals(product1.toDTO(), res.body)
@@ -98,7 +100,7 @@ class ProductsTests {
 
 	@Test
 	fun productNotFound() {
-		val res = restTemplate.exchange("/API/products/${product4.ean}", HttpMethod.GET, null, typeReference<Unit>())
+		val res = restTemplate.exchange("$baseUrl/${product4.ean}", HttpMethod.GET, null, typeReference<Unit>())
 
 		Assertions.assertEquals(HttpStatus.NOT_FOUND, res.statusCode)
 	}

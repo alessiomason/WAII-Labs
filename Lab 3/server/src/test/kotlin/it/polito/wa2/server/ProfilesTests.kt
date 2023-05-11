@@ -30,6 +30,9 @@ class ProfilesTests {
         @Container
         val postgres = PostgreSQLContainer("postgres:latest")
 
+        inline fun <reified T> typeReference() = object: ParameterizedTypeReference<T>() {}
+        private const val baseUrl = "/API/profiles"
+
         @JvmStatic
         @DynamicPropertySource
         fun properties(registry: DynamicPropertyRegistry) {
@@ -39,7 +42,6 @@ class ProfilesTests {
             registry.add("spring.jpa.hibernate.ddl-auto") {"create-drop"}
         }
 
-        inline fun <reified T> typeReference() = object: ParameterizedTypeReference<T>() {}
         private val profile1 = Profile("flongwood0@vk.com", "Franky", "Longwood", "+33 616 805 6213")
         private val profile2 = Profile("grengger1@cloudflare.com", "Grant", "Rengger", "+62 982 796 8613")
     }
@@ -61,7 +63,7 @@ class ProfilesTests {
 
     @Test
     fun getProfile() {
-        val res = restTemplate.exchange("/API/profiles/${profile1.email}", HttpMethod.GET, null, typeReference<ProfileDTO>())
+        val res = restTemplate.exchange("$baseUrl/${profile1.email}", HttpMethod.GET, null, typeReference<ProfileDTO>())
 
         Assertions.assertEquals(HttpStatus.OK, res.statusCode)
         Assertions.assertEquals(profile1.toDTO(), res.body)
@@ -69,7 +71,7 @@ class ProfilesTests {
 
     @Test
     fun profileNotFound() {
-        val res = restTemplate.exchange("/API/profiles/${profile2.email}", HttpMethod.GET, null, typeReference<Unit>())
+        val res = restTemplate.exchange("$baseUrl/${profile2.email}", HttpMethod.GET, null, typeReference<Unit>())
 
         Assertions.assertEquals(HttpStatus.NOT_FOUND, res.statusCode)
     }
@@ -77,12 +79,12 @@ class ProfilesTests {
     @Test
     fun createProfile() {
         val requestEntity = HttpEntity(profile2.toDTO())
-        val res = restTemplate.exchange("/API/profiles", HttpMethod.POST, requestEntity, typeReference<ProfileDTO>())
+        val res = restTemplate.exchange(baseUrl, HttpMethod.POST, requestEntity, typeReference<ProfileDTO>())
 
         Assertions.assertEquals(HttpStatus.OK, res.statusCode)
         Assertions.assertEquals(profile2.toDTO(), res.body)
 
-        val res2 = restTemplate.exchange("/API/profiles/${profile2.email}", HttpMethod.GET, null, typeReference<ProfileDTO>())
+        val res2 = restTemplate.exchange("$baseUrl/${profile2.email}", HttpMethod.GET, null, typeReference<ProfileDTO>())
         Assertions.assertEquals(HttpStatus.OK, res.statusCode)
         Assertions.assertEquals(profile2.toDTO(), res2.body)
 
@@ -92,7 +94,7 @@ class ProfilesTests {
     @Test
     fun creatingAlreadyExistingProfileShouldFail() {
         val requestEntity = HttpEntity(profile1.toDTO())
-        val res = restTemplate.exchange("/API/profiles", HttpMethod.POST, requestEntity, typeReference<Unit>())
+        val res = restTemplate.exchange(baseUrl, HttpMethod.POST, requestEntity, typeReference<Unit>())
 
         Assertions.assertEquals(HttpStatus.CONFLICT, res.statusCode)
     }
@@ -102,11 +104,11 @@ class ProfilesTests {
         // edit testProfile1 with testProfile2 fields
         val editedProfile = ProfileDTO(profile1.email, profile2.firstName, profile2.lastName, profile2.phone)
         val requestEntity = HttpEntity(editedProfile)
-        val res = restTemplate.exchange("/API/profiles", HttpMethod.PUT, requestEntity, typeReference<Unit>())
+        val res = restTemplate.exchange(baseUrl, HttpMethod.PUT, requestEntity, typeReference<Unit>())
 
         Assertions.assertEquals(HttpStatus.OK, res.statusCode)
 
-        val res2 = restTemplate.exchange("/API/profiles/${editedProfile.email}", HttpMethod.GET, null, typeReference<ProfileDTO>())
+        val res2 = restTemplate.exchange("$baseUrl/${editedProfile.email}", HttpMethod.GET, null, typeReference<ProfileDTO>())
         Assertions.assertEquals(HttpStatus.OK, res.statusCode)
         Assertions.assertEquals(editedProfile, res2.body)
     }
