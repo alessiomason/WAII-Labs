@@ -12,10 +12,9 @@ import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabas
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.boot.test.web.client.TestRestTemplate
 import org.springframework.core.ParameterizedTypeReference
-import org.springframework.data.repository.findByIdOrNull
 import org.springframework.http.HttpEntity
 import org.springframework.http.HttpMethod
-import org.springframework.http.HttpStatusCode
+import org.springframework.http.HttpStatus
 import org.springframework.test.context.DynamicPropertyRegistry
 import org.springframework.test.context.DynamicPropertySource
 import org.testcontainers.containers.PostgreSQLContainer
@@ -58,7 +57,7 @@ class ProfilesTests {
     fun getProfile() {
         val res = restTemplate.exchange("/API/profiles/${testProfile1.email}", HttpMethod.GET, null, typeReference<ProfileDTO>())
 
-        Assertions.assertEquals(HttpStatusCode.valueOf(200), res.statusCode)
+        Assertions.assertEquals(HttpStatus.OK, res.statusCode)
         Assertions.assertEquals(testProfile1.toDTO(), res.body)
     }
 
@@ -66,7 +65,7 @@ class ProfilesTests {
     fun profileNotFound() {
         val res = restTemplate.exchange("/API/profiles/${testProfile2.email}", HttpMethod.GET, null, typeReference<Unit>())
 
-        Assertions.assertEquals(HttpStatusCode.valueOf(404), res.statusCode)
+        Assertions.assertEquals(HttpStatus.NOT_FOUND, res.statusCode)
     }
 
     @Test
@@ -74,12 +73,14 @@ class ProfilesTests {
         val requestEntity = HttpEntity(testProfile2.toDTO())
         val res = restTemplate.exchange("/API/profiles", HttpMethod.POST, requestEntity, typeReference<ProfileDTO>())
 
-        Assertions.assertEquals(HttpStatusCode.valueOf(200), res.statusCode)
+        Assertions.assertEquals(HttpStatus.OK, res.statusCode)
         Assertions.assertEquals(testProfile2.toDTO(), res.body)
 
         val res2 = restTemplate.exchange("/API/profiles/${testProfile2.email}", HttpMethod.GET, null, typeReference<ProfileDTO>())
-        Assertions.assertEquals(HttpStatusCode.valueOf(200), res.statusCode)
+        Assertions.assertEquals(HttpStatus.OK, res.statusCode)
         Assertions.assertEquals(testProfile2.toDTO(), res2.body)
+
+        println(profileRepository.findAll().map { it.toDTO() })
     }
 
     @Test
@@ -87,7 +88,7 @@ class ProfilesTests {
         val requestEntity = HttpEntity(testProfile1.toDTO())
         val res = restTemplate.exchange("/API/profiles", HttpMethod.POST, requestEntity, typeReference<Unit>())
 
-        Assertions.assertEquals(HttpStatusCode.valueOf(409), res.statusCode)
+        Assertions.assertEquals(HttpStatus.CONFLICT, res.statusCode)
     }
 
     @Test
@@ -97,10 +98,10 @@ class ProfilesTests {
         val requestEntity = HttpEntity(editedProfile)
         val res = restTemplate.exchange("/API/profiles", HttpMethod.PUT, requestEntity, typeReference<Unit>())
 
-        Assertions.assertEquals(HttpStatusCode.valueOf(200), res.statusCode)
+        Assertions.assertEquals(HttpStatus.OK, res.statusCode)
 
         val res2 = restTemplate.exchange("/API/profiles/${editedProfile.email}", HttpMethod.GET, null, typeReference<ProfileDTO>())
-        Assertions.assertEquals(HttpStatusCode.valueOf(200), res.statusCode)
+        Assertions.assertEquals(HttpStatus.OK, res.statusCode)
         Assertions.assertEquals(editedProfile, res2.body)
     }
 }

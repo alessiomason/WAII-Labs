@@ -14,7 +14,7 @@ import org.springframework.boot.test.web.client.TestRestTemplate
 import org.springframework.boot.test.web.server.LocalServerPort
 import org.springframework.core.ParameterizedTypeReference
 import org.springframework.http.HttpMethod
-import org.springframework.http.HttpStatusCode
+import org.springframework.http.HttpStatus
 import org.springframework.test.context.DynamicPropertyRegistry
 import org.springframework.test.context.DynamicPropertySource
 import org.testcontainers.containers.PostgreSQLContainer
@@ -78,7 +78,7 @@ class ProductsTests {
 		//val res = restTemplate.getForEntity<List<ProductDTO>>("/API/products")
 		val res = restTemplate.exchange("/API/products", HttpMethod.GET, null, typeReference<List<ProductDTO>>())
 
-		Assertions.assertEquals(HttpStatusCode.valueOf(200), res.statusCode)
+		Assertions.assertEquals(HttpStatus.OK, res.statusCode)
 		Assertions.assertEquals(listOf(testProduct1.toDTO(), testProduct2.toDTO(), testProduct3.toDTO()), res.body)
 	}
 
@@ -86,7 +86,7 @@ class ProductsTests {
 	fun getProduct() {
 		val res = restTemplate.exchange("/API/products/${testProduct1.ean}", HttpMethod.GET, null, typeReference<ProductDTO>())
 
-		Assertions.assertEquals(HttpStatusCode.valueOf(200), res.statusCode)
+		Assertions.assertEquals(HttpStatus.OK, res.statusCode)
 		Assertions.assertEquals(testProduct1.toDTO(), res.body)
 	}
 
@@ -94,6 +94,6 @@ class ProductsTests {
 	fun productNotFound() {
 		val res = restTemplate.exchange("/API/products/${testProduct4.ean}", HttpMethod.GET, null, typeReference<Unit>())
 
-		Assertions.assertEquals(HttpStatusCode.valueOf(404), res.statusCode)
+		Assertions.assertEquals(HttpStatus.NOT_FOUND, res.statusCode)
 	}
 }
