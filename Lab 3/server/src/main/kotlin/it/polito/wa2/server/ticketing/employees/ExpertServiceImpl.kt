@@ -30,11 +30,13 @@ class ExpertServiceImpl(
         expertRepository.save(expert)
     }
 
-    override fun addSpecialization(expertId: Int, newSpecializationName: String) {
+    override fun addSpecialization(expertId: Int, newSpecializationName: String): ExpertSpecializationDTO {
         val expert = expertRepository.findByIdOrNull(expertId) ?: throw ExpertNotFoundException()
 
         val specialization = ExpertSpecialization(newSpecializationName, expert)
         expertSpecializationRepository.save(specialization)
+
+        return specialization.toDTO()
     }
 
     override fun removeSpecialization(specializationDTO: ExpertSpecializationDTO) {

@@ -106,7 +106,7 @@ class ProfilesTests {
         Assertions.assertEquals(profile2.toDTO(), res.body)
 
         val res2 = restTemplate.exchange("$baseUrl/${profile2.email}", HttpMethod.GET, null, typeReference<ProfileDTO>())
-        Assertions.assertEquals(HttpStatus.OK, res.statusCode)
+        Assertions.assertEquals(HttpStatus.OK, res2.statusCode)
         Assertions.assertEquals(profile2.toDTO(), res2.body)
 
         println(profileRepository.findAll().map { it.toDTO() })
@@ -130,7 +130,7 @@ class ProfilesTests {
         Assertions.assertEquals(HttpStatus.OK, res.statusCode)
 
         val res2 = restTemplate.exchange("$baseUrl/${editedProfile.email}", HttpMethod.GET, null, typeReference<ProfileDTO>())
-        Assertions.assertEquals(HttpStatus.OK, res.statusCode)
+        Assertions.assertEquals(HttpStatus.OK, res2.statusCode)
         Assertions.assertEquals(editedProfile, res2.body)
     }
 

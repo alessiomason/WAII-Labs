@@ -33,8 +33,8 @@ class ExpertController(
     }
 
     @PostMapping("/API/experts/{id}/specialization")
-    fun addExpertSpecialization(@PathVariable id: Int, newSpecialization: String) {
-        expertService.addSpecialization(id, newSpecialization)
+    fun addExpertSpecialization(@PathVariable id: Int, @RequestBody @Valid newSpecialization: String): ExpertSpecializationDTO {
+        return expertService.addSpecialization(id, newSpecialization)
     }
 
     @DeleteMapping("/API/experts/specialization")

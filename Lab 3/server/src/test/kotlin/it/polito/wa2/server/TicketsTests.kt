@@ -202,7 +202,7 @@ class TicketsTests {
         Assertions.assertEquals(createdTicket, res.body)
 
         val res2 = restTemplate.exchange("$baseUrl/${createdTicket.id}", HttpMethod.GET, null, typeReference<TicketDTO>())
-        Assertions.assertEquals(HttpStatus.OK, res.statusCode)
+        Assertions.assertEquals(HttpStatus.OK, res2.statusCode)
         Assertions.assertEquals(createdTicket, res2.body)
     }
 
@@ -243,7 +243,7 @@ class TicketsTests {
         Assertions.assertEquals(HttpStatus.OK, res.statusCode)
 
         val res2 = restTemplate.exchange("$baseUrl/${editedTicket.id}", HttpMethod.GET, null, typeReference<TicketDTO>())
-        Assertions.assertEquals(HttpStatus.OK, res.statusCode)
+        Assertions.assertEquals(HttpStatus.OK, res2.statusCode)
         Assertions.assertEquals(expectedTicket, res2.body)
     }
 
@@ -292,7 +292,7 @@ class TicketsTests {
         Assertions.assertEquals(HttpStatus.OK, res.statusCode)
 
         val res2 = restTemplate.exchange("$baseUrl/${editedTicket.id}", HttpMethod.GET, null, typeReference<TicketDTO>())
-        Assertions.assertEquals(HttpStatus.OK, res.statusCode)
+        Assertions.assertEquals(HttpStatus.OK, res2.statusCode)
         Assertions.assertEquals(expectedTicket, res2.body)
     }
 
@@ -358,7 +358,7 @@ class TicketsTests {
         Assertions.assertEquals(HttpStatus.OK, res.statusCode)
 
         val res2 = restTemplate.exchange("$baseUrl/${editedTicket.id}", HttpMethod.GET, null, typeReference<TicketDTO>())
-        Assertions.assertEquals(HttpStatus.OK, res.statusCode)
+        Assertions.assertEquals(HttpStatus.OK, res2.statusCode)
         Assertions.assertEquals(expectedTicket, res2.body)
     }
 
@@ -390,7 +390,7 @@ class TicketsTests {
         Assertions.assertEquals(HttpStatus.OK, res.statusCode)
 
         val res2 = restTemplate.exchange("$baseUrl/${editedTicket.id}", HttpMethod.GET, null, typeReference<TicketDTO>())
-        Assertions.assertEquals(HttpStatus.OK, res.statusCode)
+        Assertions.assertEquals(HttpStatus.OK, res2.statusCode)
         Assertions.assertEquals(expectedTicket, res2.body)
     }
 

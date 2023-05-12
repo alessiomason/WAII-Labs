@@ -7,7 +7,7 @@ interface ExpertService {
 
     fun editExpert(expertDTO: ExpertDTO)
 
-    fun addSpecialization(expertId: Int, newSpecializationName: String)
+    fun addSpecialization(expertId: Int, newSpecializationName: String): ExpertSpecializationDTO
 
     fun removeSpecialization(specializationDTO: ExpertSpecializationDTO)
 }

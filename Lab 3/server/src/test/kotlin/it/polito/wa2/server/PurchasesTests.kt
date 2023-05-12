@@ -134,7 +134,7 @@ class PurchasesTests {
         Assertions.assertEquals(createdPurchase, res.body)
 
         val res2 = restTemplate.exchange("$baseUrl/${createdPurchase.id}", HttpMethod.GET, null, typeReference<PurchaseDTO>())
-        Assertions.assertEquals(HttpStatus.OK, res.statusCode)
+        Assertions.assertEquals(HttpStatus.OK, res2.statusCode)
         Assertions.assertEquals(createdPurchase, res2.body)
     }
 
@@ -150,7 +150,7 @@ class PurchasesTests {
         Assertions.assertEquals(createdPurchase, res.body)
 
         val res2 = restTemplate.exchange("$baseUrl/${createdPurchase.id}", HttpMethod.GET, null, typeReference<PurchaseDTO>())
-        Assertions.assertEquals(HttpStatus.OK, res.statusCode)
+        Assertions.assertEquals(HttpStatus.OK, res2.statusCode)
         Assertions.assertEquals(createdPurchase, res2.body)
     }
 

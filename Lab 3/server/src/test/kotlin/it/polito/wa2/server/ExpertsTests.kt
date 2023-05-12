@@ -7,7 +7,6 @@ import it.polito.wa2.server.ticketing.employees.toDTO
 import it.polito.wa2.server.ticketing.logs.LogRepository
 import it.polito.wa2.server.ticketing.purchases.PurchaseRepository
 import it.polito.wa2.server.ticketing.tickets.TicketRepository
-import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
@@ -58,6 +57,8 @@ class ExpertsTests {
     @Autowired
     lateinit var expertRepository: ExpertRepository
     @Autowired
+    lateinit var expertSpecializationRepository: ExpertSpecializationRepository
+    @Autowired
     lateinit var purchaseRepository: PurchaseRepository
     @Autowired
     lateinit var ticketRepository: TicketRepository
@@ -69,6 +70,7 @@ class ExpertsTests {
         logRepository.deleteAll()
         ticketRepository.deleteAll()
         purchaseRepository.deleteAll()
+        expertSpecializationRepository.deleteAll()
         expertRepository.deleteAll()
         profileRepository.deleteAll()
         productRepository.deleteAll()
@@ -106,7 +108,7 @@ class ExpertsTests {
         Assertions.assertEquals(createdExpert, res.body)
 
         val res2 = restTemplate.exchange("$baseUrl/${createdExpert.id}", HttpMethod.GET, null, typeReference<ExpertDTO>())
-        Assertions.assertEquals(HttpStatus.OK, res.statusCode)
+        Assertions.assertEquals(HttpStatus.OK, res2.statusCode)
         Assertions.assertEquals(createdExpert, res2.body)
     }
 
@@ -122,7 +124,7 @@ class ExpertsTests {
         Assertions.assertEquals(createdExpert, res.body)
 
         val res2 = restTemplate.exchange("$baseUrl/${createdExpert.id}", HttpMethod.GET, null, typeReference<ExpertDTO>())
-        Assertions.assertEquals(HttpStatus.OK, res.statusCode)
+        Assertions.assertEquals(HttpStatus.OK, res2.statusCode)
         Assertions.assertEquals(createdExpert, res2.body)
     }
 
@@ -136,7 +138,7 @@ class ExpertsTests {
         Assertions.assertEquals(HttpStatus.OK, res.statusCode)
 
         val res2 = restTemplate.exchange("$baseUrl/${editedExpert.id}", HttpMethod.GET, null, typeReference<ExpertDTO>())
-        Assertions.assertEquals(HttpStatus.OK, res.statusCode)
+        Assertions.assertEquals(HttpStatus.OK, res2.statusCode)
         Assertions.assertEquals(editedExpert, res2.body)
     }
 
@@ -147,5 +149,50 @@ class ExpertsTests {
         val res = restTemplate.exchange(baseUrl, HttpMethod.PUT, requestEntity, typeReference<Unit>())
 
         Assertions.assertEquals(HttpStatus.NOT_FOUND, res.statusCode)
+    }
+
+    @Test
+    fun addExpertSpecialization() {
+        val newSpecialization = "Computers"
+        val requestEntity = HttpEntity(newSpecialization)
+        val res = restTemplate.exchange("$baseUrl/${expert1.id}/specialization", HttpMethod.POST, requestEntity, typeReference<ExpertSpecializationDTO>())
+
+        Assertions.assertEquals(HttpStatus.OK, res.statusCode)
+
+        val expectedRes = ExpertDTO(
+            expert1.id,
+            expert1.firstName,
+            expert1.lastName,
+            listOf(ExpertSpecializationDTO(res.body!!.id, newSpecialization)),
+            expert1.tickets.map { it.id }
+        )
+
+        val res2 = restTemplate.exchange("$baseUrl/${expert1.id}", HttpMethod.GET, null, typeReference<ExpertDTO>())
+
+        Assertions.assertEquals(HttpStatus.OK, res2.statusCode)
+        Assertions.assertEquals(expectedRes, res2.body)
+    }
+
+    @Test
+    fun removeExpertSpecialization() {
+        val expertSpecialization = ExpertSpecialization("Computers", expert1)
+        expertSpecializationRepository.save(expertSpecialization)
+
+        val requestEntity = HttpEntity(expertSpecialization.toDTO())
+
+        val res = restTemplate.exchange("$baseUrl/specialization", HttpMethod.DELETE, requestEntity, typeReference<Unit>())
+        Assertions.assertEquals(HttpStatus.OK, res.statusCode)
+
+        val expectedRes = ExpertDTO(
+            expert1.id,
+            expert1.firstName,
+            expert1.lastName,
+            listOf(),
+            expert1.tickets.map { it.id }
+        )
+
+        val res2 = restTemplate.exchange("$baseUrl/${expert1.id}", HttpMethod.GET, null, typeReference<ExpertDTO>())
+        Assertions.assertEquals(HttpStatus.OK, res2.statusCode)
+        Assertions.assertEquals(expectedRes, res2.body)
     }
 }
