@@ -1,19 +1,3 @@
-create table if not exists experts
-(
-    id         integer not null
-        primary key,
-    first_name varchar(255),
-    last_name  varchar(255)
-);
-
-create table if not exists managers
-(
-    id         integer not null
-        primary key,
-    first_name varchar(255),
-    last_name  varchar(255)
-);
-
 create table if not exists products
 (
     ean   varchar(255) not null
@@ -29,6 +13,22 @@ create table if not exists profiles
     first_name varchar(255),
     last_name  varchar(255),
     phone      varchar(255)
+);
+
+create table if not exists experts
+(
+    id         integer not null
+    primary key,
+    first_name varchar(255),
+    last_name  varchar(255)
+);
+
+create table if not exists managers
+(
+    id         integer not null
+    primary key,
+    first_name varchar(255),
+    last_name  varchar(255)
 );
 
 create table if not exists purchases
@@ -1293,3 +1293,31 @@ INSERT INTO products (ean, name, brand) VALUES ('8719262018174', 'The Soundtrack
 INSERT INTO products (ean, name, brand) VALUES ('9781495095283', 'The Hunchback of Notre Dame Musical Vocal Selections Audition Voice Music Book', 'Hal Leonard');
 INSERT INTO products (ean, name, brand) VALUES ('4894855642906', 'Universal 400w 40000lm 7inch LED Car Motorcycle Headlight Phare Farol Moto R1s5', 'SODIAL');
 INSERT INTO products (ean, name, brand) VALUES ('4025258739324', 'BILSTEIN B8 Shock Absorbers Damper 19-236315 Rear Axle for Toyota YARIS', 'BILSTEIN');
+
+INSERT INTO experts (id, first_name, last_name) VALUES (1, 'Joe', 'Pesci');
+INSERT INTO experts (id, first_name, last_name) VALUES (2, 'John', 'Demon');
+INSERT INTO experts (id, first_name, last_name) VALUES (3, 'Matt', 'Kerr');
+INSERT INTO experts (id, first_name, last_name) VALUES (4, 'Steven', 'Rotterdam');
+
+INSERT INTO managers (id, first_name, last_name) VALUES (1, 'James', 'Lucy');
+INSERT INTO managers (id, first_name, last_name) VALUES (2, 'Eric', 'Gordon');
+INSERT INTO managers (id, first_name, last_name) VALUES (3, 'Matt', 'James');
+INSERT INTO managers (id, first_name, last_name) VALUES (4, 'Andry', 'Shevckenco');
+
+INSERT INTO purchases (id, customer_email, product_ean) VALUES (1, 'flongwood0@vk.com', '8712725728528');
+INSERT INTO purchases (id, customer_email, product_ean) VALUES (2, 'grengger1@cloudflare.com', '3532041192835');
+INSERT INTO purchases (id, customer_email, product_ean) VALUES (3, 'ftuther1g@opensource.org', '3539186242005');
+INSERT INTO purchases (id, customer_email, product_ean) VALUES (4, 'rpottberry1y@chicagotribune.com', '5711045610646');
+INSERT INTO purchases (id, customer_email, product_ean) VALUES (5, 'meastlake1j@gizmodo.com', '5052746203592');
+INSERT INTO purchases (id, customer_email, product_ean) VALUES (6, 'mfoxleym@hp.com', '6932799000098');
+
+INSERT INTO tickets(id, description, priority_level, ticket_status, title, expert_id, purchase_id) VALUES (1, 'Description Ticket 1', 1, 0, 'Ticket 1', 1, 1);
+INSERT INTO tickets(id, description, priority_level, ticket_status, title, expert_id, purchase_id) VALUES (2, 'Description Tikcet 2', 1, 0, 'Ticket 2', 2, 3);
+INSERT INTO tickets(id, description, priority_level, ticket_status, title, expert_id, purchase_id) VALUES (3, 'Description Ticket 3', 1, 0, 'Ticket 3', 2, 2);
+INSERT INTO tickets(id, description, priority_level, ticket_status, title, expert_id, purchase_id) VALUES (4, 'Description Ticket 4', 1, 0, 'Ticket 4', 3, 4);
+
+INSERT INTO logs(id, new_ticket_status, previous_ticket_status, time, ticket_id) VALUES (1, 1, 0, '2023-05-12T14:13:09.157827400Z', 1);
+INSERT INTO logs(id, new_ticket_status, previous_ticket_status, time, ticket_id) VALUES (2, 2, 1, '2023-05-12T15:14:09.157827400Z', 1);
+INSERT INTO logs(id, new_ticket_status, previous_ticket_status, time, ticket_id) VALUES (3, 1, 0, '2023-05-10T12:13:09.157827400Z', 2);
+INSERT INTO logs(id, new_ticket_status, previous_ticket_status, time, ticket_id) VALUES (4, 2, 1, '2023-05-10T16:13:09.157827400Z', 2);
+INSERT INTO logs(id, new_ticket_status, previous_ticket_status, time, ticket_id) VALUES (5, 3, 2, '2023-05-11T17:13:09.157827400Z', 2);
