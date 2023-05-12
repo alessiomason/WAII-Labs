@@ -4,7 +4,10 @@ import it.polito.wa2.server.products.Product
 import it.polito.wa2.server.products.ProductRepository
 import it.polito.wa2.server.profiles.Profile
 import it.polito.wa2.server.profiles.ProfileRepository
+import it.polito.wa2.server.ticketing.employees.ExpertRepository
+import it.polito.wa2.server.ticketing.logs.LogRepository
 import it.polito.wa2.server.ticketing.purchases.*
+import it.polito.wa2.server.ticketing.tickets.TicketRepository
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.BeforeEach
@@ -62,10 +65,22 @@ class PurchasesTests {
     @Autowired
     lateinit var productRepository: ProductRepository
     @Autowired
+    lateinit var expertRepository: ExpertRepository
+    @Autowired
     lateinit var purchaseRepository: PurchaseRepository
+    @Autowired
+    lateinit var ticketRepository: TicketRepository
+    @Autowired
+    lateinit var logRepository: LogRepository
 
     @BeforeEach
     fun populateDb() {
+        logRepository.deleteAll()
+        ticketRepository.deleteAll()
+        purchaseRepository.deleteAll()
+        expertRepository.deleteAll()
+        profileRepository.deleteAll()
+        productRepository.deleteAll()
         // recreate the objects before each test to reinitialize the ids
         profileRepository.save(customer1)
         profileRepository.save(customer2)
@@ -78,13 +93,6 @@ class PurchasesTests {
         purchaseRepository.save(purchase1)
         purchaseRepository.save(purchase2)
         purchaseRepository.save(purchase3)
-    }
-
-    @AfterEach
-    fun emptyDb() {
-        purchaseRepository.deleteAll()
-        profileRepository.deleteAll()
-        productRepository.deleteAll()
     }
 
     @Test

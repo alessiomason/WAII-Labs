@@ -9,6 +9,7 @@ import it.polito.wa2.server.profiles.toDTO
 import it.polito.wa2.server.ticketing.employees.Expert
 import it.polito.wa2.server.ticketing.employees.ExpertDTO
 import it.polito.wa2.server.ticketing.employees.ExpertRepository
+import it.polito.wa2.server.ticketing.employees.toDTO
 import it.polito.wa2.server.ticketing.logs.LogDTO
 import it.polito.wa2.server.ticketing.logs.Log
 import it.polito.wa2.server.ticketing.logs.LogRepository
@@ -89,6 +90,13 @@ class LogsTests {
 
     @BeforeEach
     fun populateDb() {
+        logRepository.deleteAll()
+        ticketRepository.deleteAll()
+        purchaseRepository.deleteAll()
+        expertRepository.deleteAll()
+        profileRepository.deleteAll()
+        productRepository.deleteAll()
+
         // recreate the objects before each test to reinitialize the ids
         profileRepository.save(customer1)
         profileRepository.save(customer2)
@@ -115,16 +123,6 @@ class LogsTests {
         ticketRepository.save(ticket1)
         ticketRepository.save(ticket2)
         ticketRepository.save(ticket3)
-    }
-
-    @AfterEach
-    fun emptyDb() {
-        logRepository.deleteAll()
-        ticketRepository.deleteAll()
-        purchaseRepository.deleteAll()
-        expertRepository.deleteAll()
-        profileRepository.deleteAll()
-        productRepository.deleteAll()
     }
 
     @Test
@@ -247,6 +245,7 @@ class LogsTests {
                         ticket1.expert!!.id,
                         ticket1.expert!!.firstName,
                         ticket1.expert!!.lastName,
+                        ticket1.expert?.specializations?.map { it.toDTO() } ?: listOf(),
                         listOf(ticket1.id)
                     ),
                     ticket1.ticketStatus,

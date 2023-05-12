@@ -4,6 +4,11 @@ import it.polito.wa2.server.products.Product
 import it.polito.wa2.server.products.ProductDTO
 import it.polito.wa2.server.products.ProductRepository
 import it.polito.wa2.server.products.toDTO
+import it.polito.wa2.server.profiles.ProfileRepository
+import it.polito.wa2.server.ticketing.employees.ExpertRepository
+import it.polito.wa2.server.ticketing.logs.LogRepository
+import it.polito.wa2.server.ticketing.purchases.PurchaseRepository
+import it.polito.wa2.server.ticketing.tickets.TicketRepository
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.BeforeEach
@@ -51,18 +56,30 @@ class ProductsTests {
 	@Autowired
 	lateinit var restTemplate: TestRestTemplate
 	@Autowired
+	lateinit var profileRepository: ProfileRepository
+	@Autowired
 	lateinit var productRepository: ProductRepository
+	@Autowired
+	lateinit var expertRepository: ExpertRepository
+	@Autowired
+	lateinit var purchaseRepository: PurchaseRepository
+	@Autowired
+	lateinit var ticketRepository: TicketRepository
+	@Autowired
+	lateinit var logRepository: LogRepository
 
 	@BeforeEach
 	fun populateDb() {
+		logRepository.deleteAll()
+		ticketRepository.deleteAll()
+		purchaseRepository.deleteAll()
+		expertRepository.deleteAll()
+		profileRepository.deleteAll()
+		productRepository.deleteAll()
+
 		productRepository.save(product1)
 		productRepository.save(product2)
 		productRepository.save(product3)
-	}
-
-	@AfterEach
-	fun emptyDb() {
-		productRepository.deleteAll()
 	}
 
 	@Test

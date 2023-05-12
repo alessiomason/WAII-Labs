@@ -10,6 +10,7 @@ import it.polito.wa2.server.ticketing.employees.Expert
 import it.polito.wa2.server.ticketing.employees.ExpertDTO
 import it.polito.wa2.server.ticketing.employees.ExpertRepository
 import it.polito.wa2.server.ticketing.employees.toDTO
+import it.polito.wa2.server.ticketing.logs.LogRepository
 import it.polito.wa2.server.ticketing.purchases.*
 import it.polito.wa2.server.ticketing.tickets.*
 import org.junit.jupiter.api.AfterEach
@@ -83,9 +84,17 @@ class TicketsTests {
     lateinit var purchaseRepository: PurchaseRepository
     @Autowired
     lateinit var ticketRepository: TicketRepository
+    @Autowired
+    lateinit var logRepository: LogRepository
 
     @BeforeEach
     fun populateDb() {
+        logRepository.deleteAll()
+        ticketRepository.deleteAll()
+        purchaseRepository.deleteAll()
+        expertRepository.deleteAll()
+        profileRepository.deleteAll()
+        productRepository.deleteAll()
         // recreate the objects before each test to reinitialize the ids
         profileRepository.save(customer1)
         profileRepository.save(customer2)
@@ -112,15 +121,6 @@ class TicketsTests {
         ticketRepository.save(ticket1)
         ticketRepository.save(ticket2)
         ticketRepository.save(ticket3)
-    }
-
-    @AfterEach
-    fun emptyDb() {
-        ticketRepository.deleteAll()
-        purchaseRepository.deleteAll()
-        expertRepository.deleteAll()
-        profileRepository.deleteAll()
-        productRepository.deleteAll()
     }
 
     @Test
