@@ -6,7 +6,8 @@ import org.springframework.stereotype.Service
 
 @Service
 class ExpertServiceImpl(
-    private val expertRepository: ExpertRepository
+    private val expertRepository: ExpertRepository,
+    private val expertSpecializationRepository: ExpertSpecializationRepository
 ): ExpertService {
     override fun getExpert(id: Int): ExpertDTO {
         return expertRepository.findByIdOrNull(id)?.toDTO() ?: throw ExpertNotFoundException()
@@ -27,5 +28,18 @@ class ExpertServiceImpl(
         expert.lastName = expertDTO.lastName
 
         expertRepository.save(expert)
+    }
+
+    override fun addSpecialization(expertId: Int, newSpecializationName: String) {
+        val expert = expertRepository.findByIdOrNull(expertId) ?: throw ExpertNotFoundException()
+
+        val specialization = ExpertSpecialization(newSpecializationName, expert)
+        expertSpecializationRepository.save(specialization)
+    }
+
+    override fun removeSpecialization(specializationDTO: ExpertSpecializationDTO) {
+        val specialization = expertSpecializationRepository.findByIdOrNull(specializationDTO.id) ?: throw ExpertNotFoundException()
+
+        expertSpecializationRepository.delete(specialization)
     }
 }

@@ -112,7 +112,7 @@ class ExpertsTests {
     @Test
     fun editExpert() {
         // edit expert1 with expert2 fields
-        val editedExpert = ExpertDTO(expert1.id, expert2.firstName, expert2.lastName, expert2.tickets.map { it.id })
+        val editedExpert = ExpertDTO(expert1.id, expert2.firstName, expert2.lastName, expert2.specializations.map { it.toDTO() }, expert2.tickets.map { it.id })
         val requestEntity = HttpEntity(editedExpert)
         val res = restTemplate.exchange(baseUrl, HttpMethod.PUT, requestEntity, typeReference<Unit>())
 
@@ -125,7 +125,7 @@ class ExpertsTests {
 
     @Test
     fun editExpertNotFound() {
-        val editedExpert = ExpertDTO(0, expert2.firstName, expert2.lastName, expert2.tickets.map { it.id })
+        val editedExpert = ExpertDTO(0, expert2.firstName, expert2.lastName, expert2.specializations.map { it.toDTO() }, expert2.tickets.map { it.id })
         val requestEntity = HttpEntity(editedExpert)
         val res = restTemplate.exchange(baseUrl, HttpMethod.PUT, requestEntity, typeReference<Unit>())
 

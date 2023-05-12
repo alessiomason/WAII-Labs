@@ -3,6 +3,7 @@ package it.polito.wa2.server.ticketing.employees
 import jakarta.validation.Valid
 import org.springframework.validation.annotation.Validated
 import org.springframework.web.bind.annotation.CrossOrigin
+import org.springframework.web.bind.annotation.DeleteMapping
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PostMapping
@@ -29,5 +30,15 @@ class ExpertController(
     @PutMapping("/API/experts")
     fun editExpert(@RequestBody @Valid expertDTO: ExpertDTO) {
         expertService.editExpert(expertDTO)
+    }
+
+    @PostMapping("/API/experts/{id}/specialization")
+    fun addExpertSpecialization(@PathVariable id: Int, newSpecialization: String) {
+        expertService.addSpecialization(id, newSpecialization)
+    }
+
+    @DeleteMapping("/API/experts/specialization")
+    fun deleteSpecialization(@RequestBody @Valid specializationDTO: ExpertSpecializationDTO) {
+        expertService.removeSpecialization(specializationDTO)
     }
 }

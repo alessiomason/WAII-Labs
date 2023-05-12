@@ -348,7 +348,7 @@ class TicketsTests {
             ticket1.title,
             ticket1.description,
             PurchaseDTO(ticket1.purchase.id, ticket1.purchase.customer.toDTO(), ticket1.purchase.product.toDTO(), listOf(ticket1.id)),
-            ExpertDTO(expert1.id, expert1.firstName, expert1.lastName, listOf(ticket1.id)),
+            ExpertDTO(expert1.id, expert1.firstName, expert1.lastName, ticket1.expert?.specializations?.map { it.toDTO() } ?: listOf(), listOf(ticket1.id)),
             TicketStatus.IN_PROGRESS,   // test that the ticketStatus is always set to IN_PROGRESS
             PriorityLevel.CRITICAL
         )

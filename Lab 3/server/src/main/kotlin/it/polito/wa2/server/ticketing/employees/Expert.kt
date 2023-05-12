@@ -9,5 +9,7 @@ import jakarta.persistence.Table
 @Table(name = "experts")
 class Expert(firstName: String, lastName: String): Employee(firstName, lastName) {
     @OneToMany(mappedBy = "expert")
+    val specializations = listOf<ExpertSpecialization>()
+    @OneToMany(mappedBy = "expert")
     val tickets = mutableSetOf<Ticket>()
 }
