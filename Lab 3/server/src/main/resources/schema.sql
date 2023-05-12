@@ -59,6 +59,18 @@ create table if not exists tickets
             references purchases
 );
 
+create table if not exists logs
+(
+    id                     integer not null
+        primary key,
+    new_ticket_status      smallint,
+    previous_ticket_status smallint,
+    time                   timestamp(6) with time zone,
+    ticket_id              integer
+        constraint fkk0sc5fcr48wfbbbkc02klciu3
+            references tickets
+);
+
 INSERT INTO profiles (email, first_name, last_name, phone) VALUES ('flongwood0@vk.com', 'Franky', 'Longwood', '+33 616 805 6213');
 INSERT INTO profiles (email, first_name, last_name, phone) VALUES ('grengger1@cloudflare.com', 'Grant', 'Rengger', '+62 982 796 8613');
 INSERT INTO profiles (email, first_name, last_name, phone) VALUES ('drushby2@cornell.edu', 'Daniela', 'Rushby', '+33 172 648 2463');

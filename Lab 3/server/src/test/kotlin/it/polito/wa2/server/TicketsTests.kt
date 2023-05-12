@@ -206,8 +206,6 @@ class TicketsTests {
         Assertions.assertEquals(createdTicket, res2.body)
     }
 
-    // Can a ticket be opened multiple times?
-
     @Test
     fun createTicketPurchaseNotFound() {
         val newTicket = Ticket("New ticket title", "New ticket description", notSavedPurchase)
