@@ -6,6 +6,7 @@ plugins {
 	kotlin("jvm") version "1.7.22"
 	kotlin("plugin.spring") version "1.7.22"
 	kotlin("plugin.jpa") version "1.7.22"
+	id("com.google.cloud.tools.jib") version "3.3.1"
 }
 
 group = "it.polito.wa2"
@@ -26,6 +27,15 @@ dependencies {
 	testImplementation("org.springframework.boot:spring-boot-starter-test")
 	testImplementation ("org.testcontainers:junit-jupiter:1.16.3")
 	testImplementation("org.testcontainers:postgresql:1.16.3")
+}
+
+jib {
+	to {
+		image = "ticketing"
+	}
+	container {
+		ports = listOf("8080")
+	}
 }
 
 dependencyManagement {
