@@ -23,6 +23,16 @@ create table if not exists experts
     last_name  varchar(255)
 );
 
+create table if not exists experts_specializations
+(
+    id        integer not null
+        primary key,
+    name      varchar(255),
+    expert_id integer
+        constraint fkc9enycpxwxnnq4hkv3tvu5vq9
+            references experts
+);
+
 create table if not exists managers
 (
     id         integer not null
@@ -1298,6 +1308,9 @@ INSERT INTO experts (id, first_name, last_name) VALUES (1, 'Joe', 'Pesci');
 INSERT INTO experts (id, first_name, last_name) VALUES (2, 'John', 'Demon');
 INSERT INTO experts (id, first_name, last_name) VALUES (3, 'Matt', 'Kerr');
 INSERT INTO experts (id, first_name, last_name) VALUES (4, 'Steven', 'Rotterdam');
+
+INSERT INTO experts_specializations(id, name, expert_id) VALUES (1, 'Computers', 1);
+INSERT INTO experts_specializations(id, name, expert_id) VALUES (2, 'Home appliances', 2);
 
 INSERT INTO managers (id, first_name, last_name) VALUES (1, 'James', 'Lucy');
 INSERT INTO managers (id, first_name, last_name) VALUES (2, 'Eric', 'Gordon');

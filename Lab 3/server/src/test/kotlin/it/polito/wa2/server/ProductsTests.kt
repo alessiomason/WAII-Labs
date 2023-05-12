@@ -6,6 +6,7 @@ import it.polito.wa2.server.products.ProductRepository
 import it.polito.wa2.server.products.toDTO
 import it.polito.wa2.server.profiles.ProfileRepository
 import it.polito.wa2.server.ticketing.employees.ExpertRepository
+import it.polito.wa2.server.ticketing.employees.ExpertSpecializationRepository
 import it.polito.wa2.server.ticketing.logs.LogRepository
 import it.polito.wa2.server.ticketing.purchases.PurchaseRepository
 import it.polito.wa2.server.ticketing.tickets.TicketRepository
@@ -62,6 +63,8 @@ class ProductsTests {
 	@Autowired
 	lateinit var expertRepository: ExpertRepository
 	@Autowired
+	lateinit var expertSpecializationRepository: ExpertSpecializationRepository
+	@Autowired
 	lateinit var purchaseRepository: PurchaseRepository
 	@Autowired
 	lateinit var ticketRepository: TicketRepository
@@ -73,6 +76,7 @@ class ProductsTests {
 		logRepository.deleteAll()
 		ticketRepository.deleteAll()
 		purchaseRepository.deleteAll()
+		expertSpecializationRepository.deleteAll()
 		expertRepository.deleteAll()
 		profileRepository.deleteAll()
 		productRepository.deleteAll()
