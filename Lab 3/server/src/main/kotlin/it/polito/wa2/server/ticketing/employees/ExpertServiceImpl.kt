@@ -1,6 +1,7 @@
 package it.polito.wa2.server.ticketing.employees
 
 import it.polito.wa2.server.exceptions.ExpertNotFoundException
+import it.polito.wa2.server.exceptions.ExpertSpecializationNotFoundException
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Service
 
@@ -40,7 +41,7 @@ class ExpertServiceImpl(
     }
 
     override fun removeSpecialization(specializationDTO: ExpertSpecializationDTO) {
-        val specialization = expertSpecializationRepository.findByIdOrNull(specializationDTO.id) ?: throw ExpertNotFoundException()
+        val specialization = expertSpecializationRepository.findByIdOrNull(specializationDTO.id) ?: throw ExpertSpecializationNotFoundException()
 
         expertSpecializationRepository.delete(specialization)
     }

@@ -12,11 +12,12 @@ data class LogDTO(
     val ticket: TicketDTO
 )
 
-fun Log.toDTO() : LogDTO {
-    return LogDTO(id,
+fun Log.toDTO(): LogDTO {
+    return LogDTO(
+        id,
         previousTicketStatus,
         newTicketStatus,
         time,
         ticket.toDTO()
-        )
+    )
 }

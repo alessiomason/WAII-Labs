@@ -22,5 +22,4 @@ class LogController (
     fun getLogsByExpertId(@PathVariable expertId: Int): List<LogDTO> {
         return logService.getLogsByExpertId(expertId)
     }
-
 }

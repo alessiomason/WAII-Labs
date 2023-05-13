@@ -174,6 +174,15 @@ class ExpertsTests {
     }
 
     @Test
+    fun addExpertSpecializationExpertNotFound() {
+        val newSpecialization = "Computers"
+        val requestEntity = HttpEntity(newSpecialization)
+        val res = restTemplate.exchange("$baseUrl/${expert2.id}/specialization", HttpMethod.POST, requestEntity, typeReference<Unit>())
+
+        Assertions.assertEquals(HttpStatus.NOT_FOUND, res.statusCode)
+    }
+
+    @Test
     fun removeExpertSpecialization() {
         val expertSpecialization = ExpertSpecialization("Computers", expert1)
         expertSpecializationRepository.save(expertSpecialization)
@@ -194,5 +203,14 @@ class ExpertsTests {
         val res2 = restTemplate.exchange("$baseUrl/${expert1.id}", HttpMethod.GET, null, typeReference<ExpertDTO>())
         Assertions.assertEquals(HttpStatus.OK, res2.statusCode)
         Assertions.assertEquals(expectedRes, res2.body)
+    }
+
+    @Test
+    fun removeExpertSpecializationNotFound() {
+        val expertSpecialization = ExpertSpecialization("Computers", expert1)
+        val requestEntity = HttpEntity(expertSpecialization.toDTO())
+
+        val res = restTemplate.exchange("$baseUrl/specialization", HttpMethod.DELETE, requestEntity, typeReference<Unit>())
+        Assertions.assertEquals(HttpStatus.NOT_FOUND, res.statusCode)
     }
 }

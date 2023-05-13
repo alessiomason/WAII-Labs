@@ -6,6 +6,8 @@ class ProfileNotFoundException: RuntimeException("Profile not found!")
 
 class ExpertNotFoundException: RuntimeException("Expert not found!")
 
+class ExpertSpecializationNotFoundException: RuntimeException("Expert specialization not found!")
+
 class ManagerNotFoundException: RuntimeException("Manager not found!")
 
 class PurchaseNotFoundException: RuntimeException("Purchase not found!")

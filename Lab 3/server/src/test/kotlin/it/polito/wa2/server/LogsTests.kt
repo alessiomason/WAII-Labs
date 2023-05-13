@@ -127,8 +127,6 @@ class LogsTests {
 
     @Test
     fun getAllLogsByTicketId() {
-
-
         ticket1.ticketStatus = TicketStatus.IN_PROGRESS
         ticketRepository.save(ticket1)
 
@@ -160,7 +158,7 @@ class LogsTests {
                 log1.id,
                 log1.previousTicketStatus,
                 log1.newTicketStatus,
-                res.body?.first()!!.time,
+                res.body?.first()!!.time,       // the db truncates the time, this avoids errors from this issue
                 TicketDTO(
                     ticket1.id,
                     ticket1.title,
@@ -180,7 +178,7 @@ class LogsTests {
                 log2.id,
                 log2.previousTicketStatus,
                 log2.newTicketStatus,
-                res.body?.last()!!.time,
+                res.body?.last()!!.time,        // the db truncates the time, this avoids errors from this issue
                 TicketDTO(
                     ticket1.id,
                     ticket1.title,
@@ -198,14 +196,12 @@ class LogsTests {
             )
         )
 
-
         Assertions.assertEquals(HttpStatus.OK, res.statusCode)
         Assertions.assertEquals(expectedList, res.body)
     }
 
     @Test
     fun getAllLogsByExpertId() {
-
         ticket1.expert = expert1
 
         ticket1.ticketStatus = TicketStatus.IN_PROGRESS
@@ -253,7 +249,6 @@ class LogsTests {
                 )
             )
         )
-
 
         Assertions.assertEquals(HttpStatus.OK, res.statusCode)
         Assertions.assertEquals(expectedList, res.body)
