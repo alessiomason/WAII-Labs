@@ -4,4 +4,8 @@ import org.springframework.data.jpa.repository.JpaRepository
 import org.springframework.stereotype.Repository
 
 @Repository
-interface LogRepository: JpaRepository<Log, Int>
+interface LogRepository: JpaRepository<Log, Int> {
+    fun findAllByTicketId(id: Int): List<Log>
+
+    fun findAllByTicketExpertId(id: Int): List<Log>
+}
