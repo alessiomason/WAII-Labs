@@ -26,19 +26,23 @@ class LoginController {
     @PostMapping("/API/login")
     fun login(@RequestBody login: LoginRequest): String {
         val client = OkHttpClient()
+
         val formBody = FormBody.Builder()
             .add("grant_type", "password")
             .add("client_id", "wa2-products-client")
             .add("username", login.username)
             .add("password", login.password)
             .build()
+
         val request = Request.Builder()
             .url("http://localhost:8081/realms/wa2-products/protocol/openid-connect/token")
             .post(formBody)
             .build()
+
         val response = client.newCall(request).execute()
         val responseBody = response.body?.string()
-        print(responseBody)
+        println(responseBody)
+
         response.close()
         return responseBody ?: ""
     }
