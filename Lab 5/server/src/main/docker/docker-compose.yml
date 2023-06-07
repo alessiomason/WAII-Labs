@@ -1,0 +1,36 @@
+version: '2'
+
+services:
+  server:
+    image: 'ticketing:latest'
+    build:
+      context: .
+    container_name: server
+    depends_on:
+      - db
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://db:5432/postgres
+      - SPRING_DATASOURCE_USERNAME=postgres
+      - SPRING_DATASOURCE_PASSWORD=ciao
+      - SPRING_JPA_HIBERNATE_DDL_AUTO=create
+    ports:
+      - "8080:8080"
+
+  db:
+    image: 'postgres:latest'
+    container_name: db
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=ciao
+
+  keycloak:
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+    ports:
+      - "8081:8080"
+    depends_on:
+      - db
+    environment:
+      - KEYCLOAK_USER=admin
+      - KEYCLOAK_PASSWORD=admin
