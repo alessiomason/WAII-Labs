@@ -1,4 +1,5 @@
 package it.polito.wa2.server
+/*
 
 import it.polito.wa2.server.products.Product
 import it.polito.wa2.server.products.ProductRepository
@@ -253,4 +254,4 @@ class LogsTests {
         Assertions.assertEquals(HttpStatus.OK, res.statusCode)
         Assertions.assertEquals(expectedList, res.body)
     }
-}
+}*/

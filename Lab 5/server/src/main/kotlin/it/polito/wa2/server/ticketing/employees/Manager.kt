@@ -2,7 +2,19 @@ package it.polito.wa2.server.ticketing.employees
 
 import jakarta.persistence.Entity
 import jakarta.persistence.Table
+import jakarta.validation.constraints.Email
 
 @Entity
 @Table(name = "managers")
-class Manager(firstName: String, lastName: String): Employee(firstName, lastName)
+class Manager(
+    id: String,
+    @Email
+    email: String,
+    firstName: String,
+    lastName: String
+): Employee(
+    id,
+    email,
+    firstName,
+    lastName
+)

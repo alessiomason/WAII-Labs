@@ -1,6 +1,9 @@
 package it.polito.wa2.server.security
 
+import jakarta.validation.constraints.Email
+
 data class LoginDTO(
-    val username: String,
+    @Email
+    val email: String,
     val password: String
 )

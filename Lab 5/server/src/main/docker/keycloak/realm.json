@@ -414,7 +414,7 @@
   "otpPolicyLookAheadWindow" : 1,
   "otpPolicyPeriod" : 30,
   "otpPolicyCodeReusable" : false,
-  "otpSupportedApplications" : [ "totpAppGoogleName", "totpAppMicrosoftAuthenticatorName", "totpAppFreeOTPName" ],
+  "otpSupportedApplications" : [ "totpAppMicrosoftAuthenticatorName", "totpAppFreeOTPName", "totpAppGoogleName" ],
   "webAuthnPolicyRpEntityName" : "keycloak",
   "webAuthnPolicySignatureAlgorithms" : [ "ES256" ],
   "webAuthnPolicyRpId" : "",
@@ -436,6 +436,33 @@
   "webAuthnPolicyPasswordlessAvoidSameAuthenticatorRegister" : false,
   "webAuthnPolicyPasswordlessAcceptableAaguids" : [ ],
   "users" : [ {
+    "id" : "f6cc11ba-c8b2-4b91-b2f1-c0bcd3ddeab9",
+    "createdTimestamp" : 1686221275103,
+    "username" : "admin",
+    "enabled" : true,
+    "totp" : false,
+    "emailVerified" : true,
+    "firstName" : "Admin",
+    "lastName" : "Admin",
+    "email" : "admin@products.com",
+    "credentials" : [ {
+      "id" : "7b83cbd0-4d3a-4d3b-9b8e-ffad0b3aab73",
+      "type" : "password",
+      "userLabel" : "My password",
+      "createdDate" : 1686221290204,
+      "secretData" : "{\"value\":\"E1vniTQm0W0bhBb6muOXgzykOc+wBvn4BpjRTpCQnMQ=\",\"salt\":\"d04g+YnpnHSIikARb16qfg==\",\"additionalParameters\":{}}",
+      "credentialData" : "{\"hashIterations\":27500,\"algorithm\":\"pbkdf2-sha256\",\"additionalParameters\":{}}"
+    } ],
+    "disableableCredentialTypes" : [ ],
+    "requiredActions" : [ ],
+    "realmRoles" : [ "default-roles-wa2-products" ],
+    "clientRoles" : {
+      "realm-management" : [ "realm-admin", "query-users", "manage-users", "view-users" ],
+      "account" : [ "manage-account" ]
+    },
+    "notBefore" : 0,
+    "groups" : [ ]
+  }, {
     "id" : "6bfb8ada-23e6-42d6-922b-d585943a5573",
     "createdTimestamp" : 1684829143489,
     "username" : "customer1",

@@ -1,7 +1,7 @@
 package it.polito.wa2.server.ticketing.employees
 
 data class ManagerDTO(
-    override val id: Int,
+    override val id: String,
     override val firstName: String,
     override val lastName: String
 ): EmployeeDTO(id, firstName, lastName)

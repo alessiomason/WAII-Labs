@@ -16,11 +16,6 @@ class ProfileController(
         return profileService.getProfile(email)
     }
 
-    @PostMapping("/API/profiles")
-    fun createProfile(@RequestBody @Valid profileDTO: ProfileDTO): ProfileDTO {
-        return profileService.createProfile(profileDTO)
-    }
-
     @PutMapping("/API/profiles")
     fun editProfile(@RequestBody @Valid profileDTO: ProfileDTO) {
         profileService.editProfile(profileDTO)

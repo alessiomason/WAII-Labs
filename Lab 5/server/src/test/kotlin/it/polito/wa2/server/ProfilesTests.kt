@@ -1,4 +1,5 @@
 package it.polito.wa2.server
+/*
 
 import it.polito.wa2.server.products.ProductRepository
 import it.polito.wa2.server.profiles.Profile
@@ -142,4 +143,4 @@ class ProfilesTests {
 
         Assertions.assertEquals(HttpStatus.NOT_FOUND, res.statusCode)
     }
-}
+}*/

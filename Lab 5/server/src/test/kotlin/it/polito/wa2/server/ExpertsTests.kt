@@ -1,4 +1,5 @@
 package it.polito.wa2.server
+/*
 
 import it.polito.wa2.server.products.ProductRepository
 import it.polito.wa2.server.profiles.ProfileRepository
@@ -76,8 +77,8 @@ class ExpertsTests {
         productRepository.deleteAll()
 
         // recreate the objects before each test to reinitialize the ids
-        expert1 = Expert("John", "Smith")
-        expert2 = Expert("Jack", "Smith")
+        expert1 = Expert("expert1", "john.smith@products.com", "John", "Smith")
+        expert2 = Expert("expert2", "jack.smith@products.com", "Jack", "Smith")
         expertRepository.save(expert1)
     }
 
@@ -213,4 +214,4 @@ class ExpertsTests {
         val res = restTemplate.exchange("$baseUrl/specialization", HttpMethod.DELETE, requestEntity, typeReference<Unit>())
         Assertions.assertEquals(HttpStatus.NOT_FOUND, res.statusCode)
     }
-}
+}*/

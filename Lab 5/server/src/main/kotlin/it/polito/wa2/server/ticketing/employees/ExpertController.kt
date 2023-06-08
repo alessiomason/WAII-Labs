@@ -18,13 +18,8 @@ class ExpertController(
     private val expertService: ExpertService
 ) {
     @GetMapping("/API/experts/{id}")
-    fun getExpertById(@PathVariable id: Int): ExpertDTO {
+    fun getExpertById(@PathVariable id: String): ExpertDTO {
         return expertService.getExpert(id)
-    }
-
-    @PostMapping("/API/experts")
-    fun createExpert(@RequestBody @Valid newExpertDTO: NewExpertDTO): ExpertDTO {
-        return expertService.createExpert(newExpertDTO)
     }
 
     @PutMapping("/API/experts")
@@ -33,7 +28,7 @@ class ExpertController(
     }
 
     @PostMapping("/API/experts/{id}/specialization")
-    fun addExpertSpecialization(@PathVariable id: Int, @RequestBody @Valid newSpecialization: String): ExpertSpecializationDTO {
+    fun addExpertSpecialization(@PathVariable id: String, @RequestBody @Valid newSpecialization: String): ExpertSpecializationDTO {
         return expertService.addSpecialization(id, newSpecialization)
     }
 

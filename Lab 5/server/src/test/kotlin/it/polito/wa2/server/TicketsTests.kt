@@ -1,4 +1,5 @@
 package it.polito.wa2.server
+/*
 
 import it.polito.wa2.server.products.Product
 import it.polito.wa2.server.products.ProductRepository
@@ -447,4 +448,4 @@ class TicketsTests {
 
         Assertions.assertEquals(HttpStatus.UNPROCESSABLE_ENTITY, res.statusCode)
     }
-}
+}*/

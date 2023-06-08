@@ -17,8 +17,9 @@ create table if not exists profiles
 
 create table if not exists experts
 (
-    id         integer not null
-    primary key,
+    id         varchar(255) not null
+        primary key,
+    email      varchar(255),
     first_name varchar(255),
     last_name  varchar(255)
 );
@@ -35,8 +36,9 @@ create table if not exists experts_specializations
 
 create table if not exists managers
 (
-    id         integer not null
-    primary key,
+    id         varchar(255) not null
+        primary key,
+    email      varchar(255),
     first_name varchar(255),
     last_name  varchar(255)
 );
@@ -1304,18 +1306,18 @@ INSERT INTO products (ean, name, brand) VALUES ('9781495095283', 'The Hunchback 
 INSERT INTO products (ean, name, brand) VALUES ('4894855642906', 'Universal 400w 40000lm 7inch LED Car Motorcycle Headlight Phare Farol Moto R1s5', 'SODIAL');
 INSERT INTO products (ean, name, brand) VALUES ('4025258739324', 'BILSTEIN B8 Shock Absorbers Damper 19-236315 Rear Axle for Toyota YARIS', 'BILSTEIN');
 
-INSERT INTO experts (id, first_name, last_name) VALUES (1, 'Joe', 'Pesci');
-INSERT INTO experts (id, first_name, last_name) VALUES (2, 'John', 'Demon');
-INSERT INTO experts (id, first_name, last_name) VALUES (3, 'Matt', 'Kerr');
-INSERT INTO experts (id, first_name, last_name) VALUES (4, 'Steven', 'Rotterdam');
+INSERT INTO experts (id, email, first_name, last_name) VALUES (1, '', 'Joe', 'Pesci');
+INSERT INTO experts (id, email, first_name, last_name) VALUES (2, '', 'John', 'Demon');
+INSERT INTO experts (id, email, first_name, last_name) VALUES (3, '', 'Matt', 'Kerr');
+INSERT INTO experts (id, email, first_name, last_name) VALUES (4, '', 'Steven', 'Rotterdam');
 
 INSERT INTO experts_specializations(id, name, expert_id) VALUES (1, 'Computers', 1);
 INSERT INTO experts_specializations(id, name, expert_id) VALUES (2, 'Home appliances', 2);
 
-INSERT INTO managers (id, first_name, last_name) VALUES (1, 'James', 'Lucy');
-INSERT INTO managers (id, first_name, last_name) VALUES (2, 'Eric', 'Gordon');
-INSERT INTO managers (id, first_name, last_name) VALUES (3, 'Matt', 'James');
-INSERT INTO managers (id, first_name, last_name) VALUES (4, 'Andry', 'Shevckenco');
+INSERT INTO managers (id, email, first_name, last_name) VALUES (1, '', 'James', 'Lucy');
+INSERT INTO managers (id, email, first_name, last_name) VALUES (2, '', 'Eric', 'Gordon');
+INSERT INTO managers (id, email, first_name, last_name) VALUES (3, '', 'Matt', 'James');
+INSERT INTO managers (id, email, first_name, last_name) VALUES (4, '', 'Andry', 'Shevckenco');
 
 INSERT INTO purchases (id, customer_email, product_ean) VALUES (1, 'flongwood0@vk.com', '8712725728528');
 INSERT INTO purchases (id, customer_email, product_ean) VALUES (2, 'grengger1@cloudflare.com', '3532041192835');
