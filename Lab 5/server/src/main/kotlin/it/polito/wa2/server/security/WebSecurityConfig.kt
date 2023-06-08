@@ -26,7 +26,7 @@ class WebSecurityConfig(private val jwtAuthConverter: JwtAuthConverter) {
 
         http.authorizeHttpRequests()
             // PUBLIC
-            .requestMatchers(HttpMethod.POST,  "/API/login", "API/signup", "/API/createExpert", "/profiles, /API/profiles")
+            .requestMatchers(HttpMethod.POST,  "/API/login", "API/signup")
             .permitAll()
 
             // PRODUCTS

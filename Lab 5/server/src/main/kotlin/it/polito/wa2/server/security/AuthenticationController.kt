@@ -24,7 +24,7 @@ class AuthenticationController(private val authenticationService: Authentication
         return authenticationService.signup(signupDTO, false)
     }
 
-    @PostMapping("/API/createExpert")
+    @PostMapping("/API/experts")
     fun createExpert(@RequestBody @Valid signupDTO: SignupDTO): String {
         return authenticationService.signup(signupDTO, true)
     }

@@ -40,6 +40,16 @@ dependencies {
 	implementation("org.keycloak:keycloak-admin-client:21.1.1") {
 		exclude(group = "org.jboss.resteasy", module = "resteasy-multipart-provider")
 	}
+
+	implementation ("org.springframework.boot:spring-boot-starter-aop")
+	implementation ("org.springframework.boot:spring-boot-starter-actuator")
+	implementation ("io.micrometer:micrometer-registry-prometheus")
+	implementation ("io.micrometer:micrometer-tracing-bridge-brave")
+	implementation ("io.zipkin.reporter2:zipkin-reporter-brave:2.16.3")
+	implementation ("com.github.loki4j:loki-logback-appender:1.4.0-rc2")
+
+	implementation("io.github.microutils:kotlin-logging:3.0.5")
+	implementation("ch.qos.logback:logback-classic:1.4.6")
 }
 
 jib {

@@ -1,0 +1,14 @@
+scrape_configs:
+  - job_name: 'prometheus'
+    static_configs:
+      - targets:
+          - 'localhost:9090'
+  - job_name: 'cluster-api'
+    metrics_path: '/actuator/prometheus'
+    static_configs:
+      - targets:
+          - ticketing:8080
+          - host.docker.internal:8080
+        labels:
+          namespace: 'event-sourcing'
+          app: 'ticketing'
