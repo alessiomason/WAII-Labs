@@ -1,5 +1,6 @@
 package it.polito.wa2.server.security
 
+import org.springframework.context.annotation.Configuration
 import org.springframework.core.convert.converter.Converter
 import org.springframework.security.authentication.AbstractAuthenticationToken
 import org.springframework.security.core.GrantedAuthority
@@ -13,7 +14,8 @@ import java.util.stream.Collectors
 import java.util.stream.Stream
 
 @Component
-class JwtAuthConverter(private val properties: JwtAuthConverterProperties) :
+@Configuration
+class JwtAuthConverter(private val properties: JwtAuthConverterProperties):
     Converter<Jwt?, AbstractAuthenticationToken?> {
     private val jwtGrantedAuthoritiesConverter = JwtGrantedAuthoritiesConverter()
     override fun convert(jwt: Jwt): AbstractAuthenticationToken {
@@ -33,24 +35,9 @@ class JwtAuthConverter(private val properties: JwtAuthConverterProperties) :
     }
 
     private fun extractResourceRoles(jwt: Jwt): Collection<GrantedAuthority> {
-        val resourceAccess: Map<String, Any> = jwt.getClaim("resource_access")
-        if (resourceAccess[properties.resourceId] == null) {
-            return setOf()
-        }
-
-        val resource: Map<String?, Any?> = resourceAccess[properties.resourceId] as Map<String?, Any?>
-        if (resource["roles"] == null) {
-            return setOf()
-        }
-
-        val resourceRoles: Collection<String> = resource["roles"] as Collection<String>
-
-        return resourceRoles.stream()
-            .map { role: String ->
-                SimpleGrantedAuthority(
-                    "ROLE_$role"
-                )
-            }
-            .collect(Collectors.toSet())
+        val resourceAccess = jwt.getClaim<Map<String, Any>>("resource_access")
+        val resource = resourceAccess?.get(properties.resourceId) as? Map<*, *>
+        val resourceRoles = resource?.get("roles") as? Collection<*>
+        return resourceRoles?.map { SimpleGrantedAuthority("ROLE_$it") } ?: emptySet()
     }
 }

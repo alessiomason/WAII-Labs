@@ -1,5 +1,6 @@
 package it.polito.wa2.server.security
 
+import lombok.RequiredArgsConstructor
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.http.HttpMethod
@@ -10,7 +11,14 @@ import org.springframework.security.web.SecurityFilterChain
 
 @Configuration
 @EnableWebSecurity
+@RequiredArgsConstructor
 class WebSecurityConfig(private val jwtAuthConverter: JwtAuthConverter) {
+    companion object {
+        const val MANAGER = "manager"
+        const val EXPERT = "expert"
+        const val CUSTOMER = "customer"
+    }
+
     @Bean
     @Throws(Exception::class)
     fun securityFilterChain(http: HttpSecurity): SecurityFilterChain {
@@ -85,11 +93,5 @@ class WebSecurityConfig(private val jwtAuthConverter: JwtAuthConverter) {
 
         http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
         return http.build()
-    }
-
-    companion object {
-        const val MANAGER = "manager"
-        const val EXPERT = "expert"
-        const val CUSTOMER = "customer"
     }
 }

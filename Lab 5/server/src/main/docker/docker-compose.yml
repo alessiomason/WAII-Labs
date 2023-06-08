@@ -1,36 +1,60 @@
-version: '2'
+version: '3'
+
+networks:
+  my-network:
 
 services:
-  server:
+  ticketing:
     image: 'ticketing:latest'
-    build:
-      context: .
-    container_name: server
+    container_name: ticketing
+    ports:
+      - "8080:8080"
     depends_on:
       - db
+      - keycloak
     environment:
       - SPRING_DATASOURCE_URL=jdbc:postgresql://db:5432/postgres
       - SPRING_DATASOURCE_USERNAME=postgres
-      - SPRING_DATASOURCE_PASSWORD=ciao
+      - SPRING_DATASOURCE_PASSWORD=password
       - SPRING_JPA_HIBERNATE_DDL_AUTO=create
-    ports:
-      - "8080:8080"
+      - SPRING_SECURITY_OAUTH2_RESOURCESERVER_JWT_ISSUER_URI=http://keycloak:8080/realms/wa2-products
+      - SPRING_SECURITY_OAUTH2_RESOURCESERVER_JWT_JWK_SET_URI=http://keycloak:8080/realms/wa2-products/protocol/openid-connect/certs
+      - KEYCLOAK_ADDRESS=keycloak:8080
+    networks:
+      - my-network
 
   db:
     image: 'postgres:latest'
     container_name: db
+    ports:
+      - "5432:5432"
     environment:
       - POSTGRES_USER=postgres
-      - POSTGRES_PASSWORD=ciao
+      - POSTGRES_PASSWORD=password
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    networks:
+      - my-network
 
   keycloak:
-    build:
-      context: .
-      dockerfile: ./Dockerfile
+    image: 'quay.io/keycloak/keycloak:latest'
+    container_name: keycloak
     ports:
       - "8081:8080"
-    depends_on:
-      - db
     environment:
-      - KEYCLOAK_USER=admin
-      - KEYCLOAK_PASSWORD=admin
+      - KEYCLOAK_ADMIN=admin
+      - KEYCLOAK_ADMIN_PASSWORD=admin
+    volumes:
+      - ./keycloak/:/opt/keycloak/data/import/
+      - keycloak-data:/opt/keycloak/data
+    command:
+      - start-dev
+      - --import-realm
+    networks:
+      - my-network
+
+volumes:
+  postgres-data:
+    driver: local
+  keycloak-data:
+    driver: local
