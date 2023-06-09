@@ -8,8 +8,9 @@ create table if not exists products
 
 create table if not exists profiles
 (
-    email      varchar(255) not null
+    id         varchar(255) not null
         primary key,
+    email      varchar(255),
     first_name varchar(255),
     last_name  varchar(255),
     phone      varchar(255)
@@ -29,7 +30,7 @@ create table if not exists experts_specializations
     id        integer not null
         primary key,
     name      varchar(255),
-    expert_id integer
+    expert_id varchar(255)
         constraint fkc9enycpxwxnnq4hkv3tvu5vq9
             references experts
 );
@@ -45,12 +46,12 @@ create table if not exists managers
 
 create table if not exists purchases
 (
-    id             integer not null
+    id          integer not null
         primary key,
-    customer_email varchar(255)
-        constraint fkgb6df7h5mv80u72cpk6mrwqsi
+    customer_id varchar(255)
+        constraint fkb6d870g3molqi48rde56lu616
             references profiles,
-    product_ean    varchar(255)
+    product_ean varchar(255)
         constraint fkigpc93qq7e03j6e34h90ra3a4
             references products
 );
@@ -63,7 +64,7 @@ create table if not exists tickets
     priority_level smallint,
     ticket_status  smallint,
     title          varchar(255),
-    expert_id      integer
+    expert_id      varchar(255)
         constraint fkdqocj5l89sf10g9jguw7l5df9
             references experts,
     purchase_id    integer
@@ -83,106 +84,70 @@ create table if not exists logs
             references tickets
 );
 
-INSERT INTO profiles (email, first_name, last_name, phone) VALUES ('flongwood0@vk.com', 'Franky', 'Longwood', '+33 616 805 6213');
-INSERT INTO profiles (email, first_name, last_name, phone) VALUES ('grengger1@cloudflare.com', 'Grant', 'Rengger', '+62 982 796 8613');
-INSERT INTO profiles (email, first_name, last_name, phone) VALUES ('drushby2@cornell.edu', 'Daniela', 'Rushby', '+33 172 648 2463');
-INSERT INTO profiles (email, first_name, last_name, phone) VALUES ('janear3@oaic.gov.au', 'Jobye', 'Anear', '+994 636 384 1443');
-INSERT INTO profiles (email, first_name, last_name, phone) VALUES ('jlillecrop4@wikimedia.org', 'Jana', 'Lillecrop', '+63 405 268 9048');
-INSERT INTO profiles (email, first_name, last_name, phone) VALUES ('gmcguiney5@illinois.edu', 'Giffy', 'McGuiney', '+51 271 795 7340');
-INSERT INTO profiles (email, first_name, last_name, phone) VALUES ('shopewell6@ifeng.com', 'Sheree', 'Hopewell', '+1 860 514 5703');
-INSERT INTO profiles (email, first_name, last_name, phone) VALUES ('ugiraldo7@walmart.com', 'Urbain', 'Giraldo', '+30 228 233 1532');
-INSERT INTO profiles (email, first_name, last_name, phone) VALUES ('gtodeo8@businessweek.com', 'Gino', 'Todeo', '+62 818 792 0156');
-INSERT INTO profiles (email, first_name, last_name, phone) VALUES ('thaskew9@cafepress.com', 'Tine', 'Haskew', '+251 862 836 1454');
-INSERT INTO profiles (email, first_name, last_name, phone) VALUES ('fcheelda@woothemes.com', 'Fara', 'Cheeld', '+58 301 242 3333');
-INSERT INTO profiles (email, first_name, last_name, phone) VALUES ('mollenbuttelb@ucla.edu', 'Moshe', 'Ollenbuttel', '+57 550 924 1070');
-INSERT INTO profiles (email, first_name, last_name, phone) VALUES ('jdibiagic@nsw.gov.au', 'Jud', 'Di Biagi', '+86 714 837 9453');
-INSERT INTO profiles (email, first_name, last_name, phone) VALUES ('nbarttrumd@latimes.com', 'Nils', 'Barttrum', '+46 312 999 6839');
-INSERT INTO profiles (email, first_name, last_name, phone) VALUES ('obrosiuse@t-online.de', 'Opaline', 'Brosius', '+7 851 917 0624');
-INSERT INTO profiles (email, first_name, last_name, phone) VALUES ('mmcgaugief@sbwire.com', 'Mariquilla', 'McGaugie', '+7 369 749 4768');
-INSERT INTO profiles (email, first_name, last_name, phone) VALUES ('jlisciandrog@admin.ch', 'Juliette', 'Lisciandro', '+57 574 433 2558');
-INSERT INTO profiles (email, first_name, last_name, phone) VALUES ('yjanwayh@dedecms.com', 'Ynez', 'Janway', '+420 702 402 2214');
-INSERT INTO profiles (email, first_name, last_name, phone) VALUES ('bcruessi@hubpages.com', 'Betsey', 'Cruess', '+7 550 626 2850');
-INSERT INTO profiles (email, first_name, last_name, phone) VALUES ('ckenenj@ning.com', 'Cornie', 'Kenen', '+380 226 117 2731');
-INSERT INTO profiles (email, first_name, last_name, phone) VALUES ('aallottk@ucla.edu', 'Ahmed', 'Allott', '+351 837 386 8274');
-INSERT INTO profiles (email, first_name, last_name, phone) VALUES ('aolennanel@theatlantic.com', 'Annis', 'O''Lennane', '+1 210 438 4705');
-INSERT INTO profiles (email, first_name, last_name, phone) VALUES ('mfoxleym@hp.com', 'Madelina', 'Foxley', '+27 700 841 8397');
-INSERT INTO profiles (email, first_name, last_name, phone) VALUES ('bpilgern@tinypic.com', 'Blake', 'Pilger', '+63 619 262 2026');
-INSERT INTO profiles (email, first_name, last_name, phone) VALUES ('bwurzo@berkeley.edu', 'Brien', 'Wurz', '+62 667 290 2717');
-INSERT INTO profiles (email, first_name, last_name, phone) VALUES ('sfarryanp@senate.gov', 'Sollie', 'Farryan', '+98 818 102 8687');
-INSERT INTO profiles (email, first_name, last_name, phone) VALUES ('dgianoliniq@webnode.com', 'Darryl', 'Gianolini', '+27 432 136 1591');
-INSERT INTO profiles (email, first_name, last_name, phone) VALUES ('aboscottr@xing.com', 'Ailyn', 'Boscott', '+58 497 638 6869');
-INSERT INTO profiles (email, first_name, last_name, phone) VALUES ('kpogues@un.org', 'Kathlin', 'Pogue', '+7 520 979 2411');
-INSERT INTO profiles (email, first_name, last_name, phone) VALUES ('bharrapt@epa.gov', 'Betsey', 'Harrap', '+66 581 790 7278');
-INSERT INTO profiles (email, first_name, last_name, phone) VALUES ('mkerfootu@dagondesign.com', 'Marie', 'Kerfoot', '+52 981 311 0410');
-INSERT INTO profiles (email, first_name, last_name, phone) VALUES ('abeetv@php.net', 'Alfy', 'Beet', '+86 230 346 5577');
-INSERT INTO profiles (email, first_name, last_name, phone) VALUES ('gdrexelw@cnbc.com', 'Garret', 'Drexel', '+62 840 528 7428');
-INSERT INTO profiles (email, first_name, last_name, phone) VALUES ('oleacockx@tinyurl.com', 'Orazio', 'Leacock', '+86 769 355 5457');
-INSERT INTO profiles (email, first_name, last_name, phone) VALUES ('ccandwelly@mtv.com', 'Conrado', 'Candwell', '+970 911 876 5327');
-INSERT INTO profiles (email, first_name, last_name, phone) VALUES ('bdumingoz@edublogs.org', 'Bryn', 'Dumingo', '+86 207 688 9373');
-INSERT INTO profiles (email, first_name, last_name, phone) VALUES ('targent10@hexun.com', 'Tamera', 'Argent', '+54 421 220 0997');
-INSERT INTO profiles (email, first_name, last_name, phone) VALUES ('linnerstone11@forbes.com', 'Lyon', 'Innerstone', '+86 372 367 6465');
-INSERT INTO profiles (email, first_name, last_name, phone) VALUES ('tgoldsberry12@opensource.org', 'Tessa', 'Goldsberry', '+62 125 151 5867');
-INSERT INTO profiles (email, first_name, last_name, phone) VALUES ('smurdoch13@goodreads.com', 'Sonya', 'Murdoch', '+62 352 666 6268');
-INSERT INTO profiles (email, first_name, last_name, phone) VALUES ('skopec14@statcounter.com', 'Sindee', 'Kopec', '+7 817 686 2538');
-INSERT INTO profiles (email, first_name, last_name, phone) VALUES ('esugden15@yolasite.com', 'Eimile', 'Sugden', '+55 720 575 0780');
-INSERT INTO profiles (email, first_name, last_name, phone) VALUES ('ajustham16@china.com.cn', 'Astrix', 'Justham', '+66 273 839 9408');
-INSERT INTO profiles (email, first_name, last_name, phone) VALUES ('kbulleyn17@thetimes.co.uk', 'Kacy', 'Bulleyn', '+62 643 811 2029');
-INSERT INTO profiles (email, first_name, last_name, phone) VALUES ('aquemby18@cnbc.com', 'Alene', 'Quemby', '+420 931 604 8134');
-INSERT INTO profiles (email, first_name, last_name, phone) VALUES ('csunman19@vk.com', 'Crissie', 'Sunman', '+86 660 300 2069');
-INSERT INTO profiles (email, first_name, last_name, phone) VALUES ('uwestrope1a@about.me', 'Urbanus', 'Westrope', '+357 324 100 9034');
-INSERT INTO profiles (email, first_name, last_name, phone) VALUES ('rroundtree1b@google.com', 'Retha', 'Roundtree', '+351 843 872 1015');
-INSERT INTO profiles (email, first_name, last_name, phone) VALUES ('cmacwhan1c@naver.com', 'Cosme', 'MacWhan', '+353 502 300 1523');
-INSERT INTO profiles (email, first_name, last_name, phone) VALUES ('smougenel1d@uiuc.edu', 'Simonette', 'Mougenel', '+62 351 976 2841');
-INSERT INTO profiles (email, first_name, last_name, phone) VALUES ('zbaldelli1e@canalblog.com', 'Zak', 'Baldelli', '+1 714 703 9197');
-INSERT INTO profiles (email, first_name, last_name, phone) VALUES ('tshyre1f@forbes.com', 'Taffy', 'Shyre', '+86 140 792 3921');
-INSERT INTO profiles (email, first_name, last_name, phone) VALUES ('ftuther1g@opensource.org', 'Freedman', 'Tuther', '+60 142 112 5233');
-INSERT INTO profiles (email, first_name, last_name, phone) VALUES ('twestfalen1h@4shared.com', 'Tris', 'Westfalen', '+20 499 335 8129');
-INSERT INTO profiles (email, first_name, last_name, phone) VALUES ('tkarppi1i@amazon.co.uk', 'Therese', 'Karppi', '+52 873 590 9251');
-INSERT INTO profiles (email, first_name, last_name, phone) VALUES ('meastlake1j@gizmodo.com', 'Melvin', 'Eastlake', '+57 548 572 8815');
-INSERT INTO profiles (email, first_name, last_name, phone) VALUES ('rommundsen1k@bloglines.com', 'Rustin', 'Ommundsen', '+55 238 928 7621');
-INSERT INTO profiles (email, first_name, last_name, phone) VALUES ('cmather1l@jugem.jp', 'Courtnay', 'Mather', '+62 842 587 7192');
-INSERT INTO profiles (email, first_name, last_name, phone) VALUES ('vpalethorpe1m@answers.com', 'Von', 'Palethorpe', '+86 399 930 3895');
-INSERT INTO profiles (email, first_name, last_name, phone) VALUES ('sraffin1n@elpais.com', 'Shirleen', 'Raffin', '+86 460 534 7186');
-INSERT INTO profiles (email, first_name, last_name, phone) VALUES ('msissel1o@prweb.com', 'Maritsa', 'Sissel', '+63 363 465 3484');
-INSERT INTO profiles (email, first_name, last_name, phone) VALUES ('hkoba1p@squidoo.com', 'Harwell', 'Koba', '+371 534 548 6574');
-INSERT INTO profiles (email, first_name, last_name, phone) VALUES ('rtyrrell1q@google.co.jp', 'Rebecca', 'Tyrrell', '+86 457 248 7020');
-INSERT INTO profiles (email, first_name, last_name, phone) VALUES ('bhelmke1r@liveinternet.ru', 'Buiron', 'Helmke', '+86 690 857 9130');
-INSERT INTO profiles (email, first_name, last_name, phone) VALUES ('gwhinney1s@state.gov', 'Guenevere', 'Whinney', '+966 737 930 7847');
-INSERT INTO profiles (email, first_name, last_name, phone) VALUES ('dskerratt1t@ehow.com', 'Don', 'Skerratt', '+33 559 900 6885');
-INSERT INTO profiles (email, first_name, last_name, phone) VALUES ('pjachimiak1u@blinklist.com', 'Phip', 'Jachimiak', '+380 307 136 5998');
-INSERT INTO profiles (email, first_name, last_name, phone) VALUES ('jjenton1v@dailymail.co.uk', 'Jaimie', 'Jenton', '+355 119 678 8200');
-INSERT INTO profiles (email, first_name, last_name, phone) VALUES ('degdell1w@baidu.com', 'Desmond', 'Egdell', '+63 104 378 3982');
-INSERT INTO profiles (email, first_name, last_name, phone) VALUES ('knorthcott1x@google.com.hk', 'Kain', 'Northcott', '+62 744 656 7745');
-INSERT INTO profiles (email, first_name, last_name, phone) VALUES ('rpottberry1y@chicagotribune.com', 'Rafaelita', 'Pottberry', '+1 814 490 6070');
-INSERT INTO profiles (email, first_name, last_name, phone) VALUES ('agoalby1z@reddit.com', 'Adiana', 'Goalby', '+241 875 898 7741');
-INSERT INTO profiles (email, first_name, last_name, phone) VALUES ('sbavester20@howstuffworks.com', 'Sandie', 'Bavester', '+51 260 245 3395');
-INSERT INTO profiles (email, first_name, last_name, phone) VALUES ('mschechter21@umich.edu', 'Merry', 'Schechter', '+66 863 884 5828');
-INSERT INTO profiles (email, first_name, last_name, phone) VALUES ('lwhild22@apache.org', 'Layla', 'Whild', '+1 983 240 9410');
-INSERT INTO profiles (email, first_name, last_name, phone) VALUES ('opedder23@nydailynews.com', 'Omar', 'Pedder', '+86 635 974 7177');
-INSERT INTO profiles (email, first_name, last_name, phone) VALUES ('hfluit24@adobe.com', 'Hamish', 'Fluit', '+63 855 257 5162');
-INSERT INTO profiles (email, first_name, last_name, phone) VALUES ('dgoodchild25@ucoz.com', 'Dermot', 'Goodchild', '+86 603 442 5599');
-INSERT INTO profiles (email, first_name, last_name, phone) VALUES ('lhudghton26@berkeley.edu', 'Lynsey', 'Hudghton', '+86 339 465 0808');
-INSERT INTO profiles (email, first_name, last_name, phone) VALUES ('cvowles27@hostgator.com', 'Clary', 'Vowles', '+86 823 899 4655');
-INSERT INTO profiles (email, first_name, last_name, phone) VALUES ('dmelloi28@nih.gov', 'Damaris', 'Melloi', '+7 330 832 3730');
-INSERT INTO profiles (email, first_name, last_name, phone) VALUES ('asimonetti29@deliciousdays.com', 'Arty', 'Simonetti', '+7 360 715 6267');
-INSERT INTO profiles (email, first_name, last_name, phone) VALUES ('lburgon2a@imgur.com', 'Lorin', 'Burgon', '+86 970 672 7395');
-INSERT INTO profiles (email, first_name, last_name, phone) VALUES ('nwhitchurch2b@soup.io', 'Neila', 'Whitchurch', '+86 426 277 9839');
-INSERT INTO profiles (email, first_name, last_name, phone) VALUES ('nstormont2c@businessweek.com', 'Noelle', 'Stormont', '+36 811 281 7218');
-INSERT INTO profiles (email, first_name, last_name, phone) VALUES ('gdown2d@ezinearticles.com', 'Garek', 'Down', '+53 470 478 8093');
-INSERT INTO profiles (email, first_name, last_name, phone) VALUES ('rmunkley2e@bravesites.com', 'Rickert', 'Munkley', '+86 871 927 4807');
-INSERT INTO profiles (email, first_name, last_name, phone) VALUES ('wdranfield2f@360.cn', 'Winifred', 'Dranfield', '+241 780 179 2334');
-INSERT INTO profiles (email, first_name, last_name, phone) VALUES ('broden2g@yale.edu', 'Billie', 'Roden', '+86 518 278 2218');
-INSERT INTO profiles (email, first_name, last_name, phone) VALUES ('djouaneton2h@nsw.gov.au', 'Darnell', 'Jouaneton', '+351 441 893 9404');
-INSERT INTO profiles (email, first_name, last_name, phone) VALUES ('sblois2i@comcast.net', 'Sharla', 'Blois', '+237 562 584 6714');
-INSERT INTO profiles (email, first_name, last_name, phone) VALUES ('rpladen2j@php.net', 'Rip', 'Pladen', '+7 228 767 0701');
-INSERT INTO profiles (email, first_name, last_name, phone) VALUES ('hbalfour2k@icio.us', 'Husein', 'Balfour', '+237 744 402 9313');
-INSERT INTO profiles (email, first_name, last_name, phone) VALUES ('lwornham2l@ask.com', 'Leonora', 'Wornham', '+55 133 544 5226');
-INSERT INTO profiles (email, first_name, last_name, phone) VALUES ('gpocklington2m@pagesperso-orange.fr', 'Gennie', 'Pocklington', '+93 875 161 4434');
-INSERT INTO profiles (email, first_name, last_name, phone) VALUES ('nmcglashan2n@narod.ru', 'Nanine', 'McGlashan', '+7 969 915 0459');
-INSERT INTO profiles (email, first_name, last_name, phone) VALUES ('ballpress2o@so-net.ne.jp', 'Bronny', 'Allpress', '+351 998 238 6932');
-INSERT INTO profiles (email, first_name, last_name, phone) VALUES ('adur2p@ca.gov', 'Amalee', 'Dur', '+351 605 593 8209');
-INSERT INTO profiles (email, first_name, last_name, phone) VALUES ('jslimmon2q@addthis.com', 'Jobina', 'Slimmon', '+420 227 346 7210');
-INSERT INTO profiles (email, first_name, last_name, phone) VALUES ('mbusson2r@sourceforge.net', 'Moreen', 'Busson', '+62 700 501 5669');
+INSERT INTO profiles (id, email, first_name, last_name, phone) VALUES ('flongwood0@vk.com', 'flongwood0@vk.com', 'Franky', 'Longwood', '+33 616 805 6213');
+INSERT INTO profiles (id, email, first_name, last_name, phone) VALUES ('grengger1@cloudflare.com', 'grengger1@cloudflare.com', 'Grant', 'Rengger', '+62 982 796 8613');
+INSERT INTO profiles (id, email, first_name, last_name, phone) VALUES ('drushby2@cornell.edu', 'drushby2@cornell.edu', 'Daniela', 'Rushby', '+33 172 648 2463');
+INSERT INTO profiles (id, email, first_name, last_name, phone) VALUES ('janear3@oaic.gov.au', 'janear3@oaic.gov.au', 'Jobye', 'Anear', '+994 636 384 1443');
+INSERT INTO profiles (id, email, first_name, last_name, phone) VALUES ('jlillecrop4@wikimedia.org', 'jlillecrop4@wikimedia.org', 'Jana', 'Lillecrop', '+63 405 268 9048');
+INSERT INTO profiles (id, email, first_name, last_name, phone) VALUES ('gmcguiney5@illinois.edu', 'gmcguiney5@illinois.edu', 'Giffy', 'McGuiney', '+51 271 795 7340');
+INSERT INTO profiles (id, email, first_name, last_name, phone) VALUES ('shopewell6@ifeng.com', 'shopewell6@ifeng.com', 'Sheree', 'Hopewell', '+1 860 514 5703');
+INSERT INTO profiles (id, email, first_name, last_name, phone) VALUES ('ugiraldo7@walmart.com', 'ugiraldo7@walmart.com', 'Urbain', 'Giraldo', '+30 228 233 1532');
+INSERT INTO profiles (id, email, first_name, last_name, phone) VALUES ('gtodeo8@businessweek.com', 'gtodeo8@businessweek.com', 'Gino', 'Todeo', '+62 818 792 0156');
+INSERT INTO profiles (id, email, first_name, last_name, phone) VALUES ('thaskew9@cafepress.com', 'thaskew9@cafepress.com', 'Tine', 'Haskew', '+251 862 836 1454');
+INSERT INTO profiles (id, email, first_name, last_name, phone) VALUES ('fcheelda@woothemes.com', 'fcheelda@woothemes.com', 'Fara', 'Cheeld', '+58 301 242 3333');
+INSERT INTO profiles (id, email, first_name, last_name, phone) VALUES ('mollenbuttelb@ucla.edu', 'mollenbuttelb@ucla.edu', 'Moshe', 'Ollenbuttel', '+57 550 924 1070');
+INSERT INTO profiles (id, email, first_name, last_name, phone) VALUES ('jdibiagic@nsw.gov.au', 'jdibiagic@nsw.gov.au', 'Jud', 'Di Biagi', '+86 714 837 9453');
+INSERT INTO profiles (id, email, first_name, last_name, phone) VALUES ('nbarttrumd@latimes.com', 'nbarttrumd@latimes.com', 'Nils', 'Barttrum', '+46 312 999 6839');
+INSERT INTO profiles (id, email, first_name, last_name, phone) VALUES ('obrosiuse@t-online.de', 'obrosiuse@t-online.de', 'Opaline', 'Brosius', '+7 851 917 0624');
+INSERT INTO profiles (id, email, first_name, last_name, phone) VALUES ('mmcgaugief@sbwire.com', 'mmcgaugief@sbwire.com', 'Mariquilla', 'McGaugie', '+7 369 749 4768');
+INSERT INTO profiles (id, email, first_name, last_name, phone) VALUES ('jlisciandrog@admin.ch', 'jlisciandrog@admin.ch', 'Juliette', 'Lisciandro', '+57 574 433 2558');
+INSERT INTO profiles (id, email, first_name, last_name, phone) VALUES ('yjanwayh@dedecms.com', 'yjanwayh@dedecms.com', 'Ynez', 'Janway', '+420 702 402 2214');
+INSERT INTO profiles (id, email, first_name, last_name, phone) VALUES ('bcruessi@hubpages.com', 'bcruessi@hubpages.com', 'Betsey', 'Cruess', '+7 550 626 2850');
+INSERT INTO profiles (id, email, first_name, last_name, phone) VALUES ('ckenenj@ning.com', 'ckenenj@ning.com', 'Cornie', 'Kenen', '+380 226 117 2731');
+INSERT INTO profiles (id, email, first_name, last_name, phone) VALUES ('aallottk@ucla.edu', 'aallottk@ucla.edu', 'Ahmed', 'Allott', '+351 837 386 8274');
+INSERT INTO profiles (id, email, first_name, last_name, phone) VALUES ('aolennanel@theatlantic.com', 'aolennanel@theatlantic.com', 'Annis', 'Lennane', '+1 210 438 4705');
+INSERT INTO profiles (id, email, first_name, last_name, phone) VALUES ('mfoxleym@hp.com', 'mfoxleym@hp.com', 'Madelina', 'Foxley', '+27 700 841 8397');
+INSERT INTO profiles (id, email, first_name, last_name, phone) VALUES ('bpilgern@tinypic.com', 'bpilgern@tinypic.com', 'Blake', 'Pilger', '+63 619 262 2026');
+INSERT INTO profiles (id, email, first_name, last_name, phone) VALUES ('bwurzo@berkeley.edu', 'bwurzo@berkeley.edu', 'Brien', 'Wurz', '+62 667 290 2717');
+INSERT INTO profiles (id, email, first_name, last_name, phone) VALUES ('sfarryanp@senate.gov', 'sfarryanp@senate.gov', 'Sollie', 'Farryan', '+98 818 102 8687');
+INSERT INTO profiles (id, email, first_name, last_name, phone) VALUES ('dgianoliniq@webnode.com', 'dgianoliniq@webnode.com', 'Darryl', 'Gianolini', '+27 432 136 1591');
+INSERT INTO profiles (id, email, first_name, last_name, phone) VALUES ('aboscottr@xing.com', 'aboscottr@xing.com', 'Ailyn', 'Boscott', '+58 497 638 6869');
+INSERT INTO profiles (id, email, first_name, last_name, phone) VALUES ('kpogues@un.org', 'kpogues@un.org', 'Kathlin', 'Pogue', '+7 520 979 2411');
+INSERT INTO profiles (id, email, first_name, last_name, phone) VALUES ('bharrapt@epa.gov', 'bharrapt@epa.gov', 'Betsey', 'Harrap', '+66 581 790 7278');
+INSERT INTO profiles (id, email, first_name, last_name, phone) VALUES ('mkerfootu@dagondesign.com', 'mkerfootu@dagondesign.com', 'Marie', 'Kerfoot', '+52 981 311 0410');
+INSERT INTO profiles (id, email, first_name, last_name, phone) VALUES ('abeetv@php.net', 'abeetv@php.net', 'Alfy', 'Beet', '+86 230 346 5577');
+INSERT INTO profiles (id, email, first_name, last_name, phone) VALUES ('gdrexelw@cnbc.com', 'gdrexelw@cnbc.com', 'Garret', 'Drexel', '+62 840 528 7428');
+INSERT INTO profiles (id, email, first_name, last_name, phone) VALUES ('oleacockx@tinyurl.com', 'oleacockx@tinyurl.com', 'Orazio', 'Leacock', '+86 769 355 5457');
+INSERT INTO profiles (id, email, first_name, last_name, phone) VALUES ('ccandwelly@mtv.com', 'ccandwelly@mtv.com', 'Conrado', 'Candwell', '+970 911 876 5327');
+INSERT INTO profiles (id, email, first_name, last_name, phone) VALUES ('bdumingoz@edublogs.org', 'bdumingoz@edublogs.org', 'Bryn', 'Dumingo', '+86 207 688 9373');
+INSERT INTO profiles (id, email, first_name, last_name, phone) VALUES ('targent10@hexun.com', 'targent10@hexun.com', 'Tamera', 'Argent', '+54 421 220 0997');
+INSERT INTO profiles (id, email, first_name, last_name, phone) VALUES ('linnerstone11@forbes.com', 'linnerstone11@forbes.com', 'Lyon', 'Innerstone', '+86 372 367 6465');
+INSERT INTO profiles (id, email, first_name, last_name, phone) VALUES ('tgoldsberry12@opensource.org', 'tgoldsberry12@opensource.org', 'Tessa', 'Goldsberry', '+62 125 151 5867');
+INSERT INTO profiles (id, email, first_name, last_name, phone) VALUES ('smurdoch13@goodreads.com', 'smurdoch13@goodreads.com', 'Sonya', 'Murdoch', '+62 352 666 6268');
+INSERT INTO profiles (id, email, first_name, last_name, phone) VALUES ('skopec14@statcounter.com', 'skopec14@statcounter.com', 'Sindee', 'Kopec', '+7 817 686 2538');
+INSERT INTO profiles (id, email, first_name, last_name, phone) VALUES ('esugden15@yolasite.com', 'esugden15@yolasite.com', 'Eimile', 'Sugden', '+55 720 575 0780');
+INSERT INTO profiles (id, email, first_name, last_name, phone) VALUES ('ajustham16@china.com.cn', 'ajustham16@china.com.cn', 'Astrix', 'Justham', '+66 273 839 9408');
+INSERT INTO profiles (id, email, first_name, last_name, phone) VALUES ('kbulleyn17@thetimes.co.uk', 'kbulleyn17@thetimes.co.uk', 'Kacy', 'Bulleyn', '+62 643 811 2029');
+INSERT INTO profiles (id, email, first_name, last_name, phone) VALUES ('aquemby18@cnbc.com', 'aquemby18@cnbc.com', 'Alene', 'Quemby', '+420 931 604 8134');
+INSERT INTO profiles (id, email, first_name, last_name, phone) VALUES ('csunman19@vk.com', 'csunman19@vk.com', 'Crissie', 'Sunman', '+86 660 300 2069');
+INSERT INTO profiles (id, email, first_name, last_name, phone) VALUES ('rroundtree1b@google.com', 'rroundtree1b@google.com', 'Retha', 'Roundtree', '+351 843 872 1015');
+INSERT INTO profiles (id, email, first_name, last_name, phone) VALUES ('cmacwhan1c@naver.com', 'cmacwhan1c@naver.com', 'Cosme', 'MacWhan', '+353 502 300 1523');
+INSERT INTO profiles (id, email, first_name, last_name, phone) VALUES ('smougenel1d@uiuc.edu', 'smougenel1d@uiuc.edu', 'Simonette', 'Mougenel', '+62 351 976 2841');
+INSERT INTO profiles (id, email, first_name, last_name, phone) VALUES ('zbaldelli1e@canalblog.com', 'zbaldelli1e@canalblog.com', 'Zak', 'Baldelli', '+1 714 703 9197');
+INSERT INTO profiles (id, email, first_name, last_name, phone) VALUES ('tshyre1f@forbes.com', 'tshyre1f@forbes.com', 'Taffy', 'Shyre', '+86 140 792 3921');
+INSERT INTO profiles (id, email, first_name, last_name, phone) VALUES ('ftuther1g@opensource.org', 'ftuther1g@opensource.org', 'Freedman', 'Tuther', '+60 142 112 5233');
+INSERT INTO profiles (id, email, first_name, last_name, phone) VALUES ('twestfalen1h@4shared.com', 'twestfalen1h@4shared.com', 'Tris', 'Westfalen', '+20 499 335 8129');
+INSERT INTO profiles (id, email, first_name, last_name, phone) VALUES ('tkarppi1i@amazon.co.uk', 'tkarppi1i@amazon.co.uk', 'Therese', 'Karppi', '+52 873 590 9251');
+INSERT INTO profiles (id, email, first_name, last_name, phone) VALUES ('meastlake1j@gizmodo.com', 'meastlake1j@gizmodo.com', 'Melvin', 'Eastlake', '+57 548 572 8815');
+INSERT INTO profiles (id, email, first_name, last_name, phone) VALUES ('rommundsen1k@bloglines.com', 'rommundsen1k@bloglines.com', 'Rustin', 'Ommundsen', '+55 238 928 7621');
+INSERT INTO profiles (id, email, first_name, last_name, phone) VALUES ('cmather1l@jugem.jp', 'cmather1l@jugem.jp', 'Courtnay', 'Mather', '+62 842 587 7192');
+INSERT INTO profiles (id, email, first_name, last_name, phone) VALUES ('vpalethorpe1m@answers.com', 'vpalethorpe1m@answers.com', 'Von', 'Palethorpe', '+86 399 930 3895');
+INSERT INTO profiles (id, email, first_name, last_name, phone) VALUES ('sraffin1n@elpais.com', 'sraffin1n@elpais.com', 'Shirleen', 'Raffin', '+86 460 534 7186');
+INSERT INTO profiles (id, email, first_name, last_name, phone) VALUES ('msissel1o@prweb.com', 'msissel1o@prweb.com', 'Maritsa', 'Sissel', '+63 363 465 3484');
+INSERT INTO profiles (id, email, first_name, last_name, phone) VALUES ('hkoba1p@squidoo.com', 'hkoba1p@squidoo.com', 'Harwell', 'Koba', '+371 534 548 6574');
+INSERT INTO profiles (id, email, first_name, last_name, phone) VALUES ('rtyrrell1q@google.co.jp', 'rtyrrell1q@google.co.jp', 'Rebecca', 'Tyrrell', '+86 457 248 7020');
+INSERT INTO profiles (id, email, first_name, last_name, phone) VALUES ('bhelmke1r@liveinternet.ru', 'bhelmke1r@liveinternet.ru', 'Buiron', 'Helmke', '+86 690 857 9130');
+INSERT INTO profiles (id, email, first_name, last_name, phone) VALUES ('gwhinney1s@state.gov', 'gwhinney1s@state.gov', 'Guenevere', 'Whinney', '+966 737 930 7847');
 
 INSERT INTO products (ean, name, brand) VALUES ('8712725728528', 'Walter Trout Unspoiled by Progress CD B23b', 'Mascot');
 INSERT INTO products (ean, name, brand) VALUES ('5011781900125', 'Nitty Gritty Dirt Band Will The Circle Be Unbroken Volume 2 CD USA MCA 1989 20', 'MCA');
@@ -1306,30 +1271,30 @@ INSERT INTO products (ean, name, brand) VALUES ('9781495095283', 'The Hunchback 
 INSERT INTO products (ean, name, brand) VALUES ('4894855642906', 'Universal 400w 40000lm 7inch LED Car Motorcycle Headlight Phare Farol Moto R1s5', 'SODIAL');
 INSERT INTO products (ean, name, brand) VALUES ('4025258739324', 'BILSTEIN B8 Shock Absorbers Damper 19-236315 Rear Axle for Toyota YARIS', 'BILSTEIN');
 
-INSERT INTO experts (id, email, first_name, last_name) VALUES (1, '', 'Joe', 'Pesci');
-INSERT INTO experts (id, email, first_name, last_name) VALUES (2, '', 'John', 'Demon');
-INSERT INTO experts (id, email, first_name, last_name) VALUES (3, '', 'Matt', 'Kerr');
-INSERT INTO experts (id, email, first_name, last_name) VALUES (4, '', 'Steven', 'Rotterdam');
+INSERT INTO experts (id, email, first_name, last_name) VALUES ('joe_pesci_12@mail.com', 'joe_pesci_12@mail.com', 'Joe', 'Pesci');
+INSERT INTO experts (id, email, first_name, last_name) VALUES ('john_demon_12@mail.com', 'john_demon_12@mail.com', 'John', 'Demon');
+INSERT INTO experts (id, email, first_name, last_name) VALUES ('matt_kerr_12@mail.com', 'matt_kerr_12@mail.com', 'Matt', 'Kerr');
+INSERT INTO experts (id, email, first_name, last_name) VALUES ('steven_rotterdam_12@mail.com', 'steven_rotterdam_12@mail.com', 'Steven', 'Rotterdam');
 
-INSERT INTO experts_specializations(id, name, expert_id) VALUES (1, 'Computers', 1);
-INSERT INTO experts_specializations(id, name, expert_id) VALUES (2, 'Home appliances', 2);
+INSERT INTO experts_specializations(id, name, expert_id) VALUES (1, 'Computers', 'joe_pesci_12@mail.com');
+INSERT INTO experts_specializations(id, name, expert_id) VALUES (2, 'Home appliances', 'john_demon_12@mail.com');
 
-INSERT INTO managers (id, email, first_name, last_name) VALUES (1, '', 'James', 'Lucy');
-INSERT INTO managers (id, email, first_name, last_name) VALUES (2, '', 'Eric', 'Gordon');
-INSERT INTO managers (id, email, first_name, last_name) VALUES (3, '', 'Matt', 'James');
-INSERT INTO managers (id, email, first_name, last_name) VALUES (4, '', 'Andry', 'Shevckenco');
+INSERT INTO managers (id, email, first_name, last_name) VALUES ('james_lucy_13@mail.com', 'james_lucy_13@mail.com', 'James', 'Lucy');
+INSERT INTO managers (id, email, first_name, last_name) VALUES ('eric_gordon_13@mail.com', 'eric_gordon_13@mail.com', 'Eric', 'Gordon');
+INSERT INTO managers (id, email, first_name, last_name) VALUES ('matt_james_13@mail.com', 'matt_james_13@mail.com', 'Matt', 'James');
+INSERT INTO managers (id, email, first_name, last_name) VALUES ('andry_shevckenco_13@mail.com', 'andry_shevckenco_13@mail.com', 'Andry', 'Shevckenco');
 
-INSERT INTO purchases (id, customer_email, product_ean) VALUES (1, 'flongwood0@vk.com', '8712725728528');
-INSERT INTO purchases (id, customer_email, product_ean) VALUES (2, 'grengger1@cloudflare.com', '3532041192835');
-INSERT INTO purchases (id, customer_email, product_ean) VALUES (3, 'ftuther1g@opensource.org', '3539186242005');
-INSERT INTO purchases (id, customer_email, product_ean) VALUES (4, 'rpottberry1y@chicagotribune.com', '5711045610646');
-INSERT INTO purchases (id, customer_email, product_ean) VALUES (5, 'meastlake1j@gizmodo.com', '5052746203592');
-INSERT INTO purchases (id, customer_email, product_ean) VALUES (6, 'mfoxleym@hp.com', '6932799000098');
+INSERT INTO purchases (id, customer_id, product_ean) VALUES (1, 'flongwood0@vk.com', '8712725728528');
+INSERT INTO purchases (id, customer_id, product_ean) VALUES (2, 'grengger1@cloudflare.com', '3532041192835');
+INSERT INTO purchases (id, customer_id, product_ean) VALUES (3, 'ftuther1g@opensource.org', '3539186242005');
+INSERT INTO purchases (id, customer_id, product_ean) VALUES (4, 'oleacockx@tinyurl.com', '5711045610646');
+INSERT INTO purchases (id, customer_id, product_ean) VALUES (5, 'meastlake1j@gizmodo.com', '5052746203592');
+INSERT INTO purchases (id, customer_id, product_ean) VALUES (6, 'mfoxleym@hp.com', '6932799000098');
 
-INSERT INTO tickets(id, description, priority_level, ticket_status, title, expert_id, purchase_id) VALUES (1, 'Description Ticket 1', 1, 0, 'Ticket 1', 1, 1);
-INSERT INTO tickets(id, description, priority_level, ticket_status, title, expert_id, purchase_id) VALUES (2, 'Description Tikcet 2', 1, 0, 'Ticket 2', 2, 3);
-INSERT INTO tickets(id, description, priority_level, ticket_status, title, expert_id, purchase_id) VALUES (3, 'Description Ticket 3', 1, 0, 'Ticket 3', 2, 2);
-INSERT INTO tickets(id, description, priority_level, ticket_status, title, expert_id, purchase_id) VALUES (4, 'Description Ticket 4', 1, 0, 'Ticket 4', 3, 4);
+INSERT INTO tickets(id, description, priority_level, ticket_status, title, expert_id, purchase_id) VALUES (1, 'Description Ticket 1', 1, 0, 'Ticket 1', 'joe_pesci_12@mail.com', 1);
+INSERT INTO tickets(id, description, priority_level, ticket_status, title, expert_id, purchase_id) VALUES (2, 'Description Ticket 2', 1, 0, 'Ticket 2', 'john_demon_12@mail.com', 3);
+INSERT INTO tickets(id, description, priority_level, ticket_status, title, expert_id, purchase_id) VALUES (3, 'Description Ticket 3', 1, 0, 'Ticket 3', 'john_demon_12@mail.com', 2);
+INSERT INTO tickets(id, description, priority_level, ticket_status, title, expert_id, purchase_id) VALUES (4, 'Description Ticket 4', 1, 0, 'Ticket 4', 'matt_kerr_12@mail.com', 4);
 
 INSERT INTO logs(id, new_ticket_status, previous_ticket_status, time, ticket_id) VALUES (1, 1, 0, '2023-05-12T14:13:09.157827400Z', 1);
 INSERT INTO logs(id, new_ticket_status, previous_ticket_status, time, ticket_id) VALUES (2, 2, 1, '2023-05-12T15:14:09.157827400Z', 1);
