@@ -1,7 +1,9 @@
 package it.polito.wa2.server
-/*
+
 import it.polito.wa2.server.products.ProductRepository
 import it.polito.wa2.server.profiles.ProfileRepository
+import it.polito.wa2.server.security.AuthenticationService
+import it.polito.wa2.server.security.LoginDTO
 import it.polito.wa2.server.ticketing.employees.*
 import it.polito.wa2.server.ticketing.employees.toDTO
 import it.polito.wa2.server.ticketing.logs.LogRepository
@@ -16,6 +18,7 @@ import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.boot.test.web.client.TestRestTemplate
 import org.springframework.core.ParameterizedTypeReference
 import org.springframework.http.HttpEntity
+import org.springframework.http.HttpHeaders
 import org.springframework.http.HttpMethod
 import org.springframework.http.HttpStatus
 import org.springframework.test.context.DynamicPropertyRegistry
@@ -64,6 +67,8 @@ class ExpertsTests {
     lateinit var ticketRepository: TicketRepository
     @Autowired
     lateinit var logRepository: LogRepository
+    @Autowired
+    lateinit var authenticationService: AuthenticationService
 
     @BeforeEach
     fun populateDb() {
@@ -83,7 +88,15 @@ class ExpertsTests {
 
     @Test
     fun getExpert() {
-        val res = restTemplate.exchange("$baseUrl/${expert1.id}", HttpMethod.GET, null, typeReference<ExpertDTO>())
+
+        val loginDTO = LoginDTO("expert1@products.com", "password")
+        val jwtToken = authenticationService.login(loginDTO)?.jwtAccessToken
+
+        val headers = HttpHeaders()
+        headers.setBearerAuth(jwtToken ?: "")
+        val requestEntity = HttpEntity<Nothing?>(headers)
+
+        val res = restTemplate.exchange("$baseUrl/${expert1.id}", HttpMethod.GET, requestEntity, typeReference<ExpertDTO>())
 
         Assertions.assertEquals(HttpStatus.OK, res.statusCode)
         Assertions.assertEquals(expert1.toDTO(), res.body)
@@ -91,11 +104,19 @@ class ExpertsTests {
 
     @Test
     fun expertNotFound() {
-        val res = restTemplate.exchange("$baseUrl/0", HttpMethod.GET, null, typeReference<Unit>())
+
+        val loginDTO = LoginDTO("expert1@products.com", "password")
+        val jwtToken = authenticationService.login(loginDTO)?.jwtAccessToken
+
+        val headers = HttpHeaders()
+        headers.setBearerAuth(jwtToken ?: "")
+        val requestEntity = HttpEntity<Nothing?>(headers)
+
+        val res = restTemplate.exchange("$baseUrl/0", HttpMethod.GET, requestEntity, typeReference<Unit>())
 
         Assertions.assertEquals(HttpStatus.NOT_FOUND, res.statusCode)
     }
-
+    /*
     @Test
     fun createExpert() {
         val requestEntity = HttpEntity(expert2.toNewDTO())
@@ -127,25 +148,41 @@ class ExpertsTests {
         Assertions.assertEquals(HttpStatus.OK, res2.statusCode)
         Assertions.assertEquals(createdExpert, res2.body)
     }
-
+    */
     @Test
     fun editExpert() {
+
+        val loginDTO = LoginDTO("expert1@products.com", "password")
+        val jwtToken = authenticationService.login(loginDTO)?.jwtAccessToken
+
+        val headers = HttpHeaders()
+        headers.setBearerAuth(jwtToken ?: "")
+
         // edit expert1 with expert2 fields
         val editedExpert = ExpertDTO(expert1.id, expert2.firstName, expert2.lastName, expert2.specializations.map { it.toDTO() }, expert2.tickets.map { it.id })
-        val requestEntity = HttpEntity(editedExpert)
+        val requestEntity = HttpEntity(editedExpert, headers)
         val res = restTemplate.exchange(baseUrl, HttpMethod.PUT, requestEntity, typeReference<Unit>())
 
         Assertions.assertEquals(HttpStatus.OK, res.statusCode)
 
-        val res2 = restTemplate.exchange("$baseUrl/${editedExpert.id}", HttpMethod.GET, null, typeReference<ExpertDTO>())
+        val requestEntityGet = HttpEntity<Nothing?>(headers)
+
+        val res2 = restTemplate.exchange("$baseUrl/${editedExpert.id}", HttpMethod.GET, requestEntityGet, typeReference<ExpertDTO>())
         Assertions.assertEquals(HttpStatus.OK, res2.statusCode)
         Assertions.assertEquals(editedExpert, res2.body)
     }
 
     @Test
     fun editExpertNotFound() {
-        val editedExpert = ExpertDTO(0, expert2.firstName, expert2.lastName, expert2.specializations.map { it.toDTO() }, expert2.tickets.map { it.id })
-        val requestEntity = HttpEntity(editedExpert)
+
+        val loginDTO = LoginDTO("expert1@products.com", "password")
+        val jwtToken = authenticationService.login(loginDTO)?.jwtAccessToken
+
+        val headers = HttpHeaders()
+        headers.setBearerAuth(jwtToken ?: "")
+
+        val editedExpert = ExpertDTO("0", expert2.firstName, expert2.lastName, expert2.specializations.map { it.toDTO() }, expert2.tickets.map { it.id })
+        val requestEntity = HttpEntity(editedExpert, headers)
         val res = restTemplate.exchange(baseUrl, HttpMethod.PUT, requestEntity, typeReference<Unit>())
 
         Assertions.assertEquals(HttpStatus.NOT_FOUND, res.statusCode)
@@ -153,8 +190,15 @@ class ExpertsTests {
 
     @Test
     fun addExpertSpecialization() {
+
+        val loginDTO = LoginDTO("manager1@products.com", "password")
+        val jwtToken = authenticationService.login(loginDTO)?.jwtAccessToken
+
+        val headers = HttpHeaders()
+        headers.setBearerAuth(jwtToken ?: "")
+
         val newSpecialization = "Computers"
-        val requestEntity = HttpEntity(newSpecialization)
+        val requestEntity = HttpEntity(newSpecialization, headers)
         val res = restTemplate.exchange("$baseUrl/${expert1.id}/specialization", HttpMethod.POST, requestEntity, typeReference<ExpertSpecializationDTO>())
 
         Assertions.assertEquals(HttpStatus.OK, res.statusCode)
@@ -167,7 +211,9 @@ class ExpertsTests {
             expert1.tickets.map { it.id }
         )
 
-        val res2 = restTemplate.exchange("$baseUrl/${expert1.id}", HttpMethod.GET, null, typeReference<ExpertDTO>())
+        val requestEntityGet = HttpEntity<Nothing?>(headers)
+
+        val res2 = restTemplate.exchange("$baseUrl/${expert1.id}", HttpMethod.GET, requestEntityGet, typeReference<ExpertDTO>())
 
         Assertions.assertEquals(HttpStatus.OK, res2.statusCode)
         Assertions.assertEquals(expectedRes, res2.body)
@@ -175,8 +221,15 @@ class ExpertsTests {
 
     @Test
     fun addExpertSpecializationExpertNotFound() {
+
+        val loginDTO = LoginDTO("manager1@products.com", "password")
+        val jwtToken = authenticationService.login(loginDTO)?.jwtAccessToken
+
+        val headers = HttpHeaders()
+        headers.setBearerAuth(jwtToken ?: "")
+
         val newSpecialization = "Computers"
-        val requestEntity = HttpEntity(newSpecialization)
+        val requestEntity = HttpEntity(newSpecialization, headers)
         val res = restTemplate.exchange("$baseUrl/${expert2.id}/specialization", HttpMethod.POST, requestEntity, typeReference<Unit>())
 
         Assertions.assertEquals(HttpStatus.NOT_FOUND, res.statusCode)
@@ -184,10 +237,17 @@ class ExpertsTests {
 
     @Test
     fun removeExpertSpecialization() {
+
+        val loginDTO = LoginDTO("manager1@products.com", "password")
+        val jwtToken = authenticationService.login(loginDTO)?.jwtAccessToken
+
+        val headers = HttpHeaders()
+        headers.setBearerAuth(jwtToken ?: "")
+
         val expertSpecialization = ExpertSpecialization("Computers", expert1)
         expertSpecializationRepository.save(expertSpecialization)
 
-        val requestEntity = HttpEntity(expertSpecialization.toDTO())
+        val requestEntity = HttpEntity(expertSpecialization.toDTO(), headers)
 
         val res = restTemplate.exchange("$baseUrl/specialization", HttpMethod.DELETE, requestEntity, typeReference<Unit>())
         Assertions.assertEquals(HttpStatus.OK, res.statusCode)
@@ -200,17 +260,26 @@ class ExpertsTests {
             expert1.tickets.map { it.id }
         )
 
-        val res2 = restTemplate.exchange("$baseUrl/${expert1.id}", HttpMethod.GET, null, typeReference<ExpertDTO>())
+        val requestEntityGet = HttpEntity<Nothing?>(headers)
+
+        val res2 = restTemplate.exchange("$baseUrl/${expert1.id}", HttpMethod.GET, requestEntityGet, typeReference<ExpertDTO>())
         Assertions.assertEquals(HttpStatus.OK, res2.statusCode)
         Assertions.assertEquals(expectedRes, res2.body)
     }
 
     @Test
     fun removeExpertSpecializationNotFound() {
+
+        val loginDTO = LoginDTO("manager1@products.com", "password")
+        val jwtToken = authenticationService.login(loginDTO)?.jwtAccessToken
+
+        val headers = HttpHeaders()
+        headers.setBearerAuth(jwtToken ?: "")
+
         val expertSpecialization = ExpertSpecialization("Computers", expert1)
-        val requestEntity = HttpEntity(expertSpecialization.toDTO())
+        val requestEntity = HttpEntity(expertSpecialization.toDTO(), headers)
 
         val res = restTemplate.exchange("$baseUrl/specialization", HttpMethod.DELETE, requestEntity, typeReference<Unit>())
         Assertions.assertEquals(HttpStatus.NOT_FOUND, res.statusCode)
     }
-}*/
+}
