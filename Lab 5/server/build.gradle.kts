@@ -7,6 +7,8 @@ plugins {
 	kotlin("plugin.spring") version "1.7.22"
 	kotlin("plugin.jpa") version "1.7.22"
 	id("com.google.cloud.tools.jib") version "3.3.1"
+	id("org.jetbrains.kotlin.kapt") version "1.5.31"
+	id("io.freefair.lombok") version "6.2.0"
 }
 
 group = "it.polito.wa2"

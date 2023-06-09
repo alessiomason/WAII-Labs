@@ -37,6 +37,9 @@ class WebSecurityConfig(private val jwtAuthConverter: JwtAuthConverter) {
             .requestMatchers(HttpMethod.PUT, "/editProfile", "/API/profiles")
             .hasAnyRole(CUSTOMER, EXPERT, MANAGER)
 
+            .requestMatchers(HttpMethod.GET, "/profiles/**", "/API/profiles/**")
+            .hasAnyRole(CUSTOMER, EXPERT, MANAGER)
+
             .requestMatchers(HttpMethod.PUT, "/profiles/**", "/API/profiles/**")
             .hasAnyRole(CUSTOMER, EXPERT, MANAGER)
 

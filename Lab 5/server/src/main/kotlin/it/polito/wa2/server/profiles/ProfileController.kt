@@ -11,9 +11,9 @@ import org.springframework.web.bind.annotation.*
 class ProfileController(
     private val profileService: ProfileService
 ) {
-    @GetMapping("/API/profiles/{email}")
-    fun getProfileById(@PathVariable @Email email: String): ProfileDTO {
-        return profileService.getProfile(email)
+    @GetMapping("/API/profiles/{id}")
+    fun getProfileById(@PathVariable id: String): ProfileDTO {
+        return profileService.getProfile(id)
     }
 
     @PutMapping("/API/profiles")
