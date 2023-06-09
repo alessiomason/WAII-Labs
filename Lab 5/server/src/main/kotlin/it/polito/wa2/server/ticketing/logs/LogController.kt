@@ -19,7 +19,7 @@ class LogController (
     }
 
     @GetMapping("/API/logs/expert/{expertId}")
-    fun getLogsByExpertId(@PathVariable expertId: Int): List<LogDTO> {
+    fun getLogsByExpertId(@PathVariable expertId: String): List<LogDTO> {
         return logService.getLogsByExpertId(expertId)
     }
 }

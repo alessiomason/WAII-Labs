@@ -23,7 +23,7 @@ class AuthenticationServiceImpl(
     @Value("\${keycloak.address}")
     private lateinit var keycloakAddress: String
 
-    override fun login(loginDTO: LoginDTO): String? {
+    override fun login(loginDTO: LoginDTO): JwtDTO? {
         val keycloak = KeycloakBuilder.builder()
             .serverUrl("http://$keycloakAddress")
             .realm("wa2-products")
@@ -33,7 +33,7 @@ class AuthenticationServiceImpl(
             .build()
 
         return try {
-            keycloak.tokenManager().grantToken().token
+            JwtDTO(keycloak.tokenManager().grantToken().token)
         } catch (e: NotAuthorizedException) {
             null
         }

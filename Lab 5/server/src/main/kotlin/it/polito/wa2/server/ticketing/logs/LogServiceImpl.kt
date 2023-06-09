@@ -10,7 +10,7 @@ class LogServiceImpl(
         return logRepository.findAllByTicketId(ticketId).map { it.toDTO() }
     }
 
-    override fun getLogsByExpertId(expertId: Int): List<LogDTO> {
+    override fun getLogsByExpertId(expertId: String): List<LogDTO> {
         return logRepository.findAllByTicketExpertId(expertId).map { it.toDTO() }
     }
 }

@@ -1,6 +1,5 @@
 package it.polito.wa2.server.security
 
-import it.polito.wa2.server.exceptions.DuplicateProfileException
 import jakarta.validation.Valid
 import org.springframework.validation.annotation.Validated
 import org.springframework.web.bind.annotation.CrossOrigin
@@ -13,10 +12,8 @@ import org.springframework.web.bind.annotation.RestController
 @Validated
 class AuthenticationController(private val authenticationService: AuthenticationService) {
     @PostMapping("/API/login")
-    fun login(@RequestBody @Valid loginDTO: LoginDTO): String {
-        val jwt = authenticationService.login(loginDTO)
-        if (jwt != null) return jwt
-        else throw Exception()
+    fun login(@RequestBody @Valid loginDTO: LoginDTO): JwtDTO {
+        return authenticationService.login(loginDTO) ?: throw Exception()
     }
 
     @PostMapping("/API/signup")

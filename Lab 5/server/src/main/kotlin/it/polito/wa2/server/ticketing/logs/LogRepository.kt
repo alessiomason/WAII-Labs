@@ -7,5 +7,5 @@ import org.springframework.stereotype.Repository
 interface LogRepository: JpaRepository<Log, Int> {
     fun findAllByTicketId(id: Int): List<Log>
 
-    fun findAllByTicketExpertId(id: Int): List<Log>
+    fun findAllByTicketExpertId(id: String): List<Log>
 }

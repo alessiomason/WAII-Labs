@@ -1,5 +1,4 @@
 package it.polito.wa2.server
-/*
 
 import it.polito.wa2.server.products.Product
 import it.polito.wa2.server.products.ProductRepository
@@ -7,13 +6,19 @@ import it.polito.wa2.server.products.toDTO
 import it.polito.wa2.server.profiles.Profile
 import it.polito.wa2.server.profiles.ProfileRepository
 import it.polito.wa2.server.profiles.toDTO
+import it.polito.wa2.server.security.AuthenticationService
+import it.polito.wa2.server.security.LoginDTO
 import it.polito.wa2.server.ticketing.employees.*
-import it.polito.wa2.server.ticketing.logs.LogDTO
 import it.polito.wa2.server.ticketing.logs.Log
+import it.polito.wa2.server.ticketing.logs.LogDTO
 import it.polito.wa2.server.ticketing.logs.LogRepository
-import it.polito.wa2.server.ticketing.purchases.*
-import it.polito.wa2.server.ticketing.tickets.*
-import org.junit.jupiter.api.AfterEach
+import it.polito.wa2.server.ticketing.purchases.Purchase
+import it.polito.wa2.server.ticketing.purchases.PurchaseDTO
+import it.polito.wa2.server.ticketing.purchases.PurchaseRepository
+import it.polito.wa2.server.ticketing.tickets.Ticket
+import it.polito.wa2.server.ticketing.tickets.TicketDTO
+import it.polito.wa2.server.ticketing.tickets.TicketRepository
+import it.polito.wa2.server.ticketing.tickets.TicketStatus
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
@@ -23,8 +28,10 @@ import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.boot.test.web.client.TestRestTemplate
 import org.springframework.core.ParameterizedTypeReference
 import org.springframework.http.HttpEntity
+import org.springframework.http.HttpHeaders
 import org.springframework.http.HttpMethod
 import org.springframework.http.HttpStatus
+import org.springframework.http.RequestEntity
 import org.springframework.test.context.DynamicPropertyRegistry
 import org.springframework.test.context.DynamicPropertySource
 import org.testcontainers.containers.PostgreSQLContainer
@@ -52,8 +59,8 @@ class LogsTests {
             registry.add("spring.jpa.hibernate.ddl-auto") {"create-drop"}
         }
 
-        private val customer1 = Profile("flongwood0@vk.com", "Franky", "Longwood", "+33 616 805 6213")
-        private val customer2 = Profile("grengger1@cloudflare.com", "Grant", "Rengger", "+62 982 796 8613")
+        private val customer1 = Profile("flongwood0@vk.com", "flongwood0@vk.com", "Franky", "Longwood", "+33 616 805 6213")
+        private val customer2 = Profile("grengger1@cloudflare.com", "grengger1@cloudflare.com", "Grant", "Rengger", "+62 982 796 8613")
         private val product1 = Product("8712725728528", "Walter Trout Unspoiled by Progress CD B23b", "Mascot")
         private val product2 = Product("5011781900125", "Nitty Gritty Dirt Band Will The Circle Be Unbroken Volume 2 CD USA MCA 1989 20", "MCA")
 
@@ -87,6 +94,8 @@ class LogsTests {
     lateinit var ticketRepository: TicketRepository
     @Autowired
     lateinit var logRepository: LogRepository
+    @Autowired
+    lateinit var authenticationService: AuthenticationService
 
     @BeforeEach
     fun populateDb() {
@@ -104,8 +113,8 @@ class LogsTests {
         productRepository.save(product1)
         productRepository.save(product2)
 
-        expert1 = Expert("John", "Smith")
-        expert2 = Expert("Jack", "Smith")
+        expert1 = Expert("expert1", "john.smith@products.com", "John", "Smith")
+        expert2 = Expert("expert2", "jack.smith@products.com", "Jack", "Smith")
         expertRepository.save(expert1)
 
         purchase1 = Purchase(customer1, product1)
@@ -152,7 +161,16 @@ class LogsTests {
 
         logRepository.save(log2)
 
-        val res = restTemplate.exchange("${baseUrl}/ticket/${ticket1.id}", HttpMethod.GET, null, typeReference<List<LogDTO>>())
+        val loginDTO = LoginDTO("manager1@products.com", "password")
+        val jwtToken = authenticationService.login(loginDTO)?.jwtAccessToken
+
+        val headers = HttpHeaders()
+        headers.setBearerAuth(jwtToken ?: "")
+        val requestEntity = HttpEntity<Any?>(headers)
+
+        val res = restTemplate.exchange("${baseUrl}/ticket/${ticket1.id}", HttpMethod.GET, requestEntity, typeReference<List<LogDTO>>())
+
+        println(res.statusCode)
 
         val expectedList = listOf(
             LogDTO(
@@ -220,7 +238,14 @@ class LogsTests {
         ticket1.ticketStatus = TicketStatus.CLOSED
         ticketRepository.save(ticket1)
 
-        val res = restTemplate.exchange("${baseUrl}/expert/${ticket1.expert!!.id}", HttpMethod.GET, null, typeReference<List<LogDTO>>())
+        val loginDTO = LoginDTO("manager1@products.com", "password")
+        val jwtToken = authenticationService.login(loginDTO)?.jwtAccessToken
+
+        val headers = HttpHeaders()
+        headers.setBearerAuth(jwtToken ?: "")
+        val requestEntity = HttpEntity<Any?>(headers)
+
+        val res = restTemplate.exchange("${baseUrl}/expert/${ticket1.expert!!.id}", HttpMethod.GET, requestEntity, typeReference<List<LogDTO>>())
 
         val expectedList = listOf(
             LogDTO(
@@ -254,4 +279,4 @@ class LogsTests {
         Assertions.assertEquals(HttpStatus.OK, res.statusCode)
         Assertions.assertEquals(expectedList, res.body)
     }
-}*/
+}

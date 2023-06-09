@@ -1,6 +1,5 @@
 package it.polito.wa2.server
 /*
-
 import it.polito.wa2.server.products.Product
 import it.polito.wa2.server.products.ProductRepository
 import it.polito.wa2.server.profiles.Profile
