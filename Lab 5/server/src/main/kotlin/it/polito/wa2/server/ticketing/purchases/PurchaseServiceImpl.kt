@@ -23,7 +23,7 @@ class PurchaseServiceImpl(
     }
 
     override fun createPurchase(newPurchaseDTO: NewPurchaseDTO): PurchaseDTO {
-        val customer = profileRepository.findByIdOrNull(newPurchaseDTO.customer.email) ?: throw ProfileNotFoundException()
+        val customer = profileRepository.findByIdOrNull(newPurchaseDTO.customer.id) ?: throw ProfileNotFoundException()
         val product = productRepository.findByIdOrNull(newPurchaseDTO.product.ean) ?: throw ProductNotFoundException()
 
         val newPurchase = Purchase(customer, product)

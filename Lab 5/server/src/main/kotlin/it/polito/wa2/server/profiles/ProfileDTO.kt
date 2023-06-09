@@ -1,6 +1,7 @@
 package it.polito.wa2.server.profiles
 
 data class ProfileDTO(
+    val id: String,
     val email: String,
     val firstName: String,
     val lastName: String,
@@ -8,5 +9,5 @@ data class ProfileDTO(
 )
 
 fun Profile.toDTO(): ProfileDTO {
-    return ProfileDTO(email, firstName, lastName, phone)
+    return ProfileDTO(id, email, firstName, lastName, phone)
 }

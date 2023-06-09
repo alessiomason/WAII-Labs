@@ -14,7 +14,7 @@ class ProfileServiceImpl(
     }
 
     override fun editProfile(profileDTO: ProfileDTO) {
-        val profile = profileRepository.findByIdOrNull(profileDTO.email) ?: throw ProfileNotFoundException()
+        val profile = profileRepository.findByIdOrNull(profileDTO.id) ?: throw ProfileNotFoundException()
 
         // modify all fields except primary key
         profile.firstName = profileDTO.firstName
