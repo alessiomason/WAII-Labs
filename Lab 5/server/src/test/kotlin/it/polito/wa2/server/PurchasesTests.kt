@@ -1,15 +1,16 @@
 package it.polito.wa2.server
-/*
+
 import it.polito.wa2.server.products.Product
 import it.polito.wa2.server.products.ProductRepository
 import it.polito.wa2.server.profiles.Profile
 import it.polito.wa2.server.profiles.ProfileRepository
+import it.polito.wa2.server.security.AuthenticationService
+import it.polito.wa2.server.security.LoginDTO
 import it.polito.wa2.server.ticketing.employees.ExpertRepository
 import it.polito.wa2.server.ticketing.employees.ExpertSpecializationRepository
 import it.polito.wa2.server.ticketing.logs.LogRepository
 import it.polito.wa2.server.ticketing.purchases.*
 import it.polito.wa2.server.ticketing.tickets.TicketRepository
-import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
@@ -19,6 +20,7 @@ import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.boot.test.web.client.TestRestTemplate
 import org.springframework.core.ParameterizedTypeReference
 import org.springframework.http.HttpEntity
+import org.springframework.http.HttpHeaders
 import org.springframework.http.HttpMethod
 import org.springframework.http.HttpStatus
 import org.springframework.test.context.DynamicPropertyRegistry
@@ -47,9 +49,9 @@ class PurchasesTests {
             registry.add("spring.jpa.hibernate.ddl-auto") {"create-drop"}
         }
 
-        private val customer1 = Profile("flongwood0@vk.com", "Franky", "Longwood", "+33 616 805 6213")
-        private val customer2 = Profile("drushby2@cornell.edu", "Daniela", "Rushby", "+33 172 648 2463")
-        private val notSavedCustomer = Profile("grengger1@cloudflare.com", "Grant", "Rengger", "+62 982 796 8613")
+        private val customer1 = Profile("Customer1", "flongwood0@vk.com", "Franky", "Longwood", "+33 616 805 6213")
+        private val customer2 = Profile("Customer2", "drushby2@cornell.edu", "Daniela", "Rushby", "+33 172 648 2463")
+        private val notSavedCustomer = Profile("Customer 3", "grengger1@cloudflare.com", "Grant", "Rengger", "+62 982 796 8613")
         private val product1 = Product("8712725728528", "Walter Trout Unspoiled by Progress CD B23b", "Mascot")
         private val product2 = Product("5011781900125", "Nitty Gritty Dirt Band Will The Circle Be Unbroken Volume 2 CD USA MCA 1989 20", "MCA")
         private val notSavedProduct = Product("3532041192835", "Glow Worm Flexicom Upward Piping Frame A2041500", "Glow-Worm")
@@ -75,6 +77,8 @@ class PurchasesTests {
     lateinit var ticketRepository: TicketRepository
     @Autowired
     lateinit var logRepository: LogRepository
+    @Autowired
+    lateinit var authenticationService: AuthenticationService
 
     @BeforeEach
     fun populateDb() {
@@ -101,7 +105,15 @@ class PurchasesTests {
 
     @Test
     fun getAllPurchases() {
-        val res = restTemplate.exchange(baseUrl, HttpMethod.GET, null, typeReference<List<PurchaseDTO>>())
+
+        val loginDTO = LoginDTO("expert1@products.com", "password")
+        val jwtToken = authenticationService.login(loginDTO)?.jwtAccessToken
+
+        val headers = HttpHeaders()
+        headers.setBearerAuth(jwtToken ?: "")
+        val requestEntity = HttpEntity<Nothing?>(headers)
+
+        val res = restTemplate.exchange(baseUrl, HttpMethod.GET, requestEntity, typeReference<List<PurchaseDTO>>())
 
         Assertions.assertEquals(HttpStatus.OK, res.statusCode)
         Assertions.assertEquals(listOf(purchase1.toDTO(), purchase2.toDTO(), purchase3.toDTO()), res.body)
@@ -109,7 +121,15 @@ class PurchasesTests {
 
     @Test
     fun getPurchase() {
-        val res = restTemplate.exchange("$baseUrl/${purchase1.id}", HttpMethod.GET, null, typeReference<PurchaseDTO>())
+
+        val loginDTO = LoginDTO("expert1@products.com", "password")
+        val jwtToken = authenticationService.login(loginDTO)?.jwtAccessToken
+
+        val headers = HttpHeaders()
+        headers.setBearerAuth(jwtToken ?: "")
+        val requestEntity = HttpEntity<Nothing?>(headers)
+
+        val res = restTemplate.exchange("$baseUrl/${purchase1.id}", HttpMethod.GET, requestEntity, typeReference<PurchaseDTO>())
 
         Assertions.assertEquals(HttpStatus.OK, res.statusCode)
         Assertions.assertEquals(purchase1.toDTO(), res.body)
@@ -117,14 +137,29 @@ class PurchasesTests {
 
     @Test
     fun purchaseNotFound() {
-        val res = restTemplate.exchange("$baseUrl/0", HttpMethod.GET, null, typeReference<Unit>())
+
+        val loginDTO = LoginDTO("expert1@products.com", "password")
+        val jwtToken = authenticationService.login(loginDTO)?.jwtAccessToken
+
+        val headers = HttpHeaders()
+        headers.setBearerAuth(jwtToken ?: "")
+        val requestEntity = HttpEntity<Nothing?>(headers)
+
+        val res = restTemplate.exchange("$baseUrl/0", HttpMethod.GET, requestEntity, typeReference<Unit>())
 
         Assertions.assertEquals(HttpStatus.NOT_FOUND, res.statusCode)
     }
 
     @Test
     fun createPurchase() {
-        val requestEntity = HttpEntity(purchase4.toNewDTO())
+
+        val loginDTO = LoginDTO("customer1@products.com", "password")
+        val jwtToken = authenticationService.login(loginDTO)?.jwtAccessToken
+
+        val headers = HttpHeaders()
+        headers.setBearerAuth(jwtToken ?: "")
+
+        val requestEntity = HttpEntity(purchase4.toNewDTO(), headers)
         val res = restTemplate.exchange(baseUrl, HttpMethod.POST, requestEntity, typeReference<PurchaseDTO>())
 
         // purchase4 with newly autogenerated id
@@ -133,14 +168,23 @@ class PurchasesTests {
         Assertions.assertEquals(HttpStatus.OK, res.statusCode)
         Assertions.assertEquals(createdPurchase, res.body)
 
-        val res2 = restTemplate.exchange("$baseUrl/${createdPurchase.id}", HttpMethod.GET, null, typeReference<PurchaseDTO>())
+        val requestEntityGet = HttpEntity<Nothing?>(headers)
+
+        val res2 = restTemplate.exchange("$baseUrl/${createdPurchase.id}", HttpMethod.GET, requestEntityGet, typeReference<PurchaseDTO>())
         Assertions.assertEquals(HttpStatus.OK, res2.statusCode)
         Assertions.assertEquals(createdPurchase, res2.body)
     }
 
     @Test
     fun aCustomerCanBuyTheSameProductMultipleTimes() {
-        val requestEntity = HttpEntity(purchase1.toNewDTO())
+
+        val loginDTO = LoginDTO("customer1@products.com", "password")
+        val jwtToken = authenticationService.login(loginDTO)?.jwtAccessToken
+
+        val headers = HttpHeaders()
+        headers.setBearerAuth(jwtToken ?: "")
+
+        val requestEntity = HttpEntity(purchase1.toNewDTO(), headers)
         val res = restTemplate.exchange(baseUrl, HttpMethod.POST, requestEntity, typeReference<PurchaseDTO>())
 
         // purchase1 with newly autogenerated id
@@ -149,15 +193,24 @@ class PurchasesTests {
         Assertions.assertEquals(HttpStatus.OK, res.statusCode)
         Assertions.assertEquals(createdPurchase, res.body)
 
-        val res2 = restTemplate.exchange("$baseUrl/${createdPurchase.id}", HttpMethod.GET, null, typeReference<PurchaseDTO>())
+        val requestEntityGet = HttpEntity<Nothing?>(headers)
+
+        val res2 = restTemplate.exchange("$baseUrl/${createdPurchase.id}", HttpMethod.GET, requestEntityGet, typeReference<PurchaseDTO>())
         Assertions.assertEquals(HttpStatus.OK, res2.statusCode)
         Assertions.assertEquals(createdPurchase, res2.body)
     }
 
     @Test
     fun createPurchaseCustomerNotFound() {
+
+        val loginDTO = LoginDTO("customer1@products.com", "password")
+        val jwtToken = authenticationService.login(loginDTO)?.jwtAccessToken
+
+        val headers = HttpHeaders()
+        headers.setBearerAuth(jwtToken ?: "")
+
         val newPurchase = Purchase(notSavedCustomer, product1)
-        val requestEntity = HttpEntity(newPurchase.toNewDTO())
+        val requestEntity = HttpEntity(newPurchase.toNewDTO(), headers)
         val res = restTemplate.exchange(baseUrl, HttpMethod.POST, requestEntity, typeReference<Unit>())
 
         Assertions.assertEquals(HttpStatus.NOT_FOUND, res.statusCode)
@@ -165,10 +218,17 @@ class PurchasesTests {
 
     @Test
     fun createPurchaseProductNotFound() {
+
+        val loginDTO = LoginDTO("customer1@products.com", "password")
+        val jwtToken = authenticationService.login(loginDTO)?.jwtAccessToken
+
+        val headers = HttpHeaders()
+        headers.setBearerAuth(jwtToken ?: "")
+
         val newPurchase = Purchase(customer1, notSavedProduct)
-        val requestEntity = HttpEntity(newPurchase.toNewDTO())
+        val requestEntity = HttpEntity(newPurchase.toNewDTO(), headers)
         val res = restTemplate.exchange(baseUrl, HttpMethod.POST, requestEntity, typeReference<Unit>())
 
         Assertions.assertEquals(HttpStatus.NOT_FOUND, res.statusCode)
     }
-}*/
+}
