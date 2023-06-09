@@ -116,29 +116,6 @@ class ProfilesTests {
     }
 
     @Test
-    fun createProfile() {
-        val requestEntity = HttpEntity(profile2.toDTO())
-        val res = restTemplate.exchange(baseUrl, HttpMethod.POST, requestEntity, typeReference<ProfileDTO>())
-
-        Assertions.assertEquals(HttpStatus.OK, res.statusCode)
-        Assertions.assertEquals(profile2.toDTO(), res.body)
-
-        val res2 = restTemplate.exchange("$baseUrl/${profile2.email}", HttpMethod.GET, null, typeReference<ProfileDTO>())
-        Assertions.assertEquals(HttpStatus.OK, res2.statusCode)
-        Assertions.assertEquals(profile2.toDTO(), res2.body)
-
-        println(profileRepository.findAll().map { it.toDTO() })
-    }
-
-    @Test
-    fun creatingAlreadyExistingProfileShouldFail() {
-        val requestEntity = HttpEntity(profile1.toDTO())
-        val res = restTemplate.exchange(baseUrl, HttpMethod.POST, requestEntity, typeReference<Unit>())
-
-        Assertions.assertEquals(HttpStatus.CONFLICT, res.statusCode)
-    }
-
-    @Test
     fun editProfile() {
         // edit testProfile1 with testProfile2 fields
         val editedProfile = ProfileDTO(profile1.id, profile2.email, profile2.firstName, profile2.lastName, profile2.phone)
