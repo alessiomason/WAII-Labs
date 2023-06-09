@@ -1,5 +1,4 @@
 package it.polito.wa2.server
-/*
 
 import it.polito.wa2.server.products.Product
 import it.polito.wa2.server.products.ProductRepository
@@ -7,11 +6,14 @@ import it.polito.wa2.server.products.toDTO
 import it.polito.wa2.server.profiles.Profile
 import it.polito.wa2.server.profiles.ProfileRepository
 import it.polito.wa2.server.profiles.toDTO
+import it.polito.wa2.server.security.AuthenticationService
+import it.polito.wa2.server.security.LoginDTO
 import it.polito.wa2.server.ticketing.employees.*
 import it.polito.wa2.server.ticketing.logs.LogRepository
-import it.polito.wa2.server.ticketing.purchases.*
+import it.polito.wa2.server.ticketing.purchases.Purchase
+import it.polito.wa2.server.ticketing.purchases.PurchaseDTO
+import it.polito.wa2.server.ticketing.purchases.PurchaseRepository
 import it.polito.wa2.server.ticketing.tickets.*
-import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
@@ -21,6 +23,7 @@ import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.boot.test.web.client.TestRestTemplate
 import org.springframework.core.ParameterizedTypeReference
 import org.springframework.http.HttpEntity
+import org.springframework.http.HttpHeaders
 import org.springframework.http.HttpMethod
 import org.springframework.http.HttpStatus
 import org.springframework.test.context.DynamicPropertyRegistry
@@ -49,14 +52,14 @@ class TicketsTests {
             registry.add("spring.jpa.hibernate.ddl-auto") {"create-drop"}
         }
 
-        private val customer1 = Profile("flongwood0@vk.com", "Franky", "Longwood", "+33 616 805 6213")
-        private val customer2 = Profile("grengger1@cloudflare.com", "Grant", "Rengger", "+62 982 796 8613")
+        private val customer1 = Profile("customer1", "flongwood0@vk.com", "Franky", "Longwood", "+33 616 805 6213")
+        private val customer2 = Profile("customer2", "grengger1@cloudflare.com", "Grant", "Rengger", "+62 982 796 8613")
         private val product1 = Product("8712725728528", "Walter Trout Unspoiled by Progress CD B23b", "Mascot")
         private val product2 = Product("5011781900125", "Nitty Gritty Dirt Band Will The Circle Be Unbroken Volume 2 CD USA MCA 1989 20", "MCA")
 
         private lateinit var expert1: Expert
         private lateinit var expert2: Expert
-        private val notSavedExpert = Expert("Jim", "Smith")
+        private val notSavedExpert = Expert("expertNotSaved", "jim.smith@products.com", "Jim", "Smith")
 
         private lateinit var purchase1: Purchase
         private lateinit var purchase2: Purchase
@@ -86,6 +89,8 @@ class TicketsTests {
     lateinit var ticketRepository: TicketRepository
     @Autowired
     lateinit var logRepository: LogRepository
+    @Autowired
+    lateinit var authenticationService: AuthenticationService
 
     @BeforeEach
     fun populateDb() {
@@ -102,8 +107,8 @@ class TicketsTests {
         productRepository.save(product1)
         productRepository.save(product2)
 
-        expert1 = Expert("John", "Smith")
-        expert2 = Expert("Jack", "Smith")
+        expert1 = Expert("expert1", "john.smith@products.com", "John", "Smith")
+        expert2 = Expert("expert2", "jack.smith@products.com", "Jack", "Smith")
         expertRepository.save(expert1)
 
         purchase1 = Purchase(customer1, product1)
@@ -126,7 +131,14 @@ class TicketsTests {
 
     @Test
     fun getAllTickets() {
-        val res = restTemplate.exchange(baseUrl, HttpMethod.GET, null, typeReference<List<TicketDTO>>())
+        val loginDTO = LoginDTO("expert1@products.com", "password")
+        val jwtToken = authenticationService.login(loginDTO)?.jwtAccessToken
+
+        val headers = HttpHeaders()
+        headers.setBearerAuth(jwtToken ?: "")
+        val requestEntity = HttpEntity<Nothing?>(headers)
+
+        val res = restTemplate.exchange(baseUrl, HttpMethod.GET, requestEntity, typeReference<List<TicketDTO>>())
 
         val expectedList = listOf(
             TicketDTO(
@@ -161,7 +173,14 @@ class TicketsTests {
 
     @Test
     fun getTicket() {
-        val res = restTemplate.exchange("$baseUrl/${ticket1.id}", HttpMethod.GET, null, typeReference<TicketDTO>())
+        val loginDTO = LoginDTO("expert1@products.com", "password")
+        val jwtToken = authenticationService.login(loginDTO)?.jwtAccessToken
+
+        val headers = HttpHeaders()
+        headers.setBearerAuth(jwtToken ?: "")
+        val requestEntity = HttpEntity<Nothing?>(headers)
+
+        val res = restTemplate.exchange("$baseUrl/${ticket1.id}", HttpMethod.GET, requestEntity, typeReference<TicketDTO>())
 
         val expectedResBody = TicketDTO(
             ticket1.id,
@@ -179,15 +198,28 @@ class TicketsTests {
 
     @Test
     fun ticketNotFound() {
-        val res = restTemplate.exchange("$baseUrl/0", HttpMethod.GET, null, typeReference<Unit>())
+        val loginDTO = LoginDTO("expert1@products.com", "password")
+        val jwtToken = authenticationService.login(loginDTO)?.jwtAccessToken
+
+        val headers = HttpHeaders()
+        headers.setBearerAuth(jwtToken ?: "")
+        val requestEntity = HttpEntity<Nothing?>(headers)
+
+        val res = restTemplate.exchange("$baseUrl/0", HttpMethod.GET, requestEntity, typeReference<Unit>())
 
         Assertions.assertEquals(HttpStatus.NOT_FOUND, res.statusCode)
     }
 
     @Test
     fun createTicket() {
-        val requestEntity = HttpEntity(ticket4.toNewDTO())
-        val res = restTemplate.exchange(baseUrl, HttpMethod.POST, requestEntity, typeReference<TicketDTO>())
+        val loginDTO = LoginDTO("customer1@products.com", "password")
+        val jwtToken = authenticationService.login(loginDTO)?.jwtAccessToken
+
+        val headers = HttpHeaders()
+        headers.setBearerAuth(jwtToken ?: "")
+        val requestEntityCreate = HttpEntity(ticket4.toNewDTO(), headers)
+
+        val res = restTemplate.exchange(baseUrl, HttpMethod.POST, requestEntityCreate, typeReference<TicketDTO>())
 
         val createdTicket = TicketDTO(
             res.body!!.id,
@@ -202,7 +234,8 @@ class TicketsTests {
         Assertions.assertEquals(HttpStatus.OK, res.statusCode)
         Assertions.assertEquals(createdTicket, res.body)
 
-        val res2 = restTemplate.exchange("$baseUrl/${createdTicket.id}", HttpMethod.GET, null, typeReference<TicketDTO>())
+        val requestEntityGet = HttpEntity<Nothing?>(headers)
+        val res2 = restTemplate.exchange("$baseUrl/${createdTicket.id}", HttpMethod.GET, requestEntityGet, typeReference<TicketDTO>())
         Assertions.assertEquals(HttpStatus.OK, res2.statusCode)
         Assertions.assertEquals(createdTicket, res2.body)
     }
@@ -210,7 +243,14 @@ class TicketsTests {
     @Test
     fun createTicketPurchaseNotFound() {
         val newTicket = Ticket("New ticket title", "New ticket description", notSavedPurchase)
-        val requestEntity = HttpEntity(newTicket.toNewDTO())
+
+        val loginDTO = LoginDTO("customer1@products.com", "password")
+        val jwtToken = authenticationService.login(loginDTO)?.jwtAccessToken
+
+        val headers = HttpHeaders()
+        headers.setBearerAuth(jwtToken ?: "")
+        val requestEntity = HttpEntity(newTicket.toNewDTO(), headers)
+
         val res = restTemplate.exchange(baseUrl, HttpMethod.POST, requestEntity, typeReference<Unit>())
 
         Assertions.assertEquals(HttpStatus.NOT_FOUND, res.statusCode)
@@ -238,12 +278,20 @@ class TicketsTests {
             ticket1.ticketStatus,
             ticket1.priorityLevel
         )
-        val requestEntity = HttpEntity(editedTicket)
-        val res = restTemplate.exchange(baseUrl, HttpMethod.PUT, requestEntity, typeReference<Unit>())
+
+        val loginDTO = LoginDTO("customer1@products.com", "password")
+        val jwtToken = authenticationService.login(loginDTO)?.jwtAccessToken
+
+        val headers = HttpHeaders()
+        headers.setBearerAuth(jwtToken ?: "")
+
+        val requestEntityEdit = HttpEntity(editedTicket, headers)
+        val res = restTemplate.exchange(baseUrl, HttpMethod.PUT, requestEntityEdit, typeReference<Unit>())
 
         Assertions.assertEquals(HttpStatus.OK, res.statusCode)
 
-        val res2 = restTemplate.exchange("$baseUrl/${editedTicket.id}", HttpMethod.GET, null, typeReference<TicketDTO>())
+        val requestEntityGet = HttpEntity<Nothing?>(headers)
+        val res2 = restTemplate.exchange("$baseUrl/${editedTicket.id}", HttpMethod.GET, requestEntityGet, typeReference<TicketDTO>())
         Assertions.assertEquals(HttpStatus.OK, res2.statusCode)
         Assertions.assertEquals(expectedTicket, res2.body)
     }
@@ -259,7 +307,13 @@ class TicketsTests {
             ticket1.ticketStatus,
             ticket1.priorityLevel
         )
-        val requestEntity = HttpEntity(editedTicket)
+
+        val loginDTO = LoginDTO("customer1@products.com", "password")
+        val jwtToken = authenticationService.login(loginDTO)?.jwtAccessToken
+
+        val headers = HttpHeaders()
+        headers.setBearerAuth(jwtToken ?: "")
+        val requestEntity = HttpEntity(editedTicket, headers)
         val res = restTemplate.exchange(baseUrl, HttpMethod.PUT, requestEntity, typeReference<Unit>())
 
         Assertions.assertEquals(HttpStatus.NOT_FOUND, res.statusCode)
@@ -287,12 +341,18 @@ class TicketsTests {
             TicketStatus.CLOSED,
             PriorityLevel.CRITICAL
         )
-        val requestEntity = HttpEntity(editedTicket)
+
+        val loginDTO = LoginDTO("expert1@products.com", "password")
+        val jwtToken = authenticationService.login(loginDTO)?.jwtAccessToken
+
+        val headers = HttpHeaders()
+        headers.setBearerAuth(jwtToken ?: "")
+        val requestEntity = HttpEntity(editedTicket, headers)
         val res = restTemplate.exchange("$baseUrl/properties", HttpMethod.PUT, requestEntity, typeReference<Unit>())
 
         Assertions.assertEquals(HttpStatus.OK, res.statusCode)
 
-        val res2 = restTemplate.exchange("$baseUrl/${editedTicket.id}", HttpMethod.GET, null, typeReference<TicketDTO>())
+        val res2 = restTemplate.exchange("$baseUrl/${editedTicket.id}", HttpMethod.GET, requestEntity, typeReference<TicketDTO>())
         Assertions.assertEquals(HttpStatus.OK, res2.statusCode)
         Assertions.assertEquals(expectedTicket, res2.body)
     }
@@ -308,7 +368,14 @@ class TicketsTests {
             TicketStatus.REOPENED,      // cannot go from OPEN to REOPENED
             ticket1.priorityLevel
         )
-        val requestEntity = HttpEntity(editedTicket)
+
+        val loginDTO = LoginDTO("expert1@products.com", "password")
+        val jwtToken = authenticationService.login(loginDTO)?.jwtAccessToken
+
+        val headers = HttpHeaders()
+        headers.setBearerAuth(jwtToken ?: "")
+
+        val requestEntity = HttpEntity(editedTicket, headers)
         val res = restTemplate.exchange("$baseUrl/properties", HttpMethod.PUT, requestEntity, typeReference<Unit>())
 
         Assertions.assertEquals(HttpStatus.UNPROCESSABLE_ENTITY, res.statusCode)
@@ -325,7 +392,14 @@ class TicketsTests {
             ticket1.ticketStatus,
             ticket1.priorityLevel
         )
-        val requestEntity = HttpEntity(editedTicket)
+
+        val loginDTO = LoginDTO("expert1@products.com", "password")
+        val jwtToken = authenticationService.login(loginDTO)?.jwtAccessToken
+
+        val headers = HttpHeaders()
+        headers.setBearerAuth(jwtToken ?: "")
+
+        val requestEntity = HttpEntity(editedTicket, headers)
         val res = restTemplate.exchange("$baseUrl/properties", HttpMethod.PUT, requestEntity, typeReference<Unit>())
 
         Assertions.assertEquals(HttpStatus.NOT_FOUND, res.statusCode)
@@ -353,12 +427,20 @@ class TicketsTests {
             TicketStatus.IN_PROGRESS,   // test that the ticketStatus is always set to IN_PROGRESS
             PriorityLevel.CRITICAL
         )
-        val requestEntity = HttpEntity(editedTicket)
-        val res = restTemplate.exchange("$baseUrl/expert", HttpMethod.POST, requestEntity, typeReference<Unit>())
+
+        val loginDTO = LoginDTO("manager1@products.com", "password")
+        val jwtToken = authenticationService.login(loginDTO)?.jwtAccessToken
+
+        val headers = HttpHeaders()
+        headers.setBearerAuth(jwtToken ?: "")
+
+        val requestEntityPost = HttpEntity(editedTicket, headers)
+        val res = restTemplate.exchange("$baseUrl/expert", HttpMethod.POST, requestEntityPost, typeReference<Unit>())
 
         Assertions.assertEquals(HttpStatus.OK, res.statusCode)
 
-        val res2 = restTemplate.exchange("$baseUrl/${editedTicket.id}", HttpMethod.GET, null, typeReference<TicketDTO>())
+        val requestEntityGet = HttpEntity<Nothing?>(headers)
+        val res2 = restTemplate.exchange("$baseUrl/${editedTicket.id}", HttpMethod.GET, requestEntityGet, typeReference<TicketDTO>())
         Assertions.assertEquals(HttpStatus.OK, res2.statusCode)
         Assertions.assertEquals(expectedTicket, res2.body)
     }
@@ -385,12 +467,20 @@ class TicketsTests {
             TicketStatus.IN_PROGRESS,   // test that the ticketStatus is always set to IN_PROGRESS
             PriorityLevel.CRITICAL
         )
-        val requestEntity = HttpEntity(editedTicket)
-        val res = restTemplate.exchange("$baseUrl/expert", HttpMethod.POST, requestEntity, typeReference<Unit>())
+
+        val loginDTO = LoginDTO("manager1@products.com", "password")
+        val jwtToken = authenticationService.login(loginDTO)?.jwtAccessToken
+
+        val headers = HttpHeaders()
+        headers.setBearerAuth(jwtToken ?: "")
+
+        val requestEntityPost = HttpEntity(editedTicket, headers)
+        val res = restTemplate.exchange("$baseUrl/expert", HttpMethod.POST, requestEntityPost, typeReference<Unit>())
 
         Assertions.assertEquals(HttpStatus.OK, res.statusCode)
 
-        val res2 = restTemplate.exchange("$baseUrl/${editedTicket.id}", HttpMethod.GET, null, typeReference<TicketDTO>())
+        val requestEntityGet = HttpEntity<Nothing?>(headers)
+        val res2 = restTemplate.exchange("$baseUrl/${editedTicket.id}", HttpMethod.GET, requestEntityGet, typeReference<TicketDTO>())
         Assertions.assertEquals(HttpStatus.OK, res2.statusCode)
         Assertions.assertEquals(expectedTicket, res2.body)
     }
@@ -406,7 +496,14 @@ class TicketsTests {
             ticket1.ticketStatus,
             ticket1.priorityLevel
         )
-        val requestEntity = HttpEntity(editedTicket)
+
+        val loginDTO = LoginDTO("manager1@products.com", "password")
+        val jwtToken = authenticationService.login(loginDTO)?.jwtAccessToken
+
+        val headers = HttpHeaders()
+        headers.setBearerAuth(jwtToken ?: "")
+
+        val requestEntity = HttpEntity(editedTicket, headers)
         val res = restTemplate.exchange("$baseUrl/expert", HttpMethod.POST, requestEntity, typeReference<Unit>())
 
         Assertions.assertEquals(HttpStatus.NOT_FOUND, res.statusCode)
@@ -423,7 +520,14 @@ class TicketsTests {
             ticket1.ticketStatus,
             ticket1.priorityLevel
         )
-        val requestEntity = HttpEntity(editedTicket)
+
+        val loginDTO = LoginDTO("manager1@products.com", "password")
+        val jwtToken = authenticationService.login(loginDTO)?.jwtAccessToken
+
+        val headers = HttpHeaders()
+        headers.setBearerAuth(jwtToken ?: "")
+
+        val requestEntity = HttpEntity(editedTicket, headers)
         val res = restTemplate.exchange("$baseUrl/expert", HttpMethod.POST, requestEntity, typeReference<Unit>())
 
         Assertions.assertEquals(HttpStatus.NOT_FOUND, res.statusCode)
@@ -443,9 +547,16 @@ class TicketsTests {
             ticket1.ticketStatus,
             ticket1.priorityLevel
         )
-        val requestEntity = HttpEntity(editedTicket)
+
+        val loginDTO = LoginDTO("manager1@products.com", "password")
+        val jwtToken = authenticationService.login(loginDTO)?.jwtAccessToken
+
+        val headers = HttpHeaders()
+        headers.setBearerAuth(jwtToken ?: "")
+
+        val requestEntity = HttpEntity(editedTicket, headers)
         val res = restTemplate.exchange("$baseUrl/expert", HttpMethod.POST, requestEntity, typeReference<Unit>())
 
         Assertions.assertEquals(HttpStatus.UNPROCESSABLE_ENTITY, res.statusCode)
     }
-}*/
+}

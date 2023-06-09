@@ -166,7 +166,7 @@ class LogsTests {
 
         val headers = HttpHeaders()
         headers.setBearerAuth(jwtToken ?: "")
-        val requestEntity = HttpEntity<Any?>(headers)
+        val requestEntity = HttpEntity<Nothing?>(headers)
 
         val res = restTemplate.exchange("${baseUrl}/ticket/${ticket1.id}", HttpMethod.GET, requestEntity, typeReference<List<LogDTO>>())
 
@@ -243,7 +243,7 @@ class LogsTests {
 
         val headers = HttpHeaders()
         headers.setBearerAuth(jwtToken ?: "")
-        val requestEntity = HttpEntity<Any?>(headers)
+        val requestEntity = HttpEntity<Nothing?>(headers)
 
         val res = restTemplate.exchange("${baseUrl}/expert/${ticket1.expert!!.id}", HttpMethod.GET, requestEntity, typeReference<List<LogDTO>>())
 
