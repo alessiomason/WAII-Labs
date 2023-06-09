@@ -5,6 +5,8 @@ import it.polito.wa2.server.products.ProductDTO
 import it.polito.wa2.server.products.ProductRepository
 import it.polito.wa2.server.products.toDTO
 import it.polito.wa2.server.profiles.ProfileRepository
+import it.polito.wa2.server.security.AuthenticationService
+import it.polito.wa2.server.security.LoginDTO
 import it.polito.wa2.server.ticketing.employees.ExpertRepository
 import it.polito.wa2.server.ticketing.employees.ExpertSpecializationRepository
 import it.polito.wa2.server.ticketing.logs.LogRepository
@@ -19,6 +21,8 @@ import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabas
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.boot.test.web.client.TestRestTemplate
 import org.springframework.core.ParameterizedTypeReference
+import org.springframework.http.HttpEntity
+import org.springframework.http.HttpHeaders
 import org.springframework.http.HttpMethod
 import org.springframework.http.HttpStatus
 import org.springframework.test.context.DynamicPropertyRegistry
@@ -70,6 +74,8 @@ class ProductsTests {
 	lateinit var ticketRepository: TicketRepository
 	@Autowired
 	lateinit var logRepository: LogRepository
+	@Autowired
+	lateinit var authenticationService: AuthenticationService
 
 	@BeforeEach
 	fun populateDb() {
@@ -88,7 +94,14 @@ class ProductsTests {
 
 	@Test
 	fun getAllProducts() {
-		val res = restTemplate.exchange(baseUrl, HttpMethod.GET, null, typeReference<List<ProductDTO>>())
+		val loginDTO = LoginDTO("customer1@products.com", "password")
+		val jwtToken = authenticationService.login(loginDTO)?.jwtAccessToken
+
+		val headers = HttpHeaders()
+		headers.setBearerAuth(jwtToken ?: "")
+		val requestEntity = HttpEntity<Nothing?>(headers)
+
+		val res = restTemplate.exchange(baseUrl, HttpMethod.GET, requestEntity, typeReference<List<ProductDTO>>())
 
 		Assertions.assertEquals(HttpStatus.OK, res.statusCode)
 		Assertions.assertEquals(listOf(product1.toDTO(), product2.toDTO(), product3.toDTO()), res.body)
@@ -96,7 +109,14 @@ class ProductsTests {
 
 	@Test
 	fun getProduct() {
-		val res = restTemplate.exchange("$baseUrl/${product1.ean}", HttpMethod.GET, null, typeReference<ProductDTO>())
+		val loginDTO = LoginDTO("manager1@products.com", "password")
+		val jwtToken = authenticationService.login(loginDTO)?.jwtAccessToken
+
+		val headers = HttpHeaders()
+		headers.setBearerAuth(jwtToken ?: "")
+		val requestEntity = HttpEntity<Nothing?>(headers)
+
+		val res = restTemplate.exchange("$baseUrl/${product1.ean}", HttpMethod.GET, requestEntity, typeReference<ProductDTO>())
 
 		Assertions.assertEquals(HttpStatus.OK, res.statusCode)
 		Assertions.assertEquals(product1.toDTO(), res.body)
@@ -104,7 +124,14 @@ class ProductsTests {
 
 	@Test
 	fun productNotFound() {
-		val res = restTemplate.exchange("$baseUrl/${product4.ean}", HttpMethod.GET, null, typeReference<Unit>())
+		val loginDTO = LoginDTO("manager1@products.com", "password")
+		val jwtToken = authenticationService.login(loginDTO)?.jwtAccessToken
+
+		val headers = HttpHeaders()
+		headers.setBearerAuth(jwtToken ?: "")
+		val requestEntity = HttpEntity<Nothing?>(headers)
+
+		val res = restTemplate.exchange("$baseUrl/${product4.ean}", HttpMethod.GET, requestEntity, typeReference<Unit>())
 
 		Assertions.assertEquals(HttpStatus.NOT_FOUND, res.statusCode)
 	}
