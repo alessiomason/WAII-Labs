@@ -1,0 +1,24 @@
+.title_profiles {
+    margin-top: 1rem;
+    text-align:center;
+}
+
+.emptyProduct {
+    margin-top: 4rem;
+    text-align:center;
+}
+
+.save_button {
+    background-color: green;
+    margin-top: 1rem;
+}
+
+.edit_button {
+    margin-top: 1rem;
+}
+
+.back_button {
+    background-color: red;
+    margin-top: 1rem;
+    margin-left: 73rem;
+}

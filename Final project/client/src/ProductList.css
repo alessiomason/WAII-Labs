@@ -1,0 +1,15 @@
+.title_products {
+    margin-top: 1rem;
+    margin-bottom: -0.5rem;
+    text-align:center;
+}
+
+.emptyProduct {
+    margin-top: 4rem;
+    text-align:center;
+}
+
+.highlighted-table-row:hover {
+    background-color: rgba(173, 216, 230, 0.2);
+    cursor: pointer;
+}
