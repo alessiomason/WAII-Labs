@@ -9,6 +9,7 @@ import { ProductById } from "./ProductById";
 import { ProfileByMail } from "./ProfileByMail";
 import { FormModifyProfile } from "./FormModifyProfile";
 import { FormCreateProfile } from "./FormCreateProfile";
+import {LoginPage} from "./LoginPage";
 
 function App() {
   return (
@@ -30,6 +31,7 @@ function App2() {
       <Routes>
         <Route path='/' element={<PageLayout />}>
           <Route index element={<ListOfRoutes />} />
+          <Route path='login' element={<LoginPage/>} />
           <Route path='/products' element={<ProductList handleError={handleError} />} />
           <Route path='/products/:ean' element={<ProductById handleError={handleError} />} />
           <Route path='/profiles' element={<FormCreateProfile handleError={handleError} dirty={dirty} setDirty={setDirty} />} />
