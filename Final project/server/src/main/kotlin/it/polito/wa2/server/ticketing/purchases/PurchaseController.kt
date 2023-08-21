@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.CrossOrigin
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PostMapping
+import org.springframework.web.bind.annotation.PutMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RestController
 
@@ -30,6 +31,11 @@ class PurchaseController(
     @PostMapping("/API/purchases")
     fun createPurchase(@RequestBody @Valid newPurchaseDTO: NewPurchaseDTO): PurchaseDTO {
         return purchaseService.createPurchase(newPurchaseDTO)
+    }
+
+    @PutMapping("API/purchases/{id}")
+    fun updatePurchaseStatus(@PathVariable id: Int, newPurchaseStatus: PurchaseStatus) {
+        purchaseService.updatePurchaseStatus(id, newPurchaseStatus)
     }
 
     @PostMapping("/API/purchases/{id}/warranty")

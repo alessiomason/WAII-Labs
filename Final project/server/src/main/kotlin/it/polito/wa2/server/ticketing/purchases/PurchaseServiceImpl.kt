@@ -34,6 +34,13 @@ class PurchaseServiceImpl(
         return newPurchase.toDTO()
     }
 
+    override fun updatePurchaseStatus(purchaseId: Int, newPurchaseStatus: PurchaseStatus) {
+        val purchase = purchaseRepository.findByIdOrNull(purchaseId) ?: throw PurchaseNotFoundException()
+
+        purchase.status = newPurchaseStatus
+        purchaseRepository.save(purchase)
+    }
+
     override fun addWarranty(purchaseId: Int, newWarrantyDTO: NewWarrantyDTO): WarrantyDTO {
         val purchase = purchaseRepository.findByIdOrNull(purchaseId) ?: throw PurchaseNotFoundException()
         val warranty = Warranty(newWarrantyDTO.expiryDate)

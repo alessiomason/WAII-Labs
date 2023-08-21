@@ -10,5 +10,7 @@ interface PurchaseService {
 
     fun createPurchase(newPurchaseDTO: NewPurchaseDTO): PurchaseDTO
 
+    fun updatePurchaseStatus(purchaseId: Int, newPurchaseStatus: PurchaseStatus)
+
     fun addWarranty(purchaseId: Int, newWarrantyDTO: NewWarrantyDTO): WarrantyDTO
 }
