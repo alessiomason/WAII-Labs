@@ -94,10 +94,10 @@ class PurchasesTests {
         profileRepository.save(customer2)
         productRepository.save(product1)
         productRepository.save(product2)
-        purchase1 = Purchase(customer1, product1)
-        purchase2 = Purchase(customer1, product2)
-        purchase3 = Purchase(customer2, product2)
-        purchase4 = Purchase(customer2, product1)
+        purchase1 = Purchase(customer1, product1, PurchaseStatus.PREPARING)
+        purchase2 = Purchase(customer1, product2, PurchaseStatus.SHIPPED)
+        purchase3 = Purchase(customer2, product2, PurchaseStatus.DELIVERED)
+        purchase4 = Purchase(customer2, product1, PurchaseStatus.REPLACED)
         purchaseRepository.save(purchase1)
         purchaseRepository.save(purchase2)
         purchaseRepository.save(purchase3)
@@ -209,7 +209,7 @@ class PurchasesTests {
         val headers = HttpHeaders()
         headers.setBearerAuth(jwtToken ?: "")
 
-        val newPurchase = Purchase(notSavedCustomer, product1)
+        val newPurchase = Purchase(notSavedCustomer, product1, PurchaseStatus.PREPARING)
         val requestEntity = HttpEntity(newPurchase.toNewDTO(), headers)
         val res = restTemplate.exchange(baseUrl, HttpMethod.POST, requestEntity, typeReference<Unit>())
 
@@ -225,7 +225,7 @@ class PurchasesTests {
         val headers = HttpHeaders()
         headers.setBearerAuth(jwtToken ?: "")
 
-        val newPurchase = Purchase(customer1, notSavedProduct)
+        val newPurchase = Purchase(customer1, notSavedProduct, PurchaseStatus.PREPARING)
         val requestEntity = HttpEntity(newPurchase.toNewDTO(), headers)
         val res = restTemplate.exchange(baseUrl, HttpMethod.POST, requestEntity, typeReference<Unit>())
 

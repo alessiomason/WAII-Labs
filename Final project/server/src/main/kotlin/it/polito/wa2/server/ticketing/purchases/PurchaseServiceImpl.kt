@@ -26,7 +26,7 @@ class PurchaseServiceImpl(
         val customer = profileRepository.findByIdOrNull(newPurchaseDTO.customer.id) ?: throw ProfileNotFoundException()
         val product = productRepository.findByIdOrNull(newPurchaseDTO.product.ean) ?: throw ProductNotFoundException()
 
-        val newPurchase = Purchase(customer, product)
+        val newPurchase = Purchase(customer, product, newPurchaseDTO.status)
         purchaseRepository.save(newPurchase)
 
         return newPurchase.toDTO()

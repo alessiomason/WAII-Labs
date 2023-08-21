@@ -15,6 +15,7 @@ import it.polito.wa2.server.ticketing.logs.LogRepository
 import it.polito.wa2.server.ticketing.purchases.Purchase
 import it.polito.wa2.server.ticketing.purchases.PurchaseDTO
 import it.polito.wa2.server.ticketing.purchases.PurchaseRepository
+import it.polito.wa2.server.ticketing.purchases.PurchaseStatus
 import it.polito.wa2.server.ticketing.tickets.Ticket
 import it.polito.wa2.server.ticketing.tickets.TicketDTO
 import it.polito.wa2.server.ticketing.tickets.TicketRepository
@@ -117,10 +118,10 @@ class LogsTests {
         expert2 = Expert("expert2", "jack.smith@products.com", "Jack", "Smith")
         expertRepository.save(expert1)
 
-        purchase1 = Purchase(customer1, product1)
-        purchase2 = Purchase(customer1, product2)
-        purchase3 = Purchase(customer2, product2)
-        purchase4 = Purchase(customer2, product1)
+        purchase1 = Purchase(customer1, product1, PurchaseStatus.PREPARING)
+        purchase2 = Purchase(customer1, product2, PurchaseStatus.SHIPPED)
+        purchase3 = Purchase(customer2, product2, PurchaseStatus.DELIVERED)
+        purchase4 = Purchase(customer2, product1, PurchaseStatus.REPLACED)
         purchaseRepository.save(purchase1)
         purchaseRepository.save(purchase2)
         purchaseRepository.save(purchase3)
@@ -186,6 +187,7 @@ class LogsTests {
                         ticket1.purchase.id,
                         ticket1.purchase.customer.toDTO(),
                         ticket1.purchase.product.toDTO(),
+                        ticket1.purchase.status,
                         listOf(ticket1.id)
                     ),
                     null,
@@ -206,6 +208,7 @@ class LogsTests {
                         ticket1.purchase.id,
                         ticket1.purchase.customer.toDTO(),
                         ticket1.purchase.product.toDTO(),
+                        ticket1.purchase.status,
                         listOf(ticket1.id)
                     ),
                     null,
@@ -261,6 +264,7 @@ class LogsTests {
                         ticket1.purchase.id,
                         ticket1.purchase.customer.toDTO(),
                         ticket1.purchase.product.toDTO(),
+                        ticket1.purchase.status,
                         listOf(ticket1.id)
                     ),
                     ExpertDTO(

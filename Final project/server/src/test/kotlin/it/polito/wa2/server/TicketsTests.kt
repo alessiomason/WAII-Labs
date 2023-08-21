@@ -13,6 +13,7 @@ import it.polito.wa2.server.ticketing.logs.LogRepository
 import it.polito.wa2.server.ticketing.purchases.Purchase
 import it.polito.wa2.server.ticketing.purchases.PurchaseDTO
 import it.polito.wa2.server.ticketing.purchases.PurchaseRepository
+import it.polito.wa2.server.ticketing.purchases.PurchaseStatus
 import it.polito.wa2.server.ticketing.tickets.*
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.BeforeEach
@@ -65,7 +66,7 @@ class TicketsTests {
         private lateinit var purchase2: Purchase
         private lateinit var purchase3: Purchase
         private lateinit var purchase4: Purchase
-        private val notSavedPurchase = Purchase(customer1, product1)
+        private val notSavedPurchase = Purchase(customer1, product1, PurchaseStatus.PREPARING)
 
         private lateinit var ticket1: Ticket
         private lateinit var ticket2: Ticket
@@ -111,10 +112,10 @@ class TicketsTests {
         expert2 = Expert("expert2", "jack.smith@products.com", "Jack", "Smith")
         expertRepository.save(expert1)
 
-        purchase1 = Purchase(customer1, product1)
-        purchase2 = Purchase(customer1, product2)
-        purchase3 = Purchase(customer2, product2)
-        purchase4 = Purchase(customer2, product1)
+        purchase1 = Purchase(customer1, product1, PurchaseStatus.PREPARING)
+        purchase2 = Purchase(customer1, product2, PurchaseStatus.SHIPPED)
+        purchase3 = Purchase(customer2, product2, PurchaseStatus.DELIVERED)
+        purchase4 = Purchase(customer2, product1, PurchaseStatus.REPLACED)
         purchaseRepository.save(purchase1)
         purchaseRepository.save(purchase2)
         purchaseRepository.save(purchase3)
@@ -145,7 +146,13 @@ class TicketsTests {
                 ticket1.id,
                 ticket1.title,
                 ticket1.description,
-                PurchaseDTO(ticket1.purchase.id, ticket1.purchase.customer.toDTO(), ticket1.purchase.product.toDTO(), listOf(ticket1.id)),
+                PurchaseDTO(
+                    ticket1.purchase.id,
+                    ticket1.purchase.customer.toDTO(),
+                    ticket1.purchase.product.toDTO(),
+                    ticket1.purchase.status,
+                    listOf(ticket1.id)
+                ),
                 null,
                 TicketStatus.OPEN,
                 PriorityLevel.NORMAL),
@@ -153,7 +160,13 @@ class TicketsTests {
                 ticket2.id,
                 ticket2.title,
                 ticket2.description,
-                PurchaseDTO(ticket2.purchase.id, ticket2.purchase.customer.toDTO(), ticket2.purchase.product.toDTO(), listOf(ticket2.id)),
+                PurchaseDTO(
+                    ticket2.purchase.id,
+                    ticket2.purchase.customer.toDTO(),
+                    ticket2.purchase.product.toDTO(),
+                    ticket2.purchase.status,
+                    listOf(ticket2.id)
+                ),
                 null,
                 TicketStatus.OPEN,
                 PriorityLevel.NORMAL),
@@ -161,7 +174,13 @@ class TicketsTests {
                 ticket3.id,
                 ticket3.title,
                 ticket3.description,
-                PurchaseDTO(ticket3.purchase.id, ticket3.purchase.customer.toDTO(), ticket3.purchase.product.toDTO(), listOf(ticket3.id)),
+                PurchaseDTO(
+                    ticket3.purchase.id,
+                    ticket3.purchase.customer.toDTO(),
+                    ticket3.purchase.product.toDTO(),
+                    ticket3.purchase.status,
+                    listOf(ticket3.id)
+                ),
                 null,
                 TicketStatus.OPEN,
                 PriorityLevel.NORMAL)
@@ -186,7 +205,13 @@ class TicketsTests {
             ticket1.id,
             ticket1.title,
             ticket1.description,
-            PurchaseDTO(ticket1.purchase.id, ticket1.purchase.customer.toDTO(), ticket1.purchase.product.toDTO(), listOf(ticket1.id)),
+            PurchaseDTO(
+                ticket1.purchase.id,
+                ticket1.purchase.customer.toDTO(),
+                ticket1.purchase.product.toDTO(),
+                ticket1.purchase.status,
+                listOf(ticket1.id)
+            ),
             null,
             TicketStatus.OPEN,
             PriorityLevel.NORMAL
@@ -225,7 +250,13 @@ class TicketsTests {
             res.body!!.id,
             ticket4.title,
             ticket4.description,
-            PurchaseDTO(ticket4.purchase.id, ticket4.purchase.customer.toDTO(), ticket4.purchase.product.toDTO(), listOf(res.body!!.id)),
+            PurchaseDTO(
+                ticket4.purchase.id,
+                ticket4.purchase.customer.toDTO(),
+                ticket4.purchase.product.toDTO(),
+                ticket4.purchase.status,
+                listOf(res.body!!.id)
+            ),
             null,
             TicketStatus.OPEN,
             PriorityLevel.NORMAL
@@ -264,7 +295,13 @@ class TicketsTests {
             ticket2.title,
             ticket2.description,
             // test that the purchase is not modifiable
-            PurchaseDTO(ticket2.purchase.id, ticket2.purchase.customer.toDTO(), ticket2.purchase.product.toDTO(), listOf(ticket2.id)),
+            PurchaseDTO(
+                ticket2.purchase.id,
+                ticket2.purchase.customer.toDTO(),
+                ticket2.purchase.product.toDTO(),
+                ticket2.purchase.status,
+                listOf(ticket2.id)
+            ),
             ticket1.expert?.toDTO(),
             TicketStatus.CLOSED,        // test that ticketStatus
             PriorityLevel.CRITICAL      // and priorityLevel are not modifiable
@@ -273,7 +310,13 @@ class TicketsTests {
             ticket1.id,
             ticket2.title,
             ticket2.description,
-            PurchaseDTO(ticket1.purchase.id, ticket1.purchase.customer.toDTO(), ticket1.purchase.product.toDTO(), listOf(ticket1.id)),
+            PurchaseDTO(
+                ticket1.purchase.id,
+                ticket1.purchase.customer.toDTO(),
+                ticket1.purchase.product.toDTO(),
+                ticket1.purchase.status,
+                listOf(ticket1.id)
+            ),
             ticket1.expert?.toDTO(),
             ticket1.ticketStatus,
             ticket1.priorityLevel
@@ -302,7 +345,13 @@ class TicketsTests {
             0,
             ticket1.title,
             ticket1.description,
-            PurchaseDTO(ticket1.purchase.id, ticket1.purchase.customer.toDTO(), ticket1.purchase.product.toDTO(), listOf(ticket1.id)),
+            PurchaseDTO(
+                ticket1.purchase.id,
+                ticket1.purchase.customer.toDTO(),
+                ticket1.purchase.product.toDTO(),
+                ticket1.purchase.status,
+                listOf(ticket1.id)
+            ),
             ticket1.expert?.toDTO(),
             ticket1.ticketStatus,
             ticket1.priorityLevel
@@ -327,7 +376,13 @@ class TicketsTests {
             ticket2.title,              // test that title
             ticket2.description,        // and description are not modifiable
             // test that the purchase is not modifiable
-            PurchaseDTO(ticket2.purchase.id, ticket2.purchase.customer.toDTO(), ticket2.purchase.product.toDTO(), listOf(ticket2.id)),
+            PurchaseDTO(
+                ticket2.purchase.id,
+                ticket2.purchase.customer.toDTO(),
+                ticket2.purchase.product.toDTO(),
+                ticket2.purchase.status,
+                listOf(ticket2.id)
+            ),
             ticket1.expert?.toDTO(),
             TicketStatus.CLOSED,
             PriorityLevel.CRITICAL
@@ -336,7 +391,13 @@ class TicketsTests {
             ticket1.id,
             ticket1.title,
             ticket1.description,
-            PurchaseDTO(ticket1.purchase.id, ticket1.purchase.customer.toDTO(), ticket1.purchase.product.toDTO(), listOf(ticket1.id)),
+            PurchaseDTO(
+                ticket1.purchase.id,
+                ticket1.purchase.customer.toDTO(),
+                ticket1.purchase.product.toDTO(),
+                ticket1.purchase.status,
+                listOf(ticket1.id)
+            ),
             ticket1.expert?.toDTO(),
             TicketStatus.CLOSED,
             PriorityLevel.CRITICAL
@@ -363,7 +424,13 @@ class TicketsTests {
             ticket1.id,
             ticket1.title,
             ticket1.description,
-            PurchaseDTO(ticket1.purchase.id, ticket1.purchase.customer.toDTO(), ticket1.purchase.product.toDTO(), listOf(ticket1.id)),
+            PurchaseDTO(
+                ticket1.purchase.id,
+                ticket1.purchase.customer.toDTO(),
+                ticket1.purchase.product.toDTO(),
+                ticket1.purchase.status,
+                listOf(ticket1.id)
+            ),
             ticket1.expert?.toDTO(),
             TicketStatus.REOPENED,      // cannot go from OPEN to REOPENED
             ticket1.priorityLevel
@@ -387,7 +454,13 @@ class TicketsTests {
             0,
             ticket1.title,
             ticket1.description,
-            PurchaseDTO(ticket1.purchase.id, ticket1.purchase.customer.toDTO(), ticket1.purchase.product.toDTO(), listOf(ticket1.id)),
+            PurchaseDTO(
+                ticket1.purchase.id,
+                ticket1.purchase.customer.toDTO(),
+                ticket1.purchase.product.toDTO(),
+                ticket1.purchase.status,
+                listOf(ticket1.id)
+            ),
             ticket1.expert?.toDTO(),
             ticket1.ticketStatus,
             ticket1.priorityLevel
@@ -413,7 +486,13 @@ class TicketsTests {
             ticket2.title,              // test that title
             ticket2.description,        // and description are not modifiable
             // test that the purchase is not modifiable
-            PurchaseDTO(ticket2.purchase.id, ticket2.purchase.customer.toDTO(), ticket2.purchase.product.toDTO(), listOf(ticket2.id)),
+            PurchaseDTO(
+                ticket2.purchase.id,
+                ticket2.purchase.customer.toDTO(),
+                ticket2.purchase.product.toDTO(),
+                ticket2.purchase.status,
+                listOf(ticket2.id)
+            ),
             expert1.toDTO(),
             TicketStatus.CLOSED,        // test that ticketStatus is not modifiable
             PriorityLevel.CRITICAL
@@ -422,7 +501,13 @@ class TicketsTests {
             ticket1.id,
             ticket1.title,
             ticket1.description,
-            PurchaseDTO(ticket1.purchase.id, ticket1.purchase.customer.toDTO(), ticket1.purchase.product.toDTO(), listOf(ticket1.id)),
+            PurchaseDTO(
+                ticket1.purchase.id,
+                ticket1.purchase.customer.toDTO(),
+                ticket1.purchase.product.toDTO(),
+                ticket1.purchase.status,
+                listOf(ticket1.id)
+            ),
             ExpertDTO(expert1.id, expert1.firstName, expert1.lastName, ticket1.expert?.specializations?.map { it.toDTO() } ?: listOf(), listOf(ticket1.id)),
             TicketStatus.IN_PROGRESS,   // test that the ticketStatus is always set to IN_PROGRESS
             PriorityLevel.CRITICAL
@@ -453,7 +538,13 @@ class TicketsTests {
             ticket2.title,              // test that title
             ticket2.description,        // and description are not modifiable
             // test that the purchase is not modifiable
-            PurchaseDTO(ticket2.purchase.id, ticket2.purchase.customer.toDTO(), ticket2.purchase.product.toDTO(), listOf(ticket2.id)),
+            PurchaseDTO(
+                ticket2.purchase.id,
+                ticket2.purchase.customer.toDTO(),
+                ticket2.purchase.product.toDTO(),
+                ticket2.purchase.status,
+                listOf(ticket2.id)
+            ),
             null,
             TicketStatus.CLOSED,        // test that ticketStatus is not modifiable
             PriorityLevel.CRITICAL
@@ -462,7 +553,13 @@ class TicketsTests {
             ticket1.id,
             ticket1.title,
             ticket1.description,
-            PurchaseDTO(ticket1.purchase.id, ticket1.purchase.customer.toDTO(), ticket1.purchase.product.toDTO(), listOf(ticket1.id)),
+            PurchaseDTO(
+                ticket1.purchase.id,
+                ticket1.purchase.customer.toDTO(),
+                ticket1.purchase.product.toDTO(),
+                ticket1.purchase.status,
+                listOf(ticket1.id)
+            ),
             null,
             TicketStatus.IN_PROGRESS,   // test that the ticketStatus is always set to IN_PROGRESS
             PriorityLevel.CRITICAL
@@ -491,7 +588,13 @@ class TicketsTests {
             0,
             ticket1.title,
             ticket1.description,
-            PurchaseDTO(ticket1.purchase.id, ticket1.purchase.customer.toDTO(), ticket1.purchase.product.toDTO(), listOf(ticket1.id)),
+            PurchaseDTO(
+                ticket1.purchase.id,
+                ticket1.purchase.customer.toDTO(),
+                ticket1.purchase.product.toDTO(),
+                ticket1.purchase.status,
+                listOf(ticket1.id)
+            ),
             expert1.toDTO(),
             ticket1.ticketStatus,
             ticket1.priorityLevel
@@ -515,7 +618,13 @@ class TicketsTests {
             ticket1.id,
             ticket1.title,
             ticket1.description,
-            PurchaseDTO(ticket1.purchase.id, ticket1.purchase.customer.toDTO(), ticket1.purchase.product.toDTO(), listOf(ticket1.id)),
+            PurchaseDTO(
+                ticket1.purchase.id,
+                ticket1.purchase.customer.toDTO(),
+                ticket1.purchase.product.toDTO(),
+                ticket1.purchase.status,
+                listOf(ticket1.id)
+            ),
             notSavedExpert.toDTO(),
             ticket1.ticketStatus,
             ticket1.priorityLevel
@@ -542,7 +651,13 @@ class TicketsTests {
             ticket1.id,
             ticket1.title,
             ticket1.description,
-            PurchaseDTO(ticket1.purchase.id, ticket1.purchase.customer.toDTO(), ticket1.purchase.product.toDTO(), listOf(ticket1.id)),
+            PurchaseDTO(
+                ticket1.purchase.id,
+                ticket1.purchase.customer.toDTO(),
+                ticket1.purchase.product.toDTO(),
+                ticket1.purchase.status,
+                listOf(ticket1.id)
+            ),
             expert1.toDTO(),
             ticket1.ticketStatus,
             ticket1.priorityLevel

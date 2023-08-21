@@ -11,13 +11,18 @@ import jakarta.persistence.OneToMany
 import jakarta.persistence.OneToOne
 import jakarta.persistence.Table
 
+enum class PurchaseStatus {
+    PREPARING, SHIPPED, DELIVERED, WITHDRAWN, REFUSED, REPLACED, REPAIRED
+}
+
 @Entity
 @Table(name = "purchases")
 class Purchase (
     @OneToOne
     val customer: Profile,
     @OneToOne
-    val product: Product
+    val product: Product,
+    var status: PurchaseStatus
 ) {
     @Id
     @GeneratedValue
