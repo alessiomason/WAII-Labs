@@ -12,6 +12,7 @@ import jakarta.persistence.OneToMany
 import jakarta.persistence.OneToOne
 import jakarta.persistence.Table
 import java.time.LocalDate
+import java.time.temporal.ChronoUnit
 
 enum class PurchaseStatus {
     PREPARING, SHIPPED, DELIVERED, WITHDRAWN, REFUSED, REPLACED, REPAIRED
@@ -33,6 +34,18 @@ class Purchase (
     @GeneratedValue
     @Column(updatable = false, nullable = false)
     var id: Int = 0
+    val coveredByWarranty: Boolean
+        get() {
+            // standard 2 years warranty coverage
+            if (ChronoUnit.DAYS.between(LocalDate.now(), dateOfPurchase.plusYears(2)) > 0)
+                return true
+
+            // specific warranty coverage
+            if (warranty != null)
+                return ChronoUnit.DAYS.between(LocalDate.now(), warranty!!.expiryDate) > 0
+
+            return false
+        }
     @OneToMany(mappedBy = "purchase")
     val tickets = mutableSetOf<Ticket>()
 }

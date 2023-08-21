@@ -16,6 +16,7 @@ import it.polito.wa2.server.ticketing.purchases.Purchase
 import it.polito.wa2.server.ticketing.purchases.PurchaseDTO
 import it.polito.wa2.server.ticketing.purchases.PurchaseRepository
 import it.polito.wa2.server.ticketing.purchases.PurchaseStatus
+import it.polito.wa2.server.ticketing.purchases.warranties.toDTO
 import it.polito.wa2.server.ticketing.tickets.Ticket
 import it.polito.wa2.server.ticketing.tickets.TicketDTO
 import it.polito.wa2.server.ticketing.tickets.TicketRepository
@@ -189,6 +190,8 @@ class LogsTests {
                         ticket1.purchase.product.toDTO(),
                         ticket1.purchase.status,
                         ticket1.purchase.dateOfPurchase,
+                        ticket1.purchase.warranty?.toDTO(),
+                        ticket1.purchase.coveredByWarranty,
                         listOf(ticket1.id)
                     ),
                     null,
@@ -211,6 +214,8 @@ class LogsTests {
                         ticket1.purchase.product.toDTO(),
                         ticket1.purchase.status,
                         ticket1.purchase.dateOfPurchase,
+                        ticket1.purchase.warranty?.toDTO(),
+                        ticket1.purchase.coveredByWarranty,
                         listOf(ticket1.id)
                     ),
                     null,
@@ -268,6 +273,8 @@ class LogsTests {
                         ticket1.purchase.product.toDTO(),
                         ticket1.purchase.status,
                         ticket1.purchase.dateOfPurchase,
+                        ticket1.purchase.warranty?.toDTO(),
+                        ticket1.purchase.coveredByWarranty,
                         listOf(ticket1.id)
                     ),
                     ExpertDTO(

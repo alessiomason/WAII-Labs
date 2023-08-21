@@ -14,6 +14,7 @@ import it.polito.wa2.server.ticketing.purchases.Purchase
 import it.polito.wa2.server.ticketing.purchases.PurchaseDTO
 import it.polito.wa2.server.ticketing.purchases.PurchaseRepository
 import it.polito.wa2.server.ticketing.purchases.PurchaseStatus
+import it.polito.wa2.server.ticketing.purchases.warranties.toDTO
 import it.polito.wa2.server.ticketing.tickets.*
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.BeforeEach
@@ -153,6 +154,8 @@ class TicketsTests {
                     ticket1.purchase.product.toDTO(),
                     ticket1.purchase.status,
                     ticket1.purchase.dateOfPurchase,
+                    ticket1.purchase.warranty?.toDTO(),
+                    ticket1.purchase.coveredByWarranty,
                     listOf(ticket1.id)
                 ),
                 null,
@@ -168,6 +171,8 @@ class TicketsTests {
                     ticket2.purchase.product.toDTO(),
                     ticket2.purchase.status,
                     ticket2.purchase.dateOfPurchase,
+                    ticket2.purchase.warranty?.toDTO(),
+                    ticket2.purchase.coveredByWarranty,
                     listOf(ticket2.id)
                 ),
                 null,
@@ -183,6 +188,8 @@ class TicketsTests {
                     ticket3.purchase.product.toDTO(),
                     ticket3.purchase.status,
                     ticket3.purchase.dateOfPurchase,
+                    ticket3.purchase.warranty?.toDTO(),
+                    ticket3.purchase.coveredByWarranty,
                     listOf(ticket3.id)
                 ),
                 null,
@@ -215,6 +222,8 @@ class TicketsTests {
                 ticket1.purchase.product.toDTO(),
                 ticket1.purchase.status,
                 ticket1.purchase.dateOfPurchase,
+                ticket1.purchase.warranty?.toDTO(),
+                ticket1.purchase.coveredByWarranty,
                 listOf(ticket1.id)
             ),
             null,
@@ -261,6 +270,8 @@ class TicketsTests {
                 ticket4.purchase.product.toDTO(),
                 ticket4.purchase.status,
                 ticket4.purchase.dateOfPurchase,
+                ticket4.purchase.warranty?.toDTO(),
+                ticket4.purchase.coveredByWarranty,
                 listOf(res.body!!.id)
             ),
             null,
@@ -307,6 +318,8 @@ class TicketsTests {
                 ticket2.purchase.product.toDTO(),
                 ticket2.purchase.status,
                 ticket2.purchase.dateOfPurchase,
+                ticket2.purchase.warranty?.toDTO(),
+                ticket2.purchase.coveredByWarranty,
                 listOf(ticket2.id)
             ),
             ticket1.expert?.toDTO(),
@@ -323,6 +336,8 @@ class TicketsTests {
                 ticket1.purchase.product.toDTO(),
                 ticket1.purchase.status,
                 ticket1.purchase.dateOfPurchase,
+                ticket1.purchase.warranty?.toDTO(),
+                ticket1.purchase.coveredByWarranty,
                 listOf(ticket1.id)
             ),
             ticket1.expert?.toDTO(),
@@ -359,6 +374,8 @@ class TicketsTests {
                 ticket1.purchase.product.toDTO(),
                 ticket1.purchase.status,
                 ticket1.purchase.dateOfPurchase,
+                ticket1.purchase.warranty?.toDTO(),
+                ticket1.purchase.coveredByWarranty,
                 listOf(ticket1.id)
             ),
             ticket1.expert?.toDTO(),
@@ -391,6 +408,8 @@ class TicketsTests {
                 ticket2.purchase.product.toDTO(),
                 ticket2.purchase.status,
                 ticket2.purchase.dateOfPurchase,
+                ticket2.purchase.warranty?.toDTO(),
+                ticket2.purchase.coveredByWarranty,
                 listOf(ticket2.id)
             ),
             ticket1.expert?.toDTO(),
@@ -407,6 +426,8 @@ class TicketsTests {
                 ticket1.purchase.product.toDTO(),
                 ticket1.purchase.status,
                 ticket1.purchase.dateOfPurchase,
+                ticket1.purchase.warranty?.toDTO(),
+                ticket1.purchase.coveredByWarranty,
                 listOf(ticket1.id)
             ),
             ticket1.expert?.toDTO(),
@@ -441,6 +462,8 @@ class TicketsTests {
                 ticket1.purchase.product.toDTO(),
                 ticket1.purchase.status,
                 ticket1.purchase.dateOfPurchase,
+                ticket1.purchase.warranty?.toDTO(),
+                ticket1.purchase.coveredByWarranty,
                 listOf(ticket1.id)
             ),
             ticket1.expert?.toDTO(),
@@ -472,6 +495,8 @@ class TicketsTests {
                 ticket1.purchase.product.toDTO(),
                 ticket1.purchase.status,
                 ticket1.purchase.dateOfPurchase,
+                ticket1.purchase.warranty?.toDTO(),
+                ticket1.purchase.coveredByWarranty,
                 listOf(ticket1.id)
             ),
             ticket1.expert?.toDTO(),
@@ -505,6 +530,8 @@ class TicketsTests {
                 ticket2.purchase.product.toDTO(),
                 ticket2.purchase.status,
                 ticket2.purchase.dateOfPurchase,
+                ticket2.purchase.warranty?.toDTO(),
+                ticket2.purchase.coveredByWarranty,
                 listOf(ticket2.id)
             ),
             expert1.toDTO(),
@@ -521,6 +548,8 @@ class TicketsTests {
                 ticket1.purchase.product.toDTO(),
                 ticket1.purchase.status,
                 ticket1.purchase.dateOfPurchase,
+                ticket1.purchase.warranty?.toDTO(),
+                ticket1.purchase.coveredByWarranty,
                 listOf(ticket1.id)
             ),
             ExpertDTO(expert1.id, expert1.firstName, expert1.lastName, ticket1.expert?.specializations?.map { it.toDTO() } ?: listOf(), listOf(ticket1.id)),
@@ -559,6 +588,8 @@ class TicketsTests {
                 ticket2.purchase.product.toDTO(),
                 ticket2.purchase.status,
                 ticket2.purchase.dateOfPurchase,
+                ticket2.purchase.warranty?.toDTO(),
+                ticket2.purchase.coveredByWarranty,
                 listOf(ticket2.id)
             ),
             null,
@@ -575,6 +606,8 @@ class TicketsTests {
                 ticket1.purchase.product.toDTO(),
                 ticket1.purchase.status,
                 ticket1.purchase.dateOfPurchase,
+                ticket1.purchase.warranty?.toDTO(),
+                ticket1.purchase.coveredByWarranty,
                 listOf(ticket1.id)
             ),
             null,
@@ -611,6 +644,8 @@ class TicketsTests {
                 ticket1.purchase.product.toDTO(),
                 ticket1.purchase.status,
                 ticket1.purchase.dateOfPurchase,
+                ticket1.purchase.warranty?.toDTO(),
+                ticket1.purchase.coveredByWarranty,
                 listOf(ticket1.id)
             ),
             expert1.toDTO(),
@@ -642,6 +677,8 @@ class TicketsTests {
                 ticket1.purchase.product.toDTO(),
                 ticket1.purchase.status,
                 ticket1.purchase.dateOfPurchase,
+                ticket1.purchase.warranty?.toDTO(),
+                ticket1.purchase.coveredByWarranty,
                 listOf(ticket1.id)
             ),
             notSavedExpert.toDTO(),
@@ -676,6 +713,8 @@ class TicketsTests {
                 ticket1.purchase.product.toDTO(),
                 ticket1.purchase.status,
                 ticket1.purchase.dateOfPurchase,
+                ticket1.purchase.warranty?.toDTO(),
+                ticket1.purchase.coveredByWarranty,
                 listOf(ticket1.id)
             ),
             expert1.toDTO(),

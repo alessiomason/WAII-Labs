@@ -4,6 +4,8 @@ import it.polito.wa2.server.products.ProductDTO
 import it.polito.wa2.server.products.toDTO
 import it.polito.wa2.server.profiles.ProfileDTO
 import it.polito.wa2.server.profiles.toDTO
+import it.polito.wa2.server.ticketing.purchases.warranties.WarrantyDTO
+import it.polito.wa2.server.ticketing.purchases.warranties.toDTO
 import java.time.LocalDate
 
 data class PurchaseDTO(
@@ -12,6 +14,8 @@ data class PurchaseDTO(
     val product: ProductDTO,
     val status: PurchaseStatus,
     val dateOfPurchase: LocalDate,
+    val warrantyDTO: WarrantyDTO? = null,
+    val coveredByWarranty: Boolean,
     val ticketIds: List<Int>
     // only the ids of the corresponding tickets are returned, to avoid an infinite loop of conversions to DTO
 )
@@ -24,7 +28,15 @@ data class NewPurchaseDTO(
 )
 
 fun Purchase.toDTO(): PurchaseDTO {
-    return PurchaseDTO(id, customer.toDTO(), product.toDTO(), status, dateOfPurchase, tickets.map { it.id })
+    return PurchaseDTO(
+        id,
+        customer.toDTO(),
+        product.toDTO(),
+        status,
+        dateOfPurchase,
+        warranty?.toDTO(),
+        coveredByWarranty,
+        tickets.map { it.id })
 }
 
 fun Purchase.toNewDTO(): NewPurchaseDTO {
