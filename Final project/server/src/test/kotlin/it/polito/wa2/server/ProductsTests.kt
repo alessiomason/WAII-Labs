@@ -12,7 +12,6 @@ import it.polito.wa2.server.ticketing.employees.ExpertSpecializationRepository
 import it.polito.wa2.server.ticketing.logs.LogRepository
 import it.polito.wa2.server.ticketing.purchases.PurchaseRepository
 import it.polito.wa2.server.ticketing.tickets.TicketRepository
-import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
@@ -40,7 +39,7 @@ class ProductsTests {
 		val postgres = PostgreSQLContainer("postgres:latest")
 
 		inline fun <reified T> typeReference() = object: ParameterizedTypeReference<T>() {}
-		private const val baseUrl = "/API/products"
+		private const val BASE_URL = "/API/products"
 
 		@JvmStatic
 		@DynamicPropertySource
@@ -101,7 +100,7 @@ class ProductsTests {
 		headers.setBearerAuth(jwtToken ?: "")
 		val requestEntity = HttpEntity<Nothing?>(headers)
 
-		val res = restTemplate.exchange(baseUrl, HttpMethod.GET, requestEntity, typeReference<List<ProductDTO>>())
+		val res = restTemplate.exchange(BASE_URL, HttpMethod.GET, requestEntity, typeReference<List<ProductDTO>>())
 
 		Assertions.assertEquals(HttpStatus.OK, res.statusCode)
 		Assertions.assertEquals(listOf(product1.toDTO(), product2.toDTO(), product3.toDTO()), res.body)
@@ -116,7 +115,7 @@ class ProductsTests {
 		headers.setBearerAuth(jwtToken ?: "")
 		val requestEntity = HttpEntity<Nothing?>(headers)
 
-		val res = restTemplate.exchange("$baseUrl/${product1.ean}", HttpMethod.GET, requestEntity, typeReference<ProductDTO>())
+		val res = restTemplate.exchange("$BASE_URL/${product1.ean}", HttpMethod.GET, requestEntity, typeReference<ProductDTO>())
 
 		Assertions.assertEquals(HttpStatus.OK, res.statusCode)
 		Assertions.assertEquals(product1.toDTO(), res.body)
@@ -131,7 +130,7 @@ class ProductsTests {
 		headers.setBearerAuth(jwtToken ?: "")
 		val requestEntity = HttpEntity<Nothing?>(headers)
 
-		val res = restTemplate.exchange("$baseUrl/${product4.ean}", HttpMethod.GET, requestEntity, typeReference<Unit>())
+		val res = restTemplate.exchange("$BASE_URL/${product4.ean}", HttpMethod.GET, requestEntity, typeReference<Unit>())
 
 		Assertions.assertEquals(HttpStatus.NOT_FOUND, res.statusCode)
 	}

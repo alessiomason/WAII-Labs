@@ -36,7 +36,7 @@ class ExpertsTests {
         val postgres = PostgreSQLContainer("postgres:latest")
 
         inline fun <reified T> typeReference() = object: ParameterizedTypeReference<T>() {}
-        private const val baseUrl = "/API/experts"
+        private const val BASE_URL = "/API/experts"
 
         @JvmStatic
         @DynamicPropertySource
@@ -96,7 +96,7 @@ class ExpertsTests {
         headers.setBearerAuth(jwtToken ?: "")
         val requestEntity = HttpEntity<Nothing?>(headers)
 
-        val res = restTemplate.exchange("$baseUrl/${expert1.id}", HttpMethod.GET, requestEntity, typeReference<ExpertDTO>())
+        val res = restTemplate.exchange("$BASE_URL/${expert1.id}", HttpMethod.GET, requestEntity, typeReference<ExpertDTO>())
 
         Assertions.assertEquals(HttpStatus.OK, res.statusCode)
         Assertions.assertEquals(expert1.toDTO(), res.body)
@@ -112,7 +112,7 @@ class ExpertsTests {
         headers.setBearerAuth(jwtToken ?: "")
         val requestEntity = HttpEntity<Nothing?>(headers)
 
-        val res = restTemplate.exchange("$baseUrl/0", HttpMethod.GET, requestEntity, typeReference<Unit>())
+        val res = restTemplate.exchange("$BASE_URL/0", HttpMethod.GET, requestEntity, typeReference<Unit>())
 
         Assertions.assertEquals(HttpStatus.NOT_FOUND, res.statusCode)
     }
@@ -129,13 +129,13 @@ class ExpertsTests {
         // edit expert1 with expert2 fields
         val editedExpert = ExpertDTO(expert1.id, expert2.firstName, expert2.lastName, expert2.specializations.map { it.toDTO() }, expert2.tickets.map { it.id })
         val requestEntity = HttpEntity(editedExpert, headers)
-        val res = restTemplate.exchange(baseUrl, HttpMethod.PUT, requestEntity, typeReference<Unit>())
+        val res = restTemplate.exchange(BASE_URL, HttpMethod.PUT, requestEntity, typeReference<Unit>())
 
         Assertions.assertEquals(HttpStatus.OK, res.statusCode)
 
         val requestEntityGet = HttpEntity<Nothing?>(headers)
 
-        val res2 = restTemplate.exchange("$baseUrl/${editedExpert.id}", HttpMethod.GET, requestEntityGet, typeReference<ExpertDTO>())
+        val res2 = restTemplate.exchange("$BASE_URL/${editedExpert.id}", HttpMethod.GET, requestEntityGet, typeReference<ExpertDTO>())
         Assertions.assertEquals(HttpStatus.OK, res2.statusCode)
         Assertions.assertEquals(editedExpert, res2.body)
     }
@@ -151,7 +151,7 @@ class ExpertsTests {
 
         val editedExpert = ExpertDTO("0", expert2.firstName, expert2.lastName, expert2.specializations.map { it.toDTO() }, expert2.tickets.map { it.id })
         val requestEntity = HttpEntity(editedExpert, headers)
-        val res = restTemplate.exchange(baseUrl, HttpMethod.PUT, requestEntity, typeReference<Unit>())
+        val res = restTemplate.exchange(BASE_URL, HttpMethod.PUT, requestEntity, typeReference<Unit>())
 
         Assertions.assertEquals(HttpStatus.NOT_FOUND, res.statusCode)
     }
@@ -167,7 +167,7 @@ class ExpertsTests {
 
         val newSpecialization = "Computers"
         val requestEntity = HttpEntity(newSpecialization, headers)
-        val res = restTemplate.exchange("$baseUrl/${expert1.id}/specialization", HttpMethod.POST, requestEntity, typeReference<ExpertSpecializationDTO>())
+        val res = restTemplate.exchange("$BASE_URL/${expert1.id}/specialization", HttpMethod.POST, requestEntity, typeReference<ExpertSpecializationDTO>())
 
         Assertions.assertEquals(HttpStatus.OK, res.statusCode)
 
@@ -181,7 +181,7 @@ class ExpertsTests {
 
         val requestEntityGet = HttpEntity<Nothing?>(headers)
 
-        val res2 = restTemplate.exchange("$baseUrl/${expert1.id}", HttpMethod.GET, requestEntityGet, typeReference<ExpertDTO>())
+        val res2 = restTemplate.exchange("$BASE_URL/${expert1.id}", HttpMethod.GET, requestEntityGet, typeReference<ExpertDTO>())
 
         Assertions.assertEquals(HttpStatus.OK, res2.statusCode)
         Assertions.assertEquals(expectedRes, res2.body)
@@ -198,7 +198,7 @@ class ExpertsTests {
 
         val newSpecialization = "Computers"
         val requestEntity = HttpEntity(newSpecialization, headers)
-        val res = restTemplate.exchange("$baseUrl/${expert2.id}/specialization", HttpMethod.POST, requestEntity, typeReference<Unit>())
+        val res = restTemplate.exchange("$BASE_URL/${expert2.id}/specialization", HttpMethod.POST, requestEntity, typeReference<Unit>())
 
         Assertions.assertEquals(HttpStatus.NOT_FOUND, res.statusCode)
     }
@@ -217,7 +217,7 @@ class ExpertsTests {
 
         val requestEntity = HttpEntity(expertSpecialization.toDTO(), headers)
 
-        val res = restTemplate.exchange("$baseUrl/specialization", HttpMethod.DELETE, requestEntity, typeReference<Unit>())
+        val res = restTemplate.exchange("$BASE_URL/specialization", HttpMethod.DELETE, requestEntity, typeReference<Unit>())
         Assertions.assertEquals(HttpStatus.OK, res.statusCode)
 
         val expectedRes = ExpertDTO(
@@ -230,7 +230,7 @@ class ExpertsTests {
 
         val requestEntityGet = HttpEntity<Nothing?>(headers)
 
-        val res2 = restTemplate.exchange("$baseUrl/${expert1.id}", HttpMethod.GET, requestEntityGet, typeReference<ExpertDTO>())
+        val res2 = restTemplate.exchange("$BASE_URL/${expert1.id}", HttpMethod.GET, requestEntityGet, typeReference<ExpertDTO>())
         Assertions.assertEquals(HttpStatus.OK, res2.statusCode)
         Assertions.assertEquals(expectedRes, res2.body)
     }
@@ -247,7 +247,7 @@ class ExpertsTests {
         val expertSpecialization = ExpertSpecialization("Computers", expert1)
         val requestEntity = HttpEntity(expertSpecialization.toDTO(), headers)
 
-        val res = restTemplate.exchange("$baseUrl/specialization", HttpMethod.DELETE, requestEntity, typeReference<Unit>())
+        val res = restTemplate.exchange("$BASE_URL/specialization", HttpMethod.DELETE, requestEntity, typeReference<Unit>())
         Assertions.assertEquals(HttpStatus.NOT_FOUND, res.statusCode)
     }
 }

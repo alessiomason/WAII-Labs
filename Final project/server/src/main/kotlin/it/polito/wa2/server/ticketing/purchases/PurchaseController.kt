@@ -1,5 +1,7 @@
 package it.polito.wa2.server.ticketing.purchases
 
+import it.polito.wa2.server.ticketing.purchases.warranties.NewWarrantyDTO
+import it.polito.wa2.server.ticketing.purchases.warranties.WarrantyDTO
 import jakarta.validation.Valid
 import org.springframework.validation.annotation.Validated
 import org.springframework.web.bind.annotation.CrossOrigin
@@ -28,5 +30,10 @@ class PurchaseController(
     @PostMapping("/API/purchases")
     fun createPurchase(@RequestBody @Valid newPurchaseDTO: NewPurchaseDTO): PurchaseDTO {
         return purchaseService.createPurchase(newPurchaseDTO)
+    }
+
+    @PostMapping("/API/purchases/{id}/warranty")
+    fun addWarranty(@PathVariable id: Int, @RequestBody @Valid newWarrantyDTO: NewWarrantyDTO): WarrantyDTO {
+        return purchaseService.addWarranty(id, newWarrantyDTO)
     }
 }

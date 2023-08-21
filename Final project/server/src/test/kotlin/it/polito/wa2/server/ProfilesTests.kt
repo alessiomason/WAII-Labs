@@ -39,7 +39,7 @@ class ProfilesTests {
         val postgres = PostgreSQLContainer("postgres:latest")
 
         inline fun <reified T> typeReference() = object: ParameterizedTypeReference<T>() {}
-        private const val baseUrl = "/API/profiles"
+        private const val BASE_URL = "/API/profiles"
 
         @JvmStatic
         @DynamicPropertySource
@@ -95,7 +95,7 @@ class ProfilesTests {
         headers.setBearerAuth(jwtToken ?: "")
         val requestEntity = HttpEntity<Nothing?>(headers)
 
-        val res = restTemplate.exchange("$baseUrl/${profile1.id}", HttpMethod.GET, requestEntity, typeReference<ProfileDTO>())
+        val res = restTemplate.exchange("$BASE_URL/${profile1.id}", HttpMethod.GET, requestEntity, typeReference<ProfileDTO>())
 
         Assertions.assertEquals(HttpStatus.OK, res.statusCode)
         Assertions.assertEquals(profile1.toDTO(), res.body)
@@ -110,7 +110,7 @@ class ProfilesTests {
         headers.setBearerAuth(jwtToken ?: "")
         val requestEntity = HttpEntity<Nothing?>(headers)
 
-        val res = restTemplate.exchange("$baseUrl/${profile2.id}", HttpMethod.GET, requestEntity, typeReference<Unit>())
+        val res = restTemplate.exchange("$BASE_URL/${profile2.id}", HttpMethod.GET, requestEntity, typeReference<Unit>())
 
         Assertions.assertEquals(HttpStatus.NOT_FOUND, res.statusCode)
     }
@@ -127,12 +127,12 @@ class ProfilesTests {
         headers.setBearerAuth(jwtToken ?: "")
 
         val requestEntityPut = HttpEntity(editedProfile, headers)
-        val res = restTemplate.exchange(baseUrl, HttpMethod.PUT, requestEntityPut, typeReference<Unit>())
+        val res = restTemplate.exchange(BASE_URL, HttpMethod.PUT, requestEntityPut, typeReference<Unit>())
 
         Assertions.assertEquals(HttpStatus.OK, res.statusCode)
 
         val requestEntityGet = HttpEntity<Nothing?>(headers)
-        val res2 = restTemplate.exchange("$baseUrl/${editedProfile.id}", HttpMethod.GET, requestEntityGet, typeReference<ProfileDTO>())
+        val res2 = restTemplate.exchange("$BASE_URL/${editedProfile.id}", HttpMethod.GET, requestEntityGet, typeReference<ProfileDTO>())
         Assertions.assertEquals(HttpStatus.OK, res2.statusCode)
         Assertions.assertEquals(editedProfile, res2.body)
     }
@@ -147,7 +147,7 @@ class ProfilesTests {
         val headers = HttpHeaders()
         headers.setBearerAuth(jwtToken ?: "")
         val requestEntity = HttpEntity(editedProfile, headers)
-        val res = restTemplate.exchange(baseUrl, HttpMethod.PUT, requestEntity, typeReference<Unit>())
+        val res = restTemplate.exchange(BASE_URL, HttpMethod.PUT, requestEntity, typeReference<Unit>())
 
         Assertions.assertEquals(HttpStatus.NOT_FOUND, res.statusCode)
     }

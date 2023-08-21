@@ -32,13 +32,13 @@ import org.springframework.http.HttpEntity
 import org.springframework.http.HttpHeaders
 import org.springframework.http.HttpMethod
 import org.springframework.http.HttpStatus
-import org.springframework.http.RequestEntity
 import org.springframework.test.context.DynamicPropertyRegistry
 import org.springframework.test.context.DynamicPropertySource
 import org.testcontainers.containers.PostgreSQLContainer
 import org.testcontainers.junit.jupiter.Container
 import org.testcontainers.junit.jupiter.Testcontainers
 import java.time.Instant
+import java.time.LocalDate
 
 @Testcontainers
 @SpringBootTest(webEnvironment=SpringBootTest.WebEnvironment.RANDOM_PORT)
@@ -49,7 +49,7 @@ class LogsTests {
         val postgres = PostgreSQLContainer("postgres:latest")
 
         inline fun <reified T> typeReference() = object: ParameterizedTypeReference<T>() {}
-        private const val baseUrl = "/API/logs"
+        private const val BASE_URL = "/API/logs"
 
         @JvmStatic
         @DynamicPropertySource
@@ -118,10 +118,10 @@ class LogsTests {
         expert2 = Expert("expert2", "jack.smith@products.com", "Jack", "Smith")
         expertRepository.save(expert1)
 
-        purchase1 = Purchase(customer1, product1, PurchaseStatus.PREPARING)
-        purchase2 = Purchase(customer1, product2, PurchaseStatus.SHIPPED)
-        purchase3 = Purchase(customer2, product2, PurchaseStatus.DELIVERED)
-        purchase4 = Purchase(customer2, product1, PurchaseStatus.REPLACED)
+        purchase1 = Purchase(customer1, product1, PurchaseStatus.PREPARING, LocalDate.now())
+        purchase2 = Purchase(customer1, product2, PurchaseStatus.SHIPPED, LocalDate.of(2023, 8, 21))
+        purchase3 = Purchase(customer2, product2, PurchaseStatus.DELIVERED, LocalDate.of(2022, 4, 7))
+        purchase4 = Purchase(customer2, product1, PurchaseStatus.REPLACED, LocalDate.now())
         purchaseRepository.save(purchase1)
         purchaseRepository.save(purchase2)
         purchaseRepository.save(purchase3)
@@ -169,7 +169,7 @@ class LogsTests {
         headers.setBearerAuth(jwtToken ?: "")
         val requestEntity = HttpEntity<Nothing?>(headers)
 
-        val res = restTemplate.exchange("${baseUrl}/ticket/${ticket1.id}", HttpMethod.GET, requestEntity, typeReference<List<LogDTO>>())
+        val res = restTemplate.exchange("${BASE_URL}/ticket/${ticket1.id}", HttpMethod.GET, requestEntity, typeReference<List<LogDTO>>())
 
         println(res.statusCode)
 
@@ -188,6 +188,7 @@ class LogsTests {
                         ticket1.purchase.customer.toDTO(),
                         ticket1.purchase.product.toDTO(),
                         ticket1.purchase.status,
+                        ticket1.purchase.dateOfPurchase,
                         listOf(ticket1.id)
                     ),
                     null,
@@ -209,6 +210,7 @@ class LogsTests {
                         ticket1.purchase.customer.toDTO(),
                         ticket1.purchase.product.toDTO(),
                         ticket1.purchase.status,
+                        ticket1.purchase.dateOfPurchase,
                         listOf(ticket1.id)
                     ),
                     null,
@@ -248,7 +250,7 @@ class LogsTests {
         headers.setBearerAuth(jwtToken ?: "")
         val requestEntity = HttpEntity<Nothing?>(headers)
 
-        val res = restTemplate.exchange("${baseUrl}/expert/${ticket1.expert!!.id}", HttpMethod.GET, requestEntity, typeReference<List<LogDTO>>())
+        val res = restTemplate.exchange("${BASE_URL}/expert/${ticket1.expert!!.id}", HttpMethod.GET, requestEntity, typeReference<List<LogDTO>>())
 
         val expectedList = listOf(
             LogDTO(
@@ -265,6 +267,7 @@ class LogsTests {
                         ticket1.purchase.customer.toDTO(),
                         ticket1.purchase.product.toDTO(),
                         ticket1.purchase.status,
+                        ticket1.purchase.dateOfPurchase,
                         listOf(ticket1.id)
                     ),
                     ExpertDTO(

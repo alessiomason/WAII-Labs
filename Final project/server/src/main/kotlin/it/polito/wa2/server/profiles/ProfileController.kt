@@ -1,7 +1,6 @@
 package it.polito.wa2.server.profiles
 
 import jakarta.validation.Valid
-import jakarta.validation.constraints.Email
 import org.springframework.validation.annotation.Validated
 import org.springframework.web.bind.annotation.*
 

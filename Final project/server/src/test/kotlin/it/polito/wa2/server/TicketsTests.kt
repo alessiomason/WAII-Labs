@@ -32,6 +32,7 @@ import org.springframework.test.context.DynamicPropertySource
 import org.testcontainers.containers.PostgreSQLContainer
 import org.testcontainers.junit.jupiter.Container
 import org.testcontainers.junit.jupiter.Testcontainers
+import java.time.LocalDate
 
 @Testcontainers
 @SpringBootTest(webEnvironment=SpringBootTest.WebEnvironment.RANDOM_PORT)
@@ -42,7 +43,7 @@ class TicketsTests {
         val postgres = PostgreSQLContainer("postgres:latest")
 
         inline fun <reified T> typeReference() = object: ParameterizedTypeReference<T>() {}
-        private const val baseUrl = "/API/tickets"
+        private const val BASE_URL = "/API/tickets"
 
         @JvmStatic
         @DynamicPropertySource
@@ -66,7 +67,7 @@ class TicketsTests {
         private lateinit var purchase2: Purchase
         private lateinit var purchase3: Purchase
         private lateinit var purchase4: Purchase
-        private val notSavedPurchase = Purchase(customer1, product1, PurchaseStatus.PREPARING)
+        private val notSavedPurchase = Purchase(customer1, product1, PurchaseStatus.PREPARING, LocalDate.now())
 
         private lateinit var ticket1: Ticket
         private lateinit var ticket2: Ticket
@@ -112,10 +113,10 @@ class TicketsTests {
         expert2 = Expert("expert2", "jack.smith@products.com", "Jack", "Smith")
         expertRepository.save(expert1)
 
-        purchase1 = Purchase(customer1, product1, PurchaseStatus.PREPARING)
-        purchase2 = Purchase(customer1, product2, PurchaseStatus.SHIPPED)
-        purchase3 = Purchase(customer2, product2, PurchaseStatus.DELIVERED)
-        purchase4 = Purchase(customer2, product1, PurchaseStatus.REPLACED)
+        purchase1 = Purchase(customer1, product1, PurchaseStatus.PREPARING, LocalDate.now())
+        purchase2 = Purchase(customer1, product2, PurchaseStatus.SHIPPED, LocalDate.of(2023, 8, 21))
+        purchase3 = Purchase(customer2, product2, PurchaseStatus.DELIVERED, LocalDate.of(2022, 4, 7))
+        purchase4 = Purchase(customer2, product1, PurchaseStatus.REPLACED, LocalDate.now())
         purchaseRepository.save(purchase1)
         purchaseRepository.save(purchase2)
         purchaseRepository.save(purchase3)
@@ -139,7 +140,7 @@ class TicketsTests {
         headers.setBearerAuth(jwtToken ?: "")
         val requestEntity = HttpEntity<Nothing?>(headers)
 
-        val res = restTemplate.exchange(baseUrl, HttpMethod.GET, requestEntity, typeReference<List<TicketDTO>>())
+        val res = restTemplate.exchange(BASE_URL, HttpMethod.GET, requestEntity, typeReference<List<TicketDTO>>())
 
         val expectedList = listOf(
             TicketDTO(
@@ -151,6 +152,7 @@ class TicketsTests {
                     ticket1.purchase.customer.toDTO(),
                     ticket1.purchase.product.toDTO(),
                     ticket1.purchase.status,
+                    ticket1.purchase.dateOfPurchase,
                     listOf(ticket1.id)
                 ),
                 null,
@@ -165,6 +167,7 @@ class TicketsTests {
                     ticket2.purchase.customer.toDTO(),
                     ticket2.purchase.product.toDTO(),
                     ticket2.purchase.status,
+                    ticket2.purchase.dateOfPurchase,
                     listOf(ticket2.id)
                 ),
                 null,
@@ -179,6 +182,7 @@ class TicketsTests {
                     ticket3.purchase.customer.toDTO(),
                     ticket3.purchase.product.toDTO(),
                     ticket3.purchase.status,
+                    ticket3.purchase.dateOfPurchase,
                     listOf(ticket3.id)
                 ),
                 null,
@@ -199,7 +203,7 @@ class TicketsTests {
         headers.setBearerAuth(jwtToken ?: "")
         val requestEntity = HttpEntity<Nothing?>(headers)
 
-        val res = restTemplate.exchange("$baseUrl/${ticket1.id}", HttpMethod.GET, requestEntity, typeReference<TicketDTO>())
+        val res = restTemplate.exchange("$BASE_URL/${ticket1.id}", HttpMethod.GET, requestEntity, typeReference<TicketDTO>())
 
         val expectedResBody = TicketDTO(
             ticket1.id,
@@ -210,6 +214,7 @@ class TicketsTests {
                 ticket1.purchase.customer.toDTO(),
                 ticket1.purchase.product.toDTO(),
                 ticket1.purchase.status,
+                ticket1.purchase.dateOfPurchase,
                 listOf(ticket1.id)
             ),
             null,
@@ -230,7 +235,7 @@ class TicketsTests {
         headers.setBearerAuth(jwtToken ?: "")
         val requestEntity = HttpEntity<Nothing?>(headers)
 
-        val res = restTemplate.exchange("$baseUrl/0", HttpMethod.GET, requestEntity, typeReference<Unit>())
+        val res = restTemplate.exchange("$BASE_URL/0", HttpMethod.GET, requestEntity, typeReference<Unit>())
 
         Assertions.assertEquals(HttpStatus.NOT_FOUND, res.statusCode)
     }
@@ -244,7 +249,7 @@ class TicketsTests {
         headers.setBearerAuth(jwtToken ?: "")
         val requestEntityCreate = HttpEntity(ticket4.toNewDTO(), headers)
 
-        val res = restTemplate.exchange(baseUrl, HttpMethod.POST, requestEntityCreate, typeReference<TicketDTO>())
+        val res = restTemplate.exchange(BASE_URL, HttpMethod.POST, requestEntityCreate, typeReference<TicketDTO>())
 
         val createdTicket = TicketDTO(
             res.body!!.id,
@@ -255,6 +260,7 @@ class TicketsTests {
                 ticket4.purchase.customer.toDTO(),
                 ticket4.purchase.product.toDTO(),
                 ticket4.purchase.status,
+                ticket4.purchase.dateOfPurchase,
                 listOf(res.body!!.id)
             ),
             null,
@@ -266,7 +272,7 @@ class TicketsTests {
         Assertions.assertEquals(createdTicket, res.body)
 
         val requestEntityGet = HttpEntity<Nothing?>(headers)
-        val res2 = restTemplate.exchange("$baseUrl/${createdTicket.id}", HttpMethod.GET, requestEntityGet, typeReference<TicketDTO>())
+        val res2 = restTemplate.exchange("$BASE_URL/${createdTicket.id}", HttpMethod.GET, requestEntityGet, typeReference<TicketDTO>())
         Assertions.assertEquals(HttpStatus.OK, res2.statusCode)
         Assertions.assertEquals(createdTicket, res2.body)
     }
@@ -282,7 +288,7 @@ class TicketsTests {
         headers.setBearerAuth(jwtToken ?: "")
         val requestEntity = HttpEntity(newTicket.toNewDTO(), headers)
 
-        val res = restTemplate.exchange(baseUrl, HttpMethod.POST, requestEntity, typeReference<Unit>())
+        val res = restTemplate.exchange(BASE_URL, HttpMethod.POST, requestEntity, typeReference<Unit>())
 
         Assertions.assertEquals(HttpStatus.NOT_FOUND, res.statusCode)
     }
@@ -300,6 +306,7 @@ class TicketsTests {
                 ticket2.purchase.customer.toDTO(),
                 ticket2.purchase.product.toDTO(),
                 ticket2.purchase.status,
+                ticket2.purchase.dateOfPurchase,
                 listOf(ticket2.id)
             ),
             ticket1.expert?.toDTO(),
@@ -315,6 +322,7 @@ class TicketsTests {
                 ticket1.purchase.customer.toDTO(),
                 ticket1.purchase.product.toDTO(),
                 ticket1.purchase.status,
+                ticket1.purchase.dateOfPurchase,
                 listOf(ticket1.id)
             ),
             ticket1.expert?.toDTO(),
@@ -329,12 +337,12 @@ class TicketsTests {
         headers.setBearerAuth(jwtToken ?: "")
 
         val requestEntityEdit = HttpEntity(editedTicket, headers)
-        val res = restTemplate.exchange(baseUrl, HttpMethod.PUT, requestEntityEdit, typeReference<Unit>())
+        val res = restTemplate.exchange(BASE_URL, HttpMethod.PUT, requestEntityEdit, typeReference<Unit>())
 
         Assertions.assertEquals(HttpStatus.OK, res.statusCode)
 
         val requestEntityGet = HttpEntity<Nothing?>(headers)
-        val res2 = restTemplate.exchange("$baseUrl/${editedTicket.id}", HttpMethod.GET, requestEntityGet, typeReference<TicketDTO>())
+        val res2 = restTemplate.exchange("$BASE_URL/${editedTicket.id}", HttpMethod.GET, requestEntityGet, typeReference<TicketDTO>())
         Assertions.assertEquals(HttpStatus.OK, res2.statusCode)
         Assertions.assertEquals(expectedTicket, res2.body)
     }
@@ -350,6 +358,7 @@ class TicketsTests {
                 ticket1.purchase.customer.toDTO(),
                 ticket1.purchase.product.toDTO(),
                 ticket1.purchase.status,
+                ticket1.purchase.dateOfPurchase,
                 listOf(ticket1.id)
             ),
             ticket1.expert?.toDTO(),
@@ -363,7 +372,7 @@ class TicketsTests {
         val headers = HttpHeaders()
         headers.setBearerAuth(jwtToken ?: "")
         val requestEntity = HttpEntity(editedTicket, headers)
-        val res = restTemplate.exchange(baseUrl, HttpMethod.PUT, requestEntity, typeReference<Unit>())
+        val res = restTemplate.exchange(BASE_URL, HttpMethod.PUT, requestEntity, typeReference<Unit>())
 
         Assertions.assertEquals(HttpStatus.NOT_FOUND, res.statusCode)
     }
@@ -381,6 +390,7 @@ class TicketsTests {
                 ticket2.purchase.customer.toDTO(),
                 ticket2.purchase.product.toDTO(),
                 ticket2.purchase.status,
+                ticket2.purchase.dateOfPurchase,
                 listOf(ticket2.id)
             ),
             ticket1.expert?.toDTO(),
@@ -396,6 +406,7 @@ class TicketsTests {
                 ticket1.purchase.customer.toDTO(),
                 ticket1.purchase.product.toDTO(),
                 ticket1.purchase.status,
+                ticket1.purchase.dateOfPurchase,
                 listOf(ticket1.id)
             ),
             ticket1.expert?.toDTO(),
@@ -409,11 +420,11 @@ class TicketsTests {
         val headers = HttpHeaders()
         headers.setBearerAuth(jwtToken ?: "")
         val requestEntity = HttpEntity(editedTicket, headers)
-        val res = restTemplate.exchange("$baseUrl/properties", HttpMethod.PUT, requestEntity, typeReference<Unit>())
+        val res = restTemplate.exchange("$BASE_URL/properties", HttpMethod.PUT, requestEntity, typeReference<Unit>())
 
         Assertions.assertEquals(HttpStatus.OK, res.statusCode)
 
-        val res2 = restTemplate.exchange("$baseUrl/${editedTicket.id}", HttpMethod.GET, requestEntity, typeReference<TicketDTO>())
+        val res2 = restTemplate.exchange("$BASE_URL/${editedTicket.id}", HttpMethod.GET, requestEntity, typeReference<TicketDTO>())
         Assertions.assertEquals(HttpStatus.OK, res2.statusCode)
         Assertions.assertEquals(expectedTicket, res2.body)
     }
@@ -429,6 +440,7 @@ class TicketsTests {
                 ticket1.purchase.customer.toDTO(),
                 ticket1.purchase.product.toDTO(),
                 ticket1.purchase.status,
+                ticket1.purchase.dateOfPurchase,
                 listOf(ticket1.id)
             ),
             ticket1.expert?.toDTO(),
@@ -443,7 +455,7 @@ class TicketsTests {
         headers.setBearerAuth(jwtToken ?: "")
 
         val requestEntity = HttpEntity(editedTicket, headers)
-        val res = restTemplate.exchange("$baseUrl/properties", HttpMethod.PUT, requestEntity, typeReference<Unit>())
+        val res = restTemplate.exchange("$BASE_URL/properties", HttpMethod.PUT, requestEntity, typeReference<Unit>())
 
         Assertions.assertEquals(HttpStatus.UNPROCESSABLE_ENTITY, res.statusCode)
     }
@@ -459,6 +471,7 @@ class TicketsTests {
                 ticket1.purchase.customer.toDTO(),
                 ticket1.purchase.product.toDTO(),
                 ticket1.purchase.status,
+                ticket1.purchase.dateOfPurchase,
                 listOf(ticket1.id)
             ),
             ticket1.expert?.toDTO(),
@@ -473,7 +486,7 @@ class TicketsTests {
         headers.setBearerAuth(jwtToken ?: "")
 
         val requestEntity = HttpEntity(editedTicket, headers)
-        val res = restTemplate.exchange("$baseUrl/properties", HttpMethod.PUT, requestEntity, typeReference<Unit>())
+        val res = restTemplate.exchange("$BASE_URL/properties", HttpMethod.PUT, requestEntity, typeReference<Unit>())
 
         Assertions.assertEquals(HttpStatus.NOT_FOUND, res.statusCode)
     }
@@ -491,6 +504,7 @@ class TicketsTests {
                 ticket2.purchase.customer.toDTO(),
                 ticket2.purchase.product.toDTO(),
                 ticket2.purchase.status,
+                ticket2.purchase.dateOfPurchase,
                 listOf(ticket2.id)
             ),
             expert1.toDTO(),
@@ -506,6 +520,7 @@ class TicketsTests {
                 ticket1.purchase.customer.toDTO(),
                 ticket1.purchase.product.toDTO(),
                 ticket1.purchase.status,
+                ticket1.purchase.dateOfPurchase,
                 listOf(ticket1.id)
             ),
             ExpertDTO(expert1.id, expert1.firstName, expert1.lastName, ticket1.expert?.specializations?.map { it.toDTO() } ?: listOf(), listOf(ticket1.id)),
@@ -520,12 +535,12 @@ class TicketsTests {
         headers.setBearerAuth(jwtToken ?: "")
 
         val requestEntityPost = HttpEntity(editedTicket, headers)
-        val res = restTemplate.exchange("$baseUrl/expert", HttpMethod.POST, requestEntityPost, typeReference<Unit>())
+        val res = restTemplate.exchange("$BASE_URL/expert", HttpMethod.POST, requestEntityPost, typeReference<Unit>())
 
         Assertions.assertEquals(HttpStatus.OK, res.statusCode)
 
         val requestEntityGet = HttpEntity<Nothing?>(headers)
-        val res2 = restTemplate.exchange("$baseUrl/${editedTicket.id}", HttpMethod.GET, requestEntityGet, typeReference<TicketDTO>())
+        val res2 = restTemplate.exchange("$BASE_URL/${editedTicket.id}", HttpMethod.GET, requestEntityGet, typeReference<TicketDTO>())
         Assertions.assertEquals(HttpStatus.OK, res2.statusCode)
         Assertions.assertEquals(expectedTicket, res2.body)
     }
@@ -543,6 +558,7 @@ class TicketsTests {
                 ticket2.purchase.customer.toDTO(),
                 ticket2.purchase.product.toDTO(),
                 ticket2.purchase.status,
+                ticket2.purchase.dateOfPurchase,
                 listOf(ticket2.id)
             ),
             null,
@@ -558,6 +574,7 @@ class TicketsTests {
                 ticket1.purchase.customer.toDTO(),
                 ticket1.purchase.product.toDTO(),
                 ticket1.purchase.status,
+                ticket1.purchase.dateOfPurchase,
                 listOf(ticket1.id)
             ),
             null,
@@ -572,12 +589,12 @@ class TicketsTests {
         headers.setBearerAuth(jwtToken ?: "")
 
         val requestEntityPost = HttpEntity(editedTicket, headers)
-        val res = restTemplate.exchange("$baseUrl/expert", HttpMethod.POST, requestEntityPost, typeReference<Unit>())
+        val res = restTemplate.exchange("$BASE_URL/expert", HttpMethod.POST, requestEntityPost, typeReference<Unit>())
 
         Assertions.assertEquals(HttpStatus.OK, res.statusCode)
 
         val requestEntityGet = HttpEntity<Nothing?>(headers)
-        val res2 = restTemplate.exchange("$baseUrl/${editedTicket.id}", HttpMethod.GET, requestEntityGet, typeReference<TicketDTO>())
+        val res2 = restTemplate.exchange("$BASE_URL/${editedTicket.id}", HttpMethod.GET, requestEntityGet, typeReference<TicketDTO>())
         Assertions.assertEquals(HttpStatus.OK, res2.statusCode)
         Assertions.assertEquals(expectedTicket, res2.body)
     }
@@ -593,6 +610,7 @@ class TicketsTests {
                 ticket1.purchase.customer.toDTO(),
                 ticket1.purchase.product.toDTO(),
                 ticket1.purchase.status,
+                ticket1.purchase.dateOfPurchase,
                 listOf(ticket1.id)
             ),
             expert1.toDTO(),
@@ -607,7 +625,7 @@ class TicketsTests {
         headers.setBearerAuth(jwtToken ?: "")
 
         val requestEntity = HttpEntity(editedTicket, headers)
-        val res = restTemplate.exchange("$baseUrl/expert", HttpMethod.POST, requestEntity, typeReference<Unit>())
+        val res = restTemplate.exchange("$BASE_URL/expert", HttpMethod.POST, requestEntity, typeReference<Unit>())
 
         Assertions.assertEquals(HttpStatus.NOT_FOUND, res.statusCode)
     }
@@ -623,6 +641,7 @@ class TicketsTests {
                 ticket1.purchase.customer.toDTO(),
                 ticket1.purchase.product.toDTO(),
                 ticket1.purchase.status,
+                ticket1.purchase.dateOfPurchase,
                 listOf(ticket1.id)
             ),
             notSavedExpert.toDTO(),
@@ -637,7 +656,7 @@ class TicketsTests {
         headers.setBearerAuth(jwtToken ?: "")
 
         val requestEntity = HttpEntity(editedTicket, headers)
-        val res = restTemplate.exchange("$baseUrl/expert", HttpMethod.POST, requestEntity, typeReference<Unit>())
+        val res = restTemplate.exchange("$BASE_URL/expert", HttpMethod.POST, requestEntity, typeReference<Unit>())
 
         Assertions.assertEquals(HttpStatus.NOT_FOUND, res.statusCode)
     }
@@ -656,6 +675,7 @@ class TicketsTests {
                 ticket1.purchase.customer.toDTO(),
                 ticket1.purchase.product.toDTO(),
                 ticket1.purchase.status,
+                ticket1.purchase.dateOfPurchase,
                 listOf(ticket1.id)
             ),
             expert1.toDTO(),
@@ -670,7 +690,7 @@ class TicketsTests {
         headers.setBearerAuth(jwtToken ?: "")
 
         val requestEntity = HttpEntity(editedTicket, headers)
-        val res = restTemplate.exchange("$baseUrl/expert", HttpMethod.POST, requestEntity, typeReference<Unit>())
+        val res = restTemplate.exchange("$BASE_URL/expert", HttpMethod.POST, requestEntity, typeReference<Unit>())
 
         Assertions.assertEquals(HttpStatus.UNPROCESSABLE_ENTITY, res.statusCode)
     }

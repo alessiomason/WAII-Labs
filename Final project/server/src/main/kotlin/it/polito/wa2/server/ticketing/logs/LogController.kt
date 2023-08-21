@@ -1,6 +1,5 @@
 package it.polito.wa2.server.ticketing.logs
 
-import it.polito.wa2.server.ticketing.tickets.TicketDTO
 import org.springframework.validation.annotation.Validated
 import org.springframework.web.bind.annotation.CrossOrigin
 import org.springframework.web.bind.annotation.GetMapping
