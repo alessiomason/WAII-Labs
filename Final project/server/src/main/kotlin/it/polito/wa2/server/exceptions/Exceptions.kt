@@ -14,8 +14,14 @@ class PurchaseNotFoundException: RuntimeException("Purchase not found!")
 
 class TicketNotFoundException: RuntimeException("Ticket not found!")
 
+class ChatNotFoundException: RuntimeException("Chat not found!")
+
+class ChatClosedException: RuntimeException("The chat is closed!")
+
 class TicketStatusException: RuntimeException("Ticket status not coherent!")
 
 class DuplicateProductException: RuntimeException("The product is already present!")
 
 class DuplicateProfileException: RuntimeException("The profile is already present!")
+
+class GenericException: RuntimeException("A generic exception occurred!")

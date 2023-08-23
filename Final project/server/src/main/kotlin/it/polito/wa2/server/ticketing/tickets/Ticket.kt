@@ -1,5 +1,6 @@
 package it.polito.wa2.server.ticketing.tickets
 
+import it.polito.wa2.server.ticketing.chat.Chat
 import it.polito.wa2.server.ticketing.employees.Expert
 import it.polito.wa2.server.ticketing.purchases.Purchase
 import jakarta.persistence.Column
@@ -7,6 +8,7 @@ import jakarta.persistence.Entity
 import jakarta.persistence.GeneratedValue
 import jakarta.persistence.Id
 import jakarta.persistence.ManyToOne
+import jakarta.persistence.OneToOne
 import jakarta.persistence.Table
 
 enum class TicketStatus {
@@ -33,4 +35,6 @@ class Ticket (
     var expert: Expert? = null
     var ticketStatus = TicketStatus.OPEN
     var priorityLevel = PriorityLevel.NORMAL
+    @OneToOne
+    var chat: Chat? = null
 }

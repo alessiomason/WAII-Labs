@@ -37,6 +37,14 @@ class ProblemDetailsHandler: ResponseEntityExceptionHandler() {
     fun handleTicketNotFound(e: TicketNotFoundException) = ProblemDetail
         .forStatusAndDetail(HttpStatus.NOT_FOUND, e.message!!)
 
+    @ExceptionHandler(ChatNotFoundException::class)
+    fun handleChatNotFound(e: ChatNotFoundException) = ProblemDetail
+        .forStatusAndDetail(HttpStatus.NOT_FOUND, e.message!!)
+
+    @ExceptionHandler(ChatClosedException::class)
+    fun handleChatClosed(e: ChatClosedException) = ProblemDetail
+        .forStatusAndDetail(HttpStatus.FORBIDDEN, e.message!!)
+
     @ExceptionHandler(TicketStatusException::class)
     fun handleTicketStatus(e: TicketStatusException) = ProblemDetail
         .forStatusAndDetail(HttpStatus.UNPROCESSABLE_ENTITY, e.message!!)
@@ -52,4 +60,8 @@ class ProblemDetailsHandler: ResponseEntityExceptionHandler() {
     @ExceptionHandler(ConstraintViolationException::class)
     fun handleInvalidConstraint(e: ConstraintViolationException) = ProblemDetail
         .forStatusAndDetail(HttpStatus.UNPROCESSABLE_ENTITY, e.message!!)
+
+    @ExceptionHandler(GenericException::class)
+    fun handleGenericException(e: GenericException) = ProblemDetail
+        .forStatusAndDetail(HttpStatus.BAD_REQUEST, e.message!!)
 }
