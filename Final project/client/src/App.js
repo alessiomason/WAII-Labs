@@ -9,7 +9,8 @@ import { ProductById } from "./ProductById";
 import { ProfileByMail } from "./ProfileByMail";
 import { FormModifyProfile } from "./FormModifyProfile";
 import { FormCreateProfile } from "./FormCreateProfile";
-import {LoginPage} from "./LoginPage";
+import { LoginPage } from "./LoginPage";
+import API from './API';
 
 function App() {
   return (
@@ -19,8 +20,23 @@ function App() {
   );
 }
 function App2() {
-
   const [dirty, setDirty] = useState(false);
+  const [loggedIn, setLoggedIn] = useState(false);
+
+  const navigate = useNavigate();
+
+  const doLogin = (email, password) => {
+    API.login(email, password)
+        .then(token => {
+            setLoggedIn(true);
+            localStorage.setItem('accessToken', token);
+            // setMessage('');
+            navigate('/');
+        })
+        .catch(err => {
+            // setMessage(err);
+        })
+}
 
   function handleError(err) {
     console.log(err);
@@ -29,9 +45,9 @@ function App2() {
   return (
     <>
       <Routes>
-        <Route path='/' element={<PageLayout />}>
+        <Route path='/' element={<PageLayout doLogin={doLogin} />}>
           <Route index element={<ListOfRoutes />} />
-          <Route path='login' element={<LoginPage/>} />
+          <Route path='login' element={<LoginPage doLogin={doLogin} />} />
           <Route path='/products' element={<ProductList handleError={handleError} />} />
           <Route path='/products/:ean' element={<ProductById handleError={handleError} />} />
           <Route path='/profiles' element={<FormCreateProfile handleError={handleError} dirty={dirty} setDirty={setDirty} />} />
@@ -45,13 +61,13 @@ function App2() {
   );
 }
 
-function PageLayout() {
+function PageLayout(props) {
   const navigate = useNavigate();
 
   return (
     <Container>
       <Row className='navbar'>
-        <Button variant='light' onClick={() => navigate('/')} ><House /> Back to home page</Button>
+        <Button variant='light' onClick={() => props.doLogin("customer1@products.com", "password")} ><House /> Back to home page</Button>
       </Row>
       <Row>
         <Outlet />

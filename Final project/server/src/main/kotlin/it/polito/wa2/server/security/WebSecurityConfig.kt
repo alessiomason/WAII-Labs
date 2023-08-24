@@ -24,6 +24,8 @@ class WebSecurityConfig(private val jwtAuthConverter: JwtAuthConverter) {
     fun securityFilterChain(http: HttpSecurity): SecurityFilterChain {
         http.csrf().disable()
 
+        http.cors()
+
         http.authorizeHttpRequests()
             // PUBLIC
             .requestMatchers(HttpMethod.POST,  "/API/login", "API/signup")

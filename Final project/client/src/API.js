@@ -1,8 +1,31 @@
 const APIURL = new URL('http://localhost:8080/API/')
 
+async function login(email, password) {
+    // call /API/login
+    const response = await fetch(new URL('login', APIURL), {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+
+        body: JSON.stringify({
+            email: email,
+            password: password
+        }),
+
+    });
+    const jwtDTO = await response.json();
+    if (response.ok) return jwtDTO.jwtAccessToken;
+    else throw jwtDTO;
+}
+
 async function getProducts() {
+    const accessToken = localStorage.getItem('accessToken');
+
     // call /API/products
-    const response = await fetch(new URL('products', APIURL));
+    const response = await fetch(new URL('products', APIURL), {
+        headers: { Authorization: `Bearer ${accessToken}` },
+    });
     const products = await response.json();
     if (response.ok)
         return products.map((prod) => ({
@@ -72,7 +95,7 @@ function createProfile(profile) {
 function editProfile(editedProfile) {
     // call: PUT /API/profiles/:email
     return new Promise((resolve, reject) => {
-        fetch(new URL('profiles/' + editedProfile.email , APIURL), {
+        fetch(new URL('profiles/' + editedProfile.email, APIURL), {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json',
@@ -98,6 +121,6 @@ function editProfile(editedProfile) {
 
 
 const API = {
-    getProducts, getProductById, getProfileById, createProfile, editProfile
+    login, getProducts, getProductById, getProfileById, createProfile, editProfile
 };
 export default API;
