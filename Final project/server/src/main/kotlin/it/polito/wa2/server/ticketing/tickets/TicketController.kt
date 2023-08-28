@@ -1,5 +1,7 @@
 package it.polito.wa2.server.ticketing.tickets
 
+import it.polito.wa2.server.exceptions.RoleNotFoundException
+import it.polito.wa2.server.getRoleFromJWT
 import jakarta.validation.Valid
 import org.springframework.security.core.annotation.AuthenticationPrincipal
 import org.springframework.security.oauth2.jwt.Jwt
@@ -15,13 +17,16 @@ class TicketController(
 ) {
     @GetMapping("/API/tickets")
     fun getAllTickets(@AuthenticationPrincipal principal: Jwt): List<TicketDTO> {
-        val rolesList = principal.getClaimAsMap("resource_access")["wa2-products-client"] as Map<*, *>
-        val role = (rolesList["roles"] as List<*>).first() as String
+        val role = getRoleFromJWT(principal)
 
-        return if (role == "customer") {
-            val email = principal.getClaimAsString("email")
-            ticketService.getTicketsByCustomer(email)
-        } else ticketService.getAllTickets()
+        return when (role) {
+            "customer" -> {
+                val email = principal.getClaimAsString("email")
+                ticketService.getTicketsByCustomer(email)
+            }
+            "expert", "manager" -> ticketService.getAllTickets()
+            else -> throw RoleNotFoundException()
+        }
     }
 
     @GetMapping("/API/tickets/{id}")

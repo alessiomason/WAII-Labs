@@ -6,6 +6,7 @@ import it.polito.wa2.server.exceptions.PurchaseNotFoundException
 import it.polito.wa2.server.products.ProductRepository
 import it.polito.wa2.server.profiles.ProfileRepository
 import it.polito.wa2.server.ticketing.purchases.warranties.*
+import jakarta.validation.constraints.Email
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Service
 
@@ -18,6 +19,10 @@ class PurchaseServiceImpl(
 ): PurchaseService {
     override fun getAllPurchases(): List<PurchaseDTO> {
         return purchaseRepository.findAll().map { it.toDTO() }
+    }
+
+    override fun getPurchasesByCustomer(@Email email: String): List<PurchaseDTO> {
+        return purchaseRepository.findPurchaseByCustomerEmail(email).map { it.toDTO() }
     }
 
     override fun getPurchase(id: Int): PurchaseDTO {

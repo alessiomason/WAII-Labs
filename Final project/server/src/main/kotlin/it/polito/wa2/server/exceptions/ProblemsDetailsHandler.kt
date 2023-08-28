@@ -9,6 +9,10 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 
 @RestControllerAdvice
 class ProblemDetailsHandler: ResponseEntityExceptionHandler() {
+    @ExceptionHandler(RoleNotFoundException::class)
+    fun handleRoleNotFound(e: RoleNotFoundException) = ProblemDetail
+        .forStatusAndDetail(HttpStatus.NOT_FOUND, e.message!!)
+
     @ExceptionHandler(ProductNotFoundException::class)
     fun handleProductNotFound(e: ProductNotFoundException) = ProblemDetail
         .forStatusAndDetail(HttpStatus.NOT_FOUND, e.message!!)

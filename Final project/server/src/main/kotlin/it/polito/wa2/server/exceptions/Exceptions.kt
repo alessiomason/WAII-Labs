@@ -1,5 +1,7 @@
 package it.polito.wa2.server.exceptions
 
+class RoleNotFoundException: RuntimeException("Role not found!")
+
 class ProductNotFoundException: RuntimeException("Product not found!")
 
 class ProfileNotFoundException: RuntimeException("Profile not found!")

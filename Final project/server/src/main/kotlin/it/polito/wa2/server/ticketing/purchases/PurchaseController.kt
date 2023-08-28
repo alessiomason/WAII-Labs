@@ -1,8 +1,12 @@
 package it.polito.wa2.server.ticketing.purchases
 
+import it.polito.wa2.server.exceptions.RoleNotFoundException
+import it.polito.wa2.server.getRoleFromJWT
 import it.polito.wa2.server.ticketing.purchases.warranties.NewWarrantyDTO
 import it.polito.wa2.server.ticketing.purchases.warranties.WarrantyDTO
 import jakarta.validation.Valid
+import org.springframework.security.core.annotation.AuthenticationPrincipal
+import org.springframework.security.oauth2.jwt.Jwt
 import org.springframework.validation.annotation.Validated
 import org.springframework.web.bind.annotation.CrossOrigin
 import org.springframework.web.bind.annotation.GetMapping
@@ -11,6 +15,7 @@ import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.PutMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RestController
+import java.security.Principal
 
 @RestController
 @CrossOrigin("http://localhost:3000")
@@ -19,8 +24,17 @@ class PurchaseController(
     private val purchaseService: PurchaseService
 ) {
     @GetMapping("API/purchases")
-    fun getPurchases(): List<PurchaseDTO> {
-        return purchaseService.getAllPurchases()
+    fun getPurchases(@AuthenticationPrincipal principal: Jwt): List<PurchaseDTO> {
+        val role = getRoleFromJWT(principal)
+
+        return when (role) {
+            "customer" -> {
+                val email = principal.getClaimAsString("email")
+                purchaseService.getPurchasesByCustomer(email)
+            }
+            "expert", "manager" -> purchaseService.getAllPurchases()
+            else -> throw RoleNotFoundException()
+        }
     }
 
     @GetMapping("/API/purchases/{id}")
