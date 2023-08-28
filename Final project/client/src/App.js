@@ -22,37 +22,28 @@ function App() {
 function App2() {
   const [dirty, setDirty] = useState(false);
   const [loggedIn, setLoggedIn] = useState(false);
+  const [message, setMessage] = useState('');
 
   const navigate = useNavigate();
 
   const doLogin = (email, password) => {
     API.login(email, password)
-        .then(token => {
-            setLoggedIn(true);
-            localStorage.setItem('accessToken', token);
-            // setMessage('');
-            navigate('/');
-        })
-        .catch(err => {
-            // setMessage(err);
-        })
-}
-
-  function handleError(err) {
-    console.log(err);
+      .then(token => {
+        setLoggedIn(true);
+        localStorage.setItem('accessToken', token);
+        setMessage('');
+        navigate('/');
+      })
+      .catch(err => {
+        setMessage(err);
+      })
   }
 
   return (
     <>
       <Routes>
-        <Route path='/' element={<PageLayout doLogin={doLogin} />}>
-          <Route index element={<ListOfRoutes />} />
-          <Route path='login' element={<LoginPage doLogin={doLogin} />} />
-          <Route path='/products' element={<ProductList handleError={handleError} />} />
-          <Route path='/products/:ean' element={<ProductById handleError={handleError} />} />
-          <Route path='/profiles' element={<FormCreateProfile handleError={handleError} dirty={dirty} setDirty={setDirty} />} />
-          <Route path='/profiles/:email' element={<ProfileByMail handleError={handleError} dirty={dirty} setDirty={setDirty} />} />
-          <Route path='/editProfile/:email' element={<FormModifyProfile handleError={handleError} dirty={dirty} setDirty={setDirty} />} />
+        <Route path='/login' element={loggedIn ? <Navigate to='/' /> : <LoginPage loggedIn={loggedIn} doLogin={doLogin} message={message} setMessage={setMessage} />} />
+        <Route path='/' element={loggedIn ? <PageLayout loggedIn={loggedIn} doLogin={doLogin} /> : <Navigate to='/login' />}>
         </Route>
 
         <Route path='*' element={<Navigate to='/' />} />
@@ -67,7 +58,7 @@ function PageLayout(props) {
   return (
     <Container>
       <Row className='navbar'>
-        <Button variant='light' onClick={() => props.doLogin("customer1@products.com", "password")} ><House /> Back to home page</Button>
+        <Button variant='light'><House /> Back to home page - {props.loggedIn ? 'logged in' : 'not logged in'}</Button>
       </Row>
       <Row>
         <Outlet />
