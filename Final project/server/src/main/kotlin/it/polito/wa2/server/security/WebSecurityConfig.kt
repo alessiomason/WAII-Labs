@@ -77,7 +77,7 @@ class WebSecurityConfig(private val jwtAuthConverter: JwtAuthConverter) {
 
             // TICKETS
             .requestMatchers(HttpMethod.GET, "/tickets", "/API/tickets")
-            .hasAnyRole(EXPERT, MANAGER)
+            .hasAnyRole(CUSTOMER, EXPERT, MANAGER)
 
             .requestMatchers(HttpMethod.GET, "/tickets/**", "/API/tickets/**")
             .hasAnyRole(CUSTOMER, EXPERT, MANAGER)

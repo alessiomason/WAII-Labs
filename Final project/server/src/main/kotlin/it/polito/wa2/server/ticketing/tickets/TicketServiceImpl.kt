@@ -4,6 +4,7 @@ import it.polito.wa2.server.exceptions.*
 import it.polito.wa2.server.ticketing.employees.Expert
 import it.polito.wa2.server.ticketing.employees.ExpertRepository
 import it.polito.wa2.server.ticketing.purchases.PurchaseRepository
+import jakarta.validation.constraints.Email
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Service
 
@@ -15,6 +16,10 @@ class TicketServiceImpl(
 ): TicketService {
     override fun getAllTickets(): List<TicketDTO> {
         return ticketRepository.findAll().map { it.toDTO() }
+    }
+
+    override fun getTicketsByCustomer(@Email email: String): List<TicketDTO> {
+        return ticketRepository.findByPurchaseCustomerEmail(email).map { it.toDTO() }
     }
 
     override fun getTicket(id: Int): TicketDTO {

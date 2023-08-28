@@ -44,16 +44,55 @@ create table if not exists managers
     last_name  varchar(255)
 );
 
-create table if not exists purchases
+create table if not exists warranties
 (
     id          integer not null
         primary key,
-    customer_id varchar(255)
+    expiry_date date
+);
+
+create table if not exists purchases
+(
+    id               integer not null
+        primary key,
+    date_of_purchase date,
+    status           smallint,
+    customer_id      varchar(255)
         constraint fkb6d870g3molqi48rde56lu616
             references profiles,
-    product_ean varchar(255)
+    product_ean      varchar(255)
         constraint fkigpc93qq7e03j6e34h90ra3a4
-            references products
+            references products,
+    warranty_id      integer
+        constraint fk51dqlyq7ki1usmtskdrc9b4yl
+            references warranties
+);
+
+create table chats
+(
+    id        integer not null
+        primary key,
+    closed    boolean not null,
+    ticket_id integer
+        constraint fk46bo4rgg1nb5qla4nwb7wgbfk
+            references tickets
+);
+
+create table messages
+(
+    id      integer not null
+        primary key,
+    text    varchar(255),
+    time    timestamp(6),
+    chat_id integer
+        constraint fk64w44ngcpqp99ptcb9werdfmb
+            references chats,
+    from_id varchar(255)
+        constraint fknd9p9t48pgyxsuxgjs180bbbs
+            references profiles,
+    to_id   varchar(255)
+        constraint fkt9kn50ywdif81a01ck3qww6fo
+            references profiles
 );
 
 create table if not exists tickets
@@ -64,6 +103,9 @@ create table if not exists tickets
     priority_level smallint,
     ticket_status  smallint,
     title          varchar(255),
+    chat_id        integer
+        constraint fkd6cppibj248dq72aop0jntk21
+            references chats,
     expert_id      varchar(255)
         constraint fkdqocj5l89sf10g9jguw7l5df9
             references experts,
@@ -1284,12 +1326,12 @@ INSERT INTO managers (id, email, first_name, last_name) VALUES ('eric_gordon_13@
 INSERT INTO managers (id, email, first_name, last_name) VALUES ('matt_james_13@mail.com', 'matt_james_13@mail.com', 'Matt', 'James');
 INSERT INTO managers (id, email, first_name, last_name) VALUES ('andry_shevckenco_13@mail.com', 'andry_shevckenco_13@mail.com', 'Andry', 'Shevckenco');
 
-INSERT INTO purchases (id, customer_id, product_ean) VALUES (1, 'flongwood0@vk.com', '8712725728528');
-INSERT INTO purchases (id, customer_id, product_ean) VALUES (2, 'grengger1@cloudflare.com', '3532041192835');
-INSERT INTO purchases (id, customer_id, product_ean) VALUES (3, 'ftuther1g@opensource.org', '3539186242005');
-INSERT INTO purchases (id, customer_id, product_ean) VALUES (4, 'oleacockx@tinyurl.com', '5711045610646');
-INSERT INTO purchases (id, customer_id, product_ean) VALUES (5, 'meastlake1j@gizmodo.com', '5052746203592');
-INSERT INTO purchases (id, customer_id, product_ean) VALUES (6, 'mfoxleym@hp.com', '6932799000098');
+INSERT INTO purchases (id, date_of_purchase, status, customer_id, product_ean) VALUES (1, '2023-08-28', 0, 'flongwood0@vk.com', '8712725728528');
+INSERT INTO purchases (id, date_of_purchase, status, customer_id, product_ean) VALUES (2, '2023-08-28', 0, 'grengger1@cloudflare.com', '3532041192835');
+INSERT INTO purchases (id, date_of_purchase, status, customer_id, product_ean) VALUES (3, '2023-08-28', 0, 'ftuther1g@opensource.org', '3539186242005');
+INSERT INTO purchases (id, date_of_purchase, status, customer_id, product_ean) VALUES (4, '2023-08-28', 0, 'oleacockx@tinyurl.com', '5711045610646');
+INSERT INTO purchases (id, date_of_purchase, status, customer_id, product_ean) VALUES (5, '2023-08-28', 0, 'meastlake1j@gizmodo.com', '5052746203592');
+INSERT INTO purchases (id, date_of_purchase, status, customer_id, product_ean) VALUES (6, '2023-08-28', 0, 'mfoxleym@hp.com', '6932799000098');
 
 INSERT INTO tickets(id, description, priority_level, ticket_status, title, expert_id, purchase_id) VALUES (1, 'Description Ticket 1', 1, 0, 'Ticket 1', 'joe_pesci_12@mail.com', 1);
 INSERT INTO tickets(id, description, priority_level, ticket_status, title, expert_id, purchase_id) VALUES (2, 'Description Ticket 2', 1, 0, 'Ticket 2', 'john_demon_12@mail.com', 3);

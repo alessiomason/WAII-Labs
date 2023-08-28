@@ -1,7 +1,11 @@
 package it.polito.wa2.server.ticketing.tickets
 
+import jakarta.validation.constraints.Email
+
 interface TicketService {
     fun getAllTickets(): List<TicketDTO>
+
+    fun getTicketsByCustomer(@Email email: String): List<TicketDTO>
 
     fun getTicket(id: Int): TicketDTO
 

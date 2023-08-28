@@ -1,6 +1,7 @@
 package it.polito.wa2.server.profiles
 
 import it.polito.wa2.server.exceptions.ProfileNotFoundException
+import jakarta.validation.constraints.Email
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Service
 
@@ -10,6 +11,10 @@ class ProfileServiceImpl(
 ): ProfileService {
     override fun getProfile(id: String): ProfileDTO {
         return profileRepository.findByIdOrNull(id)?.toDTO() ?: throw ProfileNotFoundException()
+    }
+
+    override fun getProfileByEmail(@Email email: String): ProfileDTO {
+        return profileRepository.findByEmail(email)?.toDTO() ?: throw ProfileNotFoundException()
     }
 
     override fun editProfile(profileDTO: ProfileDTO) {
