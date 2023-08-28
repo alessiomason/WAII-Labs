@@ -22,7 +22,7 @@ class PurchaseServiceImpl(
     }
 
     override fun getPurchasesByCustomer(@Email email: String): List<PurchaseDTO> {
-        return purchaseRepository.findPurchaseByCustomerEmail(email).map { it.toDTO() }
+        return purchaseRepository.findByCustomerEmail(email).map { it.toDTO() }
     }
 
     override fun getPurchase(id: Int): PurchaseDTO {

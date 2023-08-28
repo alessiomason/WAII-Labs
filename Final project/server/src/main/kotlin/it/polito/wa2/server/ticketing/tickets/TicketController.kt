@@ -24,7 +24,11 @@ class TicketController(
                 val email = principal.getClaimAsString("email")
                 ticketService.getTicketsByCustomer(email)
             }
-            "expert", "manager" -> ticketService.getAllTickets()
+            "expert" -> {
+                val email = principal.getClaimAsString("email")
+                ticketService.getTicketsByExpert(email)
+            }
+            "manager" -> ticketService.getAllTickets()
             else -> throw RoleNotFoundException()
         }
     }

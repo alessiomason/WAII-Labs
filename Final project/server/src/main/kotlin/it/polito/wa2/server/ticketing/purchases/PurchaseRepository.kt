@@ -6,5 +6,5 @@ import org.springframework.stereotype.Repository
 
 @Repository
 interface PurchaseRepository: JpaRepository<Purchase, Int> {
-    fun findPurchaseByCustomerEmail(@Email email: String): List<Purchase>
+    fun findByCustomerEmail(@Email email: String): List<Purchase>
 }

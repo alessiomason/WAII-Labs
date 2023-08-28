@@ -7,4 +7,6 @@ import org.springframework.stereotype.Repository
 @Repository
 interface TicketRepository: JpaRepository<Ticket, Int> {
     fun findByPurchaseCustomerEmail(@Email email: String): List<Ticket>
+
+    fun findByExpertEmail(@Email email: String): List<Ticket>
 }

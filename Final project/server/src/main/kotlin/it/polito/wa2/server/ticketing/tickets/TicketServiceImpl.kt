@@ -22,6 +22,10 @@ class TicketServiceImpl(
         return ticketRepository.findByPurchaseCustomerEmail(email).map { it.toDTO() }
     }
 
+    override fun getTicketsByExpert(@Email email: String): List<TicketDTO> {
+        return ticketRepository.findByExpertEmail(email).map { it.toDTO() }
+    }
+
     override fun getTicket(id: Int): TicketDTO {
         return ticketRepository.findByIdOrNull(id)?.toDTO() ?: throw TicketNotFoundException()
     }

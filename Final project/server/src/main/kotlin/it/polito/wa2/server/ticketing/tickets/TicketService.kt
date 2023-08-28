@@ -7,6 +7,8 @@ interface TicketService {
 
     fun getTicketsByCustomer(@Email email: String): List<TicketDTO>
 
+    fun getTicketsByExpert(@Email email: String): List<TicketDTO>
+
     fun getTicket(id: Int): TicketDTO
 
     fun createTicket(newTicketDTO: NewTicketDTO): TicketDTO
