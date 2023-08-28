@@ -56,8 +56,8 @@ function LoginPage(props) {
 }
 
 function LoginPane(props) {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [email, setEmail] = useState('customer1@products.com');
+  const [password, setPassword] = useState('password');
 
   return (
     <MDBContainer className="my-5 gradient-form">
@@ -93,7 +93,7 @@ function SignUpPane() {
                 style={{ width: '185px' }} alt="logo" />
               <h4 className="mt-1 mb-5 pb-1">We are The Lotus Team</h4>
             </div>
-            <p>Please regiter your account</p>
+            <p>Please register your account</p>
             <MDBInput wrapperClass='mb-4' label='Email address' id='email' type='email' />
             <MDBInput wrapperClass='mb-4' label='Name' id='name' type='text' />
             <MDBInput wrapperClass='mb-4' label='Surname' id='surname' type='text' />

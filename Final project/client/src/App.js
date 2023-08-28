@@ -1,6 +1,6 @@
 import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Button, Container, Row } from 'react-bootstrap';
 import { ArrowRightCircle, House } from 'react-bootstrap-icons';
 import { BrowserRouter as Router, Routes, Route, Navigate, useNavigate, Outlet } from 'react-router-dom';
@@ -20,13 +20,22 @@ function App() {
   );
 }
 function App2() {
-  const [dirty, setDirty] = useState(false);
   const [loggedIn, setLoggedIn] = useState(false);
   const [message, setMessage] = useState('');
 
   const navigate = useNavigate();
 
-  const doLogin = (email, password) => {
+  // on start check if access token is still saved (so, still logged in)
+  useEffect(() => {
+    const accessToken = localStorage.getItem('accessToken');
+
+    if (accessToken != '') {
+      setLoggedIn(true);
+      setMessage('');
+    }
+  }, [])
+
+  function doLogin(email, password) {
     API.login(email, password)
       .then(token => {
         setLoggedIn(true);
@@ -39,11 +48,17 @@ function App2() {
       })
   }
 
+  function doLogout() {
+    setLoggedIn(false);
+    localStorage.removeItem('accessToken');
+    setMessage('');
+  }
+
   return (
     <>
       <Routes>
         <Route path='/login' element={loggedIn ? <Navigate to='/' /> : <LoginPage loggedIn={loggedIn} doLogin={doLogin} message={message} setMessage={setMessage} />} />
-        <Route path='/' element={loggedIn ? <PageLayout loggedIn={loggedIn} doLogin={doLogin} /> : <Navigate to='/login' />}>
+        <Route path='/' element={loggedIn ? <PageLayout loggedIn={loggedIn} doLogin={doLogin} doLogout={doLogout} /> : <Navigate to='/login' />}>
         </Route>
 
         <Route path='*' element={<Navigate to='/' />} />
@@ -53,12 +68,10 @@ function App2() {
 }
 
 function PageLayout(props) {
-  const navigate = useNavigate();
-
   return (
     <Container>
       <Row className='navbar'>
-        <Button variant='light'><House /> Back to home page - {props.loggedIn ? 'logged in' : 'not logged in'}</Button>
+        <Button variant='light' onClick={() => props.doLogout()}><House /> Logout</Button>
       </Row>
       <Row>
         <Outlet />
