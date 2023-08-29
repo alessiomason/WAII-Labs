@@ -14,9 +14,9 @@ import org.springframework.security.web.SecurityFilterChain
 @RequiredArgsConstructor
 class WebSecurityConfig(private val jwtAuthConverter: JwtAuthConverter) {
     companion object {
-        const val MANAGER = "manager"
-        const val EXPERT = "expert"
         const val CUSTOMER = "customer"
+        const val EXPERT = "expert"
+        const val MANAGER = "manager"
     }
 
     @Bean

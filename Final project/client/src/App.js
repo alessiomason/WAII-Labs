@@ -4,13 +4,9 @@ import { useEffect, useState } from 'react';
 import { Button, Container, Row } from 'react-bootstrap';
 import { ArrowRightCircle, House } from 'react-bootstrap-icons';
 import { BrowserRouter as Router, Routes, Route, Navigate, useNavigate, Outlet } from 'react-router-dom';
-import { ProductList } from "./ProductList";
-import { ProductById } from "./ProductById";
-import { ProfileByMail } from "./ProfileByMail";
-import { FormModifyProfile } from "./FormModifyProfile";
-import { FormCreateProfile } from "./FormCreateProfile";
 import { LoginPage } from "./LoginPage";
 import API from './API';
+import jwt_decode from "jwt-decode";
 
 function App() {
   return (
@@ -29,9 +25,16 @@ function App2() {
   useEffect(() => {
     const accessToken = localStorage.getItem('accessToken');
 
-    if (accessToken != '') {
-      setLoggedIn(true);
-      setMessage('');
+    if (accessToken != '' && accessToken != null) {
+      const expirationTime = jwt_decode(accessToken).exp * 1000;
+
+      if (expirationTime <= new Date().getTime()) {
+        doLogout();
+      } else {
+        setLoggedIn(true);
+        setMessage('');
+        setTimeout(doLogout, expirationTime - new Date().getTime());
+      }
     }
   }, [])
 
@@ -40,6 +43,7 @@ function App2() {
       .then(token => {
         setLoggedIn(true);
         localStorage.setItem('accessToken', token);
+        setTimeout(doLogout, jwt_decode(token).exp * 1000 - new Date().getTime());
         setMessage('');
         navigate('/');
       })
