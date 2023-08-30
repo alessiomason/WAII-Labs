@@ -1,5 +1,6 @@
 package it.polito.wa2.server.security
 
+import it.polito.wa2.server.exceptions.GenericException
 import jakarta.validation.Valid
 import org.springframework.validation.annotation.Validated
 import org.springframework.web.bind.annotation.CrossOrigin
@@ -13,7 +14,12 @@ import org.springframework.web.bind.annotation.RestController
 class AuthenticationController(private val authenticationService: AuthenticationService) {
     @PostMapping("/API/login")
     fun login(@RequestBody @Valid loginDTO: LoginDTO): JwtDTO {
-        return authenticationService.login(loginDTO) ?: throw Exception()
+        return authenticationService.login(loginDTO) ?: throw GenericException()
+    }
+
+    @PostMapping("/API/refreshLogin")
+    fun refreshLogin(@RequestBody @Valid refreshJwtDTO: RefreshJwtDTO): JwtDTO {
+        return authenticationService.refreshLogin(refreshJwtDTO) ?: throw GenericException()
     }
 
     @PostMapping("/API/signup")

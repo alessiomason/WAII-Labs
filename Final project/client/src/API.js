@@ -14,8 +14,28 @@ async function login(email, password) {
         }),
 
     });
+
     const jwtDTO = await response.json();
-    if (response.ok) return jwtDTO.jwtAccessToken;
+    if (response.ok) return jwtDTO;
+    else throw jwtDTO;
+}
+
+async function refreshLogin(refreshToken) {
+    // call /API/refreshLogin
+    const response = await fetch(new URL('refreshLogin', APIURL), {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+
+        body: JSON.stringify({
+            refreshToken: refreshToken
+        }),
+
+    });
+
+    const jwtDTO = await response.json();
+    if (response.ok) return jwtDTO;
     else throw jwtDTO;
 }
 
@@ -26,6 +46,7 @@ async function getProducts() {
     const response = await fetch(new URL('products', APIURL), {
         headers: { Authorization: `Bearer ${accessToken}` },
     });
+
     const products = await response.json();
     if (response.ok)
         return products.map((prod) => ({
@@ -121,6 +142,6 @@ function editProfile(editedProfile) {
 
 
 const API = {
-    login, getProducts, getProductById, getProfileById, createProfile, editProfile
+    login, refreshLogin, getProducts, getProductById, getProfileById, createProfile, editProfile
 };
 export default API;

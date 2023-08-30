@@ -135,7 +135,7 @@ class TicketsTests {
     @Test
     fun getAllTickets() {
         val loginDTO = LoginDTO("expert1@products.com", "password")
-        val jwtToken = authenticationService.login(loginDTO)?.jwtAccessToken
+        val jwtToken = authenticationService.login(loginDTO)?.accessToken
 
         val headers = HttpHeaders()
         headers.setBearerAuth(jwtToken ?: "")
@@ -204,7 +204,7 @@ class TicketsTests {
     @Test
     fun getTicket() {
         val loginDTO = LoginDTO("expert1@products.com", "password")
-        val jwtToken = authenticationService.login(loginDTO)?.jwtAccessToken
+        val jwtToken = authenticationService.login(loginDTO)?.accessToken
 
         val headers = HttpHeaders()
         headers.setBearerAuth(jwtToken ?: "")
@@ -238,7 +238,7 @@ class TicketsTests {
     @Test
     fun ticketNotFound() {
         val loginDTO = LoginDTO("expert1@products.com", "password")
-        val jwtToken = authenticationService.login(loginDTO)?.jwtAccessToken
+        val jwtToken = authenticationService.login(loginDTO)?.accessToken
 
         val headers = HttpHeaders()
         headers.setBearerAuth(jwtToken ?: "")
@@ -252,7 +252,7 @@ class TicketsTests {
     @Test
     fun createTicket() {
         val loginDTO = LoginDTO("customer1@products.com", "password")
-        val jwtToken = authenticationService.login(loginDTO)?.jwtAccessToken
+        val jwtToken = authenticationService.login(loginDTO)?.accessToken
 
         val headers = HttpHeaders()
         headers.setBearerAuth(jwtToken ?: "")
@@ -293,7 +293,7 @@ class TicketsTests {
         val newTicket = Ticket("New ticket title", "New ticket description", notSavedPurchase)
 
         val loginDTO = LoginDTO("customer1@products.com", "password")
-        val jwtToken = authenticationService.login(loginDTO)?.jwtAccessToken
+        val jwtToken = authenticationService.login(loginDTO)?.accessToken
 
         val headers = HttpHeaders()
         headers.setBearerAuth(jwtToken ?: "")
@@ -346,7 +346,7 @@ class TicketsTests {
         )
 
         val loginDTO = LoginDTO("customer1@products.com", "password")
-        val jwtToken = authenticationService.login(loginDTO)?.jwtAccessToken
+        val jwtToken = authenticationService.login(loginDTO)?.accessToken
 
         val headers = HttpHeaders()
         headers.setBearerAuth(jwtToken ?: "")
@@ -384,7 +384,7 @@ class TicketsTests {
         )
 
         val loginDTO = LoginDTO("customer1@products.com", "password")
-        val jwtToken = authenticationService.login(loginDTO)?.jwtAccessToken
+        val jwtToken = authenticationService.login(loginDTO)?.accessToken
 
         val headers = HttpHeaders()
         headers.setBearerAuth(jwtToken ?: "")
@@ -436,7 +436,7 @@ class TicketsTests {
         )
 
         val loginDTO = LoginDTO("expert1@products.com", "password")
-        val jwtToken = authenticationService.login(loginDTO)?.jwtAccessToken
+        val jwtToken = authenticationService.login(loginDTO)?.accessToken
 
         val headers = HttpHeaders()
         headers.setBearerAuth(jwtToken ?: "")
@@ -472,7 +472,7 @@ class TicketsTests {
         )
 
         val loginDTO = LoginDTO("expert1@products.com", "password")
-        val jwtToken = authenticationService.login(loginDTO)?.jwtAccessToken
+        val jwtToken = authenticationService.login(loginDTO)?.accessToken
 
         val headers = HttpHeaders()
         headers.setBearerAuth(jwtToken ?: "")
@@ -505,7 +505,7 @@ class TicketsTests {
         )
 
         val loginDTO = LoginDTO("expert1@products.com", "password")
-        val jwtToken = authenticationService.login(loginDTO)?.jwtAccessToken
+        val jwtToken = authenticationService.login(loginDTO)?.accessToken
 
         val headers = HttpHeaders()
         headers.setBearerAuth(jwtToken ?: "")
@@ -558,7 +558,7 @@ class TicketsTests {
         )
 
         val loginDTO = LoginDTO("manager1@products.com", "password")
-        val jwtToken = authenticationService.login(loginDTO)?.jwtAccessToken
+        val jwtToken = authenticationService.login(loginDTO)?.accessToken
 
         val headers = HttpHeaders()
         headers.setBearerAuth(jwtToken ?: "")
@@ -616,7 +616,7 @@ class TicketsTests {
         )
 
         val loginDTO = LoginDTO("manager1@products.com", "password")
-        val jwtToken = authenticationService.login(loginDTO)?.jwtAccessToken
+        val jwtToken = authenticationService.login(loginDTO)?.accessToken
 
         val headers = HttpHeaders()
         headers.setBearerAuth(jwtToken ?: "")
@@ -654,7 +654,7 @@ class TicketsTests {
         )
 
         val loginDTO = LoginDTO("manager1@products.com", "password")
-        val jwtToken = authenticationService.login(loginDTO)?.jwtAccessToken
+        val jwtToken = authenticationService.login(loginDTO)?.accessToken
 
         val headers = HttpHeaders()
         headers.setBearerAuth(jwtToken ?: "")
@@ -687,7 +687,7 @@ class TicketsTests {
         )
 
         val loginDTO = LoginDTO("manager1@products.com", "password")
-        val jwtToken = authenticationService.login(loginDTO)?.jwtAccessToken
+        val jwtToken = authenticationService.login(loginDTO)?.accessToken
 
         val headers = HttpHeaders()
         headers.setBearerAuth(jwtToken ?: "")
@@ -723,7 +723,7 @@ class TicketsTests {
         )
 
         val loginDTO = LoginDTO("manager1@products.com", "password")
-        val jwtToken = authenticationService.login(loginDTO)?.jwtAccessToken
+        val jwtToken = authenticationService.login(loginDTO)?.accessToken
 
         val headers = HttpHeaders()
         headers.setBearerAuth(jwtToken ?: "")

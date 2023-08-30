@@ -108,7 +108,7 @@ class PurchasesTests {
     fun getAllPurchases() {
 
         val loginDTO = LoginDTO("expert1@products.com", "password")
-        val jwtToken = authenticationService.login(loginDTO)?.jwtAccessToken
+        val jwtToken = authenticationService.login(loginDTO)?.accessToken
 
         val headers = HttpHeaders()
         headers.setBearerAuth(jwtToken ?: "")
@@ -124,7 +124,7 @@ class PurchasesTests {
     fun getPurchase() {
 
         val loginDTO = LoginDTO("expert1@products.com", "password")
-        val jwtToken = authenticationService.login(loginDTO)?.jwtAccessToken
+        val jwtToken = authenticationService.login(loginDTO)?.accessToken
 
         val headers = HttpHeaders()
         headers.setBearerAuth(jwtToken ?: "")
@@ -140,7 +140,7 @@ class PurchasesTests {
     fun purchaseNotFound() {
 
         val loginDTO = LoginDTO("expert1@products.com", "password")
-        val jwtToken = authenticationService.login(loginDTO)?.jwtAccessToken
+        val jwtToken = authenticationService.login(loginDTO)?.accessToken
 
         val headers = HttpHeaders()
         headers.setBearerAuth(jwtToken ?: "")
@@ -155,7 +155,7 @@ class PurchasesTests {
     fun createPurchase() {
 
         val loginDTO = LoginDTO("customer1@products.com", "password")
-        val jwtToken = authenticationService.login(loginDTO)?.jwtAccessToken
+        val jwtToken = authenticationService.login(loginDTO)?.accessToken
 
         val headers = HttpHeaders()
         headers.setBearerAuth(jwtToken ?: "")
@@ -180,7 +180,7 @@ class PurchasesTests {
     fun aCustomerCanBuyTheSameProductMultipleTimes() {
 
         val loginDTO = LoginDTO("customer1@products.com", "password")
-        val jwtToken = authenticationService.login(loginDTO)?.jwtAccessToken
+        val jwtToken = authenticationService.login(loginDTO)?.accessToken
 
         val headers = HttpHeaders()
         headers.setBearerAuth(jwtToken ?: "")
@@ -205,7 +205,7 @@ class PurchasesTests {
     fun createPurchaseCustomerNotFound() {
 
         val loginDTO = LoginDTO("customer1@products.com", "password")
-        val jwtToken = authenticationService.login(loginDTO)?.jwtAccessToken
+        val jwtToken = authenticationService.login(loginDTO)?.accessToken
 
         val headers = HttpHeaders()
         headers.setBearerAuth(jwtToken ?: "")
@@ -221,7 +221,7 @@ class PurchasesTests {
     fun createPurchaseProductNotFound() {
 
         val loginDTO = LoginDTO("customer1@products.com", "password")
-        val jwtToken = authenticationService.login(loginDTO)?.jwtAccessToken
+        val jwtToken = authenticationService.login(loginDTO)?.accessToken
 
         val headers = HttpHeaders()
         headers.setBearerAuth(jwtToken ?: "")

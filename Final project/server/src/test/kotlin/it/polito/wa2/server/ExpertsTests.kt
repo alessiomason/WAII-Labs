@@ -90,7 +90,7 @@ class ExpertsTests {
     fun getExpert() {
 
         val loginDTO = LoginDTO("expert1@products.com", "password")
-        val jwtToken = authenticationService.login(loginDTO)?.jwtAccessToken
+        val jwtToken = authenticationService.login(loginDTO)?.accessToken
 
         val headers = HttpHeaders()
         headers.setBearerAuth(jwtToken ?: "")
@@ -106,7 +106,7 @@ class ExpertsTests {
     fun expertNotFound() {
 
         val loginDTO = LoginDTO("expert1@products.com", "password")
-        val jwtToken = authenticationService.login(loginDTO)?.jwtAccessToken
+        val jwtToken = authenticationService.login(loginDTO)?.accessToken
 
         val headers = HttpHeaders()
         headers.setBearerAuth(jwtToken ?: "")
@@ -121,7 +121,7 @@ class ExpertsTests {
     fun editExpert() {
 
         val loginDTO = LoginDTO("expert1@products.com", "password")
-        val jwtToken = authenticationService.login(loginDTO)?.jwtAccessToken
+        val jwtToken = authenticationService.login(loginDTO)?.accessToken
 
         val headers = HttpHeaders()
         headers.setBearerAuth(jwtToken ?: "")
@@ -144,7 +144,7 @@ class ExpertsTests {
     fun editExpertNotFound() {
 
         val loginDTO = LoginDTO("expert1@products.com", "password")
-        val jwtToken = authenticationService.login(loginDTO)?.jwtAccessToken
+        val jwtToken = authenticationService.login(loginDTO)?.accessToken
 
         val headers = HttpHeaders()
         headers.setBearerAuth(jwtToken ?: "")
@@ -160,7 +160,7 @@ class ExpertsTests {
     fun addExpertSpecialization() {
 
         val loginDTO = LoginDTO("manager1@products.com", "password")
-        val jwtToken = authenticationService.login(loginDTO)?.jwtAccessToken
+        val jwtToken = authenticationService.login(loginDTO)?.accessToken
 
         val headers = HttpHeaders()
         headers.setBearerAuth(jwtToken ?: "")
@@ -191,7 +191,7 @@ class ExpertsTests {
     fun addExpertSpecializationExpertNotFound() {
 
         val loginDTO = LoginDTO("manager1@products.com", "password")
-        val jwtToken = authenticationService.login(loginDTO)?.jwtAccessToken
+        val jwtToken = authenticationService.login(loginDTO)?.accessToken
 
         val headers = HttpHeaders()
         headers.setBearerAuth(jwtToken ?: "")
@@ -207,7 +207,7 @@ class ExpertsTests {
     fun removeExpertSpecialization() {
 
         val loginDTO = LoginDTO("manager1@products.com", "password")
-        val jwtToken = authenticationService.login(loginDTO)?.jwtAccessToken
+        val jwtToken = authenticationService.login(loginDTO)?.accessToken
 
         val headers = HttpHeaders()
         headers.setBearerAuth(jwtToken ?: "")
@@ -239,7 +239,7 @@ class ExpertsTests {
     fun removeExpertSpecializationNotFound() {
 
         val loginDTO = LoginDTO("manager1@products.com", "password")
-        val jwtToken = authenticationService.login(loginDTO)?.jwtAccessToken
+        val jwtToken = authenticationService.login(loginDTO)?.accessToken
 
         val headers = HttpHeaders()
         headers.setBearerAuth(jwtToken ?: "")

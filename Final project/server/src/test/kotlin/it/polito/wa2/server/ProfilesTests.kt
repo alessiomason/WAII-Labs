@@ -89,7 +89,7 @@ class ProfilesTests {
     @Test
     fun getProfile() {
         val loginDTO = LoginDTO("customer1@products.com", "password")
-        val jwtToken = authenticationService.login(loginDTO)?.jwtAccessToken
+        val jwtToken = authenticationService.login(loginDTO)?.accessToken
 
         val headers = HttpHeaders()
         headers.setBearerAuth(jwtToken ?: "")
@@ -104,7 +104,7 @@ class ProfilesTests {
     @Test
     fun profileNotFound() {
         val loginDTO = LoginDTO("customer1@products.com", "password")
-        val jwtToken = authenticationService.login(loginDTO)?.jwtAccessToken
+        val jwtToken = authenticationService.login(loginDTO)?.accessToken
 
         val headers = HttpHeaders()
         headers.setBearerAuth(jwtToken ?: "")
@@ -121,7 +121,7 @@ class ProfilesTests {
         val editedProfile = ProfileDTO(profile1.id, profile2.email, profile2.firstName, profile2.lastName, profile2.phone)
 
         val loginDTO = LoginDTO("customer1@products.com", "password")
-        val jwtToken = authenticationService.login(loginDTO)?.jwtAccessToken
+        val jwtToken = authenticationService.login(loginDTO)?.accessToken
 
         val headers = HttpHeaders()
         headers.setBearerAuth(jwtToken ?: "")
@@ -142,7 +142,7 @@ class ProfilesTests {
         val editedProfile = ProfileDTO("notExistingProfile", profile2.email, profile2.firstName, profile2.lastName, profile2.phone)
 
         val loginDTO = LoginDTO("customer1@products.com", "password")
-        val jwtToken = authenticationService.login(loginDTO)?.jwtAccessToken
+        val jwtToken = authenticationService.login(loginDTO)?.accessToken
 
         val headers = HttpHeaders()
         headers.setBearerAuth(jwtToken ?: "")

@@ -1,5 +1,10 @@
 package it.polito.wa2.server.security
 
 data class JwtDTO(
-    val jwtAccessToken: String
+    val accessToken: String,
+    val refreshToken: String
+)
+
+data class RefreshJwtDTO (
+    val refreshToken: String
 )

@@ -1,15 +1,24 @@
 package it.polito.wa2.server.security
 
 import it.polito.wa2.server.exceptions.DuplicateProfileException
+import it.polito.wa2.server.exceptions.GenericException
 import it.polito.wa2.server.profiles.Profile
 import it.polito.wa2.server.profiles.ProfileRepository
 import it.polito.wa2.server.ticketing.employees.Expert
 import it.polito.wa2.server.ticketing.employees.ExpertRepository
 import org.keycloak.admin.client.KeycloakBuilder
+import org.keycloak.representations.AccessTokenResponse
 import org.keycloak.representations.idm.CredentialRepresentation
 import org.keycloak.representations.idm.UserRepresentation
 import org.springframework.beans.factory.annotation.Value
+import org.springframework.http.HttpEntity
+import org.springframework.http.HttpHeaders
+import org.springframework.http.HttpMethod
+import org.springframework.http.MediaType
 import org.springframework.stereotype.Service
+import org.springframework.util.LinkedMultiValueMap
+import org.springframework.util.MultiValueMap
+import org.springframework.web.client.RestTemplate
 import javax.ws.rs.NotAuthorizedException
 
 @Service
@@ -30,9 +39,37 @@ class AuthenticationServiceImpl(
             .build()
 
         return try {
-            JwtDTO(keycloak.tokenManager().grantToken().token)
+            val tokenSet = keycloak.tokenManager().grantToken()
+            return JwtDTO(tokenSet.token, tokenSet.refreshToken)
         } catch (e: NotAuthorizedException) {
             null
+        }
+    }
+
+    override fun refreshLogin(refreshJwtDTO: RefreshJwtDTO): JwtDTO? {
+        val restTemplate = RestTemplate()
+
+        val url = "http://$keycloakAddress/realms/wa2-products/protocol/openid-connect/token"
+
+        val headers = HttpHeaders()
+        headers.contentType = MediaType.APPLICATION_FORM_URLENCODED
+
+        val requestBody: MultiValueMap<String, String> = LinkedMultiValueMap()
+        requestBody.add("grant_type", "refresh_token")
+        requestBody.add("client_id", "wa2-products-client")
+        requestBody.add("refresh_token", refreshJwtDTO.refreshToken)
+
+        try {
+            val requestEntity = HttpEntity(requestBody, headers)
+            val responseEntity = restTemplate.exchange(
+                url,
+                HttpMethod.POST,
+                requestEntity,
+                AccessTokenResponse::class.java
+            )
+            return JwtDTO(responseEntity.body!!.token, responseEntity.body!!.refreshToken)
+        } catch (e: Exception) {
+            throw GenericException()
         }
     }
 

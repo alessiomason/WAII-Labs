@@ -94,7 +94,7 @@ class ProductsTests {
 	@Test
 	fun getAllProducts() {
 		val loginDTO = LoginDTO("customer1@products.com", "password")
-		val jwtToken = authenticationService.login(loginDTO)?.jwtAccessToken
+		val jwtToken = authenticationService.login(loginDTO)?.accessToken
 
 		val headers = HttpHeaders()
 		headers.setBearerAuth(jwtToken ?: "")
@@ -109,7 +109,7 @@ class ProductsTests {
 	@Test
 	fun getProduct() {
 		val loginDTO = LoginDTO("manager1@products.com", "password")
-		val jwtToken = authenticationService.login(loginDTO)?.jwtAccessToken
+		val jwtToken = authenticationService.login(loginDTO)?.accessToken
 
 		val headers = HttpHeaders()
 		headers.setBearerAuth(jwtToken ?: "")
@@ -124,7 +124,7 @@ class ProductsTests {
 	@Test
 	fun productNotFound() {
 		val loginDTO = LoginDTO("manager1@products.com", "password")
-		val jwtToken = authenticationService.login(loginDTO)?.jwtAccessToken
+		val jwtToken = authenticationService.login(loginDTO)?.accessToken
 
 		val headers = HttpHeaders()
 		headers.setBearerAuth(jwtToken ?: "")

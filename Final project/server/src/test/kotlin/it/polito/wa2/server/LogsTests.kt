@@ -164,7 +164,7 @@ class LogsTests {
         logRepository.save(log2)
 
         val loginDTO = LoginDTO("manager1@products.com", "password")
-        val jwtToken = authenticationService.login(loginDTO)?.jwtAccessToken
+        val jwtToken = authenticationService.login(loginDTO)?.accessToken
 
         val headers = HttpHeaders()
         headers.setBearerAuth(jwtToken ?: "")
@@ -249,7 +249,7 @@ class LogsTests {
         ticketRepository.save(ticket1)
 
         val loginDTO = LoginDTO("manager1@products.com", "password")
-        val jwtToken = authenticationService.login(loginDTO)?.jwtAccessToken
+        val jwtToken = authenticationService.login(loginDTO)?.accessToken
 
         val headers = HttpHeaders()
         headers.setBearerAuth(jwtToken ?: "")

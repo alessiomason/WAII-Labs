@@ -21,30 +21,42 @@ function App2() {
 
   const navigate = useNavigate();
 
+  // log the errors
+  useEffect(() => {
+    if (message != '') {
+      console.log(message);
+    }
+  }, [message])
+
   // on start check if access token is still saved (so, still logged in)
   useEffect(() => {
+    let mustRefreshToken = true;
     const accessToken = localStorage.getItem('accessToken');
 
     if (accessToken != '' && accessToken != null) {
-      const expirationTime = jwt_decode(accessToken).exp * 1000;
+      const accessTokenExpirationTime = jwt_decode(accessToken).exp * 1000;
 
-      if (expirationTime <= new Date().getTime()) {
-        doLogout();
-      } else {
+      if (accessTokenExpirationTime > new Date().getTime()) {
+        mustRefreshToken = false;
         setLoggedIn(true);
         setMessage('');
-        setTimeout(doLogout, expirationTime - new Date().getTime());
+        setTimeout(doRefresh, accessTokenExpirationTime - new Date().getTime());
       }
+    }
+
+    if (mustRefreshToken) { // true if accessToken is null or expired
+      doRefresh();
     }
   }, [])
 
   function doLogin(email, password) {
     API.login(email, password)
-      .then(token => {
-        setLoggedIn(true);
-        localStorage.setItem('accessToken', token);
-        setTimeout(doLogout, jwt_decode(token).exp * 1000 - new Date().getTime());
+      .then(jwtDTO => {
+        localStorage.setItem('accessToken', jwtDTO.accessToken);
+        localStorage.setItem('refreshToken', jwtDTO.refreshToken);
+        setTimeout(doRefresh, jwt_decode(jwtDTO.accessToken).exp * 1000 - new Date().getTime());
         setMessage('');
+        setLoggedIn(true);
         navigate('/');
       })
       .catch(err => {
@@ -52,10 +64,41 @@ function App2() {
       })
   }
 
+  function doRefresh() {
+    let mustLogout = true;
+    const refreshToken = localStorage.getItem('refreshToken');
+
+    if (refreshToken != '' && refreshToken != null) {
+      const refreshTokenExpirationTime = jwt_decode(refreshToken).exp * 1000;
+
+      if (refreshTokenExpirationTime > new Date().getTime()) {
+        mustLogout = false;
+
+        API.refreshLogin(refreshToken)
+          .then(jwtDTO => {
+            localStorage.setItem('accessToken', jwtDTO.accessToken);
+            localStorage.setItem('refreshToken', jwtDTO.refreshToken);
+            setTimeout(doRefresh, jwt_decode(jwtDTO.accessToken).exp * 1000 - new Date().getTime());
+            setMessage('');
+            setLoggedIn(true);
+            navigate('/');
+          })
+          .catch(err => {
+            setMessage(err);
+          })
+      }
+    }
+
+    if (mustLogout) { // true if refreshToken is null or expired
+      doLogout();
+    }
+  }
+
   function doLogout() {
-    setLoggedIn(false);
     localStorage.removeItem('accessToken');
+    localStorage.removeItem('refreshToken');
     setMessage('');
+    setLoggedIn(false);
   }
 
   return (
