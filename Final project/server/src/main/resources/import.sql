@@ -190,6 +190,7 @@ INSERT INTO profiles (id, email, first_name, last_name, phone) VALUES ('hkoba1p@
 INSERT INTO profiles (id, email, first_name, last_name, phone) VALUES ('rtyrrell1q@google.co.jp', 'rtyrrell1q@google.co.jp', 'Rebecca', 'Tyrrell', '+86 457 248 7020');
 INSERT INTO profiles (id, email, first_name, last_name, phone) VALUES ('bhelmke1r@liveinternet.ru', 'bhelmke1r@liveinternet.ru', 'Buiron', 'Helmke', '+86 690 857 9130');
 INSERT INTO profiles (id, email, first_name, last_name, phone) VALUES ('gwhinney1s@state.gov', 'gwhinney1s@state.gov', 'Guenevere', 'Whinney', '+966 737 930 7847');
+INSERT INTO profiles (id, email, first_name, last_name, phone) VALUES ('customer1@products.com', 'customer1@products.com', 'Customer1', 'Customer1', '+33 616 805 6213');
 
 INSERT INTO products (ean, name, brand) VALUES ('8712725728528', 'Walter Trout Unspoiled by Progress CD B23b', 'Mascot');
 INSERT INTO products (ean, name, brand) VALUES ('5011781900125', 'Nitty Gritty Dirt Band Will The Circle Be Unbroken Volume 2 CD USA MCA 1989 20', 'MCA');
@@ -1317,14 +1318,18 @@ INSERT INTO experts (id, email, first_name, last_name) VALUES ('joe_pesci_12@mai
 INSERT INTO experts (id, email, first_name, last_name) VALUES ('john_demon_12@mail.com', 'john_demon_12@mail.com', 'John', 'Demon');
 INSERT INTO experts (id, email, first_name, last_name) VALUES ('matt_kerr_12@mail.com', 'matt_kerr_12@mail.com', 'Matt', 'Kerr');
 INSERT INTO experts (id, email, first_name, last_name) VALUES ('steven_rotterdam_12@mail.com', 'steven_rotterdam_12@mail.com', 'Steven', 'Rotterdam');
+INSERT INTO experts (id, email, first_name, last_name) VALUES ('expert1@products.com', 'expert1@products.com', 'Expert1', 'Expert1');
 
 INSERT INTO experts_specializations(id, name, expert_id) VALUES (1, 'Computers', 'joe_pesci_12@mail.com');
 INSERT INTO experts_specializations(id, name, expert_id) VALUES (2, 'Home appliances', 'john_demon_12@mail.com');
+INSERT INTO experts_specializations(id, name, expert_id) VALUES (1, 'Computers', 'expert1@products.com');
+INSERT INTO experts_specializations(id, name, expert_id) VALUES (2, 'Home appliances', 'expert1@products.com');
 
 INSERT INTO managers (id, email, first_name, last_name) VALUES ('james_lucy_13@mail.com', 'james_lucy_13@mail.com', 'James', 'Lucy');
 INSERT INTO managers (id, email, first_name, last_name) VALUES ('eric_gordon_13@mail.com', 'eric_gordon_13@mail.com', 'Eric', 'Gordon');
 INSERT INTO managers (id, email, first_name, last_name) VALUES ('matt_james_13@mail.com', 'matt_james_13@mail.com', 'Matt', 'James');
 INSERT INTO managers (id, email, first_name, last_name) VALUES ('andry_shevckenco_13@mail.com', 'andry_shevckenco_13@mail.com', 'Andry', 'Shevckenco');
+INSERT INTO managers (id, email, first_name, last_name) VALUES ('manager1@products.com', 'manager1@products.com', 'Manager1', 'Manager1');
 
 INSERT INTO purchases (id, date_of_purchase, status, customer_id, product_ean) VALUES (1, '2023-08-28', 0, 'flongwood0@vk.com', '8712725728528');
 INSERT INTO purchases (id, date_of_purchase, status, customer_id, product_ean) VALUES (2, '2023-08-28', 0, 'grengger1@cloudflare.com', '3532041192835');
@@ -1332,11 +1337,17 @@ INSERT INTO purchases (id, date_of_purchase, status, customer_id, product_ean) V
 INSERT INTO purchases (id, date_of_purchase, status, customer_id, product_ean) VALUES (4, '2023-08-28', 0, 'oleacockx@tinyurl.com', '5711045610646');
 INSERT INTO purchases (id, date_of_purchase, status, customer_id, product_ean) VALUES (5, '2023-08-28', 0, 'meastlake1j@gizmodo.com', '5052746203592');
 INSERT INTO purchases (id, date_of_purchase, status, customer_id, product_ean) VALUES (6, '2023-08-28', 0, 'mfoxleym@hp.com', '6932799000098');
+INSERT INTO purchases (id, date_of_purchase, status, customer_id, product_ean) VALUES (7, '2023-09-18', 0, 'customer1@products.com', '6932799000098');
+INSERT INTO purchases (id, date_of_purchase, status, customer_id, product_ean) VALUES (8, '2023-09-15', 0, 'customer1@products.com', '3532041192835');
+INSERT INTO purchases (id, date_of_purchase, status, customer_id, product_ean) VALUES (9, '2023-09-01', 1, 'customer1@products.com', '5711045610646');
+INSERT INTO purchases (id, date_of_purchase, status, customer_id, product_ean) VALUES (10, '2023-08-31', 2, 'customer1@products.com', '5052746203592');
+INSERT INTO purchases (id, date_of_purchase, status, customer_id, product_ean) VALUES (11, '2023-07-22', 3, 'customer1@products.com', '8712725728528');
 
 INSERT INTO tickets(id, description, priority_level, ticket_status, title, expert_id, purchase_id) VALUES (1, 'Description Ticket 1', 1, 0, 'Ticket 1', 'joe_pesci_12@mail.com', 1);
 INSERT INTO tickets(id, description, priority_level, ticket_status, title, expert_id, purchase_id) VALUES (2, 'Description Ticket 2', 1, 0, 'Ticket 2', 'john_demon_12@mail.com', 3);
 INSERT INTO tickets(id, description, priority_level, ticket_status, title, expert_id, purchase_id) VALUES (3, 'Description Ticket 3', 1, 0, 'Ticket 3', 'john_demon_12@mail.com', 2);
 INSERT INTO tickets(id, description, priority_level, ticket_status, title, expert_id, purchase_id) VALUES (4, 'Description Ticket 4', 1, 0, 'Ticket 4', 'matt_kerr_12@mail.com', 4);
+INSERT INTO tickets(id, description, priority_level, ticket_status, title, expert_id, purchase_id) VALUES (5, 'Description Ticket 5', 1, 0, 'Ticket 5', 'expert1@products.com', 8);
 
 INSERT INTO logs(id, new_ticket_status, previous_ticket_status, time, ticket_id) VALUES (1, 1, 0, '2023-05-12T14:13:09.157827400Z', 1);
 INSERT INTO logs(id, new_ticket_status, previous_ticket_status, time, ticket_id) VALUES (2, 2, 1, '2023-05-12T15:14:09.157827400Z', 1);

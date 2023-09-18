@@ -49,10 +49,10 @@ async function getProducts() {
 
     const products = await response.json();
     if (response.ok)
-        return products.map((prod) => ({
-            ean: prod.ean,
-            name: prod.name,
-            brand: prod.brand
+        return products.map((product) => ({
+            ean: product.ean,
+            name: product.name,
+            brand: product.brand
         }))
     else throw products;
 }
@@ -68,6 +68,51 @@ async function getProductById(ean) {
             brand: product.brand
         });
     else throw product;
+}
+
+async function getPurchases() {
+    const accessToken = localStorage.getItem('accessToken');
+
+    // call /API/purchases
+    const response = await fetch(new URL('purchases', APIURL), {
+        headers: { Authorization: `Bearer ${accessToken}` },
+    });
+
+    const purchases = await response.json();
+    if (response.ok)
+        return purchases.map((purchase) => ({
+            id: purchase.id,
+            customer: purchase.customer,
+            product: purchase.product,
+            status: purchase.status,
+            dateOfPurchase: purchase.dateOfPurchase,
+            warrantyDTO: purchase.warrantyDTO,
+            coveredByWarranty: purchase.coveredByWarranty,
+            ticketIds: purchase.ticketIds
+        }))
+    else throw purchases;
+}
+
+async function getTickets() {
+    const accessToken = localStorage.getItem('accessToken');
+
+    // call /API/tickets
+    const response = await fetch(new URL('tickets', APIURL), {
+        headers: { Authorization: `Bearer ${accessToken}` },
+    });
+
+    const tickets = await response.json();
+    if (response.ok)
+        return tickets.map((ticket) => ({
+            id: ticket.id,
+            title: ticket.title,
+            description: ticket.description,
+            purchase: ticket.purchase,
+            expert: ticket.expert,
+            ticketStatus: ticket.ticketStatus,
+            priorityLevel: ticket.priorityLevel
+        }))
+    else throw tickets;
 }
 
 async function getProfileById(email) {
@@ -142,6 +187,6 @@ function editProfile(editedProfile) {
 
 
 const API = {
-    login, refreshLogin, getProducts, getProductById, getProfileById, createProfile, editProfile
+    login, refreshLogin, getProducts, getProductById, getTickets, getPurchases, getProfileById, createProfile, editProfile
 };
 export default API;

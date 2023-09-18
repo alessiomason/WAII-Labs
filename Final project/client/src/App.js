@@ -45,6 +45,15 @@ function App2() {
 
       if (accessTokenExpirationTime > new Date().getTime()) {
         mustRefreshToken = false;
+
+        const username = jwt_decode(accessToken).preferred_username;
+        const name = jwt_decode(accessToken).name;
+        const email = jwt_decode(accessToken).email;
+        const role = jwt_decode(accessToken).resource_access['wa2-products-client'].roles[0];
+        setUsername(username);
+        setName(name);
+        setEmail(email);
+        setRole(role);
         setLoggedIn(true);
         setMessage('');
         setTimeout(doRefresh, accessTokenExpirationTime - new Date().getTime());
@@ -95,6 +104,15 @@ function App2() {
             localStorage.setItem('accessToken', jwtDTO.accessToken);
             localStorage.setItem('refreshToken', jwtDTO.refreshToken);
             setTimeout(doRefresh, jwt_decode(jwtDTO.accessToken).exp * 1000 - new Date().getTime());
+
+            const username = jwt_decode(jwtDTO.accessToken).preferred_username;
+            const name = jwt_decode(jwtDTO.accessToken).name;
+            const email = jwt_decode(jwtDTO.accessToken).email;
+            const role = jwt_decode(jwtDTO.accessToken).resource_access['wa2-products-client'].roles[0];
+            setUsername(username);
+            setName(name);
+            setEmail(email);
+            setRole(role);
             setMessage('');
             setLoggedIn(true);
             navigate('/');
