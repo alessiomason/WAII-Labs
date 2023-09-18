@@ -134,7 +134,7 @@ class TicketsTests {
 
     @Test
     fun getAllTickets() {
-        val loginDTO = LoginDTO("expert1@products.com", "password")
+        val loginDTO = LoginDTO("manager1@products.com", "password")
         val jwtToken = authenticationService.login(loginDTO)?.accessToken
 
         val headers = HttpHeaders()

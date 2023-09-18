@@ -2,9 +2,12 @@ import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { useEffect, useState } from 'react';
 import { Button, Container, Row } from 'react-bootstrap';
-import { ArrowRightCircle, House } from 'react-bootstrap-icons';
+import { House } from 'react-bootstrap-icons';
 import { BrowserRouter as Router, Routes, Route, Navigate, useNavigate, Outlet } from 'react-router-dom';
 import { LoginPage } from "./LoginPage";
+import CustomerHomePage from './customer/CustomerHomePage';
+import ExpertHomePage from './expert/ExpertHomePage';
+import ManagerHomePage from './manager/ManagerHomePage';
 import API from './API';
 import jwt_decode from "jwt-decode";
 
@@ -17,6 +20,10 @@ function App() {
 }
 function App2() {
   const [loggedIn, setLoggedIn] = useState(false);
+  const [username, setUsername] = useState('');
+  const [name, setName] = useState('');
+  const [email, setEmail] = useState('');
+  const [role, setRole] = useState('');
   const [message, setMessage] = useState('');
 
   const navigate = useNavigate();
@@ -55,6 +62,15 @@ function App2() {
         localStorage.setItem('accessToken', jwtDTO.accessToken);
         localStorage.setItem('refreshToken', jwtDTO.refreshToken);
         setTimeout(doRefresh, jwt_decode(jwtDTO.accessToken).exp * 1000 - new Date().getTime());
+
+        const username = jwt_decode(jwtDTO.accessToken).preferred_username;
+        const name = jwt_decode(jwtDTO.accessToken).name;
+        const email = jwt_decode(jwtDTO.accessToken).email;
+        const role = jwt_decode(jwtDTO.accessToken).resource_access['wa2-products-client'].roles[0];
+        setUsername(username);
+        setName(name);
+        setEmail(email);
+        setRole(role);
         setMessage('');
         setLoggedIn(true);
         navigate('/');
@@ -97,20 +113,23 @@ function App2() {
   function doLogout() {
     localStorage.removeItem('accessToken');
     localStorage.removeItem('refreshToken');
+    setUsername('');
+    setName('');
+    setEmail('');
+    setRole('');
     setMessage('');
     setLoggedIn(false);
   }
 
   return (
-    <>
-      <Routes>
-        <Route path='/login' element={loggedIn ? <Navigate to='/' /> : <LoginPage loggedIn={loggedIn} doLogin={doLogin} message={message} setMessage={setMessage} />} />
-        <Route path='/' element={loggedIn ? <PageLayout loggedIn={loggedIn} doLogin={doLogin} doLogout={doLogout} /> : <Navigate to='/login' />}>
-        </Route>
+    <Routes>
+      <Route path='/login' element={loggedIn ? <Navigate to='/' /> : <LoginPage loggedIn={loggedIn} doLogin={doLogin} message={message} setMessage={setMessage} />} />
+      <Route path='/' element={loggedIn ? <PageLayout loggedIn={loggedIn} doLogin={doLogin} doLogout={doLogout} /> : <Navigate to='/login' />}>
+        <Route index element={role === 'customer' ? <CustomerHomePage /> : role === 'expert' ? <ExpertHomePage /> : <ManagerHomePage />} />
+      </Route>
 
-        <Route path='*' element={<Navigate to='/' />} />
-      </Routes>
-    </>
+      <Route path='*' element={<Navigate to='/' />} />
+    </Routes>
   );
 }
 
@@ -127,20 +146,4 @@ function PageLayout(props) {
   );
 }
 
-function ListOfRoutes() {
-  const navigate = useNavigate();
-
-  return (
-    <>
-      <h1 className='list_routes_title'> Available routes </h1>
-      <ul>
-        <li className='string_list'><Button onClick={() => navigate('/products')}>/products</Button> <ArrowRightCircle /> list all registered products in the DB </li>
-        <li className='string_list'><Button onClick={() => navigate('/products/8712725728528')}>/products/:ean</Button> <ArrowRightCircle /> details of a specific product by EAN</li>
-        <li className='string_list'><Button onClick={() => navigate('/profiles/flongwood0@vk.com')}>/profiles/:email</Button> <ArrowRightCircle /> details of a specific user profile by email</li>
-        <li className='string_list'><Button onClick={() => navigate('/editProfile/flongwood0@vk.com')}>/editProfile/:email</Button> <ArrowRightCircle /> edit a specific user profile </li>
-        <li className='string_list'><Button onClick={() => navigate('/profiles')}>/profiles</Button> <ArrowRightCircle /> create a user profile </li>
-      </ul>
-    </>
-  )
-}
 export default App;
