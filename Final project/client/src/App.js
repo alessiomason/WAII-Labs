@@ -1,8 +1,8 @@
 import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { useEffect, useState } from 'react';
-import { Button, Container, Row } from 'react-bootstrap';
-import { House } from 'react-bootstrap-icons';
+import { Button, Container, Row, Col } from 'react-bootstrap';
+import { House, BoxArrowLeft } from 'react-bootstrap-icons';
 import { BrowserRouter as Router, Routes, Route, Navigate, useNavigate, Outlet } from 'react-router-dom';
 import { LoginPage } from "./login/LoginPage";
 import CustomerHomePage from './customer/CustomerHomePage';
@@ -154,10 +154,21 @@ function App2() {
 }
 
 function PageLayout(props) {
+  const navigate = useNavigate();
+
   return (
     <Container>
       <Row className='navbar'>
-        <Button variant='light' onClick={() => props.doLogout()}><House /> Logout</Button>
+        <Col>
+          <Button variant='light' className='navbar-button' onClick={() => navigate('/')}>
+            <span className='d-flex justify-content-center align-items-center'><House />Home</span>
+          </Button>
+        </Col>
+        <Col>
+          <Button variant='light' className='navbar-button' onClick={() => props.doLogout()}>
+            <span className='d-flex justify-content-center align-items-center'><BoxArrowLeft />Logout</span>
+          </Button>
+        </Col>
       </Row>
       <Row>
         <Outlet />

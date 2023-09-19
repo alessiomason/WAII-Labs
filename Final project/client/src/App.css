@@ -12,3 +12,12 @@
 .navbar {
   margin-top: 20px;
 }
+
+.navbar-button {
+  width: 100%;
+  color: #dd3675 !important;
+}
+
+svg {
+  margin-right: 5px;
+}
