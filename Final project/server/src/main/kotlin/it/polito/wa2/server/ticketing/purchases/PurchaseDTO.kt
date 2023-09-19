@@ -14,7 +14,7 @@ data class PurchaseDTO(
     val product: ProductDTO,
     val status: PurchaseStatus,
     val dateOfPurchase: LocalDate,
-    val warrantyDTO: WarrantyDTO? = null,
+    val warranty: WarrantyDTO? = null,
     val coveredByWarranty: Boolean,
     val ticketIds: List<Int>
     // only the ids of the corresponding tickets are returned, to avoid an infinite loop of conversions to DTO

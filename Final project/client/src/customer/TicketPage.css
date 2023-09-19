@@ -1,0 +1,21 @@
+.section {
+	margin-left: 10px;
+	margin-right: 10px;
+}
+
+h1,
+h3 {
+	color: #dd3675;
+}
+
+h1 {
+	padding-bottom: 8px;
+	margin-bottom: 20px;
+	border-bottom-width: 2px;
+	border-bottom-style: solid;
+}
+
+.header-column {
+	color: #dd3675;
+	border-right: 2px solid #dd3675;
+}

@@ -86,7 +86,7 @@ async function getPurchases() {
             product: purchase.product,
             status: purchase.status,
             dateOfPurchase: purchase.dateOfPurchase,
-            warrantyDTO: purchase.warrantyDTO,
+            warranty: purchase.warranty,
             coveredByWarranty: purchase.coveredByWarranty,
             ticketIds: purchase.ticketIds
         }))
@@ -113,6 +113,27 @@ async function getTickets() {
             priorityLevel: ticket.priorityLevel
         }))
     else throw tickets;
+}
+
+async function getTicketById(ticketId) {
+    const accessToken = localStorage.getItem('accessToken');
+
+    // call /API/tickets/:id
+    const response = await fetch(new URL('tickets/' + ticketId, APIURL), {
+        headers: { Authorization: `Bearer ${accessToken}` },
+    });
+    const ticket = await response.json();
+    if (response.ok)
+        return ({
+            id: ticket.id,
+            title: ticket.title,
+            description: ticket.description,
+            purchase: ticket.purchase,
+            expert: ticket.expert,
+            ticketStatus: ticket.ticketStatus,
+            priorityLevel: ticket.priorityLevel
+        });
+    else throw ticket;
 }
 
 async function getProfileById(email) {
@@ -187,6 +208,6 @@ function editProfile(editedProfile) {
 
 
 const API = {
-    login, refreshLogin, getProducts, getProductById, getTickets, getPurchases, getProfileById, createProfile, editProfile
+    login, refreshLogin, getProducts, getProductById, getTickets, getTicketById, getPurchases, getProfileById, createProfile, editProfile
 };
 export default API;

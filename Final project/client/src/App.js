@@ -8,6 +8,7 @@ import { LoginPage } from "./login/LoginPage";
 import CustomerHomePage from './customer/CustomerHomePage';
 import ExpertHomePage from './expert/ExpertHomePage';
 import ManagerHomePage from './manager/ManagerHomePage';
+import TicketPage from './customer/TicketPage';
 import API from './API';
 import jwt_decode from "jwt-decode";
 
@@ -115,7 +116,6 @@ function App2() {
             setRole(role);
             setMessage('');
             setLoggedIn(true);
-            navigate('/');
           })
           .catch(err => {
             setMessage(err);
@@ -146,6 +146,7 @@ function App2() {
         <Route index element={role === 'customer' ? <CustomerHomePage name={name} /> :
           role === 'expert' ? <ExpertHomePage name={name} /> :
             <ManagerHomePage name={name} />} />
+        <Route path='ticket/:ticketId' element={<TicketPage />} />
       </Route>
 
       <Route path='*' element={<Navigate to='/' />} />
