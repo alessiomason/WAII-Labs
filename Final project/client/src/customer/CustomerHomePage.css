@@ -2,3 +2,44 @@
 	margin-left: 10px;
 	margin-right: 10px;
 }
+
+h1,
+h3 {
+	color: #dd3675;
+}
+
+h1 {
+	padding-bottom: 8px;
+	margin-bottom: 20px;
+	border-bottom-width: 2px;
+	border-bottom-style: solid;
+}
+
+.btn-primary {
+	background: linear-gradient(to right, #ee7724, #d8363a, #dd3675, #b44593);
+	border: 0;
+}
+
+.btn-outline-primary {
+	color: #dd3675;
+	border-color: #dd3675;
+}
+
+.btn-outline-primary:hover {
+	background-color: #dd3675;
+	border-color: #b44593;
+}
+
+.table-striped>tbody>tr:nth-child(odd)>td,
+.table-striped>tbody>tr:nth-child(odd)>th {
+	background-color: rgb(238, 119, 36, 0.1);
+	box-shadow: none;
+}
+
+th {
+	color: #dd3675;
+}
+
+tr {
+	border-color: rgb(238, 119, 36, 0.1);
+}

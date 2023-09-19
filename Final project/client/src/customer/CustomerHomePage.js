@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { Button, Col, Row, Table } from "react-bootstrap";
+import { useNavigate } from "react-router-dom";
 import API from "../API";
 import './CustomerHomePage.css';
 const dayjs = require('dayjs');
@@ -7,6 +8,8 @@ const dayjs = require('dayjs');
 function CustomerHomePage(props) {
   const [tickets, setTickets] = useState([]);
   const [purchases, setPurchases] = useState([]);
+
+  const navigate = useNavigate();
 
   useEffect(() => {
     API.getTickets()
@@ -22,6 +25,7 @@ function CustomerHomePage(props) {
     <>
       <Row>
         <Col className='section'>
+          <Row><h1>Welcome, {props.name}!</h1></Row>
           <Row><h3>Open tickets</h3></Row>
           <Row>
             <TicketsList onlyOpen tickets={tickets.filter(ticket => ticket.ticketStatus === 'OPEN')} />
@@ -33,7 +37,7 @@ function CustomerHomePage(props) {
         <Col className='section'>
           <Row>
             <Col><h3>Tickets</h3></Col>
-            <Col className="d-flex justify-content-end"><Button>Create new ticket</Button></Col>
+            <Col className="d-flex justify-content-end"><Button onClick={() => navigate('/new-ticket')}>Create new ticket</Button></Col>
           </Row>
           <Row>
             <TicketsList tickets={tickets} />
@@ -42,7 +46,7 @@ function CustomerHomePage(props) {
         <Col className='section'>
           <Row>
             <Col><h3>Purchases</h3></Col>
-            <Col className="d-flex justify-content-end"><Button>Insert new purchase</Button></Col>
+            <Col className="d-flex justify-content-end"><Button onClick={() => navigate('/new-purchase')}>Insert new purchase</Button></Col>
           </Row>
           <Row>
             <PurchasesList purchases={purchases} />
@@ -75,13 +79,17 @@ function TicketsList(props) {
 }
 
 function TicketsListItem(props) {
+  const navigate = useNavigate();
+  
   return (
     <tr>
       <td>{props.i + 1}</td>
       <td>{props.ticket.title}</td>
       <td>{props.ticket.purchase.product.name}</td>
       <td>{props.ticket.ticketStatus}</td>
-      <td className='d-flex justify-content-end'><Button variant='outline-primary'>{props.onlyOpen ? 'Manage and chat' : 'See more'}</Button></td>
+      <td className='d-flex justify-content-end'>
+        <Button variant='outline-primary' onClick={() => navigate(`/ticket/${props.ticket.id}`)}>{props.onlyOpen ? 'Manage and chat' : 'See more'}</Button>
+      </td>
     </tr>
   );
 }

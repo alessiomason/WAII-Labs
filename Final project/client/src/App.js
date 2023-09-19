@@ -143,7 +143,9 @@ function App2() {
     <Routes>
       <Route path='/login' element={loggedIn ? <Navigate to='/' /> : <LoginPage loggedIn={loggedIn} doLogin={doLogin} message={message} setMessage={setMessage} />} />
       <Route path='/' element={loggedIn ? <PageLayout loggedIn={loggedIn} doLogin={doLogin} doLogout={doLogout} /> : <Navigate to='/login' />}>
-        <Route index element={role === 'customer' ? <CustomerHomePage /> : role === 'expert' ? <ExpertHomePage /> : <ManagerHomePage />} />
+        <Route index element={role === 'customer' ? <CustomerHomePage name={name} /> :
+          role === 'expert' ? <ExpertHomePage name={name} /> :
+            <ManagerHomePage name={name} />} />
       </Route>
 
       <Route path='*' element={<Navigate to='/' />} />
