@@ -4,11 +4,11 @@ import it.polito.wa2.server.products.ProductRepository
 import it.polito.wa2.server.profiles.ProfileRepository
 import it.polito.wa2.server.security.AuthenticationService
 import it.polito.wa2.server.security.LoginDTO
-import it.polito.wa2.server.ticketing.employees.*
-import it.polito.wa2.server.ticketing.employees.toDTO
-import it.polito.wa2.server.ticketing.logs.LogRepository
-import it.polito.wa2.server.ticketing.purchases.PurchaseRepository
-import it.polito.wa2.server.ticketing.tickets.TicketRepository
+import it.polito.wa2.server.employees.*
+import it.polito.wa2.server.employees.toDTO
+import it.polito.wa2.server.logs.LogRepository
+import it.polito.wa2.server.purchases.PurchaseRepository
+import it.polito.wa2.server.tickets.TicketRepository
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test

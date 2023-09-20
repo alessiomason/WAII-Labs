@@ -6,11 +6,11 @@ import it.polito.wa2.server.profiles.Profile
 import it.polito.wa2.server.profiles.ProfileRepository
 import it.polito.wa2.server.security.AuthenticationService
 import it.polito.wa2.server.security.LoginDTO
-import it.polito.wa2.server.ticketing.employees.ExpertRepository
-import it.polito.wa2.server.ticketing.employees.ExpertSpecializationRepository
-import it.polito.wa2.server.ticketing.logs.LogRepository
-import it.polito.wa2.server.ticketing.purchases.*
-import it.polito.wa2.server.ticketing.tickets.TicketRepository
+import it.polito.wa2.server.employees.ExpertRepository
+import it.polito.wa2.server.employees.ExpertSpecializationRepository
+import it.polito.wa2.server.logs.LogRepository
+import it.polito.wa2.server.purchases.*
+import it.polito.wa2.server.tickets.TicketRepository
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test

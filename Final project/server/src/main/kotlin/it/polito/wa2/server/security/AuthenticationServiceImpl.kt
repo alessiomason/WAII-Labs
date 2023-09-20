@@ -4,8 +4,8 @@ import it.polito.wa2.server.exceptions.DuplicateProfileException
 import it.polito.wa2.server.exceptions.GenericException
 import it.polito.wa2.server.profiles.Profile
 import it.polito.wa2.server.profiles.ProfileRepository
-import it.polito.wa2.server.ticketing.employees.Expert
-import it.polito.wa2.server.ticketing.employees.ExpertRepository
+import it.polito.wa2.server.employees.Expert
+import it.polito.wa2.server.employees.ExpertRepository
 import org.keycloak.admin.client.KeycloakBuilder
 import org.keycloak.representations.AccessTokenResponse
 import org.keycloak.representations.idm.CredentialRepresentation
