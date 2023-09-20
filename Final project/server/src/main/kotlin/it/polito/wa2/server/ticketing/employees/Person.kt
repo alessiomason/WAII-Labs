@@ -6,7 +6,7 @@ import jakarta.persistence.MappedSuperclass
 import jakarta.validation.constraints.Email
 
 @MappedSuperclass
-open class Employee(
+open class Person(
     @Id
     @Column(updatable = false, nullable = false)
     val id: String,

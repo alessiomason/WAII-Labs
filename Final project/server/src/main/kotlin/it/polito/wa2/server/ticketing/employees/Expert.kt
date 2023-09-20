@@ -14,7 +14,7 @@ class Expert(
     email: String,
     firstName: String,
     lastName: String
-): Employee(
+): Person(
     id,
     email,
     firstName,

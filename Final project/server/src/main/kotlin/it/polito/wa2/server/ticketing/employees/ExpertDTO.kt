@@ -7,7 +7,7 @@ data class ExpertDTO(
     val specializations: List<ExpertSpecializationDTO>,
     val ticketIds: List<Int>
     // only the ids of the corresponding tickets are returned, to avoid an infinite loop of conversions to DTO
-): EmployeeDTO(id, firstName, lastName)
+): PersonDTO(id, firstName, lastName)
 
 fun Expert.toDTO(): ExpertDTO {
     return ExpertDTO(id, firstName, lastName, specializations.map { it.toDTO() }, tickets.map { it.id })
