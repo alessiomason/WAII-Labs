@@ -12,7 +12,7 @@ open class Person(
     val id: String,
     @Email
     @Column(unique = true)
-    val email: String,
+    var email: String,
     var firstName: String,
     var lastName: String
 )
