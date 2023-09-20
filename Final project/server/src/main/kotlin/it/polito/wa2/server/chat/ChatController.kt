@@ -1,6 +1,8 @@
 package it.polito.wa2.server.chat
 
 import jakarta.validation.Valid
+import org.springframework.security.core.annotation.AuthenticationPrincipal
+import org.springframework.security.oauth2.jwt.Jwt
 import org.springframework.validation.annotation.Validated
 import org.springframework.web.bind.annotation.CrossOrigin
 import org.springframework.web.bind.annotation.PathVariable
@@ -21,8 +23,14 @@ class ChatController(
     }
 
     @PostMapping("/API/tickets/{ticketId}/chat/messages")
-    fun sendMessage(@PathVariable ticketId: Int, @RequestBody @Valid newMessageDTO: NewMessageDTO): MessageDTO {
-        return chatService.sendMessage(ticketId, newMessageDTO)
+    fun sendMessage(
+        @PathVariable ticketId: Int,
+        @RequestBody @Valid newMessageDTO: NewMessageDTO,
+        @AuthenticationPrincipal principal: Jwt
+    ): MessageDTO {
+        val email = principal.getClaimAsString("email")
+
+        return chatService.sendMessage(ticketId, newMessageDTO, email)
     }
 
     @PutMapping("/API/tickets/{ticketId}/chat")

@@ -15,8 +15,6 @@ data class MessageDTO(
 
 data class NewMessageDTO(
     val text: String,
-    val time: ZonedDateTime,
-    val fromId: @Email String,
     val toId: @Email String
 )
 

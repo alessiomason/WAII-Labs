@@ -175,8 +175,6 @@ function sendMessage(ticketId, message) {
 
             body: JSON.stringify({
                 text: message.text,
-                time: message.time,
-                from: message.from,
                 to: message.to
             }),
 

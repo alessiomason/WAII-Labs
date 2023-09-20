@@ -49,6 +49,10 @@ class ProblemDetailsHandler: ResponseEntityExceptionHandler() {
     fun handleChatClosed(e: ChatClosedException) = ProblemDetail
         .forStatusAndDetail(HttpStatus.FORBIDDEN, e.message!!)
 
+    @ExceptionHandler(MessageException::class)
+    fun handleMessageException(e: MessageException) = ProblemDetail
+        .forStatusAndDetail(HttpStatus.FORBIDDEN, e.message!!)
+
     @ExceptionHandler(TicketStatusException::class)
     fun handleTicketStatus(e: TicketStatusException) = ProblemDetail
         .forStatusAndDetail(HttpStatus.UNPROCESSABLE_ENTITY, e.message!!)
