@@ -3,7 +3,7 @@ package it.polito.wa2.server.tickets
 import it.polito.wa2.server.chat.ChatDTO
 import it.polito.wa2.server.chat.toDTO
 import it.polito.wa2.server.employees.ExpertDTO
-import it.polito.wa2.server.employees.toDTO
+import it.polito.wa2.server.employees.toExpertDTO
 import it.polito.wa2.server.purchases.PurchaseDTO
 import it.polito.wa2.server.purchases.toDTO
 
@@ -25,7 +25,7 @@ data class NewTicketDTO(
 )
 
 fun Ticket.toDTO(): TicketDTO {
-    return TicketDTO(id, title, description, purchase.toDTO(), expert?.toDTO(), ticketStatus, priorityLevel, chat?.toDTO())
+    return TicketDTO(id, title, description, purchase.toDTO(), expert?.toExpertDTO(), ticketStatus, priorityLevel, chat?.toDTO())
 }
 
 fun Ticket.toNewDTO(): NewTicketDTO {

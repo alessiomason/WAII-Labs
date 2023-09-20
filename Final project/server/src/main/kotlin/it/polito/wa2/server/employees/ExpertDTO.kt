@@ -11,6 +11,6 @@ data class ExpertDTO(
     // only the ids of the corresponding tickets are returned, to avoid an infinite loop of conversions to DTO
 ): PersonDTO(id, firstName, lastName)
 
-fun Expert.toDTO(): ExpertDTO {
+fun Expert.toExpertDTO(): ExpertDTO {
     return ExpertDTO(id, firstName, lastName, specializations.map { it.toDTO() }, tickets.map { it.id })
 }

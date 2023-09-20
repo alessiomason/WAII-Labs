@@ -322,7 +322,7 @@ class TicketsTests {
                 ticket2.purchase.coveredByWarranty,
                 listOf(ticket2.id)
             ),
-            ticket1.expert?.toDTO(),
+            ticket1.expert?.toExpertDTO(),
             TicketStatus.CLOSED,        // test that ticketStatus
             PriorityLevel.CRITICAL      // and priorityLevel are not modifiable
         )
@@ -340,7 +340,7 @@ class TicketsTests {
                 ticket1.purchase.coveredByWarranty,
                 listOf(ticket1.id)
             ),
-            ticket1.expert?.toDTO(),
+            ticket1.expert?.toExpertDTO(),
             ticket1.ticketStatus,
             ticket1.priorityLevel
         )
@@ -378,7 +378,7 @@ class TicketsTests {
                 ticket1.purchase.coveredByWarranty,
                 listOf(ticket1.id)
             ),
-            ticket1.expert?.toDTO(),
+            ticket1.expert?.toExpertDTO(),
             ticket1.ticketStatus,
             ticket1.priorityLevel
         )
@@ -412,7 +412,7 @@ class TicketsTests {
                 ticket2.purchase.coveredByWarranty,
                 listOf(ticket2.id)
             ),
-            ticket1.expert?.toDTO(),
+            ticket1.expert?.toExpertDTO(),
             TicketStatus.CLOSED,
             PriorityLevel.CRITICAL
         )
@@ -430,7 +430,7 @@ class TicketsTests {
                 ticket1.purchase.coveredByWarranty,
                 listOf(ticket1.id)
             ),
-            ticket1.expert?.toDTO(),
+            ticket1.expert?.toExpertDTO(),
             TicketStatus.CLOSED,
             PriorityLevel.CRITICAL
         )
@@ -466,7 +466,7 @@ class TicketsTests {
                 ticket1.purchase.coveredByWarranty,
                 listOf(ticket1.id)
             ),
-            ticket1.expert?.toDTO(),
+            ticket1.expert?.toExpertDTO(),
             TicketStatus.REOPENED,      // cannot go from OPEN to REOPENED
             ticket1.priorityLevel
         )
@@ -499,7 +499,7 @@ class TicketsTests {
                 ticket1.purchase.coveredByWarranty,
                 listOf(ticket1.id)
             ),
-            ticket1.expert?.toDTO(),
+            ticket1.expert?.toExpertDTO(),
             ticket1.ticketStatus,
             ticket1.priorityLevel
         )
@@ -534,7 +534,7 @@ class TicketsTests {
                 ticket2.purchase.coveredByWarranty,
                 listOf(ticket2.id)
             ),
-            expert1.toDTO(),
+            expert1.toExpertDTO(),
             TicketStatus.CLOSED,        // test that ticketStatus is not modifiable
             PriorityLevel.CRITICAL
         )
@@ -648,7 +648,7 @@ class TicketsTests {
                 ticket1.purchase.coveredByWarranty,
                 listOf(ticket1.id)
             ),
-            expert1.toDTO(),
+            expert1.toExpertDTO(),
             ticket1.ticketStatus,
             ticket1.priorityLevel
         )
@@ -681,7 +681,7 @@ class TicketsTests {
                 ticket1.purchase.coveredByWarranty,
                 listOf(ticket1.id)
             ),
-            notSavedExpert.toDTO(),
+            notSavedExpert.toExpertDTO(),
             ticket1.ticketStatus,
             ticket1.priorityLevel
         )
@@ -717,7 +717,7 @@ class TicketsTests {
                 ticket1.purchase.coveredByWarranty,
                 listOf(ticket1.id)
             ),
-            expert1.toDTO(),
+            expert1.toExpertDTO(),
             ticket1.ticketStatus,
             ticket1.priorityLevel
         )

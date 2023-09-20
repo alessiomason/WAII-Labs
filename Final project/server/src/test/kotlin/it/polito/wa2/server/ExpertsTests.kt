@@ -6,6 +6,7 @@ import it.polito.wa2.server.security.AuthenticationService
 import it.polito.wa2.server.security.LoginDTO
 import it.polito.wa2.server.employees.*
 import it.polito.wa2.server.employees.toDTO
+import it.polito.wa2.server.employees.toExpertDTO
 import it.polito.wa2.server.logs.LogRepository
 import it.polito.wa2.server.purchases.PurchaseRepository
 import it.polito.wa2.server.tickets.TicketRepository
@@ -99,7 +100,7 @@ class ExpertsTests {
         val res = restTemplate.exchange("$BASE_URL/${expert1.id}", HttpMethod.GET, requestEntity, typeReference<ExpertDTO>())
 
         Assertions.assertEquals(HttpStatus.OK, res.statusCode)
-        Assertions.assertEquals(expert1.toDTO(), res.body)
+        Assertions.assertEquals(expert1.toExpertDTO(), res.body)
     }
 
     @Test

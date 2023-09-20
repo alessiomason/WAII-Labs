@@ -1,6 +1,6 @@
 package it.polito.wa2.server.chat
 
-import it.polito.wa2.server.customers.Profile
+import it.polito.wa2.server.customers.Person
 import jakarta.persistence.*
 import java.time.ZonedDateTime
 
@@ -10,9 +10,9 @@ class Message(
     val text: String,
     val time: ZonedDateTime,
     @OneToOne
-    val from: Profile,
+    val from: Person,
     @OneToOne
-    val to: Profile,
+    val to: Person,
     @ManyToOne
     val chat: Chat
 ) {

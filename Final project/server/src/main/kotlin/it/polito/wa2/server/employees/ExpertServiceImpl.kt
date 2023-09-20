@@ -11,7 +11,7 @@ class ExpertServiceImpl(
     private val expertSpecializationRepository: ExpertSpecializationRepository
 ): ExpertService {
     override fun getExpert(id: String): ExpertDTO {
-        return expertRepository.findByIdOrNull(id)?.toDTO() ?: throw ExpertNotFoundException()
+        return expertRepository.findByIdOrNull(id)?.toExpertDTO() ?: throw ExpertNotFoundException()
     }
 
     override fun editExpert(expertDTO: ExpertDTO) {

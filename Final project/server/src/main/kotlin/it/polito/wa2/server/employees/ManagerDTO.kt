@@ -8,6 +8,6 @@ data class ManagerDTO(
     override val lastName: String
 ): PersonDTO(id, firstName, lastName)
 
-fun Manager.toDTO(): ManagerDTO {
+fun Manager.toManagerDTO(): ManagerDTO {
     return ManagerDTO(id, firstName, lastName)
 }

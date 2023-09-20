@@ -1,11 +1,11 @@
 package it.polito.wa2.server.customers
 
-import jakarta.persistence.Column
-import jakarta.persistence.Id
-import jakarta.persistence.MappedSuperclass
+import jakarta.persistence.*
 import jakarta.validation.constraints.Email
 
-@MappedSuperclass
+@Entity
+@Table(name = "people")
+@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
 open class Person(
     @Id
     @Column(updatable = false, nullable = false)
@@ -16,3 +16,7 @@ open class Person(
     var firstName: String,
     var lastName: String
 )
+
+fun Person.toDTO(): PersonDTO {
+    return PersonDTO(id, firstName, lastName)
+}

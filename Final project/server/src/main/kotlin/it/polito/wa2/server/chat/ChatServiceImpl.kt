@@ -1,5 +1,6 @@
 package it.polito.wa2.server.chat
 
+import it.polito.wa2.server.customers.PersonRepository
 import it.polito.wa2.server.exceptions.ChatClosedException
 import it.polito.wa2.server.exceptions.ChatNotFoundException
 import it.polito.wa2.server.exceptions.ProfileNotFoundException
@@ -14,7 +15,7 @@ class ChatServiceImpl(
     private val chatRepository: ChatRepository,
     private val messageRepository: MessageRepository,
     private val ticketRepository: TicketRepository,
-    private val profileRepository: ProfileRepository
+    private val personRepository: PersonRepository
 ): ChatService {
     override fun createChat(ticketId: Int): ChatDTO {
         val ticket = ticketRepository.findByIdOrNull(ticketId) ?: throw TicketNotFoundException()
@@ -32,8 +33,8 @@ class ChatServiceImpl(
         if (ticket.chat == null) throw ChatNotFoundException()
         if (ticket.chat!!.closed) throw ChatClosedException()
 
-        val from = profileRepository.findByIdOrNull(messageDTO.from.id) ?: throw ProfileNotFoundException()
-        val to = profileRepository.findByIdOrNull(messageDTO.to.id) ?: throw ProfileNotFoundException()
+        val from = personRepository.findByIdOrNull(messageDTO.fromId) ?: throw ProfileNotFoundException()
+        val to = personRepository.findByIdOrNull(messageDTO.toId) ?: throw ProfileNotFoundException()
 
         val message = Message(messageDTO.text, messageDTO.time, from, to, ticket.chat!!)
         messageRepository.save(message)
