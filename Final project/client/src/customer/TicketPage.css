@@ -4,6 +4,7 @@
 }
 
 h1,
+h2,
 h3 {
 	color: #dd3675;
 }
@@ -15,7 +16,23 @@ h1 {
 	border-bottom-style: solid;
 }
 
+.bottom-border {
+	color: #dd3675;
+	padding-bottom: 8px;
+	border-bottom-width: 2px;
+	border-bottom-style: solid;
+}
+
 .header-column {
 	color: #dd3675;
 	border-right: 2px solid #dd3675;
+}
+
+.messages-section {
+	margin-top: 20px;
+}
+
+.card {
+	width: fit-content;
+	max-width: 40vw;
 }

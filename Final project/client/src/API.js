@@ -44,7 +44,7 @@ async function getProducts() {
 
     // call /API/products
     const response = await fetch(new URL('products', APIURL), {
-        headers: { Authorization: `Bearer ${accessToken}` },
+        headers: { 'Authorization': `Bearer ${accessToken}` },
     });
 
     const products = await response.json();
@@ -75,7 +75,7 @@ async function getPurchases() {
 
     // call /API/purchases
     const response = await fetch(new URL('purchases', APIURL), {
-        headers: { Authorization: `Bearer ${accessToken}` },
+        headers: { 'Authorization': `Bearer ${accessToken}` },
     });
 
     const purchases = await response.json();
@@ -98,7 +98,7 @@ async function getTickets() {
 
     // call /API/tickets
     const response = await fetch(new URL('tickets', APIURL), {
-        headers: { Authorization: `Bearer ${accessToken}` },
+        headers: { 'Authorization': `Bearer ${accessToken}` },
     });
 
     const tickets = await response.json();
@@ -120,7 +120,7 @@ async function getTicketById(ticketId) {
 
     // call /API/tickets/:id
     const response = await fetch(new URL('tickets/' + ticketId, APIURL), {
-        headers: { Authorization: `Bearer ${accessToken}` },
+        headers: { 'Authorization': `Bearer ${accessToken}` },
     });
     const ticket = await response.json();
     if (response.ok)
@@ -131,9 +131,90 @@ async function getTicketById(ticketId) {
             purchase: ticket.purchase,
             expert: ticket.expert,
             ticketStatus: ticket.ticketStatus,
-            priorityLevel: ticket.priorityLevel
+            priorityLevel: ticket.priorityLevel,
+            chat: ticket.chat
         });
     else throw ticket;
+}
+
+function createChat(ticketId) {
+    const accessToken = localStorage.getItem('accessToken');
+
+    // call: POST /API/tickets/:ticketId/chat
+    return new Promise((resolve, reject) => {
+        fetch(new URL(`tickets/${ticketId}/chat`, APIURL), {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${accessToken}`
+            }
+        }).then((response) => {
+            if (response.ok)
+                resolve(response.json());
+            else {
+                // analyze the cause of error
+                response.json()
+                    .then((message) => { reject(message); }) // error message in the response body
+                    .catch(() => { reject({ error: "Cannot parse server response." }) }); // something else
+            }
+        }).catch(() => { reject({ error: "Cannot communicate with the server." }) }); // connection errors
+    });
+}
+
+function sendMessage(ticketId, message) {
+    const accessToken = localStorage.getItem('accessToken');
+
+    // call: POST /API/tickets/:ticketId/chat/messages
+    return new Promise((resolve, reject) => {
+        fetch(new URL(`tickets/${ticketId}/chat/messages`, APIURL), {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${accessToken}`
+            },
+
+            body: JSON.stringify({
+                text: message.text,
+                time: message.time,
+                from: message.from,
+                to: message.to
+            }),
+
+        }).then((response) => {
+            if (response.ok)
+                resolve(response.json());
+            else {
+                // analyze the cause of error
+                response.json()
+                    .then((message) => { reject(message); }) // error message in the response body
+                    .catch(() => { reject({ error: "Cannot parse server response." }) }); // something else
+            }
+        }).catch(() => { reject({ error: "Cannot communicate with the server." }) }); // connection errors
+    });
+}
+
+function closeChat(ticketId) {
+    const accessToken = localStorage.getItem('accessToken');
+
+    // call: PUT /API/tickets/:ticketId/chat
+    return new Promise((resolve, reject) => {
+        fetch(new URL(`tickets/${ticketId}/chat`, APIURL), {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${accessToken}`
+            }
+        }).then((response) => {
+            if (response.ok)
+                resolve(response.json());
+            else {
+                // analyze the cause of error
+                response.json()
+                    .then((message) => { reject(message); }) // error message in the response body
+                    .catch(() => { reject({ error: "Cannot parse server response." }) }); // something else
+            }
+        }).catch(() => { reject({ error: "Cannot communicate with the server." }) }); // connection errors
+    });
 }
 
 async function getProfileById(email) {
@@ -208,6 +289,19 @@ function editProfile(editedProfile) {
 
 
 const API = {
-    login, refreshLogin, getProducts, getProductById, getTickets, getTicketById, getPurchases, getProfileById, createProfile, editProfile
+    login,
+    refreshLogin,
+    getProducts,
+    getProductById,
+    getTickets,
+    getTicketById,
+    getPurchases,
+    createChat,
+    sendMessage,
+    closeChat,
+    getProfileById,
+    createProfile,
+    editProfile
 };
+
 export default API;

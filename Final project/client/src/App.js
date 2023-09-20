@@ -31,7 +31,7 @@ function App2() {
 
   // log the errors
   useEffect(() => {
-    if (message != '') {
+    if (message !== '') {
       console.log(message);
     }
   }, [message])
@@ -41,7 +41,7 @@ function App2() {
     let mustRefreshToken = true;
     const accessToken = localStorage.getItem('accessToken');
 
-    if (accessToken != '' && accessToken != null) {
+    if (accessToken !== '' && accessToken !== null) {
       const accessTokenExpirationTime = jwt_decode(accessToken).exp * 1000;
 
       if (accessTokenExpirationTime > new Date().getTime()) {
@@ -94,7 +94,7 @@ function App2() {
     let mustLogout = true;
     const refreshToken = localStorage.getItem('refreshToken');
 
-    if (refreshToken != '' && refreshToken != null) {
+    if (refreshToken !== '' && refreshToken !== null) {
       const refreshTokenExpirationTime = jwt_decode(refreshToken).exp * 1000;
 
       if (refreshTokenExpirationTime > new Date().getTime()) {
@@ -146,7 +146,7 @@ function App2() {
         <Route index element={role === 'customer' ? <CustomerHomePage name={name} /> :
           role === 'expert' ? <ExpertHomePage name={name} /> :
             <ManagerHomePage name={name} />} />
-        <Route path='ticket/:ticketId' element={<TicketPage />} />
+        <Route path='ticket/:ticketId' element={<TicketPage email={email} />} />
       </Route>
 
       <Route path='*' element={<Navigate to='/' />} />

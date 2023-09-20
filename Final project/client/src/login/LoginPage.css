@@ -36,3 +36,7 @@
   background-color: white !important;
   border: 2px solid #dd3675 !important;
 }
+
+.form-control {
+  border-color: #dd3675;
+}
