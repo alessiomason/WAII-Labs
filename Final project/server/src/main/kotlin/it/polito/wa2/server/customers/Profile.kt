@@ -1,4 +1,4 @@
-package it.polito.wa2.server.profiles
+package it.polito.wa2.server.customers
 
 import jakarta.persistence.Column
 import jakarta.persistence.Entity

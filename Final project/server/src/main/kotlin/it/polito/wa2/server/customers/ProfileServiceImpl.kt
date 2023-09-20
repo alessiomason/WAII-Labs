@@ -1,4 +1,4 @@
-package it.polito.wa2.server.profiles
+package it.polito.wa2.server.customers
 
 import it.polito.wa2.server.exceptions.ProfileNotFoundException
 import jakarta.validation.constraints.Email

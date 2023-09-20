@@ -4,7 +4,7 @@ import it.polito.wa2.server.exceptions.ProductNotFoundException
 import it.polito.wa2.server.exceptions.ProfileNotFoundException
 import it.polito.wa2.server.exceptions.PurchaseNotFoundException
 import it.polito.wa2.server.products.ProductRepository
-import it.polito.wa2.server.profiles.ProfileRepository
+import it.polito.wa2.server.customers.ProfileRepository
 import it.polito.wa2.server.purchases.warranties.*
 import jakarta.validation.constraints.Email
 import org.springframework.data.repository.findByIdOrNull

@@ -1,4 +1,4 @@
-package it.polito.wa2.server.employees
+package it.polito.wa2.server.customers
 
 abstract class PersonDTO(
     open val id: String,

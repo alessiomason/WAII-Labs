@@ -1,6 +1,6 @@
 package it.polito.wa2.server.chat
 
-import it.polito.wa2.server.profiles.Profile
+import it.polito.wa2.server.customers.Profile
 import jakarta.persistence.*
 import java.time.ZonedDateTime
 

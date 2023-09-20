@@ -4,7 +4,7 @@ import it.polito.wa2.server.products.Product
 import it.polito.wa2.server.products.ProductDTO
 import it.polito.wa2.server.products.ProductRepository
 import it.polito.wa2.server.products.toDTO
-import it.polito.wa2.server.profiles.ProfileRepository
+import it.polito.wa2.server.customers.ProfileRepository
 import it.polito.wa2.server.security.AuthenticationService
 import it.polito.wa2.server.security.LoginDTO
 import it.polito.wa2.server.employees.ExpertRepository

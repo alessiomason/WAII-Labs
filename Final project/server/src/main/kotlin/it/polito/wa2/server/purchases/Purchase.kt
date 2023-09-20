@@ -1,7 +1,7 @@
 package it.polito.wa2.server.purchases
 
 import it.polito.wa2.server.products.Product
-import it.polito.wa2.server.profiles.Profile
+import it.polito.wa2.server.customers.Profile
 import it.polito.wa2.server.purchases.warranties.Warranty
 import it.polito.wa2.server.tickets.Ticket
 import jakarta.persistence.Column

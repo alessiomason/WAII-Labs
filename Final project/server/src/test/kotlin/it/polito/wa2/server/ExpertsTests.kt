@@ -1,7 +1,7 @@
 package it.polito.wa2.server
 
 import it.polito.wa2.server.products.ProductRepository
-import it.polito.wa2.server.profiles.ProfileRepository
+import it.polito.wa2.server.customers.ProfileRepository
 import it.polito.wa2.server.security.AuthenticationService
 import it.polito.wa2.server.security.LoginDTO
 import it.polito.wa2.server.employees.*

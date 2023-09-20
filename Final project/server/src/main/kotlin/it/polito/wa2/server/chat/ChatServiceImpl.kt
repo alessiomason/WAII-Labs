@@ -4,7 +4,7 @@ import it.polito.wa2.server.exceptions.ChatClosedException
 import it.polito.wa2.server.exceptions.ChatNotFoundException
 import it.polito.wa2.server.exceptions.ProfileNotFoundException
 import it.polito.wa2.server.exceptions.TicketNotFoundException
-import it.polito.wa2.server.profiles.ProfileRepository
+import it.polito.wa2.server.customers.ProfileRepository
 import it.polito.wa2.server.tickets.TicketRepository
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Service

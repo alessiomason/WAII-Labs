@@ -1,4 +1,4 @@
-package it.polito.wa2.server.profiles
+package it.polito.wa2.server.customers
 
 data class ProfileDTO(
     val id: String,

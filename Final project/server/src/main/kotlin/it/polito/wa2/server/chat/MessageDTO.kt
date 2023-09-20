@@ -1,7 +1,7 @@
 package it.polito.wa2.server.chat
 
-import it.polito.wa2.server.profiles.ProfileDTO
-import it.polito.wa2.server.profiles.toDTO
+import it.polito.wa2.server.customers.ProfileDTO
+import it.polito.wa2.server.customers.toDTO
 import java.time.ZonedDateTime
 
 data class MessageDTO(

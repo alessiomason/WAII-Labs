@@ -1,4 +1,4 @@
-package it.polito.wa2.server.profiles
+package it.polito.wa2.server.customers
 
 import jakarta.validation.Valid
 import org.springframework.validation.annotation.Validated
