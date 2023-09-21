@@ -7,5 +7,5 @@ data class ChatDTO(
 )
 
 fun Chat.toDTO(): ChatDTO {
-    return ChatDTO(id, closed, messages.map { it.toDTO() })
+    return ChatDTO(id, closed, messages.map { it.toDTO() }.sortedBy { it.time })
 }

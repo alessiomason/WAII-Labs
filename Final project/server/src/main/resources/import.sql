@@ -68,7 +68,7 @@ create table if not exists purchases
             references warranties
 );
 
-create table chats
+create table if not exists chats
 (
     id        integer not null
         primary key,
@@ -78,7 +78,7 @@ create table chats
             references tickets
 );
 
-create table messages
+create table if not exists messages
 (
     id      integer not null
         primary key,
@@ -88,11 +88,6 @@ create table messages
         constraint fk64w44ngcpqp99ptcb9werdfmb
             references chats,
     from_id varchar(255)
-        constraint fknd9p9t48pgyxsuxgjs180bbbs
-            references profiles,
-    to_id   varchar(255)
-        constraint fkt9kn50ywdif81a01ck3qww6fo
-            references profiles
 );
 
 create table if not exists tickets
@@ -1348,6 +1343,13 @@ INSERT INTO tickets(id, description, priority_level, ticket_status, title, exper
 INSERT INTO tickets(id, description, priority_level, ticket_status, title, expert_id, purchase_id) VALUES (3, 'Description Ticket 3', 1, 0, 'Ticket 3', 'john_demon_12@mail.com', 2);
 INSERT INTO tickets(id, description, priority_level, ticket_status, title, expert_id, purchase_id) VALUES (4, 'Description Ticket 4', 1, 0, 'Ticket 4', 'matt_kerr_12@mail.com', 4);
 INSERT INTO tickets(id, description, priority_level, ticket_status, title, expert_id, purchase_id) VALUES (5, 'Description Ticket 5', 1, 0, 'Ticket 5', 'expert1@products.com', 8);
+
+INSERT INTO chats(id, closed, ticket_id) VALUES (1, false, 5);
+UPDATE tickets SET chat_id = 1 WHERE id = 5;
+
+INSERT INTO messages(id, text, time, chat_id, from_id) VALUES (1, 'Message 1', '2023-09-21 10:36:39', 1, 'customer1@products.com');
+INSERT INTO messages(id, text, time, chat_id, from_id) VALUES (2, 'Message 2', '2023-09-21 10:37:55', 1, 'customer1@products.com');
+INSERT INTO messages(id, text, time, chat_id, from_id) VALUES (3, 'Message 3', '2023-09-21 11:02:07', 1, 'expert1@products.com');
 
 INSERT INTO logs(id, new_ticket_status, previous_ticket_status, time, ticket_id) VALUES (1, 1, 0, '2023-05-12T14:13:09.157827400Z', 1);
 INSERT INTO logs(id, new_ticket_status, previous_ticket_status, time, ticket_id) VALUES (2, 2, 1, '2023-05-12T15:14:09.157827400Z', 1);

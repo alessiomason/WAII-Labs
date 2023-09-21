@@ -2,7 +2,6 @@ package it.polito.wa2.server.chat
 
 import it.polito.wa2.server.customers.PersonDTO
 import it.polito.wa2.server.customers.toDTO
-import jakarta.validation.constraints.Email
 import java.time.ZonedDateTime
 
 data class MessageDTO(
