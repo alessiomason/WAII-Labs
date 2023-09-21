@@ -83,9 +83,9 @@ function MessageBox(props) {
   }
 
   return (
-    <Row className={'d-flex ' + (messageSent() ? '' : 'justify-content-end')}>
-      <Card>
-        <Card.Header>{props.message.from.firstName + ' ' + props.message.from.lastName}</Card.Header>
+    <Row className={'d-flex ' + (messageSent() ? 'justify-content-end' : '')}>
+      <Card className={messageSent() ? 'sender-card' : ''}>
+        <Card.Header className={messageSent() ? 'sender-header' : 'receiver-header'}>{props.message.from.firstName + ' ' + props.message.from.lastName}</Card.Header>
         <Card.Body>{props.message.text}</Card.Body>
         <Card.Footer>{dayjs(props.message.time).format('YYYY/MM/DD HH:mm')}</Card.Footer>
       </Card>
