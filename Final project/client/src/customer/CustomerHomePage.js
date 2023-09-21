@@ -28,7 +28,7 @@ function CustomerHomePage(props) {
           <Row><h1>Welcome, {props.name}!</h1></Row>
           <Row><h3>Open tickets</h3></Row>
           <Row>
-            <TicketsList onlyOpen tickets={tickets.filter(ticket => ticket.ticketStatus === 'OPEN')} />
+            <TicketsList openTicketsList tickets={tickets.filter(ticket => ticket.ticketStatus !== 'CLOSED' && ticket.ticketStatus !== 'RESOLVED')} />
           </Row>
         </Col>
       </Row>
@@ -36,11 +36,11 @@ function CustomerHomePage(props) {
       <Row>
         <Col className='section'>
           <Row>
-            <Col><h3>Tickets</h3></Col>
+            <Col><h3>Closed tickets</h3></Col>
             <Col className="d-flex justify-content-end"><Button onClick={() => navigate('/new-ticket')}>Create new ticket</Button></Col>
           </Row>
           <Row>
-            <TicketsList tickets={tickets} />
+            <TicketsList tickets={tickets.filter(ticket => ticket.ticketStatus === 'CLOSED' || ticket.ticketStatus === 'RESOLVED')} />
           </Row>
         </Col>
         <Col className='section'>
@@ -71,7 +71,7 @@ function TicketsList(props) {
       </thead>
       <tbody>
         {props.tickets.map((ticket, i) => {
-          return (<TicketsListItem key={ticket.id} i={i} ticket={ticket} onlyOpen={props.onlyOpen} />);
+          return (<TicketsListItem key={ticket.id} i={i} ticket={ticket} openTicketsList={props.openTicketsList} />);
         })}
       </tbody>
     </Table>
@@ -88,7 +88,7 @@ function TicketsListItem(props) {
       <td>{props.ticket.purchase.product.name}</td>
       <td>{props.ticket.ticketStatus}</td>
       <td className='d-flex justify-content-end'>
-        <Button variant='outline-primary' onClick={() => navigate(`/ticket/${props.ticket.id}`)}>{props.onlyOpen ? 'Manage and chat' : 'See more'}</Button>
+        <Button variant='outline-primary' onClick={() => navigate(`/ticket/${props.ticket.id}`)}>{props.openTicketsList ? 'Manage and chat' : 'See more'}</Button>
       </td>
     </tr>
   );
