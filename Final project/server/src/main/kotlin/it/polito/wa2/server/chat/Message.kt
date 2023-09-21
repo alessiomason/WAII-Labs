@@ -7,6 +7,7 @@ import java.time.ZonedDateTime
 @Entity
 @Table(name = "messages")
 class Message(
+    @Column(length = 65536)
     val text: String,
     val time: ZonedDateTime,
     @OneToOne

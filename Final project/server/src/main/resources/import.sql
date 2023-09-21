@@ -82,7 +82,7 @@ create table if not exists messages
 (
     id      integer not null
         primary key,
-    text    varchar(255),
+    text    varchar(65536),
     time    timestamp(6),
     chat_id integer
         constraint fk64w44ngcpqp99ptcb9werdfmb
@@ -1347,9 +1347,9 @@ INSERT INTO tickets(id, description, priority_level, ticket_status, title, exper
 INSERT INTO chats(id, closed, ticket_id) VALUES (1, false, 5);
 UPDATE tickets SET chat_id = 1 WHERE id = 5;
 
-INSERT INTO messages(id, text, time, chat_id, from_id) VALUES (1, 'Message 1', '2023-09-21 10:36:39', 1, 'customer1@products.com');
-INSERT INTO messages(id, text, time, chat_id, from_id) VALUES (2, 'Message 2', '2023-09-21 10:37:55', 1, 'customer1@products.com');
-INSERT INTO messages(id, text, time, chat_id, from_id) VALUES (3, 'Message 3', '2023-09-21 11:02:07', 1, 'expert1@products.com');
+INSERT INTO messages(id, text, time, chat_id, from_id) VALUES (1001, 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc elementum dolor a pretium feugiat. Morbi suscipit nibh in massa tincidunt vehicula. Nulla nec facilisis nisi. Duis lacinia velit vitae arcu hendrerit, quis ornare justo convallis. Nullam ut consectetur libero. Aliquam posuere tempor eros, non vestibulum sapien posuere at. Aliquam erat volutpat. Morbi nec convallis purus. Nulla lobortis, augue ut iaculis euismod, nulla mi convallis dui, sit amet euismod velit ipsum a sapien. Sed id venenatis metus. Ut vulputate vel massa ac rutrum.', '2023-09-21 10:36:39', 1, 'customer1@products.com');
+INSERT INTO messages(id, text, time, chat_id, from_id) VALUES (1002, 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut condimentum lectus id orci viverra, et hendrerit nisi vestibulum. Fusce eleifend, tellus in auctor ullamcorper, sem mauris volutpat urna, vel porta mauris ante quis odio. Aliquam dictum sem at lorem cursus ultricies. Nam a odio arcu. Vestibulum lacinia nulla et est laoreet, at posuere ante fermentum.', '2023-09-21 10:37:55', 1, 'customer1@products.com');
+INSERT INTO messages(id, text, time, chat_id, from_id) VALUES (1003, 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut condimentum lectus id orci viverra, et hendrerit nisi vestibulum. Fusce eleifend, tellus in auctor ullamcorper, sem mauris volutpat urna, vel porta mauris ante quis odio. Aliquam dictum sem at lorem cursus ultricies. Nam a odio arcu. Vestibulum lacinia nulla et est laoreet, at posuere ante fermentum.', '2023-09-21 11:02:07', 1, 'expert1@products.com');
 
 INSERT INTO logs(id, new_ticket_status, previous_ticket_status, time, ticket_id) VALUES (1, 1, 0, '2023-05-12T14:13:09.157827400Z', 1);
 INSERT INTO logs(id, new_ticket_status, previous_ticket_status, time, ticket_id) VALUES (2, 2, 1, '2023-05-12T15:14:09.157827400Z', 1);

@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { Row, Col, Button, Card } from 'react-bootstrap';
+import { Row, Col, Button, Card, Form } from 'react-bootstrap';
 import './TicketPage.css';
 import API from '../API';
 const dayjs = require('dayjs');
@@ -55,7 +55,7 @@ function TicketPage(props) {
         </Row>
 
         <Row>
-          <ChatSection chat={ticket.chat} email={props.email} />
+          <ChatSection ticketId={ticket.id} chat={ticket.chat} email={props.email} />
         </Row>
       </Col>
     </Row>
@@ -72,6 +72,7 @@ function ChatSection(props) {
 
       <Row className='messages-section'>
         {props.chat?.messages.map(message => <MessageBox key={message.id} message={message} email={props.email} />)}
+        <SendMessageBox ticketId={props.ticketId} />
       </Row>
     </>
   );
@@ -90,6 +91,25 @@ function MessageBox(props) {
         <Card.Footer>{dayjs(props.message.time).format('YYYY/MM/DD HH:mm')}</Card.Footer>
       </Card>
     </Row>
+  );
+}
+
+function SendMessageBox(props) {
+  const [text, setText] = useState('');
+
+  function handleSubmit(event) {
+    event.preventDefault();
+    API.sendMessage(props.ticketId, text)
+      // .then(() => props.setDirty(true))
+      .catch(err => console.log(err))
+  }
+
+  return (
+    <Form onSubmit={handleSubmit} className='send-message-box'>
+      <Row><h3 className='new-message-title'>Send a new message</h3></Row>
+      <Row><Form.Control as='textarea' rows={5} value={text} onChange={ev => setText(ev.target.value)} placeholder='Enter your text here...' /></Row>
+      <Row className='d-flex justify-content-end'><Button className='send-message-btn gradient-custom' type='submit'>Send message</Button></Row>
+    </Form>
   );
 }
 

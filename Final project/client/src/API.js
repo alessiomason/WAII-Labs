@@ -161,7 +161,7 @@ function createChat(ticketId) {
     });
 }
 
-function sendMessage(ticketId, message) {
+function sendMessage(ticketId, text) {
     const accessToken = localStorage.getItem('accessToken');
 
     // call: POST /API/tickets/:ticketId/chat/messages
@@ -174,8 +174,7 @@ function sendMessage(ticketId, message) {
             },
 
             body: JSON.stringify({
-                text: message.text,
-                to: message.to
+                text: text
             }),
 
         }).then((response) => {

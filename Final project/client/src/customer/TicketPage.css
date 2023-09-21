@@ -30,7 +30,7 @@ h1 {
 
 .messages-section {
 	margin-top: 20px;
-	margin-bottom: 20px;
+	margin-bottom: 30px;
 }
 
 .card {
@@ -42,7 +42,7 @@ h1 {
 }
 
 .sender-card {
-	background-color: rgba(238, 119, 36, 0.1);;
+	background-color: rgba(238, 119, 36, 0.1);
 }
 
 .card-header {
@@ -71,4 +71,21 @@ h1 {
 	font-size: x-small;
 	text-align: end;
 	color: grey;
+}
+
+.send-message-box {
+	margin-top: 20px;
+}
+
+.new-message-title {
+	margin-bottom: 15px;
+}
+
+.send-message-btn {
+	width: fit-content;
+	margin-top: 10px;
+}
+
+textarea {
+	resize: none;
 }
