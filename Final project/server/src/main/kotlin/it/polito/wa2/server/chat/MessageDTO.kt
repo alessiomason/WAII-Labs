@@ -9,15 +9,13 @@ data class MessageDTO(
     val id: Int,
     val text: String,
     val time: ZonedDateTime,
-    val from: PersonDTO,
-    val to: PersonDTO
+    val from: PersonDTO
 )
 
 data class NewMessageDTO(
-    val text: String,
-    val toId: @Email String
+    val text: String
 )
 
 fun Message.toDTO(): MessageDTO {
-    return MessageDTO(id, text, time, from.toDTO(), to.toDTO())
+    return MessageDTO(id, text, time, from.toDTO())
 }

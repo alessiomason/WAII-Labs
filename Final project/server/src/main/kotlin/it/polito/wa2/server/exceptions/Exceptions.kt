@@ -20,8 +20,6 @@ class ChatNotFoundException: RuntimeException("Chat not found!")
 
 class ChatClosedException: RuntimeException("The chat is closed!")
 
-class MessageException: RuntimeException("You can't message yourself!")
-
 class TicketStatusException: RuntimeException("Ticket status not coherent!")
 
 class DuplicateProductException: RuntimeException("The product is already present!")

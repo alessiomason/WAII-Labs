@@ -11,8 +11,6 @@ class Message(
     val time: ZonedDateTime,
     @OneToOne
     val from: Person,
-    @OneToOne
-    val to: Person,
     @ManyToOne
     val chat: Chat
 ) {

@@ -31,14 +31,10 @@ class ChatServiceImpl(
         if (ticket.chat == null) throw ChatNotFoundException()
         if (ticket.chat!!.closed) throw ChatClosedException()
 
-        if (email == messageDTO.toId) throw MessageException()
-
         val from = personRepository.findByIdOrNull(email) ?: throw ProfileNotFoundException()
-        val to = personRepository.findByIdOrNull(messageDTO.toId) ?: throw ProfileNotFoundException()
-
         val time = ZonedDateTime.now()
 
-        val message = Message(messageDTO.text, time, from, to, ticket.chat!!)
+        val message = Message(messageDTO.text, time, from, ticket.chat!!)
         messageRepository.save(message)
 
         return message.toDTO()
