@@ -43,3 +43,8 @@ th {
 tr {
 	border-color: rgb(238, 119, 36, 0.1);
 }
+
+tbody tr:hover {
+	background-color: rgb(238, 119, 36, 0.4);
+	cursor: pointer;
+}

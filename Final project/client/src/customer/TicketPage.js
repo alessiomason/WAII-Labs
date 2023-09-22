@@ -114,7 +114,10 @@ function SendMessageBox(props) {
   function handleSubmit(event) {
     event.preventDefault();
     API.sendMessage(props.ticketId, text)
-      .then(() => props.setDirty(true))
+      .then(() => {
+        props.setDirty(true);
+        setText('');
+      })
       .catch(err => console.log(err))
   }
 

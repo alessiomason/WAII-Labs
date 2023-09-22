@@ -66,7 +66,6 @@ function TicketsList(props) {
           <th>Title</th>
           <th>Product</th>
           <th>Status</th>
-          <th></th>
         </tr>
       </thead>
       <tbody>
@@ -82,14 +81,11 @@ function TicketsListItem(props) {
   const navigate = useNavigate();
   
   return (
-    <tr>
+    <tr onClick={() => navigate(`/ticket/${props.ticket.id}`)}>
       <td>{props.i + 1}</td>
       <td>{props.ticket.title}</td>
       <td>{props.ticket.purchase.product.name}</td>
       <td>{props.ticket.ticketStatus}</td>
-      <td className='d-flex justify-content-end'>
-        <Button variant='outline-primary' onClick={() => navigate(`/ticket/${props.ticket.id}`)}>{props.openTicketsList ? 'Manage and chat' : 'See more'}</Button>
-      </td>
     </tr>
   );
 }
@@ -115,8 +111,10 @@ function PurchasesList(props) {
 }
 
 function PurchasesListItem(props) {
+  const navigate = useNavigate();
+  
   return (
-    <tr>
+    <tr onClick={() => navigate(`/purchase/${props.purchase.id}`)}>
       <td>{props.i + 1}</td>
       <td>{props.purchase.product.name}</td>
       <td>{dayjs(props.purchase.dateOfPurchase).format('YYYY/MM/DD')}</td>

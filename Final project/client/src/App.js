@@ -2,7 +2,7 @@ import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { useEffect, useState } from 'react';
 import { Button, Container, Row, Col } from 'react-bootstrap';
-import { House, BoxArrowLeft } from 'react-bootstrap-icons';
+import { House, BoxArrowLeft, Person } from 'react-bootstrap-icons';
 import { BrowserRouter as Router, Routes, Route, Navigate, useNavigate, Outlet } from 'react-router-dom';
 import { LoginPage } from "./login/LoginPage";
 import CustomerHomePage from './customer/CustomerHomePage';
@@ -147,6 +147,10 @@ function App2() {
           role === 'expert' ? <ExpertHomePage name={name} /> :
             <ManagerHomePage name={name} />} />
         <Route path='ticket/:ticketId' element={<TicketPage email={email} />} />
+        <Route path='purchase/:purchaseId' element={<></>} />
+        <Route path='new-ticket' element={<></>} />
+        <Route path='new-purchase' element={<></>} />
+        <Route path='profile' element={<></>} />
       </Route>
 
       <Route path='*' element={<Navigate to='/' />} />
@@ -163,6 +167,11 @@ function PageLayout(props) {
         <Col>
           <Button variant='light' className='navbar-button' onClick={() => navigate('/')}>
             <span className='d-flex justify-content-center align-items-center'><House />Home</span>
+          </Button>
+        </Col>
+        <Col>
+          <Button variant='light' className='navbar-button' onClick={() => navigate('/profile')}>
+            <span className='d-flex justify-content-center align-items-center'><Person />Profile</span>
           </Button>
         </Col>
         <Col>
