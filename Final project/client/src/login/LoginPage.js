@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Button, Container, Row, Col, Nav, Tab, Form } from 'react-bootstrap';
+import { Button, Container, Row, Col, Nav, Tab, Form, Alert } from 'react-bootstrap';
 import "./LoginPage.css";
 
 function LoginPage(props) {
@@ -25,7 +25,7 @@ function LoginPage(props) {
       </Row>
       <Row>
         <Tab.Content>
-          <Tab.Pane eventKey="first"><LoginPane doLogin={props.doLogin} /></Tab.Pane>
+          <Tab.Pane eventKey="first"><LoginPane doLogin={props.doLogin} message={props.message}/></Tab.Pane>
           <Tab.Pane eventKey="second"><SignUpPane /></Tab.Pane>
         </Tab.Content>
       </Row>
@@ -34,16 +34,51 @@ function LoginPage(props) {
 }
 
 function LoginPane(props) {
+
+  function validateEmail(email) {
+    return String(email)
+        .toLowerCase()
+        .match(
+            /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+        );
+  }
+
   const [email, setEmail] = useState('customer1@products.com');
   const [password, setPassword] = useState('password');
+  const [alertMessage, setAlertMessage] = useState('');
 
   function handleSubmit(event) {
     event.preventDefault();
-    props.doLogin(email, password);
+    setAlertMessage('');
+    let valid = true;
+
+    if (email.trim() === '') {
+        valid = false;
+        setAlertMessage('Email cannot be empty or contain only spaces.');
+    }
+
+    if (valid && password.trim() === '') {
+        valid = false;
+        setAlertMessage('Password cannot be empty or contain only spaces.');
+    }
+
+    if (valid && !validateEmail(email)) {
+        valid = false;
+        setAlertMessage('Email format not valid.');
+    }
+
+    if (valid) {
+        props.doLogin(email, password);
+        if (props.message != null) {
+          setAlertMessage('Email or password incorrect.');
+        }
+    }
+
   }
 
   return (
     <Form onSubmit={handleSubmit}>
+      {alertMessage && <Alert variant="danger" className="login_alert" onClose={() => setAlertMessage('')} dismissible>{alertMessage}</Alert>}
       <Container className='d-flex justify-content-center'>
         <Row className='w-50'>
           <h3 className='text-center'>Login</h3>

@@ -40,3 +40,14 @@
 .form-control {
   border-color: #dd3675;
 }
+
+.login_alert {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  align-self: center;
+  color: #dd3675 !important;
+  background-color: white !important;
+  border: 2px solid #dd3675 !important;
+
+}
