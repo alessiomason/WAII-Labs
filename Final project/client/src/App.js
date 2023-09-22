@@ -86,7 +86,7 @@ function App2() {
         navigate('/');
       })
       .catch(err => {
-        setMessage(err);
+        setMessage('Email or password incorrect.');
       })
   }
 
