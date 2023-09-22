@@ -9,12 +9,26 @@ function TicketPage(props) {
   let { ticketId } = useParams();
   ticketId = parseInt(ticketId);
   const [ticket, setTicket] = useState({});
+  const [dirty, setDirty] = useState(true);
 
   useEffect(() => {
-    API.getTicketById(ticketId)
-      .then(ticket => setTicket(ticket))
-      .catch(err => console.log(err))
-  }, [ticketId])
+    if (dirty) {
+      API.getTicketById(ticketId)
+        .then(ticket => {
+          setTicket(ticket);
+          setDirty(false);
+        })
+        .catch(err => console.log(err))
+    }
+  }, [ticketId, dirty])
+
+  useEffect(() => {
+    const intervalId = setInterval(() => {
+      setDirty(true);
+    }, 1000);
+
+    return () => clearInterval(intervalId);
+  }, [])
 
   return (
     <Row>
@@ -55,7 +69,7 @@ function TicketPage(props) {
         </Row>
 
         <Row>
-          <ChatSection ticketId={ticket.id} chat={ticket.chat} email={props.email} />
+          <ChatSection ticketId={ticket.id} chat={ticket.chat} email={props.email} setDirty={setDirty} />
         </Row>
       </Col>
     </Row>
@@ -72,7 +86,7 @@ function ChatSection(props) {
 
       <Row className='messages-section'>
         {props.chat?.messages.map(message => <MessageBox key={message.id} message={message} email={props.email} />)}
-        <SendMessageBox ticketId={props.ticketId} />
+        <SendMessageBox ticketId={props.ticketId} setDirty={props.setDirty} />
       </Row>
     </>
   );
@@ -100,7 +114,7 @@ function SendMessageBox(props) {
   function handleSubmit(event) {
     event.preventDefault();
     API.sendMessage(props.ticketId, text)
-      // .then(() => props.setDirty(true))
+      .then(() => props.setDirty(true))
       .catch(err => console.log(err))
   }
 
