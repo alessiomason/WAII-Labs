@@ -139,9 +139,15 @@ function App2() {
     setLoggedIn(false);
   }
 
+  function doSignUp(email, password, firstName, lastName, phone) {
+    // TO DO
+    console.log("SIGN UP || TO DO");
+    return false;
+  }
+
   return (
     <Routes>
-      <Route path='/login' element={loggedIn ? <Navigate to='/' /> : <LoginPage loggedIn={loggedIn} doLogin={doLogin} message={message} setMessage={setMessage} />} />
+      <Route path='/login' element={loggedIn ? <Navigate to='/' /> : <LoginPage loggedIn={loggedIn} doLogin={doLogin} doSignUp={doSignUp} message={message} setMessage={setMessage} />} />
       <Route path='/' element={loggedIn ? <PageLayout loggedIn={loggedIn} doLogin={doLogin} doLogout={doLogout} /> : <Navigate to='/login' />}>
         <Route index element={role === 'customer' ? <CustomerHomePage name={name} /> :
           role === 'expert' ? <ExpertHomePage name={name} /> :
