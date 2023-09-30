@@ -215,8 +215,11 @@ function closeChat(ticketId) {
 }
 
 async function getProfileById(email) {
+    const accessToken = localStorage.getItem('accessToken');
     // call /API/profiles/:email
-    const response = await fetch(new URL('profiles/' + email, APIURL));
+    const response = await fetch(new URL('profiles/' + email, APIURL), {
+        headers: { 'Authorization': `Bearer ${accessToken}` },
+    });
     const profile = await response.json();
     if (response.ok)
         return ({
@@ -258,12 +261,14 @@ function createProfile(profile) {
 }
 
 function editProfile(editedProfile) {
-    // call: PUT /API/profiles/:email
+    const accessToken = localStorage.getItem('accessToken');
+    // call: PUT /API/profiles
     return new Promise((resolve, reject) => {
-        fetch(new URL('profiles/' + editedProfile.email, APIURL), {
+        fetch(new URL(`profiles`, APIURL), {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json',
+                'Authorization': `Bearer ${accessToken}`
             },
             body: JSON.stringify({
                 email: editedProfile.email,
@@ -273,12 +278,12 @@ function editProfile(editedProfile) {
             })
         }).then((response) => {
             if (response.ok)
-                resolve(null);
+                resolve(response.json());
             else {
                 // analyze the cause of error
                 response.json()
-                    .then((obj) => { reject(obj); }) // error message in the response body
-                    .catch(() => { reject({ error: "Cannot parse server response." }) }); // something else
+                  .then((message) => { reject(message); }) // error message in the response body
+                  .catch(() => { reject({ error: "Cannot parse server response." }) }); // something else
             }
         }).catch(() => { reject({ error: "Cannot communicate with the server." }) }); // connection errors
     });

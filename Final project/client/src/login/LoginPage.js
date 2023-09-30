@@ -35,8 +35,6 @@ function LoginPage(props) {
 
 function LoginPane(props) {
 
-
-
   const [email, setEmail] = useState('customer1@products.com');
   const [password, setPassword] = useState('password');
 

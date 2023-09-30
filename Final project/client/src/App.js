@@ -11,6 +11,7 @@ import ManagerHomePage from './manager/ManagerHomePage';
 import TicketPage from './customer/TicketPage';
 import API from './API';
 import jwt_decode from "jwt-decode";
+import {FormModifyProfile} from "./FormModifyProfile";
 
 function App() {
   return (
@@ -26,6 +27,7 @@ function App2() {
   const [email, setEmail] = useState('');
   const [role, setRole] = useState('');
   const [message, setMessage] = useState('');
+  const [dirty, setDirty] = useState(false);
 
   const navigate = useNavigate();
 
@@ -145,10 +147,14 @@ function App2() {
     return false;
   }
 
+  function handleError(err) {
+    console.log(err);
+  }
+
   return (
     <Routes>
       <Route path='/login' element={loggedIn ? <Navigate to='/' /> : <LoginPage loggedIn={loggedIn} doLogin={doLogin} doSignUp={doSignUp} message={message} setMessage={setMessage} />} />
-      <Route path='/' element={loggedIn ? <PageLayout loggedIn={loggedIn} doLogin={doLogin} doLogout={doLogout} /> : <Navigate to='/login' />}>
+      <Route path='/' element={loggedIn ? <PageLayout loggedIn={loggedIn} doLogin={doLogin} doLogout={doLogout} email={email} /> : <Navigate to='/login' />}>
         <Route index element={role === 'customer' ? <CustomerHomePage name={name} /> :
           role === 'expert' ? <ExpertHomePage name={name} /> :
             <ManagerHomePage name={name} />} />
@@ -156,7 +162,7 @@ function App2() {
         <Route path='purchase/:purchaseId' element={<></>} />
         <Route path='new-ticket' element={<></>} />
         <Route path='new-purchase' element={<></>} />
-        <Route path='profile' element={<></>} />
+        <Route path='profile/:email' element={<FormModifyProfile dirty={dirty} setDirty={setDirty} email={email} handleError={handleError} />} />
       </Route>
 
       <Route path='*' element={<Navigate to='/' />} />
@@ -176,7 +182,7 @@ function PageLayout(props) {
           </Button>
         </Col>
         <Col>
-          <Button variant='light' className='navbar-button' onClick={() => navigate('/profile')}>
+          <Button variant='light' className='navbar-button' onClick={() => navigate('/profile/' + props.email)}>
             <span className='d-flex justify-content-center align-items-center'><Person />Profile</span>
           </Button>
         </Col>
