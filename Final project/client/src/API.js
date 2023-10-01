@@ -39,6 +39,61 @@ async function refreshLogin(refreshToken) {
     else throw jwtDTO;
 }
 
+function createCustomer(customer) {
+    // call: POST /API/signup
+    return new Promise((resolve, reject) => {
+        fetch(new URL(`signup`, APIURL), {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                email: customer.email,
+                password: customer.password,
+                firstName: customer.firstName,
+                lastName: customer.lastName,
+                phone: customer.phone
+            })
+        }).then((response) => {
+            if (response.ok)
+                resolve(null);
+            else {
+                // analyze the cause of error
+                response.json()
+                  .then((message) => { reject(message); }) // error message in the response body
+                  .catch(() => { reject({ error: "Cannot parse server response." }) }); // something else
+            }
+        }).catch(() => { reject({ error: "Cannot communicate with the server." }) }); // connection errors
+    });
+}
+
+function createExpert(expert) {
+    // call: POST /API/experts
+    return new Promise((resolve, reject) => {
+        fetch(new URL(`experts`, APIURL), {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                email: expert.email,
+                password: expert.password,
+                firstName: expert.firstName,
+                lastName: expert.lastName
+            })
+        }).then((response) => {
+            if (response.ok)
+                resolve(null);
+            else {
+                // analyze the cause of error
+                response.json()
+                  .then((message) => { reject(message); }) // error message in the response body
+                  .catch(() => { reject({ error: "Cannot parse server response." }) }); // something else
+            }
+        }).catch(() => { reject({ error: "Cannot communicate with the server." }) }); // connection errors
+    });
+}
+
 async function getProducts() {
     const accessToken = localStorage.getItem('accessToken');
 
@@ -223,6 +278,7 @@ async function getProfileById(email) {
     const profile = await response.json();
     if (response.ok)
         return ({
+            id: profile.id,
             email: profile.email,
             firstName: profile.firstName,
             lastName: profile.lastName,
@@ -231,7 +287,25 @@ async function getProfileById(email) {
     else throw profile;
 }
 
-function createProfile(profile) {
+async function getProfileByEmail(email) {
+    const accessToken = localStorage.getItem('accessToken');
+    // call /API/profilesByEmail/:email
+    const response = await fetch(new URL('profilesByEmail/' + email, APIURL), {
+        headers: { 'Authorization': `Bearer ${accessToken}` },
+    });
+    const profile = await response.json();
+    if (response.ok)
+        return ({
+            id: profile.id,
+            email: profile.email,
+            firstName: profile.firstName,
+            lastName: profile.lastName,
+            phone: profile.phone
+        });
+    else throw profile;
+}
+
+/* function createProfile(profile) {
     // call: POST /API/profiles
     return new Promise((resolve, reject) => {
         fetch(new URL('profiles', APIURL), {
@@ -259,6 +333,7 @@ function createProfile(profile) {
         }).catch(() => { reject({ error: "Cannot communicate with the server." }) }); // connection errors
     });
 }
+*/
 
 function editProfile(editedProfile) {
     const accessToken = localStorage.getItem('accessToken');
@@ -271,6 +346,7 @@ function editProfile(editedProfile) {
                 'Authorization': `Bearer ${accessToken}`
             },
             body: JSON.stringify({
+                id: editedProfile.id,
                 email: editedProfile.email,
                 firstName: editedProfile.firstName,
                 lastName: editedProfile.lastName,
@@ -278,7 +354,7 @@ function editProfile(editedProfile) {
             })
         }).then((response) => {
             if (response.ok)
-                resolve(response.json());
+                resolve(null);
             else {
                 // analyze the cause of error
                 response.json()
@@ -302,7 +378,9 @@ const API = {
     sendMessage,
     closeChat,
     getProfileById,
-    createProfile,
+    getProfileByEmail,
+    createCustomer,
+    createExpert,
     editProfile
 };
 

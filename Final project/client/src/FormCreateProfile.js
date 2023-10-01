@@ -22,7 +22,7 @@ function FormCreateProfile(props) {
             lastName: lastName,
             phone: phone
         }
-        API.createProfile(newProfile);
+        // API.createProfile(newProfile);
         props.setDirty(true);
         navigate('/');
     }

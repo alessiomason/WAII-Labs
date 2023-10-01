@@ -1,5 +1,5 @@
-import {Button, Alert, Form, Tab, Nav} from 'react-bootstrap';
-import { Container, Row, Col } from 'react-bootstrap';
+import {Button, Alert, Form } from 'react-bootstrap';
+import { Container, Row } from 'react-bootstrap';
 import React, {useEffect, useState} from 'react';
 import {useNavigate, useParams} from 'react-router-dom';
 import API from "./API";
@@ -10,7 +10,9 @@ function FormModifyProfile(props) {
     const [firstName, setFirstName] = useState('');
     const [lastName,setLastName]=useState("");
     const [phone, setPhone] = useState("");
-    const [errorMsg, setErrorMsg] = useState('');  // stringa vuota '' = non c'e' errore
+    const [id, setId] = useState('');
+    const [errorMsg, setErrorMsg] = useState('');
+    const [saveMsg, setSaveMsg] = useState('');
     const {email}  = useParams();
 
     const navigate = useNavigate();
@@ -18,6 +20,7 @@ function FormModifyProfile(props) {
     const handleSubmit = (event) => {
         event.preventDefault();
         const editedProfile = {
+            id: id,
             email: email,
             firstName: firstName,
             lastName: lastName,
@@ -44,14 +47,18 @@ function FormModifyProfile(props) {
         if (valid) {
             API.editProfile(editedProfile).then( () => {
                 props.setDirty(true);
-                navigate('/profiles/' + email);
-            }).catch(err => props.handleError(err));
+                setSaveMsg('The profile has been edited.')
+            }).catch(err => {
+                props.handleError(err);
+                setSaveMsg('Error during the editing.')
+            });
         }
     }
 
     useEffect(() => {
         API.getProfileById(email)
             .then((p) => {
+                setId(p.id);
                 setEmailAddress(p.email);
                 setFirstName(p.firstName);
                 setLastName(p.lastName);
@@ -63,6 +70,7 @@ function FormModifyProfile(props) {
     return (
       <Form onSubmit={handleSubmit} >
           {errorMsg && <Alert variant="danger" className="login_alert" onClose={() => setErrorMsg('')} dismissible>{errorMsg}</Alert>}
+          {saveMsg && <Alert variant="success" className="login_alert" onClose={() => setSaveMsg('')} dismissible>{saveMsg}</Alert>}
           <Container className='d-flex justify-content-center mt-5'>
               <Row className='w-50'>
                   <h3 className='text-center'>My Profile</h3>
