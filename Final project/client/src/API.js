@@ -60,8 +60,8 @@ function createCustomer(customer) {
             else {
                 // analyze the cause of error
                 response.json()
-                  .then((message) => { reject(message); }) // error message in the response body
-                  .catch(() => { reject({ error: "Cannot parse server response." }) }); // something else
+                    .then((message) => { reject(message); }) // error message in the response body
+                    .catch(() => { reject({ error: "Cannot parse server response." }) }); // something else
             }
         }).catch(() => { reject({ error: "Cannot communicate with the server." }) }); // connection errors
     });
@@ -87,8 +87,8 @@ function createExpert(expert) {
             else {
                 // analyze the cause of error
                 response.json()
-                  .then((message) => { reject(message); }) // error message in the response body
-                  .catch(() => { reject({ error: "Cannot parse server response." }) }); // something else
+                    .then((message) => { reject(message); }) // error message in the response body
+                    .catch(() => { reject({ error: "Cannot parse server response." }) }); // something else
             }
         }).catch(() => { reject({ error: "Cannot communicate with the server." }) }); // connection errors
     });
@@ -146,6 +146,28 @@ async function getPurchases() {
             ticketIds: purchase.ticketIds
         }))
     else throw purchases;
+}
+
+async function getPurchaseById(purchaseId) {
+    const accessToken = localStorage.getItem('accessToken');
+
+    // call /API/purchases/:id
+    const response = await fetch(new URL('purchases/' + purchaseId, APIURL), {
+        headers: { 'Authorization': `Bearer ${accessToken}` },
+    });
+    const purchase = await response.json();
+    if (response.ok)
+        return ({
+            id: purchase.id,
+            customer: purchase.customer,
+            product: purchase.product,
+            status: purchase.status,
+            dateOfPurchase: purchase.dateOfPurchase,
+            warranty: purchase.warranty,
+            coveredByWarranty: purchase.coveredByWarranty,
+            ticketIds: purchase.ticketIds
+        });
+    else throw purchase;
 }
 
 async function getTickets() {
@@ -358,8 +380,8 @@ function editProfile(editedProfile) {
             else {
                 // analyze the cause of error
                 response.json()
-                  .then((message) => { reject(message); }) // error message in the response body
-                  .catch(() => { reject({ error: "Cannot parse server response." }) }); // something else
+                    .then((message) => { reject(message); }) // error message in the response body
+                    .catch(() => { reject({ error: "Cannot parse server response." }) }); // something else
             }
         }).catch(() => { reject({ error: "Cannot communicate with the server." }) }); // connection errors
     });
@@ -374,6 +396,7 @@ const API = {
     getTickets,
     getTicketById,
     getPurchases,
+    getPurchaseById,
     createChat,
     sendMessage,
     closeChat,

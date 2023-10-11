@@ -5,13 +5,14 @@ import { Button, Container, Row, Col } from 'react-bootstrap';
 import { House, BoxArrowLeft, Person } from 'react-bootstrap-icons';
 import { BrowserRouter as Router, Routes, Route, Navigate, useNavigate, Outlet } from 'react-router-dom';
 import { LoginPage } from "./login/LoginPage";
+import { FormModifyProfile } from "./FormModifyProfile";
 import CustomerHomePage from './customer/CustomerHomePage';
 import ExpertHomePage from './expert/ExpertHomePage';
 import ManagerHomePage from './manager/ManagerHomePage';
 import TicketPage from './customer/TicketPage';
+import PurchasePage from './customer/PurchasePage';
 import API from './API';
 import jwt_decode from "jwt-decode";
-import {FormModifyProfile} from "./FormModifyProfile";
 
 function App() {
   return (
@@ -153,7 +154,7 @@ function App2() {
           role === 'expert' ? <ExpertHomePage name={name} /> :
             <ManagerHomePage name={name} />} />
         <Route path='ticket/:ticketId' element={<TicketPage email={email} />} />
-        <Route path='purchase/:purchaseId' element={<></>} />
+        <Route path='purchase/:purchaseId' element={<PurchasePage />} />
         <Route path='new-ticket' element={<></>} />
         <Route path='new-purchase' element={<></>} />
         <Route path='profile/:email' element={<FormModifyProfile dirty={dirty} setDirty={setDirty} email={email} handleError={handleError} />} />
