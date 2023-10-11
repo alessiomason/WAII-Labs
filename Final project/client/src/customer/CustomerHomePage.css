@@ -29,22 +29,3 @@ h1 {
 	background-color: #dd3675;
 	border-color: #b44593;
 }
-
-.table-striped>tbody>tr:nth-child(odd)>td,
-.table-striped>tbody>tr:nth-child(odd)>th {
-	background-color: rgba(238, 119, 36, 0.1);
-	box-shadow: none;
-}
-
-th {
-	color: #dd3675;
-}
-
-tr {
-	border-color: rgb(238, 119, 36, 0.1);
-}
-
-tbody tr:hover {
-	background-color: rgb(238, 119, 36, 0.4);
-	cursor: pointer;
-}

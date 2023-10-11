@@ -18,6 +18,7 @@ h1 {
 
 .bottom-border {
 	color: #dd3675;
+	padding-top: 20px;
 	padding-bottom: 8px;
 	border-bottom-width: 2px;
 	border-bottom-style: solid;

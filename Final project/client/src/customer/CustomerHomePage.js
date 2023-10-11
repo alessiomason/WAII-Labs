@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { Button, Col, Row, Table } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
+import TicketsList from "./TicketsList";
 import API from "../API";
 import './CustomerHomePage.css';
 const dayjs = require('dayjs');
@@ -28,7 +29,7 @@ function CustomerHomePage(props) {
           <Row><h1>Welcome, {props.name}!</h1></Row>
           <Row><h3>Open tickets</h3></Row>
           <Row>
-            <TicketsList openTicketsList tickets={tickets.filter(ticket => ticket.ticketStatus !== 'CLOSED' && ticket.ticketStatus !== 'RESOLVED')} />
+            <TicketsList tickets={tickets.filter(ticket => ticket.ticketStatus !== 'CLOSED' && ticket.ticketStatus !== 'RESOLVED')} />
           </Row>
         </Col>
       </Row>
@@ -57,39 +58,6 @@ function CustomerHomePage(props) {
   );
 }
 
-function TicketsList(props) {
-  return (
-    <Table striped>
-      <thead>
-        <tr>
-          <th>#</th>
-          <th>Title</th>
-          <th>Product</th>
-          <th>Status</th>
-        </tr>
-      </thead>
-      <tbody>
-        {props.tickets.map((ticket, i) => {
-          return (<TicketsListItem key={ticket.id} i={i} ticket={ticket} openTicketsList={props.openTicketsList} />);
-        })}
-      </tbody>
-    </Table>
-  );
-}
-
-function TicketsListItem(props) {
-  const navigate = useNavigate();
-  
-  return (
-    <tr onClick={() => navigate(`/ticket/${props.ticket.id}`)}>
-      <td>{props.i + 1}</td>
-      <td>{props.ticket.title}</td>
-      <td>{props.ticket.purchase.product.name}</td>
-      <td>{props.ticket.ticketStatus}</td>
-    </tr>
-  );
-}
-
 function PurchasesList(props) {
   return (
     <Table striped>
@@ -112,7 +80,7 @@ function PurchasesList(props) {
 
 function PurchasesListItem(props) {
   const navigate = useNavigate();
-  
+
   return (
     <tr onClick={() => navigate(`/purchase/${props.purchase.id}`)}>
       <td>{props.i + 1}</td>
