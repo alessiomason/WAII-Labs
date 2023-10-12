@@ -9,17 +9,11 @@ h3 {
 	color: #dd3675;
 }
 
-h1 {
-	padding-bottom: 8px;
-	margin-bottom: 20px;
-	border-bottom-width: 2px;
-	border-bottom-style: solid;
-}
-
 .bottom-border {
 	color: #dd3675;
 	padding-top: 20px;
 	padding-bottom: 8px;
+	margin-bottom: 20px;
 	border-bottom-width: 2px;
 	border-bottom-style: solid;
 }

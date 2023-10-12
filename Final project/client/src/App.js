@@ -153,7 +153,7 @@ function App2() {
         <Route index element={role === 'customer' ? <CustomerHomePage name={name} /> :
           role === 'expert' ? <ExpertHomePage name={name} /> :
             <ManagerHomePage name={name} />} />
-        <Route path='ticket/:ticketId' element={<TicketPage email={email} />} />
+        <Route path='ticket/:ticketId' element={<TicketPage email={email} role={role} />} />
         <Route path='purchase/:purchaseId' element={<PurchasePage />} />
         <Route path='new-ticket' element={<></>} />
         <Route path='new-purchase' element={<></>} />

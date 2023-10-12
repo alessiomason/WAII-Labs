@@ -1,0 +1,6 @@
+h1:not(.ticket-page) {
+	padding-bottom: 8px;
+	margin-bottom: 20px;
+	border-bottom-width: 2px;
+	border-bottom-style: solid;
+}

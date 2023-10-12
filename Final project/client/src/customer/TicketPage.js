@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { Row, Col, Button, Card, Form } from 'react-bootstrap';
+import { Row, Col, Button, Card, Form, Modal, FloatingLabel } from 'react-bootstrap';
 import './TicketPage.css';
 import API from '../API';
 const dayjs = require('dayjs');
@@ -10,6 +10,7 @@ function TicketPage(props) {
   ticketId = parseInt(ticketId);
   const [ticket, setTicket] = useState({});
   const [dirty, setDirty] = useState(true);
+  const [showModal, setShowModal] = useState(false);
 
   useEffect(() => {
     if (dirty) {
@@ -32,57 +33,86 @@ function TicketPage(props) {
     }
   }, [dirty])
 
-  return (
-    <Row>
-      <Col className='section'>
-        <Row><h1>{ticket.title}</h1></Row>
-        <Row>
-          <Col xs={3} className='header-column'><h5 className='text-end'>Ticket description</h5></Col>
-          <Col><p>{ticket.description}</p></Col>
-        </Row>
-        <Row>
-          <Col xs={3} className='header-column'><h5 className='text-end'>Ticket status</h5></Col>
-          <Col><p>{ticket.ticketStatus}</p></Col>
-        </Row>
-        <Row>
-          <Col xs={3} className='header-column'><h5 className='text-end'>Expert</h5></Col>
-          <Col><p>{`${ticket.expert?.firstName} ${ticket.expert?.lastName}`}</p></Col>
-        </Row>
-        <Row>
-          <Col xs={3} className='header-column'><h5 className='text-end'>Product name</h5></Col>
-          <Col><p>{ticket.purchase?.product.name}</p></Col>
-        </Row>
-        <Row>
-          <Col xs={3} className='header-column'><h5 className='text-end'>Product brand</h5></Col>
-          <Col><p>{ticket.purchase?.product.brand}</p></Col>
-        </Row>
-        <Row>
-          <Col xs={3} className='header-column'><h5 className='text-end'>Date of purchase</h5></Col>
-          <Col><p>{ticket.purchase?.dateOfPurchase && dayjs(ticket.purchase?.dateOfPurchase).format('YYYY/MM/DD')}</p></Col>
-        </Row>
-        <Row>
-          <Col xs={3} className='header-column'><h5 className='text-end'>Covered by warranty</h5></Col>
-          <Col><p>{ticket.purchase?.coveredByWarranty ? 'Yes' : 'No'}</p></Col>
-        </Row>
-        <Row>
-          <Col xs={3} className='header-column'><h5 className='text-end'>Warranty expiry date</h5></Col>
-          <Col><p>{(ticket.purchase?.warranty?.expiryDate ?? ticket.purchase?.dateOfPurchase) &&
-            dayjs(ticket.purchase?.warranty?.expiryDate ?? ticket.purchase?.dateOfPurchase).format('YYYY/MM/DD')}</p></Col>
-        </Row>
+  function closeTicket() {
 
-        <Row>
-          <ChatSection ticketId={ticket.id} chat={ticket.chat} email={props.email} setDirty={setDirty} />
-        </Row>
-      </Col>
-    </Row>
+    setShowModal(false);
+  }
+
+  return (
+    <>
+      <Modal show={showModal} onHide={() => setShowModal(false)}>
+        <Modal.Header closeButton>
+          <Modal.Title>Close ticket</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <Form>
+            <FloatingLabel controlId="floatingSelect" label="Mark the ticket as:">
+              <Form.Select>
+                <option value="CLOSED">CLOSED</option>
+                <option value="RESOLVED">RESOLVED</option>
+              </Form.Select>
+            </FloatingLabel>
+          </Form>
+        </Modal.Body>
+        <Modal.Footer>
+          <Button onClick={closeTicket}>Close ticket</Button>
+        </Modal.Footer>
+      </Modal>
+
+      <Row>
+        <Col className='section'>
+          <Row className='bottom-border'>
+            <Col><h1 className='ticket-page'>{ticket.title}</h1></Col>
+            <Col className='d-flex justify-content-end'>{ticket.ticketStatus && props.role !== 'customer' && <Button onClick={() => setShowModal(true)}>Close ticket</Button>}</Col>
+          </Row>
+          <Row>
+            <Col xs={3} className='header-column'><h5 className='text-end'>Ticket description</h5></Col>
+            <Col><p>{ticket.description}</p></Col>
+          </Row>
+          <Row>
+            <Col xs={3} className='header-column'><h5 className='text-end'>Ticket status</h5></Col>
+            <Col><p>{ticket.ticketStatus}</p></Col>
+          </Row>
+          <Row>
+            <Col xs={3} className='header-column'><h5 className='text-end'>Expert</h5></Col>
+            <Col><p>{`${ticket.expert?.firstName} ${ticket.expert?.lastName}`}</p></Col>
+          </Row>
+          <Row>
+            <Col xs={3} className='header-column'><h5 className='text-end'>Product name</h5></Col>
+            <Col><p>{ticket.purchase?.product.name}</p></Col>
+          </Row>
+          <Row>
+            <Col xs={3} className='header-column'><h5 className='text-end'>Product brand</h5></Col>
+            <Col><p>{ticket.purchase?.product.brand}</p></Col>
+          </Row>
+          <Row>
+            <Col xs={3} className='header-column'><h5 className='text-end'>Date of purchase</h5></Col>
+            <Col><p>{ticket.purchase?.dateOfPurchase && dayjs(ticket.purchase?.dateOfPurchase).format('YYYY/MM/DD')}</p></Col>
+          </Row>
+          <Row>
+            <Col xs={3} className='header-column'><h5 className='text-end'>Covered by warranty</h5></Col>
+            <Col><p>{ticket.purchase?.coveredByWarranty ? 'Yes' : 'No'}</p></Col>
+          </Row>
+          <Row>
+            <Col xs={3} className='header-column'><h5 className='text-end'>Warranty expiry date</h5></Col>
+            <Col><p>{(ticket.purchase?.warranty?.expiryDate ?? ticket.purchase?.dateOfPurchase) &&
+              dayjs(ticket.purchase?.warranty?.expiryDate ?? ticket.purchase?.dateOfPurchase).format('YYYY/MM/DD')}</p></Col>
+          </Row>
+
+          <Row>
+            <ChatSection ticketId={ticket.id} chat={ticket.chat} email={props.email} setDirty={setDirty} />
+          </Row>
+        </Col>
+      </Row>
+    </>
   );
 }
 
 function ChatSection(props) {
   function openChat() {
     API.createChat(props.ticketId)
-    .then(() => props.setDirty(true))
-    .catch(err => console.log(err))
+      .then(() => props.setDirty(true))
+      .catch(err => console.log(err))
   }
 
   return (

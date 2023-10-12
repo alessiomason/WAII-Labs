@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { Row, Col, Button } from 'react-bootstrap';
 import TicketsList from './TicketsList';
+import './PurchasePage.css';
 import './TicketPage.css';
 import API from '../API';
 const dayjs = require('dayjs');

@@ -8,7 +8,7 @@ h3 {
 	color: #dd3675;
 }
 
-h1 {
+h1:not(.ticket-page) {
 	padding-bottom: 8px;
 	margin-bottom: 20px;
 	border-bottom-width: 2px;
