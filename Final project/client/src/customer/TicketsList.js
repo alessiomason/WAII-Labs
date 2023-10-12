@@ -1,5 +1,6 @@
 import { Table } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
+import { PersonCheckFill, PersonXFill } from "react-bootstrap-icons";
 import './TicketsList.css';
 
 function numberizePriority(priorityLevel) {
@@ -15,7 +16,10 @@ function numberizePriority(priorityLevel) {
   }
 }
 
-function compareTicketsByPriority(ticketA, ticketB) {
+function compareTickets(ticketA, ticketB) {
+  const comparisonByAssignment = -1 * ('' + ticketA.expert.id).localeCompare(ticketB.expert.id);
+  if (comparisonByAssignment !== 0) return comparisonByAssignment;
+
   const priorityA = numberizePriority(ticketA.priorityLevel);
   const priorityB = numberizePriority(ticketB.priorityLevel);
 
@@ -31,13 +35,15 @@ function TicketsList(props) {
           <th></th>
           <th>Title</th>
           <th>Product</th>
-          <th>Status</th>
+          <th>{props.role === "manager" ? 'Expert' : 'Status'}</th>
         </tr>
       </thead>
       <tbody>
-        {props.tickets.sort(compareTicketsByPriority).map((ticket, i) => {
-          return (<TicketsListItem key={ticket.id} i={i} ticket={ticket} />);
-        })}
+        {props.tickets
+          .sort(compareTickets)
+          .map((ticket, i) => {
+            return (<TicketsListItem key={ticket.id} i={i} ticket={ticket} role={props.role} />);
+          })}
       </tbody>
     </Table>
   );
@@ -49,12 +55,14 @@ function TicketsListItem(props) {
   return (
     <tr onClick={() => navigate(`/ticket/${props.ticket.id}`)}>
       <td>{props.i + 1}</td>
-      <td className="d-flex justify-content-center my-red">
+      <td className="text-center my-red">
         {[...Array(numberizePriority(props.ticket.priorityLevel))].map((_) => '!')}
       </td>
       <td>{props.ticket.title}</td>
       <td>{props.ticket.purchase.product.name}</td>
-      <td>{props.ticket.ticketStatus}</td>
+      <td className={props.role === "manager" ? "text-center" : ""}>
+        {props.role === "manager" ? (props.ticket.expert.id ? <PersonCheckFill className="my-violet" /> : <PersonXFill className="my-red" />) : props.ticket.ticketStatus}
+        </td>
     </tr>
   );
 }

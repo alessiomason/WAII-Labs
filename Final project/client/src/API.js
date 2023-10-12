@@ -170,6 +170,45 @@ async function getPurchaseById(purchaseId) {
     else throw purchase;
 }
 
+async function getExperts() {
+    const accessToken = localStorage.getItem('accessToken');
+
+    // call /API/experts
+    const response = await fetch(new URL('experts', APIURL), {
+        headers: { 'Authorization': `Bearer ${accessToken}` },
+    });
+
+    const experts = await response.json();
+    if (response.ok)
+        return experts.map((expert) => ({
+            id: expert.id,
+            firstName: expert.firstName,
+            lastName: expert.lastName,
+            specializations: expert.specializations,
+            ticketIds: expert.ticketIds
+        }))
+    else throw experts;
+}
+
+async function getExpertById(expertId) {
+    const accessToken = localStorage.getItem('accessToken');
+
+    // call /API/experts/:id
+    const response = await fetch(new URL('experts/' + expertId, APIURL), {
+        headers: { 'Authorization': `Bearer ${accessToken}` },
+    });
+    const expert = await response.json();
+    if (response.ok)
+        return ({
+            id: expert.id,
+            firstName: expert.firstName,
+            lastName: expert.lastName,
+            specializations: expert.specializations,
+            ticketIds: expert.ticketIds
+        });
+    else throw expert;
+}
+
 async function getTickets() {
     const accessToken = localStorage.getItem('accessToken');
 
@@ -393,10 +432,12 @@ const API = {
     refreshLogin,
     getProducts,
     getProductById,
-    getTickets,
-    getTicketById,
     getPurchases,
     getPurchaseById,
+    getExperts,
+    getExpertById,
+    getTickets,
+    getTicketById,
     createChat,
     sendMessage,
     closeChat,

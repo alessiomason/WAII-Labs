@@ -10,6 +10,10 @@ class ExpertServiceImpl(
     private val expertRepository: ExpertRepository,
     private val expertSpecializationRepository: ExpertSpecializationRepository
 ): ExpertService {
+    override fun getAllExperts(): List<ExpertDTO> {
+        return expertRepository.findAll().map { it.toExpertDTO() }
+    }
+
     override fun getExpert(id: String): ExpertDTO {
         return expertRepository.findByIdOrNull(id)?.toExpertDTO() ?: throw ExpertNotFoundException()
     }

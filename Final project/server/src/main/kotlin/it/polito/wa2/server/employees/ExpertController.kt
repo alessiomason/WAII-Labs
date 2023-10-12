@@ -17,6 +17,11 @@ import org.springframework.web.bind.annotation.RestController
 class ExpertController(
     private val expertService: ExpertService
 ) {
+    @GetMapping("/API/experts")
+    fun getAllExperts(): List<ExpertDTO> {
+        return expertService.getAllExperts()
+    }
+
     @GetMapping("/API/experts/{id}")
     fun getExpertById(@PathVariable id: String): ExpertDTO {
         return expertService.getExpert(id)

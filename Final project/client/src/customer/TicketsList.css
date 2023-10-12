@@ -9,6 +9,10 @@ th,
 	color: #dd3675 !important;
 }
 
+.my-violet {
+	color: #b44593;
+}
+
 tr {
 	border-color: rgb(238, 119, 36, 0.1);
 }
@@ -16,4 +20,8 @@ tr {
 tbody tr:hover {
 	background-color: rgb(238, 119, 36, 0.4);
 	cursor: pointer;
+}
+
+.person {
+	height: 100%;
 }
