@@ -23,12 +23,14 @@ function TicketPage(props) {
   }, [ticketId, dirty])
 
   useEffect(() => {
-    const intervalId = setInterval(() => {
-      setDirty(true);
-    }, 1000);
+    if (!dirty && ticket.chat) {
+      const intervalId = setInterval(() => {
+        setDirty(true);
+      }, 1000);
 
-    return () => clearInterval(intervalId);
-  }, [])
+      return () => clearInterval(intervalId);
+    }
+  }, [dirty])
 
   return (
     <Row>
@@ -77,16 +79,22 @@ function TicketPage(props) {
 }
 
 function ChatSection(props) {
+  function openChat() {
+    API.createChat(props.ticketId)
+    .then(() => props.setDirty(true))
+    .catch(err => console.log(err))
+  }
+
   return (
     <>
       <Row className='bottom-border'>
         <Col><h2>Chat{props.chat?.closed && ' (closed)'}</h2></Col>
-        <Col className='d-flex justify-content-end'>{!props.chat && <Button>Open new chat</Button>}</Col>
+        <Col className='d-flex justify-content-end'>{!props.chat && <Button onClick={openChat}>Open new chat</Button>}</Col>
       </Row>
 
       <Row className='messages-section'>
         {props.chat?.messages.map(message => <MessageBox key={message.id} message={message} email={props.email} />)}
-        <SendMessageBox ticketId={props.ticketId} setDirty={props.setDirty} />
+        {props.chat && <SendMessageBox ticketId={props.ticketId} setDirty={props.setDirty} />}
       </Row>
     </>
   );

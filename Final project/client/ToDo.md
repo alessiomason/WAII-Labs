@@ -21,8 +21,8 @@ PAGINA SIGNUP NON PROTETTA - CUSTOMER / EXPERT
 ## Customer
 
 - HOMEPAGE: ~~ticket aperti (da qui modifica), crea ticket, elenco purchase, passati,~~ crea purchase
-- PAGINA SINGOLA TICKET: ~~elenco dettagli ticket, chat lato CUSTOMER,~~ chiudi ticket/segna come risolto?
-- PAGINA SINGOLA ACQUISTO: ~~elenco dettagli purchase~~, elenco ticket associata
+- PAGINA SINGOLA TICKET: ~~elenco dettagli ticket, chat lato CUSTOMER,~~ chiudi ticket/segna come risolto?, ~~apri nuova chat~~
+- PAGINA SINGOLA ACQUISTO: ~~elenco dettagli purchase, elenco ticket associati,~~ apri nuovo ticket
 
 - PAGINA PROFILO CUSTOMER: editare profilo
 

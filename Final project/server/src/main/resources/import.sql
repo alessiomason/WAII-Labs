@@ -1326,33 +1326,34 @@ INSERT INTO managers (id, email, first_name, last_name) VALUES ('matt_james_13@m
 INSERT INTO managers (id, email, first_name, last_name) VALUES ('andry_shevckenco_13@mail.com', 'andry_shevckenco_13@mail.com', 'Andry', 'Shevckenco');
 INSERT INTO managers (id, email, first_name, last_name) VALUES ('manager1@products.com', 'manager1@products.com', 'Manager1', 'Manager1');
 
-INSERT INTO purchases (id, date_of_purchase, status, customer_id, product_ean) VALUES (1, '2023-08-28', 0, 'flongwood0@vk.com', '8712725728528');
-INSERT INTO purchases (id, date_of_purchase, status, customer_id, product_ean) VALUES (2, '2023-08-28', 0, 'grengger1@cloudflare.com', '3532041192835');
-INSERT INTO purchases (id, date_of_purchase, status, customer_id, product_ean) VALUES (3, '2023-08-28', 0, 'ftuther1g@opensource.org', '3539186242005');
-INSERT INTO purchases (id, date_of_purchase, status, customer_id, product_ean) VALUES (4, '2023-08-28', 0, 'oleacockx@tinyurl.com', '5711045610646');
-INSERT INTO purchases (id, date_of_purchase, status, customer_id, product_ean) VALUES (5, '2023-08-28', 0, 'meastlake1j@gizmodo.com', '5052746203592');
-INSERT INTO purchases (id, date_of_purchase, status, customer_id, product_ean) VALUES (6, '2023-08-28', 0, 'mfoxleym@hp.com', '6932799000098');
-INSERT INTO purchases (id, date_of_purchase, status, customer_id, product_ean) VALUES (7, '2023-09-18', 0, 'customer1@products.com', '6932799000098');
-INSERT INTO purchases (id, date_of_purchase, status, customer_id, product_ean) VALUES (8, '2023-09-15', 0, 'customer1@products.com', '3532041192835');
-INSERT INTO purchases (id, date_of_purchase, status, customer_id, product_ean) VALUES (9, '2023-09-01', 1, 'customer1@products.com', '5711045610646');
-INSERT INTO purchases (id, date_of_purchase, status, customer_id, product_ean) VALUES (10, '2023-08-31', 2, 'customer1@products.com', '5052746203592');
-INSERT INTO purchases (id, date_of_purchase, status, customer_id, product_ean) VALUES (11, '2023-07-22', 3, 'customer1@products.com', '8712725728528');
+INSERT INTO purchases (id, date_of_purchase, status, customer_id, product_ean) VALUES (1001, '2023-08-28', 0, 'flongwood0@vk.com', '8712725728528');
+INSERT INTO purchases (id, date_of_purchase, status, customer_id, product_ean) VALUES (1002, '2023-08-28', 0, 'grengger1@cloudflare.com', '3532041192835');
+INSERT INTO purchases (id, date_of_purchase, status, customer_id, product_ean) VALUES (1003, '2023-08-28', 0, 'ftuther1g@opensource.org', '3539186242005');
+INSERT INTO purchases (id, date_of_purchase, status, customer_id, product_ean) VALUES (1004, '2023-08-28', 0, 'oleacockx@tinyurl.com', '5711045610646');
+INSERT INTO purchases (id, date_of_purchase, status, customer_id, product_ean) VALUES (1005, '2023-08-28', 0, 'meastlake1j@gizmodo.com', '5052746203592');
+INSERT INTO purchases (id, date_of_purchase, status, customer_id, product_ean) VALUES (1006, '2023-08-28', 0, 'mfoxleym@hp.com', '6932799000098');
+INSERT INTO purchases (id, date_of_purchase, status, customer_id, product_ean) VALUES (1007, '2023-09-18', 0, 'customer1@products.com', '6932799000098');
+INSERT INTO purchases (id, date_of_purchase, status, customer_id, product_ean) VALUES (1008, '2023-09-15', 0, 'customer1@products.com', '3532041192835');
+INSERT INTO purchases (id, date_of_purchase, status, customer_id, product_ean) VALUES (1009, '2023-09-01', 1, 'customer1@products.com', '5711045610646');
+INSERT INTO purchases (id, date_of_purchase, status, customer_id, product_ean) VALUES (1010, '2023-08-31', 2, 'customer1@products.com', '5052746203592');
+INSERT INTO purchases (id, date_of_purchase, status, customer_id, product_ean) VALUES (1011, '2023-07-22', 3, 'customer1@products.com', '8712725728528');
 
-INSERT INTO tickets(id, description, priority_level, ticket_status, title, expert_id, purchase_id) VALUES (1, 'Description Ticket 1', 1, 0, 'Ticket 1', 'joe_pesci_12@mail.com', 1);
-INSERT INTO tickets(id, description, priority_level, ticket_status, title, expert_id, purchase_id) VALUES (2, 'Description Ticket 2', 1, 0, 'Ticket 2', 'john_demon_12@mail.com', 3);
-INSERT INTO tickets(id, description, priority_level, ticket_status, title, expert_id, purchase_id) VALUES (3, 'Description Ticket 3', 1, 0, 'Ticket 3', 'john_demon_12@mail.com', 2);
-INSERT INTO tickets(id, description, priority_level, ticket_status, title, expert_id, purchase_id) VALUES (4, 'Description Ticket 4', 1, 0, 'Ticket 4', 'matt_kerr_12@mail.com', 4);
-INSERT INTO tickets(id, description, priority_level, ticket_status, title, expert_id, purchase_id) VALUES (5, 'Description Ticket 5', 1, 0, 'Ticket 5', 'expert1@products.com', 8);
+INSERT INTO tickets(id, description, priority_level, ticket_status, title, expert_id, purchase_id) VALUES (1001, 'Description Ticket 1', 1, 0, 'Ticket 1', 'joe_pesci_12@mail.com', 1001);
+INSERT INTO tickets(id, description, priority_level, ticket_status, title, expert_id, purchase_id) VALUES (1002, 'Description Ticket 2', 1, 0, 'Ticket 2', 'john_demon_12@mail.com', 1003);
+INSERT INTO tickets(id, description, priority_level, ticket_status, title, expert_id, purchase_id) VALUES (1003, 'Description Ticket 3', 1, 0, 'Ticket 3', 'john_demon_12@mail.com', 1002);
+INSERT INTO tickets(id, description, priority_level, ticket_status, title, expert_id, purchase_id) VALUES (1004, 'Description Ticket 4', 1, 0, 'Ticket 4', 'matt_kerr_12@mail.com', 1004);
+INSERT INTO tickets(id, description, priority_level, ticket_status, title, expert_id, purchase_id) VALUES (1005, 'Description Ticket 5', 1, 0, 'Ticket 5', 'expert1@products.com', 1008);
+INSERT INTO tickets(id, description, priority_level, ticket_status, title, expert_id, purchase_id) VALUES (1006, 'Description Ticket 6', 1, 0, 'Ticket 6', 'expert1@products.com', 1009);
 
-INSERT INTO chats(id, closed, ticket_id) VALUES (1, false, 5);
-UPDATE tickets SET chat_id = 1 WHERE id = 5;
+INSERT INTO chats(id, closed, ticket_id) VALUES (1001, false, 1005);
+UPDATE tickets SET chat_id = 1001 WHERE id = 1005;
 
-INSERT INTO messages(id, text, time, chat_id, from_id) VALUES (1001, 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc elementum dolor a pretium feugiat. Morbi suscipit nibh in massa tincidunt vehicula. Nulla nec facilisis nisi. Duis lacinia velit vitae arcu hendrerit, quis ornare justo convallis. Nullam ut consectetur libero. Aliquam posuere tempor eros, non vestibulum sapien posuere at. Aliquam erat volutpat. Morbi nec convallis purus. Nulla lobortis, augue ut iaculis euismod, nulla mi convallis dui, sit amet euismod velit ipsum a sapien. Sed id venenatis metus. Ut vulputate vel massa ac rutrum.', '2023-09-21 10:36:39', 1, 'customer1@products.com');
-INSERT INTO messages(id, text, time, chat_id, from_id) VALUES (1002, 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut condimentum lectus id orci viverra, et hendrerit nisi vestibulum. Fusce eleifend, tellus in auctor ullamcorper, sem mauris volutpat urna, vel porta mauris ante quis odio. Aliquam dictum sem at lorem cursus ultricies. Nam a odio arcu. Vestibulum lacinia nulla et est laoreet, at posuere ante fermentum.', '2023-09-21 10:37:55', 1, 'customer1@products.com');
-INSERT INTO messages(id, text, time, chat_id, from_id) VALUES (1003, 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut condimentum lectus id orci viverra, et hendrerit nisi vestibulum. Fusce eleifend, tellus in auctor ullamcorper, sem mauris volutpat urna, vel porta mauris ante quis odio. Aliquam dictum sem at lorem cursus ultricies. Nam a odio arcu. Vestibulum lacinia nulla et est laoreet, at posuere ante fermentum.', '2023-09-21 11:02:07', 1, 'expert1@products.com');
+INSERT INTO messages(id, text, time, chat_id, from_id) VALUES (1001, 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc elementum dolor a pretium feugiat. Morbi suscipit nibh in massa tincidunt vehicula. Nulla nec facilisis nisi. Duis lacinia velit vitae arcu hendrerit, quis ornare justo convallis. Nullam ut consectetur libero. Aliquam posuere tempor eros, non vestibulum sapien posuere at. Aliquam erat volutpat. Morbi nec convallis purus. Nulla lobortis, augue ut iaculis euismod, nulla mi convallis dui, sit amet euismod velit ipsum a sapien. Sed id venenatis metus. Ut vulputate vel massa ac rutrum.', '2023-09-21 10:36:39', 1001, 'customer1@products.com');
+INSERT INTO messages(id, text, time, chat_id, from_id) VALUES (1002, 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut condimentum lectus id orci viverra, et hendrerit nisi vestibulum. Fusce eleifend, tellus in auctor ullamcorper, sem mauris volutpat urna, vel porta mauris ante quis odio. Aliquam dictum sem at lorem cursus ultricies. Nam a odio arcu. Vestibulum lacinia nulla et est laoreet, at posuere ante fermentum.', '2023-09-21 10:37:55', 1001, 'customer1@products.com');
+INSERT INTO messages(id, text, time, chat_id, from_id) VALUES (1003, 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut condimentum lectus id orci viverra, et hendrerit nisi vestibulum. Fusce eleifend, tellus in auctor ullamcorper, sem mauris volutpat urna, vel porta mauris ante quis odio. Aliquam dictum sem at lorem cursus ultricies. Nam a odio arcu. Vestibulum lacinia nulla et est laoreet, at posuere ante fermentum.', '2023-09-21 11:02:07', 1001, 'expert1@products.com');
 
-INSERT INTO logs(id, new_ticket_status, previous_ticket_status, time, ticket_id) VALUES (1, 1, 0, '2023-05-12T14:13:09.157827400Z', 1);
-INSERT INTO logs(id, new_ticket_status, previous_ticket_status, time, ticket_id) VALUES (2, 2, 1, '2023-05-12T15:14:09.157827400Z', 1);
-INSERT INTO logs(id, new_ticket_status, previous_ticket_status, time, ticket_id) VALUES (3, 1, 0, '2023-05-10T12:13:09.157827400Z', 2);
-INSERT INTO logs(id, new_ticket_status, previous_ticket_status, time, ticket_id) VALUES (4, 2, 1, '2023-05-10T16:13:09.157827400Z', 2);
-INSERT INTO logs(id, new_ticket_status, previous_ticket_status, time, ticket_id) VALUES (5, 3, 2, '2023-05-11T17:13:09.157827400Z', 2);
+INSERT INTO logs(id, new_ticket_status, previous_ticket_status, time, ticket_id) VALUES (1, 1, 0, '2023-05-12T14:13:09.157827400Z', 1001);
+INSERT INTO logs(id, new_ticket_status, previous_ticket_status, time, ticket_id) VALUES (2, 2, 1, '2023-05-12T15:14:09.157827400Z', 1001);
+INSERT INTO logs(id, new_ticket_status, previous_ticket_status, time, ticket_id) VALUES (3, 1, 0, '2023-05-10T12:13:09.157827400Z', 1002);
+INSERT INTO logs(id, new_ticket_status, previous_ticket_status, time, ticket_id) VALUES (4, 2, 1, '2023-05-10T16:13:09.157827400Z', 1002);
+INSERT INTO logs(id, new_ticket_status, previous_ticket_status, time, ticket_id) VALUES (5, 3, 2, '2023-05-11T17:13:09.157827400Z', 1002);
