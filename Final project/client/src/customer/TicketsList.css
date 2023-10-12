@@ -4,8 +4,9 @@
 	box-shadow: none;
 }
 
-th {
-	color: #dd3675;
+th,
+.my-red {
+	color: #dd3675 !important;
 }
 
 tr {

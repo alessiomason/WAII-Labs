@@ -1343,7 +1343,7 @@ INSERT INTO tickets(id, description, priority_level, ticket_status, title, exper
 INSERT INTO tickets(id, description, priority_level, ticket_status, title, expert_id, purchase_id) VALUES (1003, 'Description Ticket 3', 1, 0, 'Ticket 3', 'john_demon_12@mail.com', 1002);
 INSERT INTO tickets(id, description, priority_level, ticket_status, title, expert_id, purchase_id) VALUES (1004, 'Description Ticket 4', 1, 0, 'Ticket 4', 'matt_kerr_12@mail.com', 1004);
 INSERT INTO tickets(id, description, priority_level, ticket_status, title, expert_id, purchase_id) VALUES (1005, 'Description Ticket 5', 1, 0, 'Ticket 5', 'expert1@products.com', 1008);
-INSERT INTO tickets(id, description, priority_level, ticket_status, title, expert_id, purchase_id) VALUES (1006, 'Description Ticket 6', 1, 0, 'Ticket 6', 'expert1@products.com', 1009);
+INSERT INTO tickets(id, description, priority_level, ticket_status, title, expert_id, purchase_id) VALUES (1006, 'Description Ticket 6', 2, 0, 'Ticket 6', 'expert1@products.com', 1009);
 
 INSERT INTO chats(id, closed, ticket_id) VALUES (1001, false, 1005);
 UPDATE tickets SET chat_id = 1001 WHERE id = 1005;
