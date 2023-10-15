@@ -129,7 +129,7 @@ function SignUpPane(props) {
       props.setMessage('Last name cannot be empty or contain only spaces.');
     }
 
-    if (valid && phone.trim() === '') {
+    if (valid && role === "customer" && phone.trim() === '') {
       valid = false;
       props.setMessage('Phone number cannot be empty or contain only spaces.');
     }
@@ -147,7 +147,7 @@ function SignUpPane(props) {
           setSaveMsg('The customer profile has been created.')
         }).catch(err => {
           console.log("Error: " + err);
-          setSaveMsg('Error during the creation.')
+          setSaveMsg('Error during the creation of the customer.')
         });
       } else if (role === "expert") {
           const expert = {
@@ -160,7 +160,7 @@ function SignUpPane(props) {
             setSaveMsg('The expert profile has been created.')
           }).catch(err => {
             console.log("Error: " + err);
-            setSaveMsg('Error during the creation.')
+            setSaveMsg('Error during the creation of the expert.')
           });
       }
     }

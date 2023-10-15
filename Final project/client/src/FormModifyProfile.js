@@ -56,7 +56,7 @@ function FormModifyProfile(props) {
     }
 
     useEffect(() => {
-        API.getProfileById(email)
+        API.getProfileByEmail(email)
             .then((p) => {
                 setId(p.id);
                 setEmailAddress(p.email);

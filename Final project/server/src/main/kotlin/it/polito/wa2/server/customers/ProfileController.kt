@@ -15,6 +15,11 @@ class ProfileController(
         return profileService.getProfile(id)
     }
 
+    @GetMapping("/API/profilesByEmail/{email}")
+    fun getProfileByEmail(@PathVariable email: String): ProfileDTO {
+        return profileService.getProfileByEmail(email)
+    }
+
     @PutMapping("/API/profiles")
     fun editProfile(@RequestBody @Valid profileDTO: ProfileDTO) {
         profileService.editProfile(profileDTO)

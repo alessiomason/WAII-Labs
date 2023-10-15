@@ -16,7 +16,7 @@
 
 ~~PAGINA LOGIN NON PROTETTA - CUSTOMER / EXPERT / MANAGER~~
 
-PAGINA SIGNUP NON PROTETTA - CUSTOMER / EXPERT
+~~PAGINA SIGNUP NON PROTETTA - CUSTOMER / EXPERT~~
 
 ## Customer
 
@@ -24,7 +24,7 @@ PAGINA SIGNUP NON PROTETTA - CUSTOMER / EXPERT
 - PAGINA SINGOLA TICKET: ~~elenco dettagli ticket, chat lato CUSTOMER, apri nuova chat~~
 - PAGINA SINGOLA ACQUISTO: ~~elenco dettagli purchase, elenco ticket associati,~~ apri nuovo ticket
 
-- PAGINA PROFILO CUSTOMER: editare profilo
+- PAGINA PROFILO CUSTOMER: ~~editare profilo~~
 
 ## Expert
 
