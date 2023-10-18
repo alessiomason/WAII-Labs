@@ -13,6 +13,8 @@ function numberizePriority(priorityLevel) {
       return 3;
     case "CRITICAL":
       return 4;
+    default:
+      return 0;
   }
 }
 

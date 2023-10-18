@@ -4,8 +4,11 @@ import "./LoginPage.css";
 import API from "../API";
 
 function LoginPage(props) {
+  const [tab, setTab] = useState('first');
+  const [saveMsg, setSaveMsg] = useState('');
+
   return (
-    <Tab.Container id="left-tabs-example" defaultActiveKey="first">
+    <Tab.Container id="left-tabs-example" activeKey={tab} onSelect={selectedKey => setTab(selectedKey)}>
       <Row>
         <Nav variant="pills" className="flex-column">
           <Row>
@@ -25,9 +28,12 @@ function LoginPage(props) {
         </Nav>
       </Row>
       <Row>
+        {saveMsg && <Alert variant="success" className="login_alert" onClose={() => setSaveMsg('')} dismissible>{saveMsg}</Alert>}
+      </Row>
+      <Row>
         <Tab.Content>
-          <Tab.Pane eventKey="first"><LoginPane doLogin={props.doLogin} message={props.message} setMessage={props.setMessage}/></Tab.Pane>
-          <Tab.Pane eventKey="second"><SignUpPane message={props.message} setMessage={props.setMessage} /></Tab.Pane>
+          <Tab.Pane eventKey="first"><LoginPane doLogin={props.doLogin} message={props.message} setMessage={props.setMessage} /></Tab.Pane>
+          <Tab.Pane eventKey="second"><SignUpPane message={props.message} setMessage={props.setMessage} setSaveMsg={setSaveMsg} setTab={setTab} /></Tab.Pane>
         </Tab.Content>
       </Row>
     </Tab.Container>
@@ -35,7 +41,6 @@ function LoginPage(props) {
 }
 
 function LoginPane(props) {
-
   const [email, setEmail] = useState('customer1@products.com');
   const [password, setPassword] = useState('password');
 
@@ -44,22 +49,22 @@ function LoginPane(props) {
     let valid = true;
 
     if (email.trim() === '') {
-        valid = false;
-        props.setMessage('Email cannot be empty or contain only spaces.');
+      valid = false;
+      props.setMessage('Email cannot be empty or contain only spaces.');
     }
 
     if (valid && password.trim() === '') {
-        valid = false;
-        props.setMessage('Password cannot be empty or contain only spaces.');
+      valid = false;
+      props.setMessage('Password cannot be empty or contain only spaces.');
     }
 
     if (valid && !validateEmail(email)) {
-        valid = false;
-        props.setMessage('Email format not valid.');
+      valid = false;
+      props.setMessage('Email format not valid.');
     }
 
     if (valid) {
-        props.doLogin(email, password);
+      props.doLogin(email, password);
     }
 
   }
@@ -93,7 +98,6 @@ function SignUpPane(props) {
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
   const [phone, setPhone] = useState('');
-  const [saveMsg, setSaveMsg] = useState('');
 
   function handleSubmit(event) {
     event.preventDefault();
@@ -143,67 +147,78 @@ function SignUpPane(props) {
           lastName: lastName,
           phone: phone
         }
-        API.createCustomer(customer).then( () =>  {
-          setSaveMsg('The customer profile has been created.')
+        API.createCustomer(customer).then(() => {
+          props.setSaveMsg('The customer profile has been created.');
+          props.setTab('first');
+          setEmail('');
+          setPassword('');
+          setFirstName('');
+          setLastName('');
+          setPhone('');
         }).catch(err => {
           console.log("Error: " + err);
-          setSaveMsg('Error during the creation of the customer.')
+          props.setSaveMsg('Error during the creation of the customer.');
         });
       } else if (role === "expert") {
-          const expert = {
-            email: email,
-            password: password,
-            firstName: firstName,
-            lastName: lastName
-          }
-          API.createExpert(expert).then( () =>  {
-            setSaveMsg('The expert profile has been created.')
-          }).catch(err => {
-            console.log("Error: " + err);
-            setSaveMsg('Error during the creation of the expert.')
-          });
+        const expert = {
+          email: email,
+          password: password,
+          firstName: firstName,
+          lastName: lastName
+        }
+        API.createExpert(expert).then(() => {
+          props.setSaveMsg('The expert profile has been created.');
+          props.setTab('first');
+          setEmail('');
+          setPassword('');
+          setFirstName('');
+          setLastName('');
+          setPhone('');
+        }).catch(err => {
+          console.log("Error: " + err);
+          props.setSaveMsg('Error during the creation of the expert.');
+        });
       }
     }
 
   }
 
   return (
-      <Form onSubmit={handleSubmit}>
-        {props.message && <Alert variant="danger" className="login_alert" onClose={() => props.setMessage('')} dismissible>{props.message}</Alert>}
-        {saveMsg && <Alert variant="success" className="login_alert" onClose={() => setSaveMsg('')} dismissible>{saveMsg}</Alert>}
-        <Container className='d-flex justify-content-center'>
-          <Row className='w-50'>
-            <h3 className='text-center'>Sign up</h3>
-            <Form.Group controlId="formBasicRole" className='my-2'>
-              <Form.Control as="select" value={role} onChange={ev => setRole(ev.target.value)}>
-                <option disabled value="">Choose role...</option>
-                <option value="customer">Customer</option>
-                <option value="expert">Expert</option>
-              </Form.Control>
-            </Form.Group>
-            <Form.Group controlId="formBasicEmailSignUp" autoFocus className='my-2'>
-              <Form.Control type="email" placeholder="Enter email address" value={email} onChange={ev => setEmail(ev.target.value)} />
-            </Form.Group>
-            <Form.Group controlId="formBasicPasswordSignUp" className='my-2'>
-              <Form.Control type="password" placeholder="Enter password" value={password} onChange={ev => setPassword(ev.target.value)} />
-            </Form.Group>
-            <Form.Group controlId="formBasicFirstNameSignUp" className='my-2'>
-              <Form.Control type="text" placeholder="Enter first name" value={firstName} onChange={ev => setFirstName(ev.target.value)} />
-            </Form.Group>
-            <Form.Group controlId="formBasicLastNameSignUp" className='my-2'>
-              <Form.Control type="text" placeholder="Enter last name" value={lastName} onChange={ev => setLastName(ev.target.value)} />
-            </Form.Group>
-            { role === "customer" ?
-              <Form.Group controlId="formBasicPhoneSignUp" className='my-2'>
-                <Form.Control type="tel" placeholder="Enter phone number" value={phone} onChange={ev => setPhone(ev.target.value)} />
-              </Form.Group> : null
-            }
-            <div className="text-center mt-3 pt-1 pb-1">
-              <Button className="w-50 gradient-custom" type="submit">Sign up</Button>
-            </div>
-          </Row>
-        </Container>
-      </Form>
+    <Form onSubmit={handleSubmit}>
+      {props.message && <Alert variant="danger" className="login_alert" onClose={() => props.setMessage('')} dismissible>{props.message}</Alert>}
+      <Container className='d-flex justify-content-center'>
+        <Row className='w-50'>
+          <h3 className='text-center'>Sign up</h3>
+          <Form.Group controlId="formBasicRole" className='my-2'>
+            <Form.Control as="select" value={role} onChange={ev => setRole(ev.target.value)}>
+              <option disabled value="">Choose role...</option>
+              <option value="customer">Customer</option>
+              <option value="expert">Expert</option>
+            </Form.Control>
+          </Form.Group>
+          <Form.Group controlId="formBasicEmailSignUp" autoFocus className='my-2'>
+            <Form.Control type="email" placeholder="Enter email address" value={email} onChange={ev => setEmail(ev.target.value)} />
+          </Form.Group>
+          <Form.Group controlId="formBasicPasswordSignUp" className='my-2'>
+            <Form.Control type="password" placeholder="Enter password" value={password} onChange={ev => setPassword(ev.target.value)} />
+          </Form.Group>
+          <Form.Group controlId="formBasicFirstNameSignUp" className='my-2'>
+            <Form.Control type="text" placeholder="Enter first name" value={firstName} onChange={ev => setFirstName(ev.target.value)} />
+          </Form.Group>
+          <Form.Group controlId="formBasicLastNameSignUp" className='my-2'>
+            <Form.Control type="text" placeholder="Enter last name" value={lastName} onChange={ev => setLastName(ev.target.value)} />
+          </Form.Group>
+          {role === "customer" ?
+            <Form.Group controlId="formBasicPhoneSignUp" className='my-2'>
+              <Form.Control type="tel" placeholder="Enter phone number" value={phone} onChange={ev => setPhone(ev.target.value)} />
+            </Form.Group> : null
+          }
+          <div className="text-center mt-3 pt-1 pb-1">
+            <Button className="w-50 gradient-custom" type="submit">Sign up</Button>
+          </div>
+        </Row>
+      </Container>
+    </Form>
   );
 }
 

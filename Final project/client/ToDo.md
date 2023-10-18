@@ -33,6 +33,8 @@
 
 - PAGINA PROFILO EXPERT: editare profilo, scelta specializzazione
 
+- non autorizzato quando fa sign up
+
 ## Manager
 
 - ~~HOMEPAGE: elenco ticket aperti (già assegnati e non già assegnati - da qui interagisci), elenco expert~~

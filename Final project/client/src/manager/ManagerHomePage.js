@@ -5,7 +5,6 @@ import TicketsList from "../customer/TicketsList";
 import { PersonFill, LockFill } from "react-bootstrap-icons";
 import API from "../API";
 import '../customer/CustomerHomePage.css';
-const dayjs = require('dayjs');
 
 function ManagerHomePage(props) {
   const [tickets, setTickets] = useState([]);
