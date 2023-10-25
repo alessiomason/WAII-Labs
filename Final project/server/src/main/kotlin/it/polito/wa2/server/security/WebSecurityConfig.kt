@@ -31,6 +31,10 @@ class WebSecurityConfig(private val jwtAuthConverter: JwtAuthConverter) {
             .requestMatchers(HttpMethod.POST,  "/API/login", "/API/refreshLogin", "API/signup", "API/experts")
             .permitAll()
 
+            // MONITORING
+            .requestMatchers(HttpMethod.GET, "/actuator/prometheus")
+            .permitAll()
+
             // PRODUCTS
             .requestMatchers(HttpMethod.GET, "/products", "/API/products")
             .hasAnyRole(CUSTOMER, EXPERT, MANAGER)
