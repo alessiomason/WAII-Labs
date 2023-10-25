@@ -209,6 +209,24 @@ async function getExpertById(expertId) {
     else throw expert;
 }
 
+async function getExpertByEmail(email) {
+    const accessToken = localStorage.getItem('accessToken');
+    // call /API/expertsByEmail/:email
+    const response = await fetch(new URL('expertsByEmail/' + email, APIURL), {
+        headers: { 'Authorization': `Bearer ${accessToken}` },
+    });
+    const expert = await response.json();
+    if (response.ok)
+        return ({
+            id: expert.id,
+            firstName: expert.firstName,
+            lastName: expert.lastName,
+            specializations: expert.specializations,
+            ticketIds: expert.ticketIds
+        });
+    else throw expert;
+}
+
 async function getTickets() {
     const accessToken = localStorage.getItem('accessToken');
 
@@ -426,6 +444,85 @@ function editProfile(editedProfile) {
     });
 }
 
+function editExpert(editedProfile) {
+    const accessToken = localStorage.getItem('accessToken');
+    // call: PUT /API/experts
+    return new Promise((resolve, reject) => {
+        fetch(new URL(`experts`, APIURL), {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${accessToken}`
+            },
+            body: JSON.stringify({
+                id: editedProfile.id,
+                firstName: editedProfile.firstName,
+                lastName: editedProfile.lastName
+            })
+        }).then((response) => {
+            if (response.ok)
+                resolve(null);
+            else {
+                // analyze the cause of error
+                response.json()
+                  .then((message) => { reject(message); }) // error message in the response body
+                  .catch(() => { reject({ error: "Cannot parse server response." }) }); // something else
+            }
+        }).catch(() => { reject({ error: "Cannot communicate with the server." }) }); // connection errors
+    });
+}
+
+function removeSpecialization(specialization) {
+    const accessToken = localStorage.getItem('accessToken');
+    // call: DELETE /API/experts/specialization
+    return new Promise((resolve, reject) => {
+        fetch(new URL('/experts/specialization', APIURL), {
+            method: 'DELETE',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${accessToken}`
+            },
+            body: JSON.stringify({
+                id: specialization.id,
+                name: specialization.name
+            })
+        }).then((response) => {
+            if (response.ok) {
+                resolve(null);
+            } else {
+                // analyze the cause of error
+                response.json()
+                  .then((message) => { reject(message); }) // error message in the response body
+                  .catch(() => { reject({ error: "Cannot parse server response." }) }); // something else
+            }
+        }).catch(() => { reject({ error: "Cannot communicate with the server." }) }); // connection errors
+    });
+}
+
+function addSpecialization(expertId, specializationName) {
+    // call: POST /API/experts/{id}/specialization
+    return new Promise((resolve, reject) => {
+        fetch(new URL(`/experts/${expertId}/specialization`, APIURL), {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                expertId: expertId,
+                newSpecializationName: specializationName
+            })
+        }).then((response) => {
+            if (response.ok)
+                resolve(null);
+            else {
+                // analyze the cause of error
+                response.json()
+                  .then((message) => { reject(message); }) // error message in the response body
+                  .catch(() => { reject({ error: "Cannot parse server response." }) }); // something else
+            }
+        }).catch(() => { reject({ error: "Cannot communicate with the server." }) }); // connection errors
+    });
+}
 
 const API = {
     login,
@@ -436,6 +533,7 @@ const API = {
     getPurchaseById,
     getExperts,
     getExpertById,
+    getExpertByEmail,
     getTickets,
     getTicketById,
     createChat,
@@ -445,7 +543,10 @@ const API = {
     getProfileByEmail,
     createCustomer,
     createExpert,
-    editProfile
+    editProfile,
+    editExpert,
+    removeSpecialization,
+    addSpecialization
 };
 
 export default API;

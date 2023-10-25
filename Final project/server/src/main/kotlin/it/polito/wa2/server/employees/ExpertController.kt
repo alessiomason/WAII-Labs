@@ -27,6 +27,11 @@ class ExpertController(
         return expertService.getExpert(id)
     }
 
+    @GetMapping("/API/expertsByEmail/{email}")
+    fun getExpertByEmail(@PathVariable email: String): ExpertDTO {
+        return expertService.getExpertByEmail(email)
+    }
+
     @PutMapping("/API/experts")
     fun editExpert(@RequestBody @Valid expertDTO: ExpertDTO) {
         expertService.editExpert(expertDTO)

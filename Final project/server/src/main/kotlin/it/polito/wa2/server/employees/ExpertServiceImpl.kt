@@ -2,6 +2,7 @@ package it.polito.wa2.server.employees
 
 import it.polito.wa2.server.exceptions.ExpertNotFoundException
 import it.polito.wa2.server.exceptions.ExpertSpecializationNotFoundException
+import jakarta.validation.constraints.Email
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Service
 
@@ -16,6 +17,10 @@ class ExpertServiceImpl(
 
     override fun getExpert(id: String): ExpertDTO {
         return expertRepository.findByIdOrNull(id)?.toExpertDTO() ?: throw ExpertNotFoundException()
+    }
+
+    override fun getExpertByEmail(@Email email: String): ExpertDTO {
+        return expertRepository.findByEmail(email)?.toExpertDTO() ?: throw ExpertNotFoundException()
     }
 
     override fun editExpert(expertDTO: ExpertDTO) {

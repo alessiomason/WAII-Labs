@@ -157,7 +157,7 @@ function App2() {
         <Route path='purchase/:purchaseId' element={<PurchasePage />} />
         <Route path='new-ticket' element={<></>} />
         <Route path='new-purchase' element={<></>} />
-        <Route path='profile/:email' element={<FormModifyProfile dirty={dirty} setDirty={setDirty} email={email} handleError={handleError} />} />
+        <Route path='profile/:email' element={<FormModifyProfile dirty={dirty} setDirty={setDirty} email={email} role={role} handleError={handleError} />} />
       </Route>
 
       <Route path='*' element={<Navigate to='/' />} />
