@@ -525,6 +525,67 @@ function addSpecialization(expertId, specializationName) {
     });
 }
 
+async function getManagerById(managerId) {
+    const accessToken = localStorage.getItem('accessToken');
+
+    // call /API/managers/:id
+    const response = await fetch(new URL('managers/' + managerId, APIURL), {
+        headers: { 'Authorization': `Bearer ${accessToken}` },
+    });
+    const manager = await response.json();
+    if (response.ok)
+        return ({
+            id: manager.id,
+            firstName: manager.firstName,
+            lastName: manager.lastName,
+        });
+    else throw manager;
+}
+
+async function getManagerByEmail(email) {
+    const accessToken = localStorage.getItem('accessToken');
+    // call /API/managersByEmail/:email
+    const response = await fetch(new URL('managersByEmail/' + email, APIURL), {
+        headers: { 'Authorization': `Bearer ${accessToken}` },
+    });
+    const manager = await response.json();
+    if (response.ok)
+        return ({
+            id: manager.id,
+            firstName: manager.firstName,
+            lastName: manager.lastName
+        });
+    else throw manager;
+}
+
+function editManager(editedProfile) {
+    const accessToken = localStorage.getItem('accessToken');
+    // call: PUT /API/managers
+    return new Promise((resolve, reject) => {
+        fetch(new URL(`managers`, APIURL), {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${accessToken}`
+            },
+            body: JSON.stringify({
+                id: editedProfile.id,
+                firstName: editedProfile.firstName,
+                lastName: editedProfile.lastName
+            })
+        }).then((response) => {
+            if (response.ok)
+                resolve(null);
+            else {
+                // analyze the cause of error
+                response.json()
+                  .then((message) => { reject(message); }) // error message in the response body
+                  .catch(() => { reject({ error: "Cannot parse server response." }) }); // something else
+            }
+        }).catch(() => { reject({ error: "Cannot communicate with the server." }) }); // connection errors
+    });
+}
+
 const API = {
     login,
     refreshLogin,
@@ -547,7 +608,10 @@ const API = {
     editProfile,
     editExpert,
     removeSpecialization,
-    addSpecialization
+    addSpecialization,
+    getManagerById,
+    getManagerByEmail,
+    editManager
 };
 
 export default API;

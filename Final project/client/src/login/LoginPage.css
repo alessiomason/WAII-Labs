@@ -49,5 +49,10 @@
   color: #dd3675 !important;
   background-color: white !important;
   border: 2px solid #dd3675 !important;
+}
 
+.my_specializations {
+  text-align: center;
+  margin-top: 2rem;
+  margin-bottom: 1rem;
 }

@@ -38,6 +38,12 @@ function FormModifyProfile(props) {
                 specializations: specializations,
                 ticketIds: ticketIds
             }
+        } else if (props.role === "manager") {
+            editedProfile = {
+                id: id,
+                firstName: firstName,
+                lastName: lastName
+            }
         }
 
         let valid = true;
@@ -68,6 +74,14 @@ function FormModifyProfile(props) {
                 });
             } else if (props.role === "expert") {
                 API.editExpert(editedProfile).then( () => {
+                    props.setDirty(true);
+                    setSaveMsg('The profile has been edited.')
+                }).catch(err => {
+                    props.handleError(err);
+                    setSaveMsg('Error during the editing.')
+                });
+            } else if (props.role === "manager") {
+                API.editManager(editedProfile).then( () => {
                     props.setDirty(true);
                     setSaveMsg('The profile has been edited.')
                 }).catch(err => {
@@ -117,6 +131,14 @@ function FormModifyProfile(props) {
                     setTicketIds(p.ticketIds);
                     setErrorMsg('');
                 }).catch(err => props.handleError(err));
+        } else if (props.role === "manager") {
+            API.getManagerByEmail(email)
+              .then((p) => {
+                  setId(p.id);
+                  setFirstName(p.firstName);
+                  setLastName(p.lastName);
+                  setErrorMsg('');
+              }).catch(err => props.handleError(err));
         }
         props.setDirty(false);
     }, [email, props, props.dirty]);
@@ -149,7 +171,7 @@ function FormModifyProfile(props) {
                   }
                   { props.role === "expert" ?
                     <div>
-                        <h3 className='text-center'>My Specializations</h3>
+                        <h3 className='my_specializations'>My Specializations</h3>
                         <Table>
                             <thead>
                             <tr>
