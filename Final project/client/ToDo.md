@@ -41,4 +41,4 @@
 - PAGINA SINGOLA TICKET: assegna ticket all'expert (operazioni basate sullo stato del ticket), visualizza storico del ticket (tramite logs)
 - PAGINA EXPERT: autorizzare expert, visualizza storico dell'expert (tramite logs)
 
-- PAGINA PROFILO MANAGER: editare profilo
+- PAGINA PROFILO MANAGER: ~~editare profilo~~
