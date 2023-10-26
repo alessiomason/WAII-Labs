@@ -457,7 +457,9 @@ function editExpert(editedProfile) {
             body: JSON.stringify({
                 id: editedProfile.id,
                 firstName: editedProfile.firstName,
-                lastName: editedProfile.lastName
+                lastName: editedProfile.lastName,
+                specializations: editedProfile.specializations,
+                ticketIds: editedProfile.ticketIds
             })
         }).then((response) => {
             if (response.ok)
@@ -476,7 +478,7 @@ function removeSpecialization(specialization) {
     const accessToken = localStorage.getItem('accessToken');
     // call: DELETE /API/experts/specialization
     return new Promise((resolve, reject) => {
-        fetch(new URL('/experts/specialization', APIURL), {
+        fetch(new URL('experts/specialization', APIURL), {
             method: 'DELETE',
             headers: {
                 'Content-Type': 'application/json',
@@ -500,17 +502,16 @@ function removeSpecialization(specialization) {
 }
 
 function addSpecialization(expertId, specializationName) {
+    const accessToken = localStorage.getItem('accessToken');
     // call: POST /API/experts/{id}/specialization
     return new Promise((resolve, reject) => {
-        fetch(new URL(`/experts/${expertId}/specialization`, APIURL), {
+        fetch(new URL(`experts/${expertId}/specialization`, APIURL), {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
+                'Authorization': `Bearer ${accessToken}`
             },
-            body: JSON.stringify({
-                expertId: expertId,
-                newSpecializationName: specializationName
-            })
+            body: specializationName
         }).then((response) => {
             if (response.ok)
                 resolve(null);

@@ -13,6 +13,7 @@ function FormModifyProfile(props) {
     const [errorMsg, setErrorMsg] = useState('');
     const [saveMsg, setSaveMsg] = useState('');
     const [specializations, setSpecializations] = useState([]);
+    const [ticketIds, setTicketIds] = useState([]);
     const [newSpecialization, setNewSpecialization] = useState('');
     const {email}  = useParams();
 
@@ -33,7 +34,9 @@ function FormModifyProfile(props) {
             editedProfile = {
                 id: id,
                 firstName: firstName,
-                lastName: lastName
+                lastName: lastName,
+                specializations: specializations,
+                ticketIds: ticketIds
             }
         }
 
@@ -75,6 +78,25 @@ function FormModifyProfile(props) {
         }
     }
 
+    const handleRemoveSpecialization = (specialization) => {
+        API.removeSpecialization(specialization).then(() => {
+            props.setDirty(true);
+        }).catch(err => {
+            props.handleError(err);
+            setSaveMsg('Error during the editing.')
+        });
+    };
+
+    const handleAddSpecialization = (id, newSpecialization) => {
+        API.addSpecialization(id, newSpecialization).then(() => {
+            props.setDirty(true);
+            setNewSpecialization('');
+        }).catch(err => {
+            props.handleError(err);
+            setSaveMsg('Error during the editing.')
+        });
+    };
+
     useEffect(() => {
         if (props.role === "customer") {
             API.getProfileByEmail(email)
@@ -92,10 +114,12 @@ function FormModifyProfile(props) {
                     setFirstName(p.firstName);
                     setLastName(p.lastName);
                     setSpecializations(p.specializations);
+                    setTicketIds(p.ticketIds);
                     setErrorMsg('');
                 }).catch(err => props.handleError(err));
         }
-    }, [email, props]);
+        props.setDirty(false);
+    }, [email, props, props.dirty]);
 
     return (
       <>
@@ -123,7 +147,7 @@ function FormModifyProfile(props) {
                           <Form.Control type="tel" placeholder="Enter phone number" value={phone} onChange={ev => setPhone(ev.target.value)} />
                       </Form.Group> : null
                   }
-                  {props.role === "expert" ?
+                  { props.role === "expert" ?
                     <div>
                         <h3 className='text-center'>My Specializations</h3>
                         <Table>
@@ -136,8 +160,8 @@ function FormModifyProfile(props) {
                             <tbody>
                             {specializations.map((specialization, index) => (
                               <tr key={index}>
-                                  <td>{specialization}</td>
-                                  <td><Button onClick={ () => API.removeSpecialization(specialization).then( () => props.setDirty(true)) }>X</Button></td>
+                                  <td>{specialization.name}</td>
+                                  <td><Button onClick={() => handleRemoveSpecialization(specialization)}>X</Button></td>
                               </tr>
                             ))}
                             <tr>
@@ -148,7 +172,7 @@ function FormModifyProfile(props) {
                                       onChange={(e) => setNewSpecialization(e.target.value)}
                                     />
                                 </td>
-                                <td><Button onClick={ () => { API.addSpecialization(id, newSpecialization).then( () => props.setDirty(true)); setNewSpecialization('')} }>+</Button></td>
+                                <td><Button onClick={ () => handleAddSpecialization(id, newSpecialization) }>+</Button></td>
                             </tr>
                             </tbody>
                         </Table>
