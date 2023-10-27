@@ -29,11 +29,11 @@
 ## Expert
 
 - -~~HOMEPAGE: ticket aperti già assegnati a me stesso (da qui interagisci), elenco ticket passati-~~
-- PAGINA SINGOLA TICKET: elenco dettagli ticket e purchase, scegli stato purchase, chiudi ticket/segna come risolto, chat lato EXPERT
+- PAGINA SINGOLA TICKET: ~~elenco dettagli ticket e purchase~~, scegli stato purchase, cambia status ticket, ~~chat lato EXPERT~~
 
 - PAGINA PROFILO EXPERT: ~~editare profilo, scelta specializzazione~~
 
-- non autorizzato quando fa sign up
+- ~~non autorizzato quando fa sign up~~
 
 ## Manager
 

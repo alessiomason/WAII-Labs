@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import { Row, Col, Button, Card, Form, Modal, FloatingLabel } from 'react-bootstrap';
 import './TicketPage.css';
 import API from '../API';
@@ -8,6 +8,7 @@ const dayjs = require('dayjs');
 function TicketPage(props) {
   let { ticketId } = useParams();
   ticketId = parseInt(ticketId);
+  const navigate = useNavigate();
   const [ticket, setTicket] = useState({});
   const [dirty, setDirty] = useState(true);
   const [showModal, setShowModal] = useState(false);
@@ -63,7 +64,10 @@ function TicketPage(props) {
         <Col className='section'>
           <Row className='bottom-border'>
             <Col><h1 className='ticket-page'>{ticket.title}</h1></Col>
-            <Col className='d-flex justify-content-end'>{ticket.ticketStatus && props.role !== 'customer' && <Button onClick={() => setShowModal(true)}>Close ticket</Button>}</Col>
+            <Col className='d-flex justify-content-end'>
+              <Button onClick={() => navigate('/purchase/' + ticket.purchase?.id)}>View purchase</Button>
+              {ticket.ticketStatus && props.role !== 'customer' && <Button onClick={() => setShowModal(true)}>Close ticket</Button>}
+              </Col>
           </Row>
           <Row>
             <Col xs={3} className='header-column'><h5 className='text-end'>Ticket description</h5></Col>
