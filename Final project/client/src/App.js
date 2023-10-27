@@ -158,7 +158,7 @@ function App2() {
         <Route index element={role === 'customer' ? <CustomerHomePage name={name} dirty={dirty} setDirty={setDirty}/> :
           role === 'expert' ? <ExpertHomePage name={name} /> :
             <ManagerHomePage name={name} />} />
-        <Route path='ticket/:ticketId' element={<TicketPage email={email} role={role} />} />
+        <Route path='ticket/:ticketId' element={<TicketPage email={email} role={role} dirty={dirty} setDirty={setDirty} />} />
         <Route path='purchase/:purchaseId' element={<PurchasePage />} />
         <Route path='new-ticket/:purchaseId' element={<FormCreateTicket dirty={dirty} setDirty={setDirty} handleError={handleError} />} />
         <Route path='new-purchase' element={<NewPurchaseForm dirty={dirty} setDirty={setDirty} email={email} role={role} handleError={handleError} />} />

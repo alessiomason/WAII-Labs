@@ -328,6 +328,39 @@ function createTicket(ticket) {
     });
 }
 
+function assignExpert(ticket, selectedExpert) {
+    const accessToken = localStorage.getItem('accessToken');
+    // call: POST /API/tickets/expert
+    return new Promise((resolve, reject) => {
+        fetch(new URL(`tickets/expert`, APIURL), {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${accessToken}`
+            },
+            body: JSON.stringify({
+                id: ticket.id,
+                title: ticket.title,
+                description: ticket.description,
+                purchase: ticket.purchase,
+                expert: selectedExpert,
+                ticketStatus: ticket.ticketStatus,
+                priorityLevel: ticket.priorityLevel,
+                chat: ticket.chat
+            })
+        }).then((response) => {
+            if (response.ok)
+                resolve(null);
+            else {
+                // analyze the cause of error
+                response.json()
+                  .then((message) => { reject(message); }) // error message in the response body
+                  .catch(() => { reject({ error: "Cannot parse server response." }) }); // something else
+            }
+        }).catch(() => { reject({ error: "Cannot communicate with the server." }) }); // connection errors
+    });
+}
+
 function createChat(ticketId) {
     const accessToken = localStorage.getItem('accessToken');
 
@@ -670,7 +703,8 @@ const API = {
     addSpecialization,
     getManagerById,
     getManagerByEmail,
-    editManager
+    editManager,
+    assignExpert
 };
 
 export default API;

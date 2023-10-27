@@ -12,6 +12,10 @@ function TicketPage(props) {
   const [ticket, setTicket] = useState({});
   const [dirty, setDirty] = useState(true);
   const [showModal, setShowModal] = useState(false);
+  const [showModalExperts, setShowModalExperts] = useState(false);
+  const [experts, setExperts] = useState(null);
+  const [expertId, setExpertId] = useState();
+  const [selectedExpert, setSelectedExpert] = useState(null);
 
   useEffect(() => {
     if (dirty) {
@@ -19,8 +23,15 @@ function TicketPage(props) {
         .then(ticket => {
           setTicket(ticket);
           setDirty(false);
+          API.getExperts()
+            .then(experts => {
+                setExperts(experts);
+              }
+            )
+            .catch(err=>console.log(err))
         })
         .catch(err => console.log(err))
+
     }
   }, [ticketId, dirty])
 
@@ -35,8 +46,21 @@ function TicketPage(props) {
   }, [dirty])
 
   function closeTicket() {
-
     setShowModal(false);
+  }
+
+  function confirmExpert(){
+    let obj = selectedExpert
+    if(obj == null) {
+      obj = experts[0]
+      setSelectedExpert(experts[0])
+    }
+    API.assignExpert(ticket,obj)
+      .then(()=> {
+        setShowModalExperts(false);
+        props.setDirty(true);
+        setDirty(true);
+        }).catch(err=>console.log(err))
   }
 
   return (
@@ -59,6 +83,32 @@ function TicketPage(props) {
           <Button onClick={closeTicket}>Close ticket</Button>
         </Modal.Footer>
       </Modal>
+      <Modal show={showModalExperts} onHide={() => setShowModalExperts(false)}>
+        <Modal.Header closeButton>
+          <Modal.Title>Choose expert</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <Form>
+            <FloatingLabel controlId="floatingSelect" label="Choose expert">
+              <Form.Select value={expertId} onChange={e => { setExpertId(e.target.value); setSelectedExpert(experts.filter(expert => expert.id === e.target.value)[0])} }>
+                {experts ? experts.map((item) => (
+                  <option key={item.id} value={item.id}>
+                    {item.firstName + " " + item.lastName}
+                    {item.specializations.length !== 0 && (
+                      item.specializations.map((specialization, specIndex) => (
+                        <span key={specIndex}>{" | "+specialization.name}</span>
+                      )))
+                    }
+                  </option>
+                )) : null}
+              </Form.Select>
+            </FloatingLabel>
+          </Form>
+        </Modal.Body>
+        <Modal.Footer>
+          <Button onClick={() => confirmExpert()}>Confirm expert</Button>
+        </Modal.Footer>
+      </Modal>
 
       <Row>
         <Col className='section'>
@@ -67,6 +117,7 @@ function TicketPage(props) {
             <Col className='d-flex justify-content-end'>
               <Button onClick={() => navigate('/purchase/' + ticket.purchase?.id)}>View purchase</Button>
               {ticket.ticketStatus && props.role !== 'customer' && <Button onClick={() => setShowModal(true)}>Close ticket</Button>}
+              {!ticket.expert && props.role === 'manager' && <Button onClick={()=>setShowModalExperts(true)}>Assign expert</Button>}
               </Col>
           </Row>
           <Row>
@@ -79,7 +130,7 @@ function TicketPage(props) {
           </Row>
           <Row>
             <Col xs={3} className='header-column'><h5 className='text-end'>Expert</h5></Col>
-            <Col><p>{`${ticket.expert?.firstName} ${ticket.expert?.lastName}`}</p></Col>
+            <Col><p>{ticket.expert ? `${ticket.expert?.firstName} ${ticket.expert?.lastName}` : "Not assigned yet"}</p></Col>
           </Row>
           <Row>
             <Col xs={3} className='header-column'><h5 className='text-end'>Product name</h5></Col>
