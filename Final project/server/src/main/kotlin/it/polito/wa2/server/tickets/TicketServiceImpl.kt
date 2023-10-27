@@ -3,6 +3,7 @@ package it.polito.wa2.server.tickets
 import it.polito.wa2.server.exceptions.*
 import it.polito.wa2.server.employees.Expert
 import it.polito.wa2.server.employees.ExpertRepository
+import it.polito.wa2.server.logs.LogService
 import it.polito.wa2.server.purchases.PurchaseRepository
 import jakarta.validation.constraints.Email
 import org.springframework.data.repository.findByIdOrNull
@@ -12,7 +13,8 @@ import org.springframework.stereotype.Service
 class TicketServiceImpl(
     private val ticketRepository: TicketRepository,
     private val expertRepository: ExpertRepository,
-    private val purchaseRepository: PurchaseRepository
+    private val purchaseRepository: PurchaseRepository,
+    private val logService: LogService
 ): TicketService {
     override fun getAllTickets(): List<TicketDTO> {
         return ticketRepository.findAll().map { it.toDTO() }
@@ -53,6 +55,11 @@ class TicketServiceImpl(
 
         if (!ticketStatusTransitionAllowed(currentTicketStatus = ticket.ticketStatus, newTicketStatus = ticketDTO.ticketStatus))
             throw TicketStatusException()
+
+        // log ticket status change
+        if (ticket.ticketStatus != ticketDTO.ticketStatus) {
+            logService.createLog(ticket, ticketDTO.ticketStatus)
+        }
 
         ticket.ticketStatus = ticketDTO.ticketStatus
         ticket.priorityLevel = ticketDTO.priorityLevel
