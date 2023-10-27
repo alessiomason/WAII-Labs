@@ -13,6 +13,8 @@ import TicketPage from './customer/TicketPage';
 import PurchasePage from './customer/PurchasePage';
 import API from './API';
 import jwt_decode from "jwt-decode";
+import NewPurchaseForm from "./customer/NewPurchaseForm";
+import {FormCreateTicket} from "./FormCreateTicket";
 
 function App() {
   return (
@@ -153,13 +155,13 @@ function App2() {
     <Routes>
       <Route path='/login' element={loggedIn ? <Navigate to='/' /> : <LoginPage loggedIn={loggedIn} doLogin={doLogin} message={message} setMessage={setMessage} />} />
       <Route path='/' element={loggedIn ? <PageLayout loggedIn={loggedIn} doLogin={doLogin} doLogout={doLogout} email={email} /> : <Navigate to='/login' />}>
-        <Route index element={role === 'customer' ? <CustomerHomePage name={name} /> :
+        <Route index element={role === 'customer' ? <CustomerHomePage name={name} dirty={dirty} setDirty={setDirty}/> :
           role === 'expert' ? <ExpertHomePage name={name} /> :
             <ManagerHomePage name={name} />} />
         <Route path='ticket/:ticketId' element={<TicketPage email={email} role={role} />} />
         <Route path='purchase/:purchaseId' element={<PurchasePage />} />
-        <Route path='new-ticket' element={<></>} />
-        <Route path='new-purchase' element={<></>} />
+        <Route path='new-ticket/:purchaseId' element={<FormCreateTicket dirty={dirty} setDirty={setDirty} handleError={handleError} />} />
+        <Route path='new-purchase' element={<NewPurchaseForm dirty={dirty} setDirty={setDirty} email={email} role={role} handleError={handleError} />} />
         <Route path='profile/:email' element={<FormModifyProfile dirty={dirty} setDirty={setDirty} email={email} role={role} handleError={handleError} />} />
       </Route>
 

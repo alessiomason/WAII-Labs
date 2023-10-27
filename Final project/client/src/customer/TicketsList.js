@@ -19,8 +19,10 @@ function numberizePriority(priorityLevel) {
 }
 
 function compareTickets(ticketA, ticketB) {
-  const comparisonByAssignment = -1 * ('' + ticketA.expert.id).localeCompare(ticketB.expert.id);
-  if (comparisonByAssignment !== 0) return comparisonByAssignment;
+  if (ticketA.expert && ticketB.expert) {
+    const comparisonByAssignment = -1 * ('' + ticketA.expert.id).localeCompare(ticketB.expert.id);
+    if (comparisonByAssignment !== 0) return comparisonByAssignment;
+  }
 
   const priorityA = numberizePriority(ticketA.priorityLevel);
   const priorityB = numberizePriority(ticketB.priorityLevel);
@@ -63,7 +65,10 @@ function TicketsListItem(props) {
       <td>{props.ticket.title}</td>
       <td>{props.ticket.purchase.product.name}</td>
       <td className={props.role === "manager" ? "text-center" : ""}>
-        {props.role === "manager" ? (props.ticket.expert.id ? <PersonCheckFill className="my-violet" /> : <PersonXFill className="my-red" />) : props.ticket.ticketStatus}
+        { props.role === "manager" ?
+          props.ticket.expert ?
+            (props.ticket.expert.id ? <PersonCheckFill className="my-violet" /> : <PersonXFill className="my-red" />) : props.ticket.ticketStatus
+          : props.ticket.ticketStatus }
         </td>
     </tr>
   );

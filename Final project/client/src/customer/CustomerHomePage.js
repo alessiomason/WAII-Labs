@@ -20,7 +20,8 @@ function CustomerHomePage(props) {
     API.getPurchases()
       .then(purchases => setPurchases(purchases))
       .catch(err => console.log(err))
-  }, [])
+    props.setDirty(false);
+  }, [props.dirty])
 
   return (
     <>
@@ -38,7 +39,6 @@ function CustomerHomePage(props) {
         <Col className='section'>
           <Row>
             <Col><h3>Closed tickets</h3></Col>
-            <Col className="d-flex justify-content-end"><Button onClick={() => navigate('/new-ticket')}>Create new ticket</Button></Col>
           </Row>
           <Row>
             <TicketsList tickets={tickets.filter(ticket => ticket.ticketStatus === 'CLOSED' || ticket.ticketStatus === 'RESOLVED')} />

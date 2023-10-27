@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import {useNavigate, useParams} from 'react-router-dom';
 import { Row, Col, Button } from 'react-bootstrap';
 import TicketsList from './TicketsList';
 import './PurchasePage.css';
@@ -13,6 +13,7 @@ function PurchasePage() {
   const [purchase, setPurchase] = useState({});
   const [tickets, setTickets] = useState([]);
   const [dirty, setDirty] = useState(true);
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (dirty) {
@@ -66,7 +67,7 @@ function PurchasePage() {
         <Row>
           <Row className='bottom-border'>
             <Col><h2>Tickets associated to this purchase</h2></Col>
-            <Col className='d-flex justify-content-end'><Button>Open new ticket</Button></Col>
+            <Col className='d-flex justify-content-end'><Button onClick={() => navigate(`/new-ticket/${purchaseId}`)}>Open new ticket</Button></Col>
           </Row>
 
           {tickets.length !== 0 && <TicketsList tickets={tickets} />}

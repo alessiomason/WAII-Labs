@@ -20,9 +20,9 @@
 
 ## Customer
 
-- HOMEPAGE: ~~ticket aperti (da qui modifica), crea ticket, elenco purchase, passati,~~ crea purchase
+- HOMEPAGE: ~~ticket aperti (da qui modifica), crea ticket, elenco purchase, passati,~~ ~~crea purchase~~
 - PAGINA SINGOLA TICKET: ~~elenco dettagli ticket, chat lato CUSTOMER, apri nuova chat~~
-- PAGINA SINGOLA ACQUISTO: ~~elenco dettagli purchase, elenco ticket associati,~~ apri nuovo ticket
+- PAGINA SINGOLA ACQUISTO: ~~elenco dettagli purchase, elenco ticket associati,~~ ~~apri nuovo ticket~~
 
 - PAGINA PROFILO CUSTOMER: ~~editare profilo~~
 
