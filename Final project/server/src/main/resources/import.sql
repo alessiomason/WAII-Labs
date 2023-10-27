@@ -20,9 +20,12 @@ create table if not exists experts
 (
     id         varchar(255) not null
         primary key,
-    email      varchar(255),
+    email      varchar(255)
+        constraint uk_j5hi3oapur9jr1qr5ae5iqv6f
+            unique,
     first_name varchar(255),
-    last_name  varchar(255)
+    last_name  varchar(255),
+    authorized boolean      not null
 );
 
 create table if not exists experts_specializations
@@ -1309,11 +1312,11 @@ INSERT INTO products (ean, name, brand) VALUES ('9781495095283', 'The Hunchback 
 INSERT INTO products (ean, name, brand) VALUES ('4894855642906', 'Universal 400w 40000lm 7inch LED Car Motorcycle Headlight Phare Farol Moto R1s5', 'SODIAL');
 INSERT INTO products (ean, name, brand) VALUES ('4025258739324', 'BILSTEIN B8 Shock Absorbers Damper 19-236315 Rear Axle for Toyota YARIS', 'BILSTEIN');
 
-INSERT INTO experts (id, email, first_name, last_name) VALUES ('joe_pesci_12@mail.com', 'joe_pesci_12@mail.com', 'Joe', 'Pesci');
-INSERT INTO experts (id, email, first_name, last_name) VALUES ('john_demon_12@mail.com', 'john_demon_12@mail.com', 'John', 'Demon');
-INSERT INTO experts (id, email, first_name, last_name) VALUES ('matt_kerr_12@mail.com', 'matt_kerr_12@mail.com', 'Matt', 'Kerr');
-INSERT INTO experts (id, email, first_name, last_name) VALUES ('steven_rotterdam_12@mail.com', 'steven_rotterdam_12@mail.com', 'Steven', 'Rotterdam');
-INSERT INTO experts (id, email, first_name, last_name) VALUES ('expert1@products.com', 'expert1@products.com', 'Expert1', 'Expert1');
+INSERT INTO experts (id, email, first_name, last_name, authorized) VALUES ('joe_pesci_12@mail.com', 'joe_pesci_12@mail.com', 'Joe', 'Pesci', true);
+INSERT INTO experts (id, email, first_name, last_name, authorized) VALUES ('john_demon_12@mail.com', 'john_demon_12@mail.com', 'John', 'Demon', true);
+INSERT INTO experts (id, email, first_name, last_name, authorized) VALUES ('matt_kerr_12@mail.com', 'matt_kerr_12@mail.com', 'Matt', 'Kerr', true);
+INSERT INTO experts (id, email, first_name, last_name, authorized) VALUES ('steven_rotterdam_12@mail.com', 'steven_rotterdam_12@mail.com', 'Steven', 'Rotterdam', false);
+INSERT INTO experts (id, email, first_name, last_name, authorized) VALUES ('expert1@products.com', 'expert1@products.com', 'Expert1', 'Expert1', true);
 
 INSERT INTO experts_specializations(id, name, expert_id) VALUES (1, 'Computers', 'joe_pesci_12@mail.com');
 INSERT INTO experts_specializations(id, name, expert_id) VALUES (2, 'Home appliances', 'john_demon_12@mail.com');

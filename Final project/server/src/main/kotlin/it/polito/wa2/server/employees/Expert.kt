@@ -21,6 +21,8 @@ class Expert(
     firstName,
     lastName
 ) {
+    var authorized = false
+
     @OneToMany(mappedBy = "expert")
     val specializations = listOf<ExpertSpecialization>()
 

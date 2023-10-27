@@ -11,6 +11,8 @@ interface ExpertService {
 
     fun editExpert(expertDTO: ExpertDTO)
 
+    fun authorizeExpert(expertId: String, authorized: Boolean)
+
     fun addSpecialization(expertId: String, newSpecializationName: String): ExpertSpecializationDTO
 
     fun removeSpecialization(specializationDTO: ExpertSpecializationDTO)

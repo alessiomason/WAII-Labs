@@ -8,6 +8,8 @@ class ProfileNotFoundException: RuntimeException("Profile not found!")
 
 class ExpertNotFoundException: RuntimeException("Expert not found!")
 
+class ExpertNotAuthorizedException: RuntimeException("Expert not authorized by a manager!")
+
 class ExpertSpecializationNotFoundException: RuntimeException("Expert specialization not found!")
 
 class ManagerNotFoundException: RuntimeException("Manager not found!")

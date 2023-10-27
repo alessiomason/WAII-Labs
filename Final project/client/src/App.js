@@ -89,7 +89,10 @@ function App2() {
         navigate('/');
       })
       .catch(err => {
-        setMessage('Email or password incorrect.');
+        if (err.status === 400)
+          setMessage('Incorrect email and/or password.')
+        else
+          setMessage(err.detail);
       })
   }
 
@@ -121,7 +124,7 @@ function App2() {
             setLoggedIn(true);
           })
           .catch(err => {
-            setMessage(err);
+            setMessage(err.detail);
           })
       }
     }

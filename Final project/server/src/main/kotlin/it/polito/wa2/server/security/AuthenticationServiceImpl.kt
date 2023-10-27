@@ -6,6 +6,7 @@ import it.polito.wa2.server.customers.Profile
 import it.polito.wa2.server.customers.ProfileRepository
 import it.polito.wa2.server.employees.Expert
 import it.polito.wa2.server.employees.ExpertRepository
+import it.polito.wa2.server.exceptions.ExpertNotAuthorizedException
 import org.keycloak.admin.client.KeycloakBuilder
 import org.keycloak.representations.AccessTokenResponse
 import org.keycloak.representations.idm.CredentialRepresentation
@@ -30,6 +31,13 @@ class AuthenticationServiceImpl(
     private lateinit var keycloakAddress: String
 
     override fun login(loginDTO: LoginDTO): JwtDTO? {
+        // checks is user is an expert and not authorized
+        // if they're not an expert, or if they are an authorized expert, Keycloak will authenticate them
+        val expert = expertRepository.findByEmail(loginDTO.email)
+        if (expert?.authorized == false) {
+            throw ExpertNotAuthorizedException()
+        }
+
         val keycloak = KeycloakBuilder.builder()
             .serverUrl("http://$keycloakAddress")
             .realm("wa2-products")

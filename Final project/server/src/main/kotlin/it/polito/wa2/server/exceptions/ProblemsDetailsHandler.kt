@@ -25,6 +25,10 @@ class ProblemDetailsHandler: ResponseEntityExceptionHandler() {
     fun handleExpertNotFound(e: ExpertNotFoundException) = ProblemDetail
         .forStatusAndDetail(HttpStatus.NOT_FOUND, e.message!!)
 
+    @ExceptionHandler(ExpertNotAuthorizedException::class)
+    fun handleExpertNotAuthorized(e: ExpertNotAuthorizedException) = ProblemDetail
+        .forStatusAndDetail(HttpStatus.UNAUTHORIZED, e.message!!)
+
     @ExceptionHandler(ExpertSpecializationNotFoundException::class)
     fun handleExpertSpecializationNotFound(e: ExpertSpecializationNotFoundException) = ProblemDetail
         .forStatusAndDetail(HttpStatus.NOT_FOUND, e.message!!)
