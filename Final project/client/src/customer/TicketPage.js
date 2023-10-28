@@ -3,6 +3,7 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { Row, Col, Button, Card, Form, Modal, FloatingLabel } from 'react-bootstrap';
 import './TicketPage.css';
 import API from '../API';
+import {Ticket} from "react-bootstrap-icons";
 const dayjs = require('dayjs');
 
 function TicketPage(props) {
@@ -16,6 +17,16 @@ function TicketPage(props) {
   const [experts, setExperts] = useState(null);
   const [expertId, setExpertId] = useState();
   const [selectedExpert, setSelectedExpert] = useState(null);
+  const [statusChangePermitted,setStatusChangePermitted]=useState([])
+  const [ticketStatus,setTicketStatus]=useState(null);
+
+  const TicketStatus = {
+    OPEN: 'OPEN',
+    IN_PROGRESS: 'IN_PROGRESS',
+    CLOSED: 'CLOSED',
+    REOPENED: 'REOPENED',
+    RESOLVED: 'RESOLVED',
+  };
 
   useEffect(() => {
     if (dirty) {
@@ -23,6 +34,23 @@ function TicketPage(props) {
         .then(ticket => {
           setTicket(ticket);
           setDirty(false);
+          switch (ticket.ticketStatus) {
+            case TicketStatus.OPEN:
+              setStatusChangePermitted([TicketStatus.CLOSED, TicketStatus.RESOLVED])
+              break;
+            case TicketStatus.CLOSED:
+              setStatusChangePermitted([TicketStatus.REOPENED])
+              break;
+            case TicketStatus.IN_PROGRESS:
+              setStatusChangePermitted([TicketStatus.CLOSED, TicketStatus.OPEN, TicketStatus.RESOLVED])
+              break;
+            case TicketStatus.REOPENED:
+              setStatusChangePermitted([TicketStatus.CLOSED, TicketStatus.RESOLVED, TicketStatus.IN_PROGRESS])
+              break;
+            case TicketStatus.RESOLVED:
+              setStatusChangePermitted([TicketStatus.CLOSED, TicketStatus.REOPENED])
+              break;
+          }
           API.getExperts()
             .then(experts => {
                 setExperts(experts);
@@ -31,7 +59,6 @@ function TicketPage(props) {
             .catch(err=>console.log(err))
         })
         .catch(err => console.log(err))
-
     }
   }, [ticketId, dirty])
 
@@ -45,7 +72,14 @@ function TicketPage(props) {
     }
   }, [dirty])
 
-  function closeTicket() {
+  function changeTicketStatus() {
+    let newTicket = ticket;
+    newTicket.ticketStatus = ticketStatus ? ticketStatus : statusChangePermitted[0];
+    API.editTicket(newTicket).then(()=> {
+      setShowModalExperts(false);
+      props.setDirty(true);
+      setDirty(true);
+    }).catch(err=>console.log(err))
     setShowModal(false);
   }
 
@@ -67,20 +101,23 @@ function TicketPage(props) {
     <>
       <Modal show={showModal} onHide={() => setShowModal(false)}>
         <Modal.Header closeButton>
-          <Modal.Title>Close ticket</Modal.Title>
+          <Modal.Title>Change ticket status</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <Form>
             <FloatingLabel controlId="floatingSelect" label="Mark the ticket as:">
-              <Form.Select>
-                <option value="CLOSED">CLOSED</option>
-                <option value="RESOLVED">RESOLVED</option>
+              <Form.Select onChange={ev=>{setTicketStatus(ev.target.value)}}>
+              {statusChangePermitted ? statusChangePermitted.map((item) => (
+                <option key={item} value={item}>
+                  {item}
+                </option>
+              )) : null}
               </Form.Select>
             </FloatingLabel>
           </Form>
         </Modal.Body>
         <Modal.Footer>
-          <Button onClick={closeTicket}>Close ticket</Button>
+          <Button onClick={changeTicketStatus}>Change ticket status</Button>
         </Modal.Footer>
       </Modal>
       <Modal show={showModalExperts} onHide={() => setShowModalExperts(false)}>
@@ -116,7 +153,7 @@ function TicketPage(props) {
             <Col><h1 className='with-side-button'>{ticket.title}</h1></Col>
             <Col className='d-flex justify-content-end'>
               <Button onClick={() => navigate('/purchase/' + ticket.purchase?.id)}>View purchase</Button>
-              {ticket.ticketStatus && props.role !== 'customer' && <Button onClick={() => setShowModal(true)}>Close ticket</Button>}
+              {ticket.ticketStatus && props.role === 'expert' && <Button onClick={() => setShowModal(true)}>Change ticket status</Button>}
               {!ticket.expert && props.role === 'manager' && <Button onClick={()=>setShowModalExperts(true)}>Assign expert</Button>}
               </Col>
           </Row>

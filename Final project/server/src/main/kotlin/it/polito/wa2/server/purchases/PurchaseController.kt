@@ -41,7 +41,7 @@ class PurchaseController(
     }
 
     @PutMapping("API/purchases/{id}")
-    fun updatePurchaseStatus(@PathVariable id: Int, newPurchaseStatus: PurchaseStatus) {
+    fun updatePurchaseStatus(@PathVariable id: Int, @RequestBody @Valid newPurchaseStatus: PurchaseStatus) {
         purchaseService.updatePurchaseStatus(id, newPurchaseStatus)
     }
 

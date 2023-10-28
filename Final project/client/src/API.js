@@ -357,6 +357,63 @@ function createTicket(ticket) {
     });
 }
 
+function editTicket(editedTicket) {
+    const accessToken = localStorage.getItem('accessToken');
+    // call: PUT /API/tickets/properties
+    return new Promise((resolve, reject) => {
+        fetch(new URL(`tickets/properties`, APIURL), {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${accessToken}`
+            },
+            body: JSON.stringify({
+                id: editedTicket.id,
+                title: editedTicket.title,
+                description: editedTicket.description,
+                purchase: editedTicket.purchase,
+                expert: editedTicket.expert,
+                ticketStatus: editedTicket.ticketStatus,
+                priorityLevel: editedTicket.priorityLevel,
+                chat: editedTicket.chat
+            })
+        }).then((response) => {
+            if (response.ok)
+                resolve(null);
+            else {
+                // analyze the cause of error
+                response.json()
+                  .then((message) => { reject(message); }) // error message in the response body
+                  .catch(() => { reject({ error: "Cannot parse server response." }) }); // something else
+            }
+        }).catch(() => { reject({ error: "Cannot communicate with the server." }) }); // connection errors
+    });
+}
+
+function editPurchase(purchaseId, newPurchaseStatus) {
+    const accessToken = localStorage.getItem('accessToken');
+    // call: PUT /API/purchases/{id}
+    return new Promise((resolve, reject) => {
+        fetch(new URL(`purchases/${purchaseId}`, APIURL), {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${accessToken}`
+            },
+            body: newPurchaseStatus
+        }).then((response) => {
+            if (response.ok)
+                resolve(null);
+            else {
+                // analyze the cause of error
+                response.json()
+                  .then((message) => { reject(message); }) // error message in the response body
+                  .catch(() => { reject({ error: "Cannot parse server response." }) }); // something else
+            }
+        }).catch(() => { reject({ error: "Cannot communicate with the server." }) }); // connection errors
+    });
+}
+
 function assignExpert(ticket, selectedExpert) {
     const accessToken = localStorage.getItem('accessToken');
     // call: POST /API/tickets/expert
@@ -720,6 +777,8 @@ const API = {
     getTickets,
     getTicketById,
     createTicket,
+    editTicket,
+    editPurchase,
     createChat,
     sendMessage,
     closeChat,
