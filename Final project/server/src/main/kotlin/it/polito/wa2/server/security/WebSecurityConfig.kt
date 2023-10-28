@@ -99,10 +99,10 @@ class WebSecurityConfig(private val jwtAuthConverter: JwtAuthConverter) {
             .hasAnyRole(CUSTOMER, EXPERT, MANAGER)
 
             .requestMatchers(HttpMethod.POST, "/purchases", "/API/purchases")
-            .hasAnyRole(CUSTOMER)
+            .hasAnyRole(CUSTOMER, EXPERT, MANAGER)
 
             .requestMatchers(HttpMethod.POST, "/purchases/**", "/API/purchases/**")
-            .hasAnyRole(EXPERT, MANAGER)
+            .hasAnyRole(CUSTOMER, EXPERT, MANAGER)
 
             .requestMatchers(HttpMethod.PUT, "/purchases/**", "/API/purchases/**")
             .hasAnyRole(EXPERT, MANAGER)

@@ -1338,8 +1338,8 @@ INSERT INTO purchases (id, date_of_purchase, status, customer_id, product_ean) V
 INSERT INTO purchases (id, date_of_purchase, status, customer_id, product_ean) VALUES (1007, '2023-09-18', 0, 'customer1@products.com', '6932799000098');
 INSERT INTO purchases (id, date_of_purchase, status, customer_id, product_ean) VALUES (1008, '2023-09-15', 0, 'customer1@products.com', '3532041192835');
 INSERT INTO purchases (id, date_of_purchase, status, customer_id, product_ean) VALUES (1009, '2023-09-01', 1, 'customer1@products.com', '5711045610646');
-INSERT INTO purchases (id, date_of_purchase, status, customer_id, product_ean) VALUES (1010, '2023-08-31', 2, 'customer1@products.com', '5052746203592');
-INSERT INTO purchases (id, date_of_purchase, status, customer_id, product_ean) VALUES (1011, '2023-07-22', 3, 'customer1@products.com', '8712725728528');
+INSERT INTO purchases (id, date_of_purchase, status, customer_id, product_ean) VALUES (1010, '2020-08-31', 2, 'customer1@products.com', '5052746203592');
+INSERT INTO purchases (id, date_of_purchase, status, customer_id, product_ean) VALUES (1011, '2021-07-22', 3, 'customer1@products.com', '8712725728528');
 
 INSERT INTO tickets(id, description, priority_level, ticket_status, title, expert_id, purchase_id) VALUES (1001, 'Description Ticket 1', 1, 0, 'Ticket 1', 'joe_pesci_12@mail.com', 1001);
 INSERT INTO tickets(id, description, priority_level, ticket_status, title, expert_id, purchase_id) VALUES (1002, 'Description Ticket 2', 1, 0, 'Ticket 2', 'john_demon_12@mail.com', 1003);

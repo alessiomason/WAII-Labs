@@ -1,6 +1,11 @@
-h1:not(.ticket-page) {
-	padding-bottom: 8px;
-	margin-bottom: 20px;
-	border-bottom-width: 2px;
-	border-bottom-style: solid;
+h1 {
+	color: #dd3675;
+}
+
+.react-datepicker-wrapper {
+	width: 100%;
+}
+
+.react-datepicker__close-icon::after {
+	background-color: #dd3675 !important;
 }

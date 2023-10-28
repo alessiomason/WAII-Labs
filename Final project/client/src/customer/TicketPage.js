@@ -113,7 +113,7 @@ function TicketPage(props) {
       <Row>
         <Col className='section'>
           <Row className='bottom-border'>
-            <Col><h1 className='ticket-page'>{ticket.title}</h1></Col>
+            <Col><h1 className='with-side-button'>{ticket.title}</h1></Col>
             <Col className='d-flex justify-content-end'>
               <Button onClick={() => navigate('/purchase/' + ticket.purchase?.id)}>View purchase</Button>
               {ticket.ticketStatus && props.role !== 'customer' && <Button onClick={() => setShowModal(true)}>Close ticket</Button>}

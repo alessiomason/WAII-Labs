@@ -199,6 +199,35 @@ function insertPurchase(purchase) {
     });
 }
 
+function addWarranty(purchaseId, expiryDate) {
+    const accessToken = localStorage.getItem('accessToken');
+
+    // call: POST /API/purchases/:id/warranty
+    return new Promise((resolve, reject) => {
+        fetch(new URL(`purchases/${purchaseId}/warranty`, APIURL), {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${accessToken}`
+            },
+
+            body: JSON.stringify({
+                expiryDate: expiryDate
+            }),
+
+        }).then((response) => {
+            if (response.ok)
+                resolve(response.json());
+            else {
+                // analyze the cause of error
+                response.json()
+                    .then((message) => { reject(message); }) // error message in the response body
+                    .catch(() => { reject({ error: "Cannot parse server response." }) }); // something else
+            }
+        }).catch(() => { reject({ error: "Cannot communicate with the server." }) }); // connection errors
+    });
+}
+
 async function getExperts() {
     const accessToken = localStorage.getItem('accessToken');
 
@@ -684,6 +713,7 @@ const API = {
     getPurchases,
     getPurchaseById,
     insertPurchase,
+    addWarranty,
     getExperts,
     getExpertById,
     getExpertByEmail,
