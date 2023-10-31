@@ -1355,8 +1355,8 @@ INSERT INTO messages(id, text, time, chat_id, from_id) VALUES (1001, 'Lorem ipsu
 INSERT INTO messages(id, text, time, chat_id, from_id) VALUES (1002, 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut condimentum lectus id orci viverra, et hendrerit nisi vestibulum. Fusce eleifend, tellus in auctor ullamcorper, sem mauris volutpat urna, vel porta mauris ante quis odio. Aliquam dictum sem at lorem cursus ultricies. Nam a odio arcu. Vestibulum lacinia nulla et est laoreet, at posuere ante fermentum.', '2023-09-21 10:37:55', 1001, 'customer1@products.com');
 INSERT INTO messages(id, text, time, chat_id, from_id) VALUES (1003, 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut condimentum lectus id orci viverra, et hendrerit nisi vestibulum. Fusce eleifend, tellus in auctor ullamcorper, sem mauris volutpat urna, vel porta mauris ante quis odio. Aliquam dictum sem at lorem cursus ultricies. Nam a odio arcu. Vestibulum lacinia nulla et est laoreet, at posuere ante fermentum.', '2023-09-21 11:02:07', 1001, 'expert1@products.com');
 
-INSERT INTO logs(id, new_ticket_status, previous_ticket_status, time, ticket_id) VALUES (1, 1, 0, '2023-05-12T14:13:09.157827400Z', 1001);
-INSERT INTO logs(id, new_ticket_status, previous_ticket_status, time, ticket_id) VALUES (2, 2, 1, '2023-05-12T15:14:09.157827400Z', 1001);
-INSERT INTO logs(id, new_ticket_status, previous_ticket_status, time, ticket_id) VALUES (3, 1, 0, '2023-05-10T12:13:09.157827400Z', 1002);
-INSERT INTO logs(id, new_ticket_status, previous_ticket_status, time, ticket_id) VALUES (4, 2, 1, '2023-05-10T16:13:09.157827400Z', 1002);
-INSERT INTO logs(id, new_ticket_status, previous_ticket_status, time, ticket_id) VALUES (5, 3, 2, '2023-05-11T17:13:09.157827400Z', 1002);
+INSERT INTO logs(id, new_ticket_status, previous_ticket_status, time, ticket_id) VALUES (1001, 1, 0, '2023-05-12T14:13:09.157827400Z', 1001);
+INSERT INTO logs(id, new_ticket_status, previous_ticket_status, time, ticket_id) VALUES (1002, 2, 1, '2023-05-12T15:14:09.157827400Z', 1001);
+INSERT INTO logs(id, new_ticket_status, previous_ticket_status, time, ticket_id) VALUES (1003, 1, 0, '2023-05-10T12:13:09.157827400Z', 1002);
+INSERT INTO logs(id, new_ticket_status, previous_ticket_status, time, ticket_id) VALUES (1004, 2, 1, '2023-05-10T16:13:09.157827400Z', 1002);
+INSERT INTO logs(id, new_ticket_status, previous_ticket_status, time, ticket_id) VALUES (1005, 3, 2, '2023-05-11T17:13:09.157827400Z', 1002);

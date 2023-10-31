@@ -3,7 +3,6 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { Row, Col, Button, Card, Form, Modal, FloatingLabel } from 'react-bootstrap';
 import './TicketPage.css';
 import API from '../API';
-import {Ticket} from "react-bootstrap-icons";
 const dayjs = require('dayjs');
 
 function TicketPage(props) {
@@ -36,7 +35,7 @@ function TicketPage(props) {
           setDirty(false);
           switch (ticket.ticketStatus) {
             case TicketStatus.OPEN:
-              setStatusChangePermitted([TicketStatus.CLOSED, TicketStatus.RESOLVED])
+              setStatusChangePermitted([TicketStatus.IN_PROGRESS, TicketStatus.CLOSED, TicketStatus.RESOLVED])
               break;
             case TicketStatus.CLOSED:
               setStatusChangePermitted([TicketStatus.REOPENED])
