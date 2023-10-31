@@ -74,7 +74,7 @@ function ExpertsListItem(props) {
   const navigate = useNavigate();
 
   return (
-    <tr onClick={() => navigate(`/purchase/${props.purchase.id}`)}>
+    <tr onClick={() => navigate(`/expert/${props.expert.id}`)}>
       <td>{props.i + 1}</td>
       <td className="text-center">{props.expert.authorized ? <PersonFill className="my-violet" /> : <LockFill className="my-red" /> }</td>
       <td>{props.expert.firstName + " " + props.expert.lastName}</td>
