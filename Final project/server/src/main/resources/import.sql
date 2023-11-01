@@ -1318,10 +1318,14 @@ INSERT INTO experts (id, email, first_name, last_name, authorized) VALUES ('matt
 INSERT INTO experts (id, email, first_name, last_name, authorized) VALUES ('steven_rotterdam_12@mail.com', 'steven_rotterdam_12@mail.com', 'Steven', 'Rotterdam', false);
 INSERT INTO experts (id, email, first_name, last_name, authorized) VALUES ('expert1@products.com', 'expert1@products.com', 'Expert1', 'Expert1', true);
 
-INSERT INTO experts_specializations(id, name, expert_id) VALUES (1, 'Computers', 'joe_pesci_12@mail.com');
-INSERT INTO experts_specializations(id, name, expert_id) VALUES (2, 'Home appliances', 'john_demon_12@mail.com');
-INSERT INTO experts_specializations(id, name, expert_id) VALUES (1, 'Computers', 'expert1@products.com');
-INSERT INTO experts_specializations(id, name, expert_id) VALUES (2, 'Home appliances', 'expert1@products.com');
+INSERT INTO experts_specializations(id, name, expert_id) VALUES (1001, 'Computers', 'joe_pesci_12@mail.com');
+INSERT INTO experts_specializations(id, name, expert_id) VALUES (1002, 'Smartphones', 'joe_pesci_12@mail.com');
+INSERT INTO experts_specializations(id, name, expert_id) VALUES (1003, 'Home appliances', 'john_demon_12@mail.com');
+INSERT INTO experts_specializations(id, name, expert_id) VALUES (1004, 'Computers', 'matt_kerr_12@mail.com');
+INSERT INTO experts_specializations(id, name, expert_id) VALUES (1005, 'Smartphones', 'steven_rotterdam_12@mail.com');
+INSERT INTO experts_specializations(id, name, expert_id) VALUES (1006, 'Computers', 'expert1@products.com');
+INSERT INTO experts_specializations(id, name, expert_id) VALUES (1007, 'Smartphones', 'expert1@products.com');
+INSERT INTO experts_specializations(id, name, expert_id) VALUES (1008, 'Home appliances', 'expert1@products.com');
 
 INSERT INTO managers (id, email, first_name, last_name) VALUES ('james_lucy_13@mail.com', 'james_lucy_13@mail.com', 'James', 'Lucy');
 INSERT INTO managers (id, email, first_name, last_name) VALUES ('eric_gordon_13@mail.com', 'eric_gordon_13@mail.com', 'Eric', 'Gordon');
@@ -1341,12 +1345,12 @@ INSERT INTO purchases (id, date_of_purchase, status, customer_id, product_ean) V
 INSERT INTO purchases (id, date_of_purchase, status, customer_id, product_ean) VALUES (1010, '2020-08-31', 2, 'customer1@products.com', '5052746203592');
 INSERT INTO purchases (id, date_of_purchase, status, customer_id, product_ean) VALUES (1011, '2021-07-22', 3, 'customer1@products.com', '8712725728528');
 
-INSERT INTO tickets(id, description, priority_level, ticket_status, title, expert_id, purchase_id) VALUES (1001, 'Description Ticket 1', 1, 0, 'Ticket 1', 'joe_pesci_12@mail.com', 1001);
-INSERT INTO tickets(id, description, priority_level, ticket_status, title, expert_id, purchase_id) VALUES (1002, 'Description Ticket 2', 1, 0, 'Ticket 2', 'john_demon_12@mail.com', 1003);
-INSERT INTO tickets(id, description, priority_level, ticket_status, title, expert_id, purchase_id) VALUES (1003, 'Description Ticket 3', 1, 0, 'Ticket 3', 'john_demon_12@mail.com', 1002);
+INSERT INTO tickets(id, description, priority_level, ticket_status, title, expert_id, purchase_id) VALUES (1001, 'Description Ticket 1', 1, 2, 'Ticket 1', 'joe_pesci_12@mail.com', 1001);
+INSERT INTO tickets(id, description, priority_level, ticket_status, title, expert_id, purchase_id) VALUES (1002, 'Description Ticket 2', 1, 3, 'Ticket 2', 'expert1@products.com', 1003);
+INSERT INTO tickets(id, description, priority_level, ticket_status, title, expert_id, purchase_id) VALUES (1003, 'Description Ticket 3', 1, 2, 'Ticket 3', 'expert1@products.com', 1002);
 INSERT INTO tickets(id, description, priority_level, ticket_status, title, expert_id, purchase_id) VALUES (1004, 'Description Ticket 4', 1, 0, 'Ticket 4', 'matt_kerr_12@mail.com', 1004);
 INSERT INTO tickets(id, description, priority_level, ticket_status, title, expert_id, purchase_id) VALUES (1005, 'Description Ticket 5', 1, 0, 'Ticket 5', 'expert1@products.com', 1008);
-INSERT INTO tickets(id, description, priority_level, ticket_status, title, expert_id, purchase_id) VALUES (1006, 'Description Ticket 6', 2, 0, 'Ticket 6', 'expert1@products.com', 1009);
+INSERT INTO tickets(id, description, priority_level, ticket_status, title, expert_id, purchase_id) VALUES (1006, 'Description Ticket 6', 2, 1, 'Ticket 6', 'expert1@products.com', 1009);
 
 INSERT INTO chats(id, closed, ticket_id) VALUES (1001, false, 1005);
 UPDATE tickets SET chat_id = 1001 WHERE id = 1005;
@@ -1360,3 +1364,6 @@ INSERT INTO logs(id, new_ticket_status, previous_ticket_status, time, ticket_id)
 INSERT INTO logs(id, new_ticket_status, previous_ticket_status, time, ticket_id) VALUES (1003, 1, 0, '2023-05-10T12:13:09.157827400Z', 1002);
 INSERT INTO logs(id, new_ticket_status, previous_ticket_status, time, ticket_id) VALUES (1004, 2, 1, '2023-05-10T16:13:09.157827400Z', 1002);
 INSERT INTO logs(id, new_ticket_status, previous_ticket_status, time, ticket_id) VALUES (1005, 3, 2, '2023-05-11T17:13:09.157827400Z', 1002);
+INSERT INTO logs(id, new_ticket_status, previous_ticket_status, time, ticket_id) VALUES (1006, 1, 0, '2023-11-11T13:27:09.157827400Z', 1003);
+INSERT INTO logs(id, new_ticket_status, previous_ticket_status, time, ticket_id) VALUES (1007, 2, 1, '2023-11-11T13:47:09.157827400Z', 1003);
+INSERT INTO logs(id, new_ticket_status, previous_ticket_status, time, ticket_id) VALUES (1008, 1, 0, '2023-11-11T12:27:09.157827400Z', 1006);
