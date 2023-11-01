@@ -3,6 +3,7 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { Row, Col, Button, Card, Form, Modal, FloatingLabel } from 'react-bootstrap';
 import API from '../API';
 import TicketsList from '../customer/TicketsList';
+import ExpertLogSection from './ExpertLogSection';
 const dayjs = require('dayjs');
 
 function ExpertProfilePage(props) {
@@ -64,27 +65,17 @@ function ExpertProfilePage(props) {
 
         <Row className='bottom-border'>
           <h2>Assigned tickets</h2>
-          <TicketsList tickets={tickets} role='manager' />
         </Row>
 
         <Row>
-          <LogSection expertId={expert.id} setDirty={setDirty} />
+          <TicketsList tickets={tickets}  />
+        </Row>
+
+        <Row>
+          <ExpertLogSection expertId={expertId} />
         </Row>
       </Col>
     </Row>
-  );
-}
-
-function LogSection(props) {
-  return (
-    <>
-      <Row className='bottom-border'>
-        <Col><h2>Logs</h2></Col>
-      </Row>
-
-      <Row className='messages-section'>
-      </Row>
-    </>
   );
 }
 

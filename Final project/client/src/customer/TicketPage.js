@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { Row, Col, Button, Card, Form, Modal, FloatingLabel } from 'react-bootstrap';
-import TicketLogSection from '../manager/LogSection';
+import TicketLogSection from '../manager/TicketLogSection';
 import './TicketPage.css';
 import API from '../API';
 const dayjs = require('dayjs');
