@@ -91,7 +91,7 @@ function NewPurchaseForm(props) {
 
   return (
     <>
-      <Modal size='lg' show={showModal} onHide={() => setShowModal(false)}>
+      <Modal className='modal-fixed-height' size='lg' show={showModal} onHide={() => setShowModal(false)}>
         <Modal.Header closeButton>
           <Modal.Title>Select a product</Modal.Title>
         </Modal.Header>
@@ -102,7 +102,7 @@ function NewPurchaseForm(props) {
             </FloatingLabel>
           </Form>
         </Modal.Header>
-        <Modal.Body>
+        <Modal.Body className='modal-body-overflow'>
           {products
             .sort((a, b) => a.ean - b.ean)
             .filter(p => p.ean.toLowerCase().includes(searchText) || p.name.toLowerCase().includes(searchText) || p.brand.toLowerCase().includes(searchText))
@@ -124,7 +124,7 @@ function NewPurchaseForm(props) {
                 <Row>
                   <Col>
                     <FloatingLabel controlId="floatingInput" label="Product">
-                      <Form.Control type='text' value={selectedProduct.name + ' - ' + selectedProduct.brand} readOnly />
+                      <Form.Control type='text' value={selectedProduct.name + ' - ' + selectedProduct.brand} disabled readOnly />
                     </FloatingLabel>
                   </Col>
                   <Col sm={2}><Button onClick={() => setShowModal(true)}>Select a product</Button></Col>
@@ -156,12 +156,12 @@ function ProductListItem(props) {
   return (
     <Card
       key={props.product.ean}
-      className={(props.selectedProduct?.ean === props.product?.ean) ? 'selected' : ''}
+      className={(props.selectedProduct?.ean === props.product?.ean) ? 'card-w-100 selected' : 'card-w-100'}
       onClick={() => props.setSelectedProduct(props.product)}>
       <Card.Body>
-        <p className='grey'>EAN: {props.product.ean}</p>
-        <p>{props.product.name}</p>
-        <p className='grey'>Brand: {props.product.brand}</p>
+        <p className='p-mt grey'>EAN: {props.product.ean}</p>
+        <p className='p-mt'>{props.product.name}</p>
+        <p className='p-mt grey'>Brand: {props.product.brand}</p>
       </Card.Body>
     </Card>
   );

@@ -1,8 +1,8 @@
-.modal-content {
+.modal-fixed-height > .modal-dialog > .modal-content {
 	height: 90vh;
 }
 
-.modal-body {
+.modal-body-overflow {
 	overflow-y: auto;
 	padding-left: 30px;
 	padding-right: 30px;
@@ -12,21 +12,21 @@
 	width: 70% !important;
 }
 
-.card {
+.card-w-100 {
 	width: 100%;
 	max-width: 100%;
 }
 
-.card:hover {
+.card-w-100:hover {
 	cursor: pointer;
 	background-color: rgba(238, 119, 36, 0.1);
 }
 
-.card.selected {
+.card-w-100.selected {
 	background-color: rgb(238, 119, 36, 0.4);
 }
 
-p {
+.p-mt {
 	margin-top: 6px;
 	margin-bottom: 6px;
 }
