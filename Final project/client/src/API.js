@@ -188,7 +188,7 @@ function insertPurchase(purchase) {
             })
         }).then((response) => {
             if (response.ok)
-                resolve(null);
+                resolve(response.json());
             else {
                 // analyze the cause of error
                 response.json()
@@ -378,7 +378,7 @@ function createTicket(ticket) {
             })
         }).then((response) => {
             if (response.ok)
-                resolve(null);
+                resolve(response.json());
             else {
                 // analyze the cause of error
                 response.json()

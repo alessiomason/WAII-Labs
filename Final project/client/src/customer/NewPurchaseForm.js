@@ -42,10 +42,13 @@ function NewPurchaseForm(props) {
       dateOfPurchase: newDateOfPurchase
     }
 
-    API.insertPurchase(purchase).then(() => {
+    API.insertPurchase(purchase)
+    .then(insertedPurchase => {
       props.setDirty(true);
-      setSaveMsg('The purchase has been inserted.')
-    }).catch(err => {
+      setSaveMsg('The purchase has been inserted.');
+      navigate('/purchase/' + insertedPurchase.id);
+    })
+    .catch(err => {
       props.handleError(err);
       setSaveMsg('Error during the insertion of the purchase.')
     });
@@ -62,11 +65,13 @@ function NewPurchaseForm(props) {
         setPhone(p.phone);
         setErrorMsg('');
       }).catch(err => props.handleError(err));
+
     API.getProducts()
       .then((p) => {
         setProducts(p);
         setErrorMsg('');
       }).catch(err => props.handleError(err));
+
     const profile = {
       id: id,
       email: email,

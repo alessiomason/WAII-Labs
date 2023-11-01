@@ -39,15 +39,17 @@ function FormCreateTicket(props) {
       purchase: purchase
     }
 
-    API.createTicket(newTicket).then( () => {
+    API.createTicket(newTicket)
+    .then(createdTicket => {
       setDirty(true);
       props.setDirty(true);
-      setSaveMsg('The ticket has been created.')
-    }).catch(err => {
+      setSaveMsg('The ticket has been created.');
+      navigate('/ticket/' + createdTicket.id);
+    })
+    .catch(err => {
       props.handleError(err);
       setSaveMsg('Error during the creation of the ticket.')
     });
-    navigate('/');
   }
 
   return (
