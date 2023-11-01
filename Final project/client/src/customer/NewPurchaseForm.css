@@ -1,0 +1,37 @@
+.modal-content {
+	height: 90vh;
+}
+
+.modal-body {
+	overflow-y: auto;
+	padding-left: 30px;
+	padding-right: 30px;
+}
+
+.w-70 {
+	width: 70% !important;
+}
+
+.card {
+	width: 100%;
+	max-width: 100%;
+}
+
+.card:hover {
+	cursor: pointer;
+	background-color: rgba(238, 119, 36, 0.1);
+}
+
+.card.selected {
+	background-color: rgb(238, 119, 36, 0.4);
+}
+
+p {
+	margin-top: 6px;
+	margin-bottom: 6px;
+}
+
+.grey {
+	font-size: small;
+	color: grey;
+}

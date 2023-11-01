@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import {Row, Col, Button, Modal, Form, FloatingLabel} from 'react-bootstrap';
+import { Row, Col, Button, Modal, Form, FloatingLabel } from 'react-bootstrap';
 import TicketsList from './TicketsList';
 import './PurchasePage.css';
 import './TicketPage.css';
@@ -18,8 +18,8 @@ function PurchasePage(props) {
   const [showWarrantyModal, setShowWarrantyModal] = useState(false);
   const [dateOfPurchase, setDateOfPurchase] = useState('');
   const [showModal, setShowModal] = useState(false);
-  const [purchaseStatus, setPurchaseStatus]=useState(0);
-  const [statusChangePermitted, setStatusChangePermitted]=useState([]);
+  const [purchaseStatus, setPurchaseStatus] = useState(0);
+  const [statusChangePermitted, setStatusChangePermitted] = useState([]);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -56,11 +56,11 @@ function PurchasePage(props) {
 
   function changePurchaseStatus() {
     const newPurchaseStatus = purchaseStatus ? purchaseStatus : "0";
-    API.editPurchase(purchaseId, newPurchaseStatus).then(()=> {
+    API.editPurchase(purchaseId, newPurchaseStatus).then(() => {
       setShowModal(false);
       setDirty(true);
       props.setDirty(true);
-    }).catch(err=>console.log(err))
+    }).catch(err => console.log(err))
     setShowModal(false);
   }
 
@@ -73,7 +73,7 @@ function PurchasePage(props) {
         <Modal.Body>
           <Form>
             <FloatingLabel controlId="floatingSelect" label="Mark the purchase as:">
-              <Form.Select onChange={ev=>{setPurchaseStatus(ev.target.value)}}>
+              <Form.Select onChange={ev => { setPurchaseStatus(ev.target.value) }}>
                 <option key="0" value="0">PREPARING</option>
                 <option key="1" value="1">SHIPPED</option>
                 <option key="2" value="2">DELIVERED</option>
