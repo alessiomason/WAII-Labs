@@ -1340,10 +1340,12 @@ INSERT INTO purchases (id, date_of_purchase, status, customer_id, product_ean) V
 INSERT INTO purchases (id, date_of_purchase, status, customer_id, product_ean) VALUES (1005, '2023-08-28', 0, 'meastlake1j@gizmodo.com', '5052746203592');
 INSERT INTO purchases (id, date_of_purchase, status, customer_id, product_ean) VALUES (1006, '2023-08-28', 0, 'mfoxleym@hp.com', '6932799000098');
 INSERT INTO purchases (id, date_of_purchase, status, customer_id, product_ean) VALUES (1007, '2023-09-18', 0, 'customer1@products.com', '6932799000098');
-INSERT INTO purchases (id, date_of_purchase, status, customer_id, product_ean) VALUES (1008, '2023-09-15', 0, 'customer1@products.com', '3532041192835');
+INSERT INTO purchases (id, date_of_purchase, status, customer_id, product_ean) VALUES (1008, '2023-09-15', 0, 'customer1@products.com', '5055977488271');
 INSERT INTO purchases (id, date_of_purchase, status, customer_id, product_ean) VALUES (1009, '2023-09-01', 1, 'customer1@products.com', '5711045610646');
 INSERT INTO purchases (id, date_of_purchase, status, customer_id, product_ean) VALUES (1010, '2020-08-31', 2, 'customer1@products.com', '5052746203592');
 INSERT INTO purchases (id, date_of_purchase, status, customer_id, product_ean) VALUES (1011, '2021-07-22', 3, 'customer1@products.com', '8712725728528');
+INSERT INTO purchases (id, date_of_purchase, status, customer_id, product_ean) VALUES (1012, '2021-05-27', 3, 'customer1@products.com', '7108176263977');
+INSERT INTO purchases (id, date_of_purchase, status, customer_id, product_ean) VALUES (1013, '2021-05-22', 3, 'customer1@products.com', '4894817191725');
 
 INSERT INTO tickets(id, description, priority_level, ticket_status, title, expert_id, purchase_id) VALUES (1001, 'Description Ticket 1', 1, 2, 'Ticket 1', 'joe_pesci_12@mail.com', 1001);
 INSERT INTO tickets(id, description, priority_level, ticket_status, title, expert_id, purchase_id) VALUES (1002, 'Description Ticket 2', 1, 3, 'Ticket 2', 'expert1@products.com', 1003);
@@ -1351,6 +1353,10 @@ INSERT INTO tickets(id, description, priority_level, ticket_status, title, exper
 INSERT INTO tickets(id, description, priority_level, ticket_status, title, expert_id, purchase_id) VALUES (1004, 'Description Ticket 4', 1, 0, 'Ticket 4', 'matt_kerr_12@mail.com', 1004);
 INSERT INTO tickets(id, description, priority_level, ticket_status, title, expert_id, purchase_id) VALUES (1005, 'Description Ticket 5', 1, 0, 'Ticket 5', 'expert1@products.com', 1008);
 INSERT INTO tickets(id, description, priority_level, ticket_status, title, expert_id, purchase_id) VALUES (1006, 'Description Ticket 6', 2, 1, 'Ticket 6', 'expert1@products.com', 1009);
+INSERT INTO tickets(id, description, priority_level, ticket_status, title, expert_id, purchase_id) VALUES (1007, 'Description Ticket 7', 1, 2, 'Ticket 7', 'expert1@products.com', 1012);
+INSERT INTO tickets(id, description, priority_level, ticket_status, title, expert_id, purchase_id) VALUES (1008, 'Description Ticket 8', 2, 2, 'Ticket 8', 'expert1@products.com', 1013);
+INSERT INTO tickets(id, description, priority_level, ticket_status, title, expert_id, purchase_id) VALUES (1009, 'Description Ticket 9', 1, 0, 'Ticket 9', 'joe_pesci_12@mail.com', 1005);
+INSERT INTO tickets(id, description, priority_level, ticket_status, title, expert_id, purchase_id) VALUES (1010, 'Description Ticket 10', 1, 0, 'Ticket 10', 'expert1@products.com', 1006);
 
 INSERT INTO chats(id, closed, ticket_id) VALUES (1001, false, 1005);
 UPDATE tickets SET chat_id = 1001 WHERE id = 1005;
@@ -1367,3 +1373,6 @@ INSERT INTO logs(id, new_ticket_status, previous_ticket_status, time, ticket_id)
 INSERT INTO logs(id, new_ticket_status, previous_ticket_status, time, ticket_id) VALUES (1006, 1, 0, '2023-11-11T13:27:09.157827400Z', 1003);
 INSERT INTO logs(id, new_ticket_status, previous_ticket_status, time, ticket_id) VALUES (1007, 2, 1, '2023-11-11T13:47:09.157827400Z', 1003);
 INSERT INTO logs(id, new_ticket_status, previous_ticket_status, time, ticket_id) VALUES (1008, 1, 0, '2023-11-11T12:27:09.157827400Z', 1006);
+INSERT INTO logs(id, new_ticket_status, previous_ticket_status, time, ticket_id) VALUES (1009, 2, 0, '2021-05-28T12:27:09.157827400Z', 1007);
+INSERT INTO logs(id, new_ticket_status, previous_ticket_status, time, ticket_id) VALUES (1010, 1, 0, '2021-05-28T12:27:09.157827400Z', 1008);
+INSERT INTO logs(id, new_ticket_status, previous_ticket_status, time, ticket_id) VALUES (1011, 2, 1, '2021-05-28T14:27:09.157827400Z', 1008);
