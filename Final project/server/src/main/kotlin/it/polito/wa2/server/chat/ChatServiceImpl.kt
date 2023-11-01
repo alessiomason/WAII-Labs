@@ -3,6 +3,7 @@ package it.polito.wa2.server.chat
 import it.polito.wa2.server.customers.PersonRepository
 import it.polito.wa2.server.exceptions.*
 import it.polito.wa2.server.tickets.TicketRepository
+import it.polito.wa2.server.tickets.TicketStatus
 import jakarta.validation.constraints.Email
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Service
@@ -30,6 +31,8 @@ class ChatServiceImpl(
         val ticket = ticketRepository.findByIdOrNull(ticketId) ?: throw TicketNotFoundException()
         if (ticket.chat == null) throw ChatNotFoundException()
         if (ticket.chat!!.closed) throw ChatClosedException()
+        if (ticket.ticketStatus == TicketStatus.CLOSED || ticket.ticketStatus == TicketStatus.RESOLVED)
+            throw ChatClosedException()
 
         val from = personRepository.findByEmail(email) ?: throw ProfileNotFoundException()
         val time = ZonedDateTime.now()

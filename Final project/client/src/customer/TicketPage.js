@@ -211,7 +211,7 @@ function TicketPage(props) {
           </Row>
 
           <Row>
-            <ChatSection ticketId={ticket.id} chat={ticket.chat} userId={props.userId} email={props.email} setDirty={setDirty} />
+            <ChatSection ticketId={ticket.id} ticketStatus={ticket.ticketStatus} chat={ticket.chat} userId={props.userId} email={props.email} setDirty={setDirty} />
           </Row>
 
           <Row>
@@ -233,13 +233,13 @@ function ChatSection(props) {
   return (
     <>
       <Row className='bottom-border'>
-        <Col><h2>Chat{props.chat?.closed && ' (closed)'}</h2></Col>
-        <Col className='d-flex justify-content-end'>{!props.chat && <Button onClick={openChat}>Open new chat</Button>}</Col>
+        <Col><h2>Chat{(props.chat?.closed || props.chat && (props.ticketStatus === 'CLOSED' || props.ticketStatus === 'RESOLVED')) && ' (closed)'}</h2></Col>
+        <Col className='d-flex justify-content-end'>{!props.chat && props.ticketStatus !== 'CLOSED' && !props.ticketStatus !== 'RESOLVED' && <Button onClick={openChat}>Open new chat</Button>}</Col>
       </Row>
 
       <Row className='messages-section'>
         {props.chat?.messages.map(message => <MessageBox key={message.id} message={message} userId={props.userId} email={props.email} />)}
-        {props.chat && !props.chat.closed && <SendMessageBox ticketId={props.ticketId} setDirty={props.setDirty} />}
+        {props.chat && !props.chat.closed && props.ticketStatus !== 'CLOSED' && !props.ticketStatus !== 'RESOLVED' && <SendMessageBox ticketId={props.ticketId} setDirty={props.setDirty} />}
       </Row>
     </>
   );
