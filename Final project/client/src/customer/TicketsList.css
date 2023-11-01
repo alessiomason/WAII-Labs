@@ -17,9 +17,13 @@ tr {
 	border-color: rgb(238, 119, 36, 0.1);
 }
 
-tbody tr:hover {
+tbody:not(.not-hoverable) tr:hover {
 	background-color: rgb(238, 119, 36, 0.4);
 	cursor: pointer;
+}
+
+td {
+	vertical-align: middle;
 }
 
 .person {

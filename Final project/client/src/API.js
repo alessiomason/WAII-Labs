@@ -192,8 +192,8 @@ function insertPurchase(purchase) {
             else {
                 // analyze the cause of error
                 response.json()
-                  .then((message) => { reject(message); }) // error message in the response body
-                  .catch(() => { reject({ error: "Cannot parse server response." }) }); // something else
+                    .then((message) => { reject(message); }) // error message in the response body
+                    .catch(() => { reject({ error: "Cannot parse server response." }) }); // something else
             }
         }).catch(() => { reject({ error: "Cannot communicate with the server." }) }); // connection errors
     });
@@ -382,8 +382,8 @@ function createTicket(ticket) {
             else {
                 // analyze the cause of error
                 response.json()
-                  .then((message) => { reject(message); }) // error message in the response body
-                  .catch(() => { reject({ error: "Cannot parse server response." }) }); // something else
+                    .then((message) => { reject(message); }) // error message in the response body
+                    .catch(() => { reject({ error: "Cannot parse server response." }) }); // something else
             }
         }).catch(() => { reject({ error: "Cannot communicate with the server." }) }); // connection errors
     });
@@ -415,8 +415,8 @@ function editTicket(editedTicket) {
             else {
                 // analyze the cause of error
                 response.json()
-                  .then((message) => { reject(message); }) // error message in the response body
-                  .catch(() => { reject({ error: "Cannot parse server response." }) }); // something else
+                    .then((message) => { reject(message); }) // error message in the response body
+                    .catch(() => { reject({ error: "Cannot parse server response." }) }); // something else
             }
         }).catch(() => { reject({ error: "Cannot communicate with the server." }) }); // connection errors
     });
@@ -439,8 +439,8 @@ function editPurchase(purchaseId, newPurchaseStatus) {
             else {
                 // analyze the cause of error
                 response.json()
-                  .then((message) => { reject(message); }) // error message in the response body
-                  .catch(() => { reject({ error: "Cannot parse server response." }) }); // something else
+                    .then((message) => { reject(message); }) // error message in the response body
+                    .catch(() => { reject({ error: "Cannot parse server response." }) }); // something else
             }
         }).catch(() => { reject({ error: "Cannot communicate with the server." }) }); // connection errors
     });
@@ -472,8 +472,8 @@ function assignExpert(ticket, selectedExpert) {
             else {
                 // analyze the cause of error
                 response.json()
-                  .then((message) => { reject(message); }) // error message in the response body
-                  .catch(() => { reject({ error: "Cannot parse server response." }) }); // something else
+                    .then((message) => { reject(message); }) // error message in the response body
+                    .catch(() => { reject({ error: "Cannot parse server response." }) }); // something else
             }
         }).catch(() => { reject({ error: "Cannot communicate with the server." }) }); // connection errors
     });
@@ -675,8 +675,8 @@ function editExpert(editedProfile) {
             else {
                 // analyze the cause of error
                 response.json()
-                  .then((message) => { reject(message); }) // error message in the response body
-                  .catch(() => { reject({ error: "Cannot parse server response." }) }); // something else
+                    .then((message) => { reject(message); }) // error message in the response body
+                    .catch(() => { reject({ error: "Cannot parse server response." }) }); // something else
             }
         }).catch(() => { reject({ error: "Cannot communicate with the server." }) }); // connection errors
     });
@@ -702,8 +702,8 @@ function removeSpecialization(specialization) {
             } else {
                 // analyze the cause of error
                 response.json()
-                  .then((message) => { reject(message); }) // error message in the response body
-                  .catch(() => { reject({ error: "Cannot parse server response." }) }); // something else
+                    .then((message) => { reject(message); }) // error message in the response body
+                    .catch(() => { reject({ error: "Cannot parse server response." }) }); // something else
             }
         }).catch(() => { reject({ error: "Cannot communicate with the server." }) }); // connection errors
     });
@@ -726,8 +726,8 @@ function addSpecialization(expertId, specializationName) {
             else {
                 // analyze the cause of error
                 response.json()
-                  .then((message) => { reject(message); }) // error message in the response body
-                  .catch(() => { reject({ error: "Cannot parse server response." }) }); // something else
+                    .then((message) => { reject(message); }) // error message in the response body
+                    .catch(() => { reject({ error: "Cannot parse server response." }) }); // something else
             }
         }).catch(() => { reject({ error: "Cannot communicate with the server." }) }); // connection errors
     });
@@ -787,11 +787,51 @@ function editManager(editedProfile) {
             else {
                 // analyze the cause of error
                 response.json()
-                  .then((message) => { reject(message); }) // error message in the response body
-                  .catch(() => { reject({ error: "Cannot parse server response." }) }); // something else
+                    .then((message) => { reject(message); }) // error message in the response body
+                    .catch(() => { reject({ error: "Cannot parse server response." }) }); // something else
             }
         }).catch(() => { reject({ error: "Cannot communicate with the server." }) }); // connection errors
     });
+}
+
+async function getLogsByTicket(ticketId) {
+    const accessToken = localStorage.getItem('accessToken');
+
+    // call /API/logs/ticket/:ticketId
+    const response = await fetch(new URL('logs/ticket/' + ticketId, APIURL), {
+        headers: { 'Authorization': `Bearer ${accessToken}` },
+    });
+
+    const logs = await response.json();
+    if (response.ok)
+        return logs.map((log) => ({
+            id: log.id,
+            previousTicketStatus: log.previousTicketStatus,
+            newTicketStatus: log.newTicketStatus,
+            time: log.time,
+            ticket: log.ticket
+        }))
+    else throw logs;
+}
+
+async function getLogsByExpert(expertId) {
+    const accessToken = localStorage.getItem('accessToken');
+
+    // call /API/logs/expert/:expertId
+    const response = await fetch(new URL('logs/expert/' + expertId, APIURL), {
+        headers: { 'Authorization': `Bearer ${accessToken}` },
+    });
+
+    const logs = await response.json();
+    if (response.ok)
+        return logs.map((log) => ({
+            id: log.id,
+            previousTicketStatus: log.previousTicketStatus,
+            newTicketStatus: log.newTicketStatus,
+            time: log.time,
+            ticket: log.ticket
+        }))
+    else throw logs;
 }
 
 const API = {
@@ -826,7 +866,9 @@ const API = {
     getManagerById,
     getManagerByEmail,
     editManager,
-    assignExpert
+    assignExpert,
+    getLogsByTicket,
+    getLogsByExpert
 };
 
 export default API;

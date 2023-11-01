@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { Row, Col, Button, Card, Form, Modal, FloatingLabel } from 'react-bootstrap';
+import TicketLogSection from '../manager/LogSection';
 import './TicketPage.css';
 import API from '../API';
 const dayjs = require('dayjs');
@@ -16,8 +17,8 @@ function TicketPage(props) {
   const [experts, setExperts] = useState(null);
   const [expertId, setExpertId] = useState();
   const [selectedExpert, setSelectedExpert] = useState(null);
-  const [statusChangePermitted,setStatusChangePermitted]=useState([])
-  const [ticketStatus,setTicketStatus]=useState(null);
+  const [statusChangePermitted, setStatusChangePermitted] = useState([])
+  const [ticketStatus, setTicketStatus] = useState(null);
 
   const TicketStatus = {
     OPEN: 'OPEN',
@@ -52,10 +53,10 @@ function TicketPage(props) {
           }
           API.getExperts()
             .then(experts => {
-                setExperts(experts);
-              }
+              setExperts(experts);
+            }
             )
-            .catch(err=>console.log(err))
+            .catch(err => console.log(err))
         })
         .catch(err => console.log(err))
     }
@@ -74,26 +75,26 @@ function TicketPage(props) {
   function changeTicketStatus() {
     let newTicket = ticket;
     newTicket.ticketStatus = ticketStatus ? ticketStatus : statusChangePermitted[0];
-    API.editTicket(newTicket).then(()=> {
+    API.editTicket(newTicket).then(() => {
       setShowModalExperts(false);
       props.setDirty(true);
       setDirty(true);
-    }).catch(err=>console.log(err))
+    }).catch(err => console.log(err))
     setShowModal(false);
   }
 
-  function confirmExpert(){
+  function confirmExpert() {
     let obj = selectedExpert
-    if(obj == null) {
+    if (obj == null) {
       obj = experts[0]
       setSelectedExpert(experts[0])
     }
-    API.assignExpert(ticket,obj)
-      .then(()=> {
+    API.assignExpert(ticket, obj)
+      .then(() => {
         setShowModalExperts(false);
         props.setDirty(true);
         setDirty(true);
-        }).catch(err=>console.log(err))
+      }).catch(err => console.log(err))
   }
 
   return (
@@ -105,12 +106,12 @@ function TicketPage(props) {
         <Modal.Body>
           <Form>
             <FloatingLabel controlId="floatingSelect" label="Mark the ticket as:">
-              <Form.Select onChange={ev=>{setTicketStatus(ev.target.value)}}>
-              {statusChangePermitted ? statusChangePermitted.map((item) => (
-                <option key={item} value={item}>
-                  {item}
-                </option>
-              )) : null}
+              <Form.Select onChange={ev => { setTicketStatus(ev.target.value) }}>
+                {statusChangePermitted ? statusChangePermitted.map((item) => (
+                  <option key={item} value={item}>
+                    {item}
+                  </option>
+                )) : null}
               </Form.Select>
             </FloatingLabel>
           </Form>
@@ -126,13 +127,13 @@ function TicketPage(props) {
         <Modal.Body>
           <Form>
             <FloatingLabel controlId="floatingSelect" label="Choose expert">
-              <Form.Select value={expertId} onChange={e => { setExpertId(e.target.value); setSelectedExpert(experts.filter(expert => expert.id === e.target.value)[0])} }>
+              <Form.Select value={expertId} onChange={e => { setExpertId(e.target.value); setSelectedExpert(experts.filter(expert => expert.id === e.target.value)[0]) }}>
                 {experts ? experts.map((item) => (
                   <option key={item.id} value={item.id}>
                     {item.firstName + " " + item.lastName}
                     {item.specializations.length !== 0 && (
                       item.specializations.map((specialization, specIndex) => (
-                        <span key={specIndex}>{" | "+specialization.name}</span>
+                        <span key={specIndex}>{" | " + specialization.name}</span>
                       )))
                     }
                   </option>
@@ -153,8 +154,8 @@ function TicketPage(props) {
             <Col className='d-flex justify-content-end'>
               <Button onClick={() => navigate('/purchase/' + ticket.purchase?.id)}>View purchase</Button>
               {ticket.ticketStatus && props.role === 'expert' && <Button onClick={() => setShowModal(true)}>Change ticket status</Button>}
-              {!ticket.expert && props.role === 'manager' && <Button onClick={()=>setShowModalExperts(true)}>Assign expert</Button>}
-              </Col>
+              {!ticket.expert && props.role === 'manager' && <Button onClick={() => setShowModalExperts(true)}>Assign expert</Button>}
+            </Col>
           </Row>
           <Row>
             <Col xs={3} className='header-column'><h5 className='text-end'>Ticket description</h5></Col>
@@ -192,6 +193,10 @@ function TicketPage(props) {
 
           <Row>
             <ChatSection ticketId={ticket.id} chat={ticket.chat} email={props.email} setDirty={setDirty} />
+          </Row>
+
+          <Row>
+            <TicketLogSection ticketId={ticketId} />
           </Row>
         </Col>
       </Row>
