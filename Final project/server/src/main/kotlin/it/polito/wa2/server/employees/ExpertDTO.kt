@@ -6,6 +6,7 @@ data class ExpertDTO(
     override val id: String,
     override val firstName: String,
     override val lastName: String,
+    val authorized: Boolean,
     val specializations: List<ExpertSpecializationDTO>,
     val ticketIds: List<Int>
     // only the ids of the corresponding tickets are returned, to avoid an infinite loop of conversions to DTO
@@ -16,5 +17,5 @@ data class AuthorizedDTO(
 )
 
 fun Expert.toExpertDTO(): ExpertDTO {
-    return ExpertDTO(id, firstName, lastName, specializations.map { it.toDTO() }, tickets.map { it.id })
+    return ExpertDTO(id, firstName, lastName, authorized, specializations.map { it.toDTO() }, tickets.map { it.id })
 }

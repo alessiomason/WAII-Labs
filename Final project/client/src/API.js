@@ -242,6 +242,7 @@ async function getExperts() {
             id: expert.id,
             firstName: expert.firstName,
             lastName: expert.lastName,
+            authorized: expert.authorized,
             specializations: expert.specializations,
             ticketIds: expert.ticketIds
         }))
@@ -261,6 +262,7 @@ async function getExpertById(expertId) {
             id: expert.id,
             firstName: expert.firstName,
             lastName: expert.lastName,
+            authorized: expert.authorized,
             specializations: expert.specializations,
             ticketIds: expert.ticketIds
         });
@@ -279,10 +281,40 @@ async function getExpertByEmail(email) {
             id: expert.id,
             firstName: expert.firstName,
             lastName: expert.lastName,
+            authorized: expert.authorized,
             specializations: expert.specializations,
             ticketIds: expert.ticketIds
         });
     else throw expert;
+}
+
+function authorizeExpert(expertId, authorized) {
+    const accessToken = localStorage.getItem('accessToken');
+
+    // call: PATCH /API/experts/:id/authorize
+    return new Promise((resolve, reject) => {
+        fetch(new URL(`experts/${expertId}/authorize`, APIURL), {
+            method: 'PATCH',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${accessToken}`
+            },
+
+            body: JSON.stringify({
+                authorized: authorized
+            }),
+
+        }).then((response) => {
+            if (response.ok)
+                resolve(null);
+            else {
+                // analyze the cause of error
+                response.json()
+                    .then((message) => { reject(message); }) // error message in the response body
+                    .catch(() => { reject({ error: "Cannot parse server response." }) }); // something else
+            }
+        }).catch(() => { reject({ error: "Cannot communicate with the server." }) }); // connection errors
+    });
 }
 
 async function getTickets() {
@@ -774,6 +806,7 @@ const API = {
     getExperts,
     getExpertById,
     getExpertByEmail,
+    authorizeExpert,
     getTickets,
     getTicketById,
     createTicket,

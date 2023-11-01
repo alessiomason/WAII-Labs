@@ -51,6 +51,14 @@ function ManagerHomePage(props) {
 }
 
 function ExpertsList(props) {
+function compareExperts(expertA, expertB) {
+  const authorizedFirst = expertB.authorized - expertA.authorized;
+  if (authorizedFirst !== 0)
+    return authorizedFirst;
+
+  return `${expertA.firstName} ${expertA.lastName}`.localeCompare(`${expertB.firstName} ${expertB.lastName}`)
+}
+
   return (
     <Table striped>
       <thead>
@@ -62,7 +70,7 @@ function ExpertsList(props) {
         </tr>
       </thead>
       <tbody>
-        {props.experts.map((expert, i) => {
+        {props.experts.sort(compareExperts).map((expert, i) => {
           return (<ExpertsListItem key={expert.id} i={i} expert={expert} />);
         })}
       </tbody>
