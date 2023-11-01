@@ -172,6 +172,9 @@ function FormModifyProfile(props) {
                           <Form.Control type="tel" placeholder="Enter phone number" value={phone} onChange={ev => setPhone(ev.target.value)} />
                       </Form.Group> : null
                   }
+                  <div className="text-center mt-3 pt-1 pb-1">
+                      <Button className="w-50 gradient-custom" type="submit">Save edit</Button>
+                  </div>
                   { props.role === "expert" ?
                     <div>
                         <h3 className='my_specializations'>My Specializations</h3>
@@ -203,10 +206,6 @@ function FormModifyProfile(props) {
                         </Table>
                     </div> : null
                   }
-                  <div className="text-center mt-3 pt-1 pb-1">
-                      <Button className="w-50 gradient-custom" type="submit">Save edit</Button>
-                      <Button className="w-50 gradient-custom" onClick={() => navigate('/')}>Back</Button>
-                  </div>
               </Row>
           </Container>
       </Form>

@@ -97,6 +97,21 @@ function TicketPage(props) {
       }).catch(err => console.log(err))
   }
 
+  function numberizePriority(priorityLevel) {
+    switch (priorityLevel) {
+      case "LOW":
+        return 1;
+      case "NORMAL":
+        return 2;
+      case "HIGH":
+        return 3;
+      case "CRITICAL":
+        return 4;
+      default:
+        return 0;
+    }
+  }
+
   return (
     <>
       <Modal show={showModal} onHide={() => setShowModal(false)}>
@@ -166,6 +181,10 @@ function TicketPage(props) {
             <Col><p>{ticket.ticketStatus}</p></Col>
           </Row>
           <Row>
+            <Col xs={3} className='header-column'><h5 className='text-end'>Ticket priority</h5></Col>
+            <Col><p>{[...Array(numberizePriority(ticket.priorityLevel))].map((_) => '!')}{' ' + ticket.priorityLevel}</p></Col>
+          </Row>
+          <Row>
             <Col xs={3} className='header-column'><h5 className='text-end'>Expert</h5></Col>
             <Col><p>{ticket.expert ? `${ticket.expert?.firstName} ${ticket.expert?.lastName}` : "Not assigned yet"}</p></Col>
           </Row>
@@ -187,8 +206,8 @@ function TicketPage(props) {
           </Row>
           <Row>
             <Col xs={3} className='header-column'><h5 className='text-end'>Warranty expiry date</h5></Col>
-            <Col><p>{(ticket.purchase?.warranty?.expiryDate ?? ticket.purchase?.dateOfPurchase) &&
-              dayjs(ticket.purchase?.warranty?.expiryDate ?? ticket.purchase?.dateOfPurchase).format('YYYY/MM/DD')}</p></Col>
+            <Col><p>{(ticket.purchase?.warranty?.expiryDate && dayjs(ticket.purchase.warranty?.expiryDate).format('YYYY/MM/DD'))
+              ?? dayjs(ticket.purchase?.dateOfPurchase).add(2, 'years').format('YYYY/MM/DD')}</p></Col>
           </Row>
 
           <Row>
@@ -220,7 +239,7 @@ function ChatSection(props) {
 
       <Row className='messages-section'>
         {props.chat?.messages.map(message => <MessageBox key={message.id} message={message} email={props.email} />)}
-        {props.chat && <SendMessageBox ticketId={props.ticketId} setDirty={props.setDirty} />}
+        {props.chat && !props.chat.closed && <SendMessageBox ticketId={props.ticketId} setDirty={props.setDirty} />}
       </Row>
     </>
   );

@@ -32,7 +32,7 @@ function ExpertLogSection(props) {
             </tr>
           </thead>
           <tbody className="not-hoverable">
-            {logs.map((log, i) => <ExpertLogListItem key={log.id} i={i} log={log} />)}
+            {logs.sort((a, b) => ('' + a.time).localeCompare(b.time)).map((log, i) => <ExpertLogListItem key={log.id} i={i} log={log} />)}
           </tbody>
         </Table>
       </Row>

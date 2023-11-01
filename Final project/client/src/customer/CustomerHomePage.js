@@ -70,7 +70,7 @@ function PurchasesList(props) {
         </tr>
       </thead>
       <tbody>
-        {props.purchases.map((purchase, i) => {
+        {props.purchases.sort((a, b) => ('' + b.dateOfPurchase).localeCompare(a.dateOfPurchase)).map((purchase, i) => {
           return (<PurchasesListItem key={purchase.id} i={i} purchase={purchase} />);
         })}
       </tbody>

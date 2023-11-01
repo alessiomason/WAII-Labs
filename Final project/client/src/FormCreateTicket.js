@@ -3,6 +3,7 @@ import { Container, Row, Col } from 'react-bootstrap';
 import {useEffect, useState} from 'react';
 import {useNavigate, useParams} from 'react-router-dom';
 import API from "./API";
+import './FormCreateTicket.css';
 
 
 function FormCreateTicket(props) {
@@ -62,7 +63,7 @@ function FormCreateTicket(props) {
             <Form onSubmit={handleSubmit}>
               <Form.Group>
                 <Form.Label>Product name</Form.Label>
-                <Form.Control type='text' value={purchase ? purchase.product.name : ""} readOnly>
+                <Form.Control type='text' value={purchase ? purchase.product.name : ""} disabled readOnly>
                 </Form.Control>
               </Form.Group>
               <Form.Group>
@@ -72,7 +73,7 @@ function FormCreateTicket(props) {
               </Form.Group>
               <Form.Group>
                 <Form.Label>Ticket description</Form.Label>
-                <Form.Control type='text' value={description} onChange={ev => setDescription(ev.target.value)}>
+                <Form.Control as='textarea' value={description} onChange={ev => setDescription(ev.target.value)}>
                 </Form.Control>
               </Form.Group>
               <Button type='submit' className='save_button'>Create</Button>
