@@ -465,12 +465,12 @@
   }, {
     "id" : "6bfb8ada-23e6-42d6-922b-d585943a5573",
     "createdTimestamp" : 1684829143489,
-    "username" : "customer1",
+    "username" : "John Smith",
     "enabled" : true,
     "totp" : false,
     "emailVerified" : true,
-    "firstName" : "Customer 1",
-    "lastName" : "",
+    "firstName" : "John",
+    "lastName" : "Smith",
     "email" : "customer1@products.com",
     "credentials" : [ {
       "id" : "8170b95d-484b-4bde-9edf-b4c36b0b15e4",
@@ -511,12 +511,12 @@
   }, {
     "id" : "7b196901-c64f-4957-9345-3f853bd104c9",
     "createdTimestamp" : 1684829086162,
-    "username" : "expert1",
+    "username" : "James Martin",
     "enabled" : true,
     "totp" : false,
     "emailVerified" : true,
-    "firstName" : "Expert 1",
-    "lastName" : "",
+    "firstName" : "James",
+    "lastName" : "Martin",
     "email" : "expert1@products.com",
     "credentials" : [ {
       "id" : "da925590-07ce-4bf5-9e76-cb05a2e5c3f8",
@@ -557,12 +557,12 @@
   }, {
     "id" : "320d0946-defc-43f8-9f9d-4e0c02e8fd4d",
     "createdTimestamp" : 1684829045394,
-    "username" : "manager1",
+    "username" : "Gordon Richards",
     "enabled" : true,
     "totp" : false,
     "emailVerified" : true,
-    "firstName" : "Manager 1",
-    "lastName" : "",
+    "firstName" : "Gordon",
+    "lastName" : "Richards",
     "email" : "manager1@products.com",
     "credentials" : [ {
       "id" : "9a123fbc-4ee8-4385-97fb-074a2a6f8fdc",

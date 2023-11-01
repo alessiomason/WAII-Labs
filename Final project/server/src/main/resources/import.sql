@@ -188,7 +188,7 @@ INSERT INTO profiles (id, email, first_name, last_name, phone) VALUES ('hkoba1p@
 INSERT INTO profiles (id, email, first_name, last_name, phone) VALUES ('rtyrrell1q@google.co.jp', 'rtyrrell1q@google.co.jp', 'Rebecca', 'Tyrrell', '+86 457 248 7020');
 INSERT INTO profiles (id, email, first_name, last_name, phone) VALUES ('bhelmke1r@liveinternet.ru', 'bhelmke1r@liveinternet.ru', 'Buiron', 'Helmke', '+86 690 857 9130');
 INSERT INTO profiles (id, email, first_name, last_name, phone) VALUES ('gwhinney1s@state.gov', 'gwhinney1s@state.gov', 'Guenevere', 'Whinney', '+966 737 930 7847');
-INSERT INTO profiles (id, email, first_name, last_name, phone) VALUES ('customer1@products.com', 'customer1@products.com', 'Customer1', 'Customer1', '+33 616 805 6213');
+INSERT INTO profiles (id, email, first_name, last_name, phone) VALUES ('6bfb8ada-23e6-42d6-922b-d585943a5573', 'customer1@products.com', 'John', 'Smith', '+33 616 805 6213');
 
 INSERT INTO products (ean, name, brand) VALUES ('8712725728528', 'Walter Trout Unspoiled by Progress CD B23b', 'Mascot');
 INSERT INTO products (ean, name, brand) VALUES ('5011781900125', 'Nitty Gritty Dirt Band Will The Circle Be Unbroken Volume 2 CD USA MCA 1989 20', 'MCA');
@@ -1316,54 +1316,54 @@ INSERT INTO experts (id, email, first_name, last_name, authorized) VALUES ('joe_
 INSERT INTO experts (id, email, first_name, last_name, authorized) VALUES ('john_demon_12@mail.com', 'john_demon_12@mail.com', 'John', 'Demon', true);
 INSERT INTO experts (id, email, first_name, last_name, authorized) VALUES ('matt_kerr_12@mail.com', 'matt_kerr_12@mail.com', 'Matt', 'Kerr', true);
 INSERT INTO experts (id, email, first_name, last_name, authorized) VALUES ('steven_rotterdam_12@mail.com', 'steven_rotterdam_12@mail.com', 'Steven', 'Rotterdam', false);
-INSERT INTO experts (id, email, first_name, last_name, authorized) VALUES ('expert1@products.com', 'expert1@products.com', 'Expert1', 'Expert1', true);
+INSERT INTO experts (id, email, first_name, last_name, authorized) VALUES ('7b196901-c64f-4957-9345-3f853bd104c9', 'expert1@products.com', 'James', 'Martin', true);
 
 INSERT INTO experts_specializations(id, name, expert_id) VALUES (1001, 'Computers', 'joe_pesci_12@mail.com');
 INSERT INTO experts_specializations(id, name, expert_id) VALUES (1002, 'Smartphones', 'joe_pesci_12@mail.com');
 INSERT INTO experts_specializations(id, name, expert_id) VALUES (1003, 'Home appliances', 'john_demon_12@mail.com');
 INSERT INTO experts_specializations(id, name, expert_id) VALUES (1004, 'Computers', 'matt_kerr_12@mail.com');
 INSERT INTO experts_specializations(id, name, expert_id) VALUES (1005, 'Smartphones', 'steven_rotterdam_12@mail.com');
-INSERT INTO experts_specializations(id, name, expert_id) VALUES (1006, 'Computers', 'expert1@products.com');
-INSERT INTO experts_specializations(id, name, expert_id) VALUES (1007, 'Smartphones', 'expert1@products.com');
-INSERT INTO experts_specializations(id, name, expert_id) VALUES (1008, 'Home appliances', 'expert1@products.com');
+INSERT INTO experts_specializations(id, name, expert_id) VALUES (1006, 'Computers', '7b196901-c64f-4957-9345-3f853bd104c9');
+INSERT INTO experts_specializations(id, name, expert_id) VALUES (1007, 'Smartphones', '7b196901-c64f-4957-9345-3f853bd104c9');
+INSERT INTO experts_specializations(id, name, expert_id) VALUES (1008, 'Home appliances', '7b196901-c64f-4957-9345-3f853bd104c9');
 
 INSERT INTO managers (id, email, first_name, last_name) VALUES ('james_lucy_13@mail.com', 'james_lucy_13@mail.com', 'James', 'Lucy');
 INSERT INTO managers (id, email, first_name, last_name) VALUES ('eric_gordon_13@mail.com', 'eric_gordon_13@mail.com', 'Eric', 'Gordon');
 INSERT INTO managers (id, email, first_name, last_name) VALUES ('matt_james_13@mail.com', 'matt_james_13@mail.com', 'Matt', 'James');
 INSERT INTO managers (id, email, first_name, last_name) VALUES ('andry_shevckenco_13@mail.com', 'andry_shevckenco_13@mail.com', 'Andry', 'Shevckenco');
-INSERT INTO managers (id, email, first_name, last_name) VALUES ('manager1@products.com', 'manager1@products.com', 'Manager1', 'Manager1');
+INSERT INTO managers (id, email, first_name, last_name) VALUES ('320d0946-defc-43f8-9f9d-4e0c02e8fd4d', 'manager1@products.com', 'Gordon', 'Richards');
 
 INSERT INTO purchases (id, date_of_purchase, status, customer_id, product_ean) VALUES (1001, '2023-08-28', 0, 'flongwood0@vk.com', '8712725728528');
 INSERT INTO purchases (id, date_of_purchase, status, customer_id, product_ean) VALUES (1002, '2023-08-28', 0, 'grengger1@cloudflare.com', '3532041192835');
 INSERT INTO purchases (id, date_of_purchase, status, customer_id, product_ean) VALUES (1003, '2023-08-28', 0, 'ftuther1g@opensource.org', '3539186242005');
 INSERT INTO purchases (id, date_of_purchase, status, customer_id, product_ean) VALUES (1004, '2023-08-28', 0, 'oleacockx@tinyurl.com', '5711045610646');
-INSERT INTO purchases (id, date_of_purchase, status, customer_id, product_ean) VALUES (1005, '2023-08-28', 0, 'meastlake1j@gizmodo.com', '5052746203592');
-INSERT INTO purchases (id, date_of_purchase, status, customer_id, product_ean) VALUES (1006, '2023-08-28', 0, 'mfoxleym@hp.com', '6932799000098');
-INSERT INTO purchases (id, date_of_purchase, status, customer_id, product_ean) VALUES (1007, '2023-09-18', 0, 'customer1@products.com', '6932799000098');
-INSERT INTO purchases (id, date_of_purchase, status, customer_id, product_ean) VALUES (1008, '2023-09-15', 0, 'customer1@products.com', '5055977488271');
-INSERT INTO purchases (id, date_of_purchase, status, customer_id, product_ean) VALUES (1009, '2023-09-01', 1, 'customer1@products.com', '5711045610646');
-INSERT INTO purchases (id, date_of_purchase, status, customer_id, product_ean) VALUES (1010, '2020-08-31', 2, 'customer1@products.com', '5052746203592');
-INSERT INTO purchases (id, date_of_purchase, status, customer_id, product_ean) VALUES (1011, '2021-07-22', 3, 'customer1@products.com', '8712725728528');
-INSERT INTO purchases (id, date_of_purchase, status, customer_id, product_ean) VALUES (1012, '2021-05-27', 3, 'customer1@products.com', '7108176263977');
-INSERT INTO purchases (id, date_of_purchase, status, customer_id, product_ean) VALUES (1013, '2021-05-22', 3, 'customer1@products.com', '4894817191725');
+INSERT INTO purchases (id, date_of_purchase, status, customer_id, product_ean) VALUES (1005, '2023-08-28', 0, 'meastlake1j@gizmodo.com', '5706998721365');
+INSERT INTO purchases (id, date_of_purchase, status, customer_id, product_ean) VALUES (1006, '2023-08-28', 0, 'mfoxleym@hp.com', '4548736090712');
+INSERT INTO purchases (id, date_of_purchase, status, customer_id, product_ean) VALUES (1007, '2023-09-18', 0, '6bfb8ada-23e6-42d6-922b-d585943a5573', '6932799000098');
+INSERT INTO purchases (id, date_of_purchase, status, customer_id, product_ean) VALUES (1008, '2023-09-15', 0, '6bfb8ada-23e6-42d6-922b-d585943a5573', '5055977488271');
+INSERT INTO purchases (id, date_of_purchase, status, customer_id, product_ean) VALUES (1009, '2023-09-01', 1, '6bfb8ada-23e6-42d6-922b-d585943a5573', '8717109679625');
+INSERT INTO purchases (id, date_of_purchase, status, customer_id, product_ean) VALUES (1010, '2020-08-31', 2, '6bfb8ada-23e6-42d6-922b-d585943a5573', '5052746203592');
+INSERT INTO purchases (id, date_of_purchase, status, customer_id, product_ean) VALUES (1011, '2021-07-22', 3, '6bfb8ada-23e6-42d6-922b-d585943a5573', '8712725728528');
+INSERT INTO purchases (id, date_of_purchase, status, customer_id, product_ean) VALUES (1012, '2021-05-27', 3, '6bfb8ada-23e6-42d6-922b-d585943a5573', '7108176263977');
+INSERT INTO purchases (id, date_of_purchase, status, customer_id, product_ean) VALUES (1013, '2021-05-22', 3, '6bfb8ada-23e6-42d6-922b-d585943a5573', '4894817191725');
 
-INSERT INTO tickets(id, description, priority_level, ticket_status, title, expert_id, purchase_id) VALUES (1001, 'Description Ticket 1', 1, 2, 'Ticket 1', 'joe_pesci_12@mail.com', 1001);
-INSERT INTO tickets(id, description, priority_level, ticket_status, title, expert_id, purchase_id) VALUES (1002, 'Description Ticket 2', 1, 3, 'Ticket 2', 'expert1@products.com', 1003);
-INSERT INTO tickets(id, description, priority_level, ticket_status, title, expert_id, purchase_id) VALUES (1003, 'Description Ticket 3', 1, 2, 'Ticket 3', 'expert1@products.com', 1002);
-INSERT INTO tickets(id, description, priority_level, ticket_status, title, expert_id, purchase_id) VALUES (1004, 'Description Ticket 4', 1, 0, 'Ticket 4', 'matt_kerr_12@mail.com', 1004);
-INSERT INTO tickets(id, description, priority_level, ticket_status, title, expert_id, purchase_id) VALUES (1005, 'Description Ticket 5', 1, 0, 'Ticket 5', 'expert1@products.com', 1008);
-INSERT INTO tickets(id, description, priority_level, ticket_status, title, expert_id, purchase_id) VALUES (1006, 'Description Ticket 6', 2, 1, 'Ticket 6', 'expert1@products.com', 1009);
-INSERT INTO tickets(id, description, priority_level, ticket_status, title, expert_id, purchase_id) VALUES (1007, 'Description Ticket 7', 1, 2, 'Ticket 7', 'expert1@products.com', 1012);
-INSERT INTO tickets(id, description, priority_level, ticket_status, title, expert_id, purchase_id) VALUES (1008, 'Description Ticket 8', 2, 2, 'Ticket 8', 'expert1@products.com', 1013);
-INSERT INTO tickets(id, description, priority_level, ticket_status, title, expert_id, purchase_id) VALUES (1009, 'Description Ticket 9', 1, 0, 'Ticket 9', 'joe_pesci_12@mail.com', 1005);
-INSERT INTO tickets(id, description, priority_level, ticket_status, title, expert_id, purchase_id) VALUES (1010, 'Description Ticket 10', 1, 0, 'Ticket 10', 'expert1@products.com', 1006);
+INSERT INTO tickets(id, description, priority_level, ticket_status, title, expert_id, purchase_id) VALUES (1001, 'Found several scratches on the surface of the CD after opening the package', 1, 2, 'Scratched CD', 'joe_pesci_12@mail.com', 1001);
+INSERT INTO tickets(id, description, priority_level, ticket_status, title, expert_id, purchase_id) VALUES (1002, 'The product arrived defective, what mainly stands out is the wheel which has pressure problems', 1, 3, 'Flat tire', '7b196901-c64f-4957-9345-3f853bd104c9', 1003);
+INSERT INTO tickets(id, description, priority_level, ticket_status, title, expert_id, purchase_id) VALUES (1003, 'The pipe does not have a regular shape and therefore not well-fitted for what I wanted to do', 1, 2, 'Pipe frame crooked', '7b196901-c64f-4957-9345-3f853bd104c9', 1002);
+INSERT INTO tickets(id, description, priority_level, ticket_status, title, expert_id, purchase_id) VALUES (1004, 'The Power Supply arrived with some damage to the wire and with a different plug than the one intended', 1, 0, 'Power Supply damaged', 'matt_kerr_12@mail.com', 1004);
+INSERT INTO tickets(id, description, priority_level, ticket_status, title, expert_id, purchase_id) VALUES (1005, 'The bag has several scratches on the lower part of the surface and some damage on the handle', 1, 0, 'Scratched Bag', '7b196901-c64f-4957-9345-3f853bd104c9', 1008);
+INSERT INTO tickets(id, description, priority_level, ticket_status, title, expert_id, purchase_id) VALUES (1006, 'The cable that arrived at home did not have the plug I expected', 2, 1, 'Cable with damaged plug', '7b196901-c64f-4957-9345-3f853bd104c9', 1009);
+INSERT INTO tickets(id, description, priority_level, ticket_status, title, expert_id, purchase_id) VALUES (1007, 'The board game does not have all the pieces illustrated in the instruction manual, therefore it is not possible to continue with the game', 1, 2, 'Missing pieces', '7b196901-c64f-4957-9345-3f853bd104c9', 1012);
+INSERT INTO tickets(id, description, priority_level, ticket_status, title, expert_id, purchase_id) VALUES (1008, 'The mic covers are not the size written on the box', 2, 2, 'Wrong size', '7b196901-c64f-4957-9345-3f853bd104c9', 1013);
+INSERT INTO tickets(id, description, priority_level, ticket_status, title, expert_id, purchase_id) VALUES (1009, 'The ASUS Right Hinge arrived and appears damaged to the eye once removed from the plastic bag', 1, 0, 'ASUS Right Hinge not working', 'joe_pesci_12@mail.com', 1005);
+INSERT INTO tickets(id, description, priority_level, ticket_status, title, expert_id, purchase_id) VALUES (1010, 'Cannot pair the speaker with my devices via Bluetooth', 1, 0, 'Speaker not pairing', '7b196901-c64f-4957-9345-3f853bd104c9', 1006);
 
 INSERT INTO chats(id, closed, ticket_id) VALUES (1001, false, 1005);
 UPDATE tickets SET chat_id = 1001 WHERE id = 1005;
 
-INSERT INTO messages(id, text, time, chat_id, from_id) VALUES (1001, 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc elementum dolor a pretium feugiat. Morbi suscipit nibh in massa tincidunt vehicula. Nulla nec facilisis nisi. Duis lacinia velit vitae arcu hendrerit, quis ornare justo convallis. Nullam ut consectetur libero. Aliquam posuere tempor eros, non vestibulum sapien posuere at. Aliquam erat volutpat. Morbi nec convallis purus. Nulla lobortis, augue ut iaculis euismod, nulla mi convallis dui, sit amet euismod velit ipsum a sapien. Sed id venenatis metus. Ut vulputate vel massa ac rutrum.', '2023-09-21 10:36:39', 1001, 'customer1@products.com');
-INSERT INTO messages(id, text, time, chat_id, from_id) VALUES (1002, 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut condimentum lectus id orci viverra, et hendrerit nisi vestibulum. Fusce eleifend, tellus in auctor ullamcorper, sem mauris volutpat urna, vel porta mauris ante quis odio. Aliquam dictum sem at lorem cursus ultricies. Nam a odio arcu. Vestibulum lacinia nulla et est laoreet, at posuere ante fermentum.', '2023-09-21 10:37:55', 1001, 'customer1@products.com');
-INSERT INTO messages(id, text, time, chat_id, from_id) VALUES (1003, 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut condimentum lectus id orci viverra, et hendrerit nisi vestibulum. Fusce eleifend, tellus in auctor ullamcorper, sem mauris volutpat urna, vel porta mauris ante quis odio. Aliquam dictum sem at lorem cursus ultricies. Nam a odio arcu. Vestibulum lacinia nulla et est laoreet, at posuere ante fermentum.', '2023-09-21 11:02:07', 1001, 'expert1@products.com');
+INSERT INTO messages(id, text, time, chat_id, from_id) VALUES (1001, 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc elementum dolor a pretium feugiat. Morbi suscipit nibh in massa tincidunt vehicula. Nulla nec facilisis nisi. Duis lacinia velit vitae arcu hendrerit, quis ornare justo convallis. Nullam ut consectetur libero. Aliquam posuere tempor eros, non vestibulum sapien posuere at. Aliquam erat volutpat. Morbi nec convallis purus. Nulla lobortis, augue ut iaculis euismod, nulla mi convallis dui, sit amet euismod velit ipsum a sapien. Sed id venenatis metus. Ut vulputate vel massa ac rutrum.', '2023-09-21 10:36:39', 1001, '6bfb8ada-23e6-42d6-922b-d585943a5573');
+INSERT INTO messages(id, text, time, chat_id, from_id) VALUES (1002, 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut condimentum lectus id orci viverra, et hendrerit nisi vestibulum. Fusce eleifend, tellus in auctor ullamcorper, sem mauris volutpat urna, vel porta mauris ante quis odio. Aliquam dictum sem at lorem cursus ultricies. Nam a odio arcu. Vestibulum lacinia nulla et est laoreet, at posuere ante fermentum.', '2023-09-21 10:37:55', 1001, '6bfb8ada-23e6-42d6-922b-d585943a5573');
+INSERT INTO messages(id, text, time, chat_id, from_id) VALUES (1003, 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut condimentum lectus id orci viverra, et hendrerit nisi vestibulum. Fusce eleifend, tellus in auctor ullamcorper, sem mauris volutpat urna, vel porta mauris ante quis odio. Aliquam dictum sem at lorem cursus ultricies. Nam a odio arcu. Vestibulum lacinia nulla et est laoreet, at posuere ante fermentum.', '2023-09-21 11:02:07', 1001, '7b196901-c64f-4957-9345-3f853bd104c9');
 
 INSERT INTO logs(id, new_ticket_status, previous_ticket_status, time, ticket_id) VALUES (1001, 1, 0, '2023-05-12T14:13:09.157827400Z', 1001);
 INSERT INTO logs(id, new_ticket_status, previous_ticket_status, time, ticket_id) VALUES (1002, 2, 1, '2023-05-12T15:14:09.157827400Z', 1001);
