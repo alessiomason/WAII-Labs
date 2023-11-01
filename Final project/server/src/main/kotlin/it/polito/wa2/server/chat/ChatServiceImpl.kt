@@ -31,7 +31,7 @@ class ChatServiceImpl(
         if (ticket.chat == null) throw ChatNotFoundException()
         if (ticket.chat!!.closed) throw ChatClosedException()
 
-        val from = personRepository.findByIdOrNull(email) ?: throw ProfileNotFoundException()
+        val from = personRepository.findByEmail(email) ?: throw ProfileNotFoundException()
         val time = ZonedDateTime.now()
 
         val message = Message(messageDTO.text, time, from, ticket.chat!!)

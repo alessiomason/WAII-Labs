@@ -211,7 +211,7 @@ function TicketPage(props) {
           </Row>
 
           <Row>
-            <ChatSection ticketId={ticket.id} chat={ticket.chat} email={props.email} setDirty={setDirty} />
+            <ChatSection ticketId={ticket.id} chat={ticket.chat} userId={props.userId} email={props.email} setDirty={setDirty} />
           </Row>
 
           <Row>
@@ -238,7 +238,7 @@ function ChatSection(props) {
       </Row>
 
       <Row className='messages-section'>
-        {props.chat?.messages.map(message => <MessageBox key={message.id} message={message} email={props.email} />)}
+        {props.chat?.messages.map(message => <MessageBox key={message.id} message={message} userId={props.userId} email={props.email} />)}
         {props.chat && !props.chat.closed && <SendMessageBox ticketId={props.ticketId} setDirty={props.setDirty} />}
       </Row>
     </>
@@ -247,7 +247,7 @@ function ChatSection(props) {
 
 function MessageBox(props) {
   function messageSent() {
-    return props.message.from.id === props.email;
+    return props.message.from.id === props.userId;
   }
 
   return (

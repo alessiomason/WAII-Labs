@@ -26,6 +26,7 @@ function App() {
 }
 function App2() {
   const [loggedIn, setLoggedIn] = useState(false);
+  const [userId, setUserId] = useState('');
   const [username, setUsername] = useState('');
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
@@ -53,10 +54,12 @@ function App2() {
       if (accessTokenExpirationTime > new Date().getTime()) {
         mustRefreshToken = false;
 
+        const userId = jwt_decode(accessToken).sub;
         const username = jwt_decode(accessToken).preferred_username;
         const name = jwt_decode(accessToken).name;
         const email = jwt_decode(accessToken).email;
         const role = jwt_decode(accessToken).resource_access['wa2-products-client'].roles[0];
+        setUserId(userId);
         setUsername(username);
         setName(name);
         setEmail(email);
@@ -79,10 +82,12 @@ function App2() {
         localStorage.setItem('refreshToken', jwtDTO.refreshToken);
         setTimeout(doRefresh, jwt_decode(jwtDTO.accessToken).exp * 1000 - new Date().getTime());
 
+        const userId = jwt_decode(jwtDTO.accessToken).sub;
         const username = jwt_decode(jwtDTO.accessToken).preferred_username;
         const name = jwt_decode(jwtDTO.accessToken).name;
         const email = jwt_decode(jwtDTO.accessToken).email;
         const role = jwt_decode(jwtDTO.accessToken).resource_access['wa2-products-client'].roles[0];
+        setUserId(userId);
         setUsername(username);
         setName(name);
         setEmail(email);
@@ -115,10 +120,12 @@ function App2() {
             localStorage.setItem('refreshToken', jwtDTO.refreshToken);
             setTimeout(doRefresh, jwt_decode(jwtDTO.accessToken).exp * 1000 - new Date().getTime());
 
+            const userId = jwt_decode(jwtDTO.accessToken).sub;
             const username = jwt_decode(jwtDTO.accessToken).preferred_username;
             const name = jwt_decode(jwtDTO.accessToken).name;
             const email = jwt_decode(jwtDTO.accessToken).email;
             const role = jwt_decode(jwtDTO.accessToken).resource_access['wa2-products-client'].roles[0];
+            setUserId(userId);
             setUsername(username);
             setName(name);
             setEmail(email);
@@ -140,6 +147,7 @@ function App2() {
   function doLogout() {
     localStorage.removeItem('accessToken');
     localStorage.removeItem('refreshToken');
+    setUserId('');
     setUsername('');
     setName('');
     setEmail('');
@@ -159,7 +167,7 @@ function App2() {
         <Route index element={role === 'customer' ? <CustomerHomePage name={name} dirty={dirty} setDirty={setDirty} /> :
           role === 'expert' ? <ExpertHomePage name={name} /> :
             <ManagerHomePage name={name} />} />
-        <Route path='ticket/:ticketId' element={<TicketPage email={email} role={role} dirty={dirty} setDirty={setDirty} />} />
+        <Route path='ticket/:ticketId' element={<TicketPage userId={userId} email={email} role={role} dirty={dirty} setDirty={setDirty} />} />
         <Route path='purchase/:purchaseId' element={<PurchasePage email={email} role={role} dirty={dirty} setDirty={setDirty} />} />
         <Route path='new-ticket/:purchaseId' element={<FormCreateTicket dirty={dirty} setDirty={setDirty} handleError={handleError} />} />
         <Route path='new-purchase' element={<NewPurchaseForm dirty={dirty} setDirty={setDirty} email={email} role={role} handleError={handleError} />} />
