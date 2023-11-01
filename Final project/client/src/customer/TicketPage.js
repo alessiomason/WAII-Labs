@@ -196,7 +196,7 @@ function TicketPage(props) {
           </Row>
 
           <Row>
-            <TicketLogSection ticketId={ticketId} />
+            {props.role === 'manager' && <TicketLogSection ticketId={ticketId} />}
           </Row>
         </Col>
       </Row>
