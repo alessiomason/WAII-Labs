@@ -67,6 +67,7 @@ function FormModifyProfile(props) {
             if (props.role === "customer") {
                 API.editProfile(editedProfile).then( () => {
                     props.setDirty(true);
+                    props.setName(firstName + ' ' + lastName);
                     setSaveMsg('The profile has been edited.')
                 }).catch(err => {
                     props.handleError(err);
@@ -75,6 +76,7 @@ function FormModifyProfile(props) {
             } else if (props.role === "expert") {
                 API.editExpert(editedProfile).then( () => {
                     props.setDirty(true);
+                    props.setName(firstName + ' ' + lastName);
                     setSaveMsg('The profile has been edited.')
                 }).catch(err => {
                     props.handleError(err);
@@ -83,6 +85,7 @@ function FormModifyProfile(props) {
             } else if (props.role === "manager") {
                 API.editManager(editedProfile).then( () => {
                     props.setDirty(true);
+                    props.setName(firstName + ' ' + lastName);
                     setSaveMsg('The profile has been edited.')
                 }).catch(err => {
                     props.handleError(err);

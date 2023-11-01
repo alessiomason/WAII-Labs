@@ -143,6 +143,27 @@ class AuthenticationServiceImpl(
         return userId
     }
 
+    override fun editName(userId: String, firstName: String, lastName: String) {
+        val keycloak = KeycloakBuilder.builder()
+            .serverUrl("http://$keycloakAddress")
+            .realm("wa2-products")
+            .clientId("wa2-products-client")
+            .username("admin")
+            .password("admin")
+            .build()
+
+        val user = keycloak
+            .realm("wa2-products")
+            .users()
+            .get(userId)
+
+        val modifiedUser = user.toRepresentation()
+        modifiedUser.firstName = firstName
+        modifiedUser.lastName = lastName
+
+        user.update(modifiedUser)
+    }
+
     private fun userAlreadyExists(signupDTO: SignupDTO, isExpert: Boolean): Boolean {
         return if (isExpert) {
             expertRepository.findByEmail(signupDTO.email) != null

@@ -6,4 +6,6 @@ interface AuthenticationService {
     fun refreshLogin(refreshJwtDTO: RefreshJwtDTO): JwtDTO?
 
     fun signup(signupDTO: SignupDTO, isExpert: Boolean): String
+
+    fun editName(userId: String, firstName: String, lastName: String)
 }

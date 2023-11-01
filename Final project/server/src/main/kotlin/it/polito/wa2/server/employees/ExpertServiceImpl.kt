@@ -2,6 +2,7 @@ package it.polito.wa2.server.employees
 
 import it.polito.wa2.server.exceptions.ExpertNotFoundException
 import it.polito.wa2.server.exceptions.ExpertSpecializationNotFoundException
+import it.polito.wa2.server.security.AuthenticationService
 import jakarta.validation.constraints.Email
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Service
@@ -9,7 +10,8 @@ import org.springframework.stereotype.Service
 @Service
 class ExpertServiceImpl(
     private val expertRepository: ExpertRepository,
-    private val expertSpecializationRepository: ExpertSpecializationRepository
+    private val expertSpecializationRepository: ExpertSpecializationRepository,
+    private val authenticationService: AuthenticationService
 ): ExpertService {
     override fun getAllExperts(): List<ExpertDTO> {
         return expertRepository.findAll().map { it.toExpertDTO() }
@@ -29,6 +31,9 @@ class ExpertServiceImpl(
         // modify all fields except id
         expert.firstName = expertDTO.firstName
         expert.lastName = expertDTO.lastName
+
+        // modify name in Keycloak
+        authenticationService.editName(expertDTO.id, expertDTO.firstName, expertDTO.lastName)
 
         expertRepository.save(expert)
     }

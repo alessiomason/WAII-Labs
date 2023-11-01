@@ -163,7 +163,7 @@ function App2() {
         <Route path='purchase/:purchaseId' element={<PurchasePage email={email} role={role} dirty={dirty} setDirty={setDirty} />} />
         <Route path='new-ticket/:purchaseId' element={<FormCreateTicket dirty={dirty} setDirty={setDirty} handleError={handleError} />} />
         <Route path='new-purchase' element={<NewPurchaseForm dirty={dirty} setDirty={setDirty} email={email} role={role} handleError={handleError} />} />
-        <Route path='profile/:email' element={<FormModifyProfile dirty={dirty} setDirty={setDirty} email={email} role={role} handleError={handleError} />} />
+        <Route path='profile/:email' element={<FormModifyProfile dirty={dirty} setDirty={setDirty} email={email} role={role} setName={setName} handleError={handleError} />} />
         <Route path='expert/:expertId' element={<ExpertProfilePage />} />
       </Route>
 
