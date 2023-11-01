@@ -155,7 +155,7 @@ function App2() {
   return (
     <Routes>
       <Route path='/login' element={loggedIn ? <Navigate to='/' /> : <LoginPage loggedIn={loggedIn} doLogin={doLogin} message={message} setMessage={setMessage} />} />
-      <Route path='/' element={loggedIn ? <PageLayout loggedIn={loggedIn} doLogin={doLogin} doLogout={doLogout} email={email} /> : <Navigate to='/login' />}>
+      <Route path='/' element={loggedIn ? <PageLayout loggedIn={loggedIn} doLogin={doLogin} doLogout={doLogout} email={email} name={name} /> : <Navigate to='/login' />}>
         <Route index element={role === 'customer' ? <CustomerHomePage name={name} dirty={dirty} setDirty={setDirty} /> :
           role === 'expert' ? <ExpertHomePage name={name} /> :
             <ManagerHomePage name={name} />} />
@@ -185,7 +185,7 @@ function PageLayout(props) {
         </Col>
         <Col>
           <Button variant='light' className='navbar-button' onClick={() => navigate('/profile/' + props.email)}>
-            <span className='d-flex justify-content-center align-items-center'><Person />Profile</span>
+            <span className='d-flex justify-content-center align-items-center'><Person />{props.name}'s profile</span>
           </Button>
         </Col>
         <Col>
