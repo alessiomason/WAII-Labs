@@ -52,6 +52,9 @@ function TicketPage(props) {
             case TicketStatus.RESOLVED:
               setStatusChangePermitted([TicketStatus.CLOSED, TicketStatus.RESOLVED, TicketStatus.REOPENED])
               break;
+            default:
+              setStatusChangePermitted([]);
+              break;
           }
           setTicketStatus(ticket.ticketStatus);
           setTicketPriority(ticket.priorityLevel);
@@ -70,7 +73,7 @@ function TicketPage(props) {
   useEffect(() => {
     if (!dirty && ticket.chat) {
       const intervalId = setInterval(() => {
-        if (!showTicketModal && !showExpertsModal) {
+        if (!showTicketModal && !showExpertsModal && ticket.ticketStatus !== 'CLOSED' && ticket.ticketStatus !== 'RESOLVED') {
           setDirty(true);
         }
       }, 1000);
@@ -240,13 +243,13 @@ function ChatSection(props) {
   return (
     <>
       <Row className='bottom-border'>
-        <Col><h2>Chat{(props.chat?.closed || props.chat && (props.ticketStatus === 'CLOSED' || props.ticketStatus === 'RESOLVED')) && ' (closed)'}</h2></Col>
+        <Col><h2>Chat{(props.chat?.closed || (props.chat && (props.ticketStatus === 'CLOSED' || props.ticketStatus === 'RESOLVED'))) && ' (closed)'}</h2></Col>
         <Col className='d-flex justify-content-end'>{!props.chat && props.ticketStatus !== 'CLOSED' && !props.ticketStatus !== 'RESOLVED' && <Button onClick={openChat}>Open new chat</Button>}</Col>
       </Row>
 
       <Row className='messages-section'>
         {props.chat?.messages.map(message => <MessageBox key={message.id} message={message} userId={props.userId} email={props.email} />)}
-        {props.chat && !props.chat.closed && props.ticketStatus !== 'CLOSED' && !props.ticketStatus !== 'RESOLVED' && <SendMessageBox ticketId={props.ticketId} setDirty={props.setDirty} />}
+        {props.chat && !props.chat.closed && props.ticketStatus !== 'CLOSED' && props.ticketStatus !== 'RESOLVED' && <SendMessageBox ticketId={props.ticketId} setDirty={props.setDirty} />}
       </Row>
     </>
   );
