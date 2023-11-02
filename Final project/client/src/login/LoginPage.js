@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Button, Container, Row, Col, Nav, Tab, Form, Alert } from 'react-bootstrap';
+import { Button, Container, Row, Col, Nav, Tab, Form, Alert, FloatingLabel } from 'react-bootstrap';
 import "./LoginPage.css";
 import API from "../API";
 
@@ -41,8 +41,8 @@ function LoginPage(props) {
 }
 
 function LoginPane(props) {
-  const [email, setEmail] = useState('customer1@products.com');
-  const [password, setPassword] = useState('password');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
 
   function handleSubmit(event) {
     event.preventDefault();
@@ -76,10 +76,14 @@ function LoginPane(props) {
         <Row className='w-50'>
           <h3 className='text-center'>Login</h3>
           <Form.Group controlId="formBasicEmailLogin" autoFocus className='my-2'>
-            <Form.Control type="email" placeholder="Enter email address" value={email} onChange={ev => setEmail(ev.target.value)} />
+            <FloatingLabel controlId="floatingSelect" label="Email address">
+              <Form.Control type="email" placeholder="Enter email address" value={email} onChange={ev => setEmail(ev.target.value)} />
+            </FloatingLabel>
           </Form.Group>
           <Form.Group controlId="formBasicPasswordLogin" className='my-2'>
-            <Form.Control type="password" placeholder="Enter password" value={password} onChange={ev => setPassword(ev.target.value)} />
+            <FloatingLabel controlId="floatingSelect" label="Password">
+              <Form.Control type="password" placeholder="Enter password" value={password} onChange={ev => setPassword(ev.target.value)} />
+            </FloatingLabel>
           </Form.Group>
           <div className="text-center mt-3 pt-1 pb-1">
             <Button className="w-50 gradient-custom" type="submit">Login</Button>
@@ -190,27 +194,37 @@ function SignUpPane(props) {
         <Row className='w-50'>
           <h3 className='text-center'>Sign up</h3>
           <Form.Group controlId="formBasicRole" className='my-2'>
-            <Form.Control as="select" value={role} onChange={ev => setRole(ev.target.value)}>
+            <Form.Select value={role} onChange={ev => setRole(ev.target.value)}>
               <option disabled value="">Choose role...</option>
               <option value="customer">Customer</option>
               <option value="expert">Expert</option>
-            </Form.Control>
+            </Form.Select>
           </Form.Group>
           <Form.Group controlId="formBasicEmailSignUp" autoFocus className='my-2'>
-            <Form.Control type="email" placeholder="Enter email address" value={email} onChange={ev => setEmail(ev.target.value)} />
+            <FloatingLabel controlId="floatingSelect" label="Email address">
+              <Form.Control type="email" placeholder="Enter email address" value={email} onChange={ev => setEmail(ev.target.value)} />
+            </FloatingLabel>
           </Form.Group>
           <Form.Group controlId="formBasicPasswordSignUp" className='my-2'>
-            <Form.Control type="password" placeholder="Enter password" value={password} onChange={ev => setPassword(ev.target.value)} />
+            <FloatingLabel controlId="floatingSelect" label="Password">
+              <Form.Control type="password" placeholder="Enter password" value={password} onChange={ev => setPassword(ev.target.value)} />
+            </FloatingLabel>
           </Form.Group>
           <Form.Group controlId="formBasicFirstNameSignUp" className='my-2'>
-            <Form.Control type="text" placeholder="Enter first name" value={firstName} onChange={ev => setFirstName(ev.target.value)} />
+            <FloatingLabel controlId="floatingSelect" label="First name">
+              <Form.Control type="text" placeholder="Enter first name" value={firstName} onChange={ev => setFirstName(ev.target.value)} />
+            </FloatingLabel>
           </Form.Group>
           <Form.Group controlId="formBasicLastNameSignUp" className='my-2'>
-            <Form.Control type="text" placeholder="Enter last name" value={lastName} onChange={ev => setLastName(ev.target.value)} />
+            <FloatingLabel controlId="floatingSelect" label="Last name">
+              <Form.Control type="text" placeholder="Enter last name" value={lastName} onChange={ev => setLastName(ev.target.value)} />
+            </FloatingLabel>
           </Form.Group>
           {role === "customer" ?
             <Form.Group controlId="formBasicPhoneSignUp" className='my-2'>
-              <Form.Control type="tel" placeholder="Enter phone number" value={phone} onChange={ev => setPhone(ev.target.value)} />
+              <FloatingLabel controlId="floatingSelect" label="Phone number">
+                <Form.Control type="tel" placeholder="Enter phone number" value={phone} onChange={ev => setPhone(ev.target.value)} />
+              </FloatingLabel>
             </Form.Group> : null
           }
           <div className="text-center mt-3 pt-1 pb-1">
