@@ -1346,6 +1346,7 @@ INSERT INTO purchases (id, date_of_purchase, status, customer_id, product_ean) V
 INSERT INTO purchases (id, date_of_purchase, status, customer_id, product_ean) VALUES (1011, '2021-07-22', 3, '6bfb8ada-23e6-42d6-922b-d585943a5573', '8712725728528');
 INSERT INTO purchases (id, date_of_purchase, status, customer_id, product_ean) VALUES (1012, '2021-05-27', 3, '6bfb8ada-23e6-42d6-922b-d585943a5573', '7108176263977');
 INSERT INTO purchases (id, date_of_purchase, status, customer_id, product_ean) VALUES (1013, '2021-05-22', 3, '6bfb8ada-23e6-42d6-922b-d585943a5573', '4894817191725');
+INSERT INTO purchases (id, date_of_purchase, status, customer_id, product_ean) VALUES (1014, '2022-08-12', 0, '6bfb8ada-23e6-42d6-922b-d585943a5573', '4040074235362');
 
 INSERT INTO tickets(id, description, priority_level, ticket_status, title, expert_id, purchase_id) VALUES (1001, 'Found several scratches on the surface of the CD after opening the package', 1, 2, 'Scratched CD', 'joe_pesci_12@mail.com', 1001);
 INSERT INTO tickets(id, description, priority_level, ticket_status, title, expert_id, purchase_id) VALUES (1002, 'The product arrived defective, what mainly stands out is the wheel which has pressure problems', 1, 3, 'Flat tire', '7b196901-c64f-4957-9345-3f853bd104c9', 1003);
@@ -1357,6 +1358,7 @@ INSERT INTO tickets(id, description, priority_level, ticket_status, title, exper
 INSERT INTO tickets(id, description, priority_level, ticket_status, title, expert_id, purchase_id) VALUES (1008, 'The mic covers are not the size written on the box', 2, 2, 'Wrong size', '7b196901-c64f-4957-9345-3f853bd104c9', 1013);
 INSERT INTO tickets(id, description, priority_level, ticket_status, title, expert_id, purchase_id) VALUES (1009, 'The ASUS Right Hinge arrived and appears damaged to the eye once removed from the plastic bag', 1, 0, 'ASUS Right Hinge not working', 'joe_pesci_12@mail.com', 1005);
 INSERT INTO tickets(id, description, priority_level, ticket_status, title, expert_id, purchase_id) VALUES (1010, 'Cannot pair the speaker with my devices via Bluetooth', 1, 0, 'Speaker not pairing', '7b196901-c64f-4957-9345-3f853bd104c9', 1006);
+INSERT INTO tickets(id, description, priority_level, ticket_status, title, expert_id, purchase_id) VALUES (1011, 'Some detection problems were encountered by the sensor, suspected bad calibration based on what is written in the manual', 1, 0, 'Poorly calibrated sensor', null, 1014);
 
 INSERT INTO chats(id, closed, ticket_id) VALUES (1001, false, 1005);
 UPDATE tickets SET chat_id = 1001 WHERE id = 1005;
