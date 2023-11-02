@@ -106,7 +106,7 @@ function NewPurchaseForm(props) {
           </Form>
         </Modal.Header>
         <Modal.Body className='modal-body-overflow'>
-          {loading ? <Loading /> : products
+          {loading ? <Loading small /> : products
             .sort((a, b) => a.ean - b.ean)
             .filter(p => p.ean.toLowerCase().includes(searchText) || p.name.toLowerCase().includes(searchText) || p.brand.toLowerCase().includes(searchText))
             .map(p => <ProductListItem product={p} selectedProduct={selectedProduct} setSelectedProduct={setSelectedProduct} />)}
