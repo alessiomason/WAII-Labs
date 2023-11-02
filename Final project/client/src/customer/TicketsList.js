@@ -78,7 +78,7 @@ function TicketsListItem(props) {
               <PersonCheckFill className="my-violet" />
             </TooltipedContent> :
             <TooltipedContent text={'Expert not assigned'} id={'expert-tooltip' + props.ticket.id}>
-              <PersonXFill className="my-red" />)
+              <PersonXFill className="my-red" />
             </TooltipedContent>) : <CustomBadge text={props.ticket.ticketStatus} />}
       </td>
     </tr>
