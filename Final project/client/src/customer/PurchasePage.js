@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { Row, Col, Button, Modal, Form, FloatingLabel } from 'react-bootstrap';
 import TicketsList from './TicketsList';
+import CustomBadge from '../CustomBadge';
 import './PurchasePage.css';
 import './TicketPage.css';
 import API from '../API';
@@ -118,7 +119,7 @@ function PurchasePage(props) {
           <Row className='bottom-border'>
             <Col><h1 className='with-side-button'>{purchase.product?.name}</h1></Col>
             <Col className='d-flex justify-content-end'>
-              {purchase.status && props.role === "expert" && <Button onClick={() => setShowModal(true)}>Change purchase status</Button>}
+              {purchase.status && props.role !== "customer" && <Button onClick={() => setShowModal(true)}>Change purchase status</Button>}
               {!purchase.warranty && <Button onClick={() => setShowWarrantyModal(true)}>Add additional warranty</Button>}
             </Col>
           </Row>
@@ -128,7 +129,7 @@ function PurchasePage(props) {
           </Row>
           <Row>
             <Col xs={3} className='header-column'><h5 className='text-end'>Purchase status</h5></Col>
-            <Col><p>{purchase.status}</p></Col>
+            <Col><p><CustomBadge text={purchase.status} /></p></Col>
           </Row>
           <Row>
             <Col xs={3} className='header-column'><h5 className='text-end'>Date of purchase</h5></Col>

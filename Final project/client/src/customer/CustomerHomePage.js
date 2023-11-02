@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { Button, Col, Row, Table } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import TicketsList from "./TicketsList";
+import CustomBadge from "../CustomBadge";
 import API from "../API";
 import './CustomerHomePage.css';
 const dayjs = require('dayjs');
@@ -86,7 +87,7 @@ function PurchasesListItem(props) {
       <td>{props.i + 1}</td>
       <td>{props.purchase.product.name}</td>
       <td>{dayjs(props.purchase.dateOfPurchase).format('YYYY/MM/DD')}</td>
-      <td>{props.purchase.status}</td>
+      <td><CustomBadge text={props.purchase.status} /></td>
     </tr>
   );
 }

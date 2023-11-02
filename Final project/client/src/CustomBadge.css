@@ -1,0 +1,31 @@
+.badge {
+	width: 100px;
+}
+
+.open-badge,
+.preparing-badge,
+.replaced-badge,
+.low-badge {
+	background-color: #ee7724 !important;
+}
+
+.reopened-badge,
+.shipped-badge,
+.repaired-badge,
+.normal-badge {
+	background-color: #d8363a !important;
+}
+
+.in-progress-badge,
+.delivered-badge,
+.high-badge {
+	background-color: #dd3675 !important;
+}
+
+.closed-badge,
+.resolved-badge,
+.withdrawn-badge,
+.refused-badge,
+.critical-badge {
+	background-color: #b44593 !important;
+}

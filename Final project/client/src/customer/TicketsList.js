@@ -1,5 +1,6 @@
 import { Table } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
+import CustomBadge from "../CustomBadge";
 import { PersonCheckFill, PersonXFill } from "react-bootstrap-icons";
 import './TicketsList.css';
 
@@ -63,14 +64,14 @@ function TicketsListItem(props) {
     <tr onClick={() => navigate(`/ticket/${props.ticket.id}`)}>
       <td>{props.i + 1}</td>
       <td className="text-center my-red">
-        {[...Array(numberizePriority(props.ticket.priorityLevel))].map((_) => '!')}
+        {[...Array(numberizePriority(props.ticket.priorityLevel))].map((_) => '!').join('')}
       </td>
       <td>{props.ticket.title}</td>
       <td>{props.ticket.purchase.product.name}</td>
       <td className={props.role === "manager" ? "text-center" : ""}>
         {props.role === "manager" ?
           (props.ticket?.expert?.id ? <PersonCheckFill className="my-violet" /> : <PersonXFill className="my-red" />)
-          : props.ticket.ticketStatus}
+          : <CustomBadge text={props.ticket.ticketStatus} />}
       </td>
     </tr>
   );

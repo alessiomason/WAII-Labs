@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { Row, Col, Button, Card, Form, Modal, FloatingLabel } from 'react-bootstrap';
 import TicketLogSection from '../manager/TicketLogSection';
+import CustomBadge from '../CustomBadge';
 import './TicketPage.css';
 import API from '../API';
 const dayjs = require('dayjs');
@@ -188,11 +189,11 @@ function TicketPage(props) {
           </Row>
           <Row>
             <Col xs={3} className='header-column'><h5 className='text-end'>Ticket status</h5></Col>
-            <Col><p>{ticket.ticketStatus}</p></Col>
+            <Col><p><CustomBadge text={ticket.ticketStatus} /></p></Col>
           </Row>
           <Row>
             <Col xs={3} className='header-column'><h5 className='text-end'>Ticket priority</h5></Col>
-            <Col><p>{[...Array(numberizePriority(ticket.priorityLevel))].map((_) => '!')}{' ' + ticket.priorityLevel}</p></Col>
+            <Col><p><CustomBadge text={([...Array(numberizePriority(ticket.priorityLevel))].map((_) => '!')).join('') + ' ' + ticket.priorityLevel} /></p></Col>
           </Row>
           <Row>
             <Col xs={3} className='header-column'><h5 className='text-end'>Expert</h5></Col>
