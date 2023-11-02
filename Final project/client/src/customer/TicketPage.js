@@ -19,6 +19,7 @@ function TicketPage(props) {
   const [selectedExpert, setSelectedExpert] = useState(null);
   const [statusChangePermitted, setStatusChangePermitted] = useState([])
   const [ticketStatus, setTicketStatus] = useState(null);
+  const [ticketPriority, setTicketPriority] = useState('NORMAL');
 
   const TicketStatus = {
     OPEN: 'OPEN',
@@ -28,12 +29,13 @@ function TicketPage(props) {
     RESOLVED: 'RESOLVED',
   };
 
+  const ticketPriorities = ['LOW', 'NORMAL', 'HIGH', 'CRITICAL'];
+
   useEffect(() => {
     if (dirty) {
       API.getTicketById(ticketId)
         .then(ticket => {
           setTicket(ticket);
-          setDirty(false);
           switch (ticket.ticketStatus) {
             case TicketStatus.OPEN:
               setStatusChangePermitted([TicketStatus.IN_PROGRESS, TicketStatus.CLOSED, TicketStatus.RESOLVED])
@@ -51,11 +53,11 @@ function TicketPage(props) {
               setStatusChangePermitted([TicketStatus.CLOSED, TicketStatus.REOPENED])
               break;
           }
+          setTicketPriority(ticket.priorityLevel);
+          setDirty(false);
+
           API.getExperts()
-            .then(experts => {
-              setExperts(experts);
-            }
-            )
+            .then(experts => setExperts(experts))
             .catch(err => console.log(err))
         })
         .catch(err => console.log(err))
@@ -72,9 +74,11 @@ function TicketPage(props) {
     }
   }, [dirty])
 
-  function changeTicketStatus() {
+  function editTicketProperties() {
     let newTicket = ticket;
     newTicket.ticketStatus = ticketStatus ? ticketStatus : statusChangePermitted[0];
+    newTicket.priorityLevel = ticketPriority;
+    
     API.editTicket(newTicket).then(() => {
       setShowModalExperts(false);
       props.setDirty(true);
@@ -116,12 +120,12 @@ function TicketPage(props) {
     <>
       <Modal show={showModal} onHide={() => setShowModal(false)}>
         <Modal.Header closeButton>
-          <Modal.Title>Change ticket status</Modal.Title>
+          <Modal.Title>Edit ticket properties</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <Form>
-            <FloatingLabel controlId="floatingSelect" label="Mark the ticket as:">
-              <Form.Select onChange={ev => { setTicketStatus(ev.target.value) }}>
+            <FloatingLabel controlId="floatingSelect" label="Ticket status">
+              <Form.Select value={ticketStatus} onChange={ev => setTicketStatus(ev.target.value)}>
                 {statusChangePermitted ? statusChangePermitted.map((item) => (
                   <option key={item} value={item}>
                     {item}
@@ -129,12 +133,20 @@ function TicketPage(props) {
                 )) : null}
               </Form.Select>
             </FloatingLabel>
+            <FloatingLabel controlId="floatingSelect" label="Ticket priority">
+              <Form.Select value={ticketPriority} onChange={ev => setTicketPriority(ev.target.value)}>
+                {ticketPriorities.map((priority) => (
+                  <option key={priority} value={priority}>{priority}</option>
+                ))}
+              </Form.Select>
+            </FloatingLabel>
           </Form>
         </Modal.Body>
         <Modal.Footer>
-          <Button onClick={changeTicketStatus}>Change ticket status</Button>
+          <Button onClick={editTicketProperties}>Edit ticket properties</Button>
         </Modal.Footer>
       </Modal>
+
       <Modal show={showModalExperts} onHide={() => setShowModalExperts(false)}>
         <Modal.Header closeButton>
           <Modal.Title>Choose expert</Modal.Title>
@@ -168,7 +180,7 @@ function TicketPage(props) {
             <Col><h1 className='with-side-button'>{ticket.title}</h1></Col>
             <Col className='d-flex justify-content-end'>
               <Button onClick={() => navigate('/purchase/' + ticket.purchase?.id)}>View purchase</Button>
-              {ticket.ticketStatus && props.role === 'expert' && <Button onClick={() => setShowModal(true)}>Change ticket status</Button>}
+              {ticket.ticketStatus && props.role === 'expert' && <Button onClick={() => setShowModal(true)}>Edit ticket properties</Button>}
               {!ticket.expert && props.role === 'manager' && <Button onClick={() => setShowModalExperts(true)}>Assign expert</Button>}
             </Col>
           </Row>

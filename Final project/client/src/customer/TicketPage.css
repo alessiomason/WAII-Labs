@@ -23,6 +23,11 @@ h3 {
 	border-right: 2px solid #dd3675;
 }
 
+.form-select {
+	margin-top: 10px;
+	margin-bottom: 10px;
+}
+
 .messages-section {
 	margin-top: 20px;
 	margin-bottom: 30px;
