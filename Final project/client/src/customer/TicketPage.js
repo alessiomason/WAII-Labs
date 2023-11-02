@@ -12,8 +12,8 @@ function TicketPage(props) {
   const navigate = useNavigate();
   const [ticket, setTicket] = useState({});
   const [dirty, setDirty] = useState(true);
-  const [showModal, setShowModal] = useState(false);
-  const [showModalExperts, setShowModalExperts] = useState(false);
+  const [showTicketModal, setShowTicketModal] = useState(false);
+  const [showExpertsModal, setShowExpertsModal] = useState(false);
   const [experts, setExperts] = useState(null);
   const [expertId, setExpertId] = useState(null);
   const [selectedExpert, setSelectedExpert] = useState(null);
@@ -70,30 +70,32 @@ function TicketPage(props) {
   useEffect(() => {
     if (!dirty && ticket.chat) {
       const intervalId = setInterval(() => {
-        setDirty(true);
+        if (!showTicketModal && !showExpertsModal) {
+          setDirty(true);
+        }
       }, 1000);
 
       return () => clearInterval(intervalId);
     }
-  }, [dirty])
+  }, [ticket.chat, showTicketModal, showExpertsModal])
 
   function editTicketProperties() {
     let newTicket = ticket;
     newTicket.ticketStatus = ticketStatus ? ticketStatus : statusChangePermitted[0];
     newTicket.priorityLevel = ticketPriority;
-    
+
     API.editTicket(newTicket).then(() => {
-      setShowModalExperts(false);
+      setShowExpertsModal(false);
       props.setDirty(true);
       setDirty(true);
     }).catch(err => console.log(err))
-    setShowModal(false);
+    setShowTicketModal(false);
   }
 
   function confirmExpert() {
     API.assignExpert(ticket, selectedExpert)
       .then(() => {
-        setShowModalExperts(false);
+        setShowExpertsModal(false);
         props.setDirty(true);
         setDirty(true);
       }).catch(err => console.log(err))
@@ -116,7 +118,7 @@ function TicketPage(props) {
 
   return (
     <>
-      <Modal show={showModal} onHide={() => setShowModal(false)}>
+      <Modal show={showTicketModal} onHide={() => setShowTicketModal(false)}>
         <Modal.Header closeButton>
           <Modal.Title>Edit ticket properties</Modal.Title>
         </Modal.Header>
@@ -143,7 +145,7 @@ function TicketPage(props) {
         </Modal.Footer>
       </Modal>
 
-      <Modal show={showModalExperts} onHide={() => setShowModalExperts(false)}>
+      <Modal show={showExpertsModal} onHide={() => setShowExpertsModal(false)}>
         <Modal.Header closeButton>
           <Modal.Title>Choose expert</Modal.Title>
         </Modal.Header>
@@ -173,8 +175,8 @@ function TicketPage(props) {
             <Col><h1 className='with-side-button'>{ticket.title}</h1></Col>
             <Col className='d-flex justify-content-end'>
               <Button onClick={() => navigate('/purchase/' + ticket.purchase?.id)}>View purchase</Button>
-              {ticket.ticketStatus && props.role !== 'customer' && <Button onClick={() => setShowModal(true)}>Edit ticket properties</Button>}
-              {(ticket.ticketStatus === 'OPEN' || ticket.ticketStatus === 'REOPENED') && props.role === 'manager' && <Button onClick={() => setShowModalExperts(true)}>{ticket.expert ? 'Change assigned expert' : 'Assign expert'}</Button>}
+              {ticket.ticketStatus && props.role !== 'customer' && <Button onClick={() => setShowTicketModal(true)}>Edit ticket properties</Button>}
+              {(ticket.ticketStatus === 'OPEN' || ticket.ticketStatus === 'REOPENED') && props.role === 'manager' && <Button onClick={() => setShowExpertsModal(true)}>{ticket.expert ? 'Change assigned expert' : 'Assign expert'}</Button>}
             </Col>
           </Row>
           <Row>
