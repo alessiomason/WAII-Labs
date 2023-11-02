@@ -16,6 +16,8 @@ class ManagerNotFoundException: RuntimeException("Manager not found!")
 
 class PurchaseNotFoundException: RuntimeException("Purchase not found!")
 
+class PurchaseGeneralException: RuntimeException("Error during the creation of the purchase!")
+
 class TicketNotFoundException: RuntimeException("Ticket not found!")
 
 class ChatNotFoundException: RuntimeException("Chat not found!")

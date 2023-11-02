@@ -139,6 +139,7 @@ function NewPurchaseForm(props) {
                 isClearable
                 placeholderText="Choose a date"
                 className="form-control"
+                maxDate={new Date()}
                 required
               />
             </Form.Group>

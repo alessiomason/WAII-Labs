@@ -37,6 +37,10 @@ class ProblemDetailsHandler: ResponseEntityExceptionHandler() {
     fun handleManagerNotFound(e: ManagerNotFoundException) = ProblemDetail
         .forStatusAndDetail(HttpStatus.NOT_FOUND, e.message!!)
 
+    @ExceptionHandler(PurchaseGeneralException::class)
+    fun handlePurchaseNotFound(e: PurchaseGeneralException) = ProblemDetail
+        .forStatusAndDetail(HttpStatus.BAD_REQUEST, e.message!!)
+
     @ExceptionHandler(PurchaseNotFoundException::class)
     fun handlePurchaseNotFound(e: PurchaseNotFoundException) = ProblemDetail
         .forStatusAndDetail(HttpStatus.NOT_FOUND, e.message!!)

@@ -104,6 +104,7 @@ function PurchasePage(props) {
                 isClearable
                 placeholderText="Choose a date"
                 className="form-control"
+                minDate={purchase.coveredByWarranty ? new Date(dayjs(purchase.dateOfPurchase).add(2, 'years').add(1, 'day').format('YYYY/MM/DD')) : new Date()}
                 required
               />
             </Form.Group>

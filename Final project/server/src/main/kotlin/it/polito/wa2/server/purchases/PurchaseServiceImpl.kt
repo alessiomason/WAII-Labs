@@ -5,10 +5,12 @@ import it.polito.wa2.server.exceptions.ProfileNotFoundException
 import it.polito.wa2.server.exceptions.PurchaseNotFoundException
 import it.polito.wa2.server.products.ProductRepository
 import it.polito.wa2.server.customers.ProfileRepository
+import it.polito.wa2.server.exceptions.PurchaseGeneralException
 import it.polito.wa2.server.purchases.warranties.*
 import jakarta.validation.constraints.Email
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Service
+import java.time.LocalDate
 
 @Service
 class PurchaseServiceImpl(
@@ -36,6 +38,9 @@ class PurchaseServiceImpl(
         val newPurchase = Purchase(customer, product, newPurchaseDTO.status, newPurchaseDTO.dateOfPurchase)
         purchaseRepository.save(newPurchase)
 
+        if (newPurchaseDTO.dateOfPurchase.isAfter(LocalDate.now()))
+            throw PurchaseGeneralException()
+
         return newPurchase.toDTO()
     }
 
@@ -49,6 +54,13 @@ class PurchaseServiceImpl(
     override fun addWarranty(purchaseId: Int, newWarrantyDTO: NewWarrantyDTO): WarrantyDTO {
         val purchase = purchaseRepository.findByIdOrNull(purchaseId) ?: throw PurchaseNotFoundException()
         val warranty = Warranty(newWarrantyDTO.expiryDate)
+
+        val warrantyStartDate = if (purchase.coveredByWarranty)
+            purchase.dateOfPurchase.plusYears(2).plusDays(1)
+        else LocalDate.now()
+
+        if (newWarrantyDTO.expiryDate.isBefore(warrantyStartDate))
+            throw PurchaseGeneralException()
 
         warrantyRepository.save(warranty)
         purchase.warranty = warranty
