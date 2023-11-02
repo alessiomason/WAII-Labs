@@ -1,14 +1,12 @@
 import { useEffect, useState } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
-import { Row, Col, Button, Card, Form, Modal, FloatingLabel } from 'react-bootstrap';
+import { useParams } from 'react-router-dom';
+import { Row, Col, Button } from 'react-bootstrap';
 import API from '../API';
 import TicketsList from '../customer/TicketsList';
 import ExpertLogSection from './ExpertLogSection';
-const dayjs = require('dayjs');
 
-function ExpertProfilePage(props) {
+function ExpertProfilePage() {
   let { expertId } = useParams();
-  const navigate = useNavigate();
   const [expert, setExpert] = useState({});
   const [dirty, setDirty] = useState(true);
   const [tickets, setTickets] = useState([]);

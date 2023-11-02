@@ -2,8 +2,6 @@ import { Button, Alert, Form } from 'react-bootstrap';
 import { Container, Row, Col } from 'react-bootstrap';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import API from "./API";
-
 
 function FormCreateProfile(props) {
     const [email, setEmail] = useState("");
