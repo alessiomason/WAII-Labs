@@ -56,7 +56,7 @@ function FormCreateTicket(props) {
   return (
     <>
       <Container>
-        <h1 className="title_profiles">Create Ticket</h1>
+        <h1 className="title_profiles">Create ticket</h1>
         <Row>
           <Col>
             {errorMsg ? <Alert variant='danger' onClose={() => setErrorMsg('')} dismissible>{errorMsg}</Alert> : false}

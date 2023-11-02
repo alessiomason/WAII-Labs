@@ -153,7 +153,7 @@ function FormModifyProfile(props) {
           {saveMsg && <Alert variant="success" className="login_alert" onClose={() => setSaveMsg('')} dismissible>{saveMsg}</Alert>}
           <Container className='d-flex justify-content-center mt-5'>
               <Row className='w-50'>
-                  <h3 className='text-center'>My Profile</h3>
+                  <h3 className='text-center'>My profile</h3>
                   <Form.Group controlId="formBasicEmailSignUp" autoFocus className='my-2'>
                       <Form.Label>Email</Form.Label>
                       <Form.Control type="email" value={email} disabled readOnly={true} />
@@ -177,7 +177,7 @@ function FormModifyProfile(props) {
                   </div>
                   { props.role === "expert" ?
                     <div>
-                        <h3 className='my_specializations'>My Specializations</h3>
+                        <h3 className='my_specializations'>My specializations</h3>
                         <Table>
                             <thead>
                             <tr>

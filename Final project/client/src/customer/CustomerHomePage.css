@@ -18,6 +18,8 @@ h1:not(.with-side-button) {
 .btn-primary {
 	background: linear-gradient(to right, #ee7724, #d8363a, #dd3675, #b44593);
 	border: 0;
+	margin-left: 5px;
+	margin-right: 5px;
 }
 
 .btn-outline-primary {
