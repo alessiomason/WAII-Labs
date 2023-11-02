@@ -3,6 +3,7 @@ import { Container, Row, Col } from 'react-bootstrap';
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import DatePicker from 'react-datepicker';
+import Loading from "../Loading";
 import 'react-datepicker/dist/react-datepicker.css';
 import API from "../API";
 import './NewPurchaseForm.css';
@@ -15,6 +16,7 @@ function NewPurchaseForm(props) {
   const [lastName, setLastName] = useState("");
   const [phone, setPhone] = useState("");
   const [customer, setCustomer] = useState({});
+  const [loading, setLoading] = useState(true);
 
   const [dateOfPurchase, setDateOfPurchase] = useState();
   const [selectedProduct, setSelectedProduct] = useState();
@@ -70,6 +72,7 @@ function NewPurchaseForm(props) {
       .then((p) => {
         setProducts(p);
         setErrorMsg('');
+        setLoading(false);
       }).catch(err => props.handleError(err));
 
     const profile = {
@@ -103,7 +106,7 @@ function NewPurchaseForm(props) {
           </Form>
         </Modal.Header>
         <Modal.Body className='modal-body-overflow'>
-          {products
+          {loading ? <Loading /> : products
             .sort((a, b) => a.ean - b.ean)
             .filter(p => p.ean.toLowerCase().includes(searchText) || p.name.toLowerCase().includes(searchText) || p.brand.toLowerCase().includes(searchText))
             .map(p => <ProductListItem product={p} selectedProduct={selectedProduct} setSelectedProduct={setSelectedProduct} />)}

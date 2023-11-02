@@ -3,6 +3,7 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { Row, Col, Button, Card, Form, Modal, FloatingLabel } from 'react-bootstrap';
 import TicketLogSection from '../manager/TicketLogSection';
 import CustomBadge from '../CustomBadge';
+import Loading from "../Loading";
 import './TicketPage.css';
 import API from '../API';
 const dayjs = require('dayjs');
@@ -21,6 +22,7 @@ function TicketPage(props) {
   const [statusChangePermitted, setStatusChangePermitted] = useState([])
   const [ticketStatus, setTicketStatus] = useState(null);
   const [ticketPriority, setTicketPriority] = useState('NORMAL');
+  const [loading, setLoading] = useState(true);
 
   const TicketStatus = {
     OPEN: 'OPEN',
@@ -62,6 +64,7 @@ function TicketPage(props) {
           setExpertId(ticket.expert?.id);
           setSelectedExpert(ticket.expert);
           setDirty(false);
+          setLoading(false);
 
           API.getExperts()
             .then(experts => setExperts(experts.filter(e => e.authorized)))
@@ -119,6 +122,9 @@ function TicketPage(props) {
         return 0;
     }
   }
+
+  if (loading)
+    return (<Loading />);
 
   return (
     <>

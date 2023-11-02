@@ -3,11 +3,13 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { Row, Col, Button, Modal, Form, FloatingLabel } from 'react-bootstrap';
 import TicketsList from './TicketsList';
 import CustomBadge from '../CustomBadge';
+import "../Loading";
 import './PurchasePage.css';
 import './TicketPage.css';
 import API from '../API';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
+import Loading from '../Loading';
 const dayjs = require('dayjs');
 
 function PurchasePage(props) {
@@ -20,7 +22,7 @@ function PurchasePage(props) {
   const [dateOfPurchase, setDateOfPurchase] = useState('');
   const [showModal, setShowModal] = useState(false);
   const [purchaseStatus, setPurchaseStatus] = useState(0);
-  const [statusChangePermitted, setStatusChangePermitted] = useState([]);
+  const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -29,6 +31,7 @@ function PurchasePage(props) {
         .then(purchase => {
           setPurchase(purchase);
           setDirty(false);
+          setLoading(false);
         })
         .catch(err => console.log(err))
     }
@@ -64,6 +67,9 @@ function PurchasePage(props) {
     }).catch(err => console.log(err))
     setShowModal(false);
   }
+
+  if (loading)
+  return (<Loading />)
 
   return (
     <>

@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { Row, Col, Button } from 'react-bootstrap';
+import Loading from "../Loading";
 import API from '../API';
 import TicketsList from '../customer/TicketsList';
 import ExpertLogSection from './ExpertLogSection';
@@ -10,6 +11,7 @@ function ExpertProfilePage() {
   const [expert, setExpert] = useState({});
   const [dirty, setDirty] = useState(true);
   const [tickets, setTickets] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     if (dirty) {
@@ -17,6 +19,7 @@ function ExpertProfilePage() {
         .then(expert => {
           setExpert(expert);
           setDirty(false);
+          setLoading(false);
         })
     }
   }, [expertId, dirty])
@@ -43,6 +46,9 @@ function ExpertProfilePage() {
       .catch(err => console.log(err))
   }
 
+  if (loading)
+    return (<Loading />);
+
   return (
     <Row>
       <Col className='section'>
@@ -66,7 +72,7 @@ function ExpertProfilePage() {
         </Row>
 
         <Row>
-          <TicketsList tickets={tickets}  />
+          <TicketsList tickets={tickets} />
         </Row>
 
         <Row>

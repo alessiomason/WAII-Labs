@@ -1,17 +1,25 @@
 import { useEffect, useState } from "react";
 import { Col, Row } from "react-bootstrap";
 import TicketsList from "../customer/TicketsList";
+import Loading from "../Loading";
 import API from "../API";
 import '../customer/CustomerHomePage.css';
 
 function ExpertHomePage(props) {
 	const [tickets, setTickets] = useState([]);
+	const [loading, setLoading] = useState(true);
 
 	useEffect(() => {
 		API.getTickets()
-			.then(tickets => setTickets(tickets))
+			.then(tickets => {
+				setTickets(tickets);
+				setLoading(false);
+			})
 			.catch(err => console.log(err))
 	}, [])
+
+	if (loading)
+		return (<Loading />);
 
 	return (
 		<>

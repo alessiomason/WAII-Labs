@@ -3,6 +3,7 @@ import { Button, Col, Row, Table } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import TicketsList from "./TicketsList";
 import CustomBadge from "../CustomBadge";
+import Loading from "../Loading";
 import API from "../API";
 import './CustomerHomePage.css';
 const dayjs = require('dayjs');
@@ -10,12 +11,16 @@ const dayjs = require('dayjs');
 function CustomerHomePage(props) {
   const [tickets, setTickets] = useState([]);
   const [purchases, setPurchases] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   const navigate = useNavigate();
 
   useEffect(() => {
     API.getTickets()
-      .then(tickets => setTickets(tickets))
+      .then(tickets => {
+        setTickets(tickets);
+        setLoading(false);
+      })
       .catch(err => console.log(err))
 
     API.getPurchases()
@@ -23,6 +28,9 @@ function CustomerHomePage(props) {
       .catch(err => console.log(err))
     props.setDirty(false);
   }, [props.dirty])
+
+  if (loading)
+    return (<Loading />);
 
   return (
     <>

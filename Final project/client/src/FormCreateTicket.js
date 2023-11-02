@@ -1,7 +1,8 @@
 import { Button, Alert, Form } from 'react-bootstrap';
 import { Container, Row, Col } from 'react-bootstrap';
-import {useEffect, useState} from 'react';
-import {useNavigate, useParams} from 'react-router-dom';
+import { useEffect, useState } from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
+import Loading from './Loading';
 import API from "./API";
 import './FormCreateTicket.css';
 
@@ -12,7 +13,8 @@ function FormCreateTicket(props) {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState('');
   const [purchase, setPurchase] = useState();
-  const [dirty,setDirty] = useState(true);
+  const [dirty, setDirty] = useState(true);
+  const [loading, setLoading] = useState(true);
 
   const [errorMsg, setErrorMsg] = useState('');
   const [saveMsg, setSaveMsg] = useState('');
@@ -25,6 +27,7 @@ function FormCreateTicket(props) {
           setPurchase(purchase);
           setDirty(false);
           props.setDirty(false);
+          setLoading(false);
         })
         .catch(err => console.log(err))
     }
@@ -41,17 +44,19 @@ function FormCreateTicket(props) {
     }
 
     API.createTicket(newTicket)
-    .then(createdTicket => {
-      setDirty(true);
-      props.setDirty(true);
-      setSaveMsg('The ticket has been created.');
-      navigate('/ticket/' + createdTicket.id);
-    })
-    .catch(err => {
-      props.handleError(err);
-      setSaveMsg('Error during the creation of the ticket.')
-    });
+      .then(createdTicket => {
+        setDirty(true);
+        props.setDirty(true);
+        setSaveMsg('The ticket has been created.');
+        navigate('/ticket/' + createdTicket.id);
+      })
+      .catch(err => {
+        props.handleError(err);
+        setSaveMsg('Error during the creation of the ticket.')
+      });
   }
+  if (loading)
+    return (<Loading />);
 
   return (
     <>

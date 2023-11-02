@@ -3,6 +3,7 @@ import { Col, Row, Table } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import TicketsList from "../customer/TicketsList";
 import { PersonFill, LockFill } from "react-bootstrap-icons";
+import Loading from "../Loading";
 import API from "../API";
 import '../customer/CustomerHomePage.css';
 import { TooltipedContent } from "../TooltipedContent";
@@ -10,16 +11,23 @@ import { TooltipedContent } from "../TooltipedContent";
 function ManagerHomePage(props) {
   const [tickets, setTickets] = useState([]);
   const [experts, setExperts] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     API.getTickets()
-      .then(tickets => setTickets(tickets))
+      .then(tickets => {
+        setTickets(tickets);
+        setLoading(false);
+      })
       .catch(err => console.log(err))
 
     API.getExperts()
       .then(experts => setExperts(experts))
       .catch(err => console.log(err))
   }, [])
+
+  if (loading)
+    return (<Loading />);
 
   return (
     <>
