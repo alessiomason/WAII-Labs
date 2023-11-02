@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { Button, Row, Table } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import API from '../API';
+import CustomBadge from "../CustomBadge";
 const dayjs = require('dayjs');
 
 function ExpertLogSection(props) {
@@ -48,8 +49,8 @@ function ExpertLogListItem(props) {
       <td>{props.i + 1}</td>
       <td>{props.log.ticket.title}</td>
       <td>{dayjs(props.log.time).format('YYYY/MM/DD hh:mm a')}</td>
-      <td>{props.log.previousTicketStatus}</td>
-      <td>{props.log.newTicketStatus}</td>
+      <td><CustomBadge text={props.log.previousTicketStatus} /></td>
+      <td><CustomBadge text={props.log.newTicketStatus} /></td>
       <td className="d-flex justify-content-end"><Button onClick={() => navigate('/ticket/' + props.log.ticket.id)}>See ticket page</Button></td>
     </tr>
   );
