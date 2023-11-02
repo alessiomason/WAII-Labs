@@ -5,6 +5,7 @@ import TicketsList from "../customer/TicketsList";
 import { PersonFill, LockFill } from "react-bootstrap-icons";
 import API from "../API";
 import '../customer/CustomerHomePage.css';
+import { TooltipedContent } from "../TooltipedContent";
 
 function ManagerHomePage(props) {
   const [tickets, setTickets] = useState([]);
@@ -51,13 +52,13 @@ function ManagerHomePage(props) {
 }
 
 function ExpertsList(props) {
-function compareExperts(expertA, expertB) {
-  const authorizedFirst = expertB.authorized - expertA.authorized;
-  if (authorizedFirst !== 0)
-    return authorizedFirst;
+  function compareExperts(expertA, expertB) {
+    const authorizedFirst = expertB.authorized - expertA.authorized;
+    if (authorizedFirst !== 0)
+      return authorizedFirst;
 
-  return `${expertA.firstName} ${expertA.lastName}`.localeCompare(`${expertB.firstName} ${expertB.lastName}`)
-}
+    return `${expertA.firstName} ${expertA.lastName}`.localeCompare(`${expertB.firstName} ${expertB.lastName}`)
+  }
 
   return (
     <Table striped>
@@ -84,7 +85,11 @@ function ExpertsListItem(props) {
   return (
     <tr onClick={() => navigate(`/expert/${props.expert.id}`)}>
       <td>{props.i + 1}</td>
-      <td className="text-center">{props.expert.authorized ? <PersonFill className="my-violet" /> : <LockFill className="my-red" /> }</td>
+      <td className="text-center">
+        <TooltipedContent text={props.expert.authorized ? 'Authorized' : 'Unauthorized'} id={props.expert.id}>
+          {props.expert.authorized ? <PersonFill className="my-violet" /> : <LockFill className="my-red" />}
+        </TooltipedContent>
+      </td>
       <td>{props.expert.firstName + " " + props.expert.lastName}</td>
       <td className="text-end">{props.expert.ticketIds.length}</td>
     </tr>

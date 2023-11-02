@@ -2,6 +2,7 @@ import { Table } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import CustomBadge from "../CustomBadge";
 import { PersonCheckFill, PersonXFill } from "react-bootstrap-icons";
+import { TooltipedContent, capitalize } from "../TooltipedContent";
 import './TicketsList.css';
 
 function numberizePriority(priorityLevel) {
@@ -64,14 +65,21 @@ function TicketsListItem(props) {
     <tr onClick={() => navigate(`/ticket/${props.ticket.id}`)}>
       <td>{props.i + 1}</td>
       <td className="text-center my-red">
-        {[...Array(numberizePriority(props.ticket.priorityLevel))].map((_) => '!').join('')}
+        <TooltipedContent text={capitalize(props.ticket.priorityLevel) + ' priority ticket'} id={'priority-tooltip' + props.ticket.id}>
+          {[...Array(numberizePriority(props.ticket.priorityLevel))].map((_) => '!').join('')}
+        </TooltipedContent>
       </td>
       <td>{props.ticket.title}</td>
       <td>{props.ticket.purchase.product.name}</td>
       <td className={props.role === "manager" ? "text-center" : ""}>
         {props.role === "manager" ?
-          (props.ticket?.expert?.id ? <PersonCheckFill className="my-violet" /> : <PersonXFill className="my-red" />)
-          : <CustomBadge text={props.ticket.ticketStatus} />}
+          (props.ticket?.expert?.id ?
+            <TooltipedContent text={'Assigned expert: ' + props.ticket.expert.firstName + ' ' + props.ticket.expert.lastName} id={'expert-tooltip' + props.ticket.id}>
+              <PersonCheckFill className="my-violet" />
+            </TooltipedContent> :
+            <TooltipedContent text={'Expert not assigned'} id={'expert-tooltip' + props.ticket.id}>
+              <PersonXFill className="my-red" />)
+            </TooltipedContent>) : <CustomBadge text={props.ticket.ticketStatus} />}
       </td>
     </tr>
   );
