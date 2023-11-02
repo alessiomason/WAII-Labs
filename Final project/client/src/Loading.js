@@ -6,8 +6,7 @@ function Loading(props) {
   return (
     <Container fluid className={'top-container' + (props.small ? ' small' : '')}>
       <h1>Loading</h1>
-      <ReactLoading type="bars" color="#dd3675"
-        height={200} width={100} />
+      <ReactLoading type="bars" color="#dd3675" height={200} width={100} />
     </Container>
   );
 }
