@@ -19,15 +19,14 @@ function numberizePriority(priorityLevel) {
 }
 
 function compareTickets(ticketA, ticketB) {
-  if (ticketA.expert && ticketB.expert) {
-    const comparisonByAssignment = -1 * ('' + ticketA.expert.id).localeCompare(ticketB.expert.id);
-    if (comparisonByAssignment !== 0) return comparisonByAssignment;
-  } else if (ticketA.expert) {
+  // sort not assigned first
+  if (ticketA.expert && !ticketB.expert) {
     return 1;
-  } else if (ticketB.expert) {
+  } else if (!ticketA.expert && ticketB.expert) {
     return -1;
   }
 
+  // sort by priority
   const priorityA = numberizePriority(ticketA.priorityLevel);
   const priorityB = numberizePriority(ticketB.priorityLevel);
 

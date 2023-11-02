@@ -38,21 +38,22 @@ function TicketPage(props) {
           setTicket(ticket);
           switch (ticket.ticketStatus) {
             case TicketStatus.OPEN:
-              setStatusChangePermitted([TicketStatus.IN_PROGRESS, TicketStatus.CLOSED, TicketStatus.RESOLVED])
+              setStatusChangePermitted([TicketStatus.OPEN, TicketStatus.IN_PROGRESS, TicketStatus.CLOSED, TicketStatus.RESOLVED])
               break;
             case TicketStatus.CLOSED:
-              setStatusChangePermitted([TicketStatus.REOPENED])
-              break;
-            case TicketStatus.IN_PROGRESS:
-              setStatusChangePermitted([TicketStatus.CLOSED, TicketStatus.OPEN, TicketStatus.RESOLVED])
-              break;
-            case TicketStatus.REOPENED:
-              setStatusChangePermitted([TicketStatus.CLOSED, TicketStatus.RESOLVED, TicketStatus.IN_PROGRESS])
-              break;
-            case TicketStatus.RESOLVED:
               setStatusChangePermitted([TicketStatus.CLOSED, TicketStatus.REOPENED])
               break;
+            case TicketStatus.IN_PROGRESS:
+              setStatusChangePermitted([TicketStatus.OPEN, TicketStatus.IN_PROGRESS, TicketStatus.CLOSED, TicketStatus.RESOLVED])
+              break;
+            case TicketStatus.REOPENED:
+              setStatusChangePermitted([TicketStatus.IN_PROGRESS, TicketStatus.CLOSED, TicketStatus.RESOLVED, TicketStatus.REOPENED])
+              break;
+            case TicketStatus.RESOLVED:
+              setStatusChangePermitted([TicketStatus.CLOSED, TicketStatus.RESOLVED, TicketStatus.REOPENED])
+              break;
           }
+          setTicketStatus(ticket.ticketStatus);
           setTicketPriority(ticket.priorityLevel);
           setDirty(false);
 
@@ -124,16 +125,14 @@ function TicketPage(props) {
         </Modal.Header>
         <Modal.Body>
           <Form>
-            <FloatingLabel controlId="floatingSelect" label="Ticket status">
+            <FloatingLabel controlId="floatingSelect" label="Change ticket status to:">
               <Form.Select value={ticketStatus} onChange={ev => setTicketStatus(ev.target.value)}>
-                {statusChangePermitted ? statusChangePermitted.map((item) => (
-                  <option key={item} value={item}>
-                    {item}
-                  </option>
-                )) : null}
+                {statusChangePermitted.length > 0 ? statusChangePermitted.map((item) =>
+                  <option key={item} value={item}>{item}</option>
+                ) : <option></option>}
               </Form.Select>
             </FloatingLabel>
-            <FloatingLabel controlId="floatingSelect" label="Ticket priority">
+            <FloatingLabel controlId="floatingSelect" label="Change ticket priority to:">
               <Form.Select value={ticketPriority} onChange={ev => setTicketPriority(ev.target.value)}>
                 {ticketPriorities.map((priority) => (
                   <option key={priority} value={priority}>{priority}</option>
@@ -155,16 +154,12 @@ function TicketPage(props) {
           <Form>
             <FloatingLabel controlId="floatingSelect" label="Choose expert">
               <Form.Select value={expertId} onChange={e => { setExpertId(e.target.value); setSelectedExpert(experts.filter(expert => expert.id === e.target.value)[0]) }}>
-                {experts ? experts.map((item) => (
-                  <option key={item.id} value={item.id}>
-                    {item.firstName + " " + item.lastName}
-                    {item.specializations.length !== 0 && (
-                      item.specializations.map((specialization, specIndex) => (
-                        <span key={specIndex}>{" | " + specialization.name}</span>
-                      )))
-                    }
+                {experts && experts.map((expert) =>
+                  <option key={expert.id} value={expert.id}>
+                    {expert.firstName + " " + expert.lastName + " - "}
+                    {expert.specializations.map(s => s.name).join(" | ")}
                   </option>
-                )) : null}
+                )}
               </Form.Select>
             </FloatingLabel>
           </Form>
@@ -180,8 +175,8 @@ function TicketPage(props) {
             <Col><h1 className='with-side-button'>{ticket.title}</h1></Col>
             <Col className='d-flex justify-content-end'>
               <Button onClick={() => navigate('/purchase/' + ticket.purchase?.id)}>View purchase</Button>
-              {ticket.ticketStatus && props.role === 'expert' && <Button onClick={() => setShowModal(true)}>Edit ticket properties</Button>}
-              {!ticket.expert && props.role === 'manager' && <Button onClick={() => setShowModalExperts(true)}>Assign expert</Button>}
+              {ticket.ticketStatus && props.role !== 'customer' && <Button onClick={() => setShowModal(true)}>Edit ticket properties</Button>}
+              {(ticket.ticketStatus === 'OPEN' || ticket.ticketStatus === 'REOPENED') && props.role === 'manager' && <Button onClick={() => setShowModalExperts(true)}>{ticket.expert ? 'Change assigned expert' : 'Assign expert'}</Button>}
             </Col>
           </Row>
           <Row>
