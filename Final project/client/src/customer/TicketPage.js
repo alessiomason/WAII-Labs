@@ -15,7 +15,7 @@ function TicketPage(props) {
   const [showModal, setShowModal] = useState(false);
   const [showModalExperts, setShowModalExperts] = useState(false);
   const [experts, setExperts] = useState(null);
-  const [expertId, setExpertId] = useState();
+  const [expertId, setExpertId] = useState(null);
   const [selectedExpert, setSelectedExpert] = useState(null);
   const [statusChangePermitted, setStatusChangePermitted] = useState([])
   const [ticketStatus, setTicketStatus] = useState(null);
@@ -55,6 +55,8 @@ function TicketPage(props) {
           }
           setTicketStatus(ticket.ticketStatus);
           setTicketPriority(ticket.priorityLevel);
+          setExpertId(ticket.expert?.id);
+          setSelectedExpert(ticket.expert);
           setDirty(false);
 
           API.getExperts()
@@ -89,12 +91,7 @@ function TicketPage(props) {
   }
 
   function confirmExpert() {
-    let obj = selectedExpert
-    if (obj == null) {
-      obj = experts[0]
-      setSelectedExpert(experts[0])
-    }
-    API.assignExpert(ticket, obj)
+    API.assignExpert(ticket, selectedExpert)
       .then(() => {
         setShowModalExperts(false);
         props.setDirty(true);
@@ -160,12 +157,13 @@ function TicketPage(props) {
                     {expert.specializations.map(s => s.name).join(" | ")}
                   </option>
                 )}
+                <option key='no-expert' value={null}>Assign no expert</option>
               </Form.Select>
             </FloatingLabel>
           </Form>
         </Modal.Body>
         <Modal.Footer>
-          <Button onClick={() => confirmExpert()}>Confirm expert</Button>
+          <Button onClick={confirmExpert}>Confirm expert</Button>
         </Modal.Footer>
       </Modal>
 

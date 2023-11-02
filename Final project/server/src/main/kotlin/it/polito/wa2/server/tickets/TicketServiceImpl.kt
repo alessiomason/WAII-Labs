@@ -77,7 +77,9 @@ class TicketServiceImpl(
             throw TicketStatusException()
 
         ticket.expert = expert
-        ticket.ticketStatus = TicketStatus.IN_PROGRESS
+        if (ticket.expert != null) {
+            ticket.ticketStatus = TicketStatus.IN_PROGRESS
+        }
         ticket.priorityLevel = ticketDTO.priorityLevel
 
         ticketRepository.save(ticket)
