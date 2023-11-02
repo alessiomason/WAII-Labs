@@ -60,7 +60,7 @@ function TicketPage(props) {
           setDirty(false);
 
           API.getExperts()
-            .then(experts => setExperts(experts))
+            .then(experts => setExperts(experts.filter(e => e.authorized)))
             .catch(err => console.log(err))
         })
         .catch(err => console.log(err))
