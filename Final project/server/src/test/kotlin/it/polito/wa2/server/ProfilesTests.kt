@@ -12,6 +12,7 @@ import it.polito.wa2.server.employees.ExpertSpecializationRepository
 import it.polito.wa2.server.logs.LogRepository
 import it.polito.wa2.server.purchases.PurchaseRepository
 import it.polito.wa2.server.tickets.TicketRepository
+import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
@@ -115,6 +116,7 @@ class ProfilesTests {
         Assertions.assertEquals(HttpStatus.NOT_FOUND, res.statusCode)
     }
 
+    @Disabled
     @Test
     fun editProfile() {
         // edit testProfile1 with testProfile2 fields

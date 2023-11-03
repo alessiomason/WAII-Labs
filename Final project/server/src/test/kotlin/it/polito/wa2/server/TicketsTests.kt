@@ -552,7 +552,7 @@ class TicketsTests {
                 ticket1.purchase.coveredByWarranty,
                 listOf(ticket1.id)
             ),
-            ExpertDTO(expert1.id, expert1.firstName, expert1.lastName, ticket1.expert?.specializations?.map { it.toDTO() } ?: listOf(), listOf(ticket1.id)),
+            ExpertDTO(expert1.id, expert1.firstName, expert1.lastName, false, ticket1.expert?.specializations?.map { it.toDTO() } ?: listOf(), listOf(ticket1.id)),
             TicketStatus.IN_PROGRESS,   // test that the ticketStatus is always set to IN_PROGRESS
             PriorityLevel.CRITICAL
         )
@@ -611,7 +611,7 @@ class TicketsTests {
                 listOf(ticket1.id)
             ),
             null,
-            TicketStatus.IN_PROGRESS,   // test that the ticketStatus is always set to IN_PROGRESS
+            ticket1.ticketStatus,   // test that the ticketStatus is left as-is if the expert is removed
             PriorityLevel.CRITICAL
         )
 

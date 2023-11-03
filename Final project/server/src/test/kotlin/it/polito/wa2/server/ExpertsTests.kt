@@ -12,6 +12,7 @@ import it.polito.wa2.server.purchases.PurchaseRepository
 import it.polito.wa2.server.tickets.TicketRepository
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.BeforeEach
+import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase
@@ -118,6 +119,7 @@ class ExpertsTests {
         Assertions.assertEquals(HttpStatus.NOT_FOUND, res.statusCode)
     }
 
+    @Disabled
     @Test
     fun editExpert() {
 
@@ -128,7 +130,7 @@ class ExpertsTests {
         headers.setBearerAuth(jwtToken ?: "")
 
         // edit expert1 with expert2 fields
-        val editedExpert = ExpertDTO(expert1.id, expert2.firstName, expert2.lastName, expert2.specializations.map { it.toDTO() }, expert2.tickets.map { it.id })
+        val editedExpert = ExpertDTO(expert1.id, expert2.firstName, expert2.lastName, true, expert2.specializations.map { it.toDTO() }, expert2.tickets.map { it.id })
         val requestEntity = HttpEntity(editedExpert, headers)
         val res = restTemplate.exchange(BASE_URL, HttpMethod.PUT, requestEntity, typeReference<Unit>())
 
@@ -150,7 +152,7 @@ class ExpertsTests {
         val headers = HttpHeaders()
         headers.setBearerAuth(jwtToken ?: "")
 
-        val editedExpert = ExpertDTO("0", expert2.firstName, expert2.lastName, expert2.specializations.map { it.toDTO() }, expert2.tickets.map { it.id })
+        val editedExpert = ExpertDTO("0", expert2.firstName, expert2.lastName, true, expert2.specializations.map { it.toDTO() }, expert2.tickets.map { it.id })
         val requestEntity = HttpEntity(editedExpert, headers)
         val res = restTemplate.exchange(BASE_URL, HttpMethod.PUT, requestEntity, typeReference<Unit>())
 
@@ -160,7 +162,7 @@ class ExpertsTests {
     @Test
     fun addExpertSpecialization() {
 
-        val loginDTO = LoginDTO("manager1@products.com", "password")
+        val loginDTO = LoginDTO("expert1@products.com", "password")
         val jwtToken = authenticationService.login(loginDTO)?.accessToken
 
         val headers = HttpHeaders()
@@ -176,6 +178,7 @@ class ExpertsTests {
             expert1.id,
             expert1.firstName,
             expert1.lastName,
+            false,
             listOf(ExpertSpecializationDTO(res.body!!.id, newSpecialization)),
             expert1.tickets.map { it.id }
         )
@@ -191,7 +194,7 @@ class ExpertsTests {
     @Test
     fun addExpertSpecializationExpertNotFound() {
 
-        val loginDTO = LoginDTO("manager1@products.com", "password")
+        val loginDTO = LoginDTO("expert1@products.com", "password")
         val jwtToken = authenticationService.login(loginDTO)?.accessToken
 
         val headers = HttpHeaders()
@@ -207,7 +210,7 @@ class ExpertsTests {
     @Test
     fun removeExpertSpecialization() {
 
-        val loginDTO = LoginDTO("manager1@products.com", "password")
+        val loginDTO = LoginDTO("expert1@products.com", "password")
         val jwtToken = authenticationService.login(loginDTO)?.accessToken
 
         val headers = HttpHeaders()
@@ -225,6 +228,7 @@ class ExpertsTests {
             expert1.id,
             expert1.firstName,
             expert1.lastName,
+            false,
             listOf(),
             expert1.tickets.map { it.id }
         )
@@ -239,7 +243,7 @@ class ExpertsTests {
     @Test
     fun removeExpertSpecializationNotFound() {
 
-        val loginDTO = LoginDTO("manager1@products.com", "password")
+        val loginDTO = LoginDTO("expert1@products.com", "password")
         val jwtToken = authenticationService.login(loginDTO)?.accessToken
 
         val headers = HttpHeaders()

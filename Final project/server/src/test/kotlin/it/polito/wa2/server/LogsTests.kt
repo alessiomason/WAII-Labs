@@ -281,6 +281,7 @@ class LogsTests {
                         ticket1.expert!!.id,
                         ticket1.expert!!.firstName,
                         ticket1.expert!!.lastName,
+                        false,
                         ticket1.expert?.specializations?.map { it.toDTO() } ?: listOf(),
                         listOf(ticket1.id)
                     ),
