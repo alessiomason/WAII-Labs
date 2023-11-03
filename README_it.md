@@ -60,8 +60,8 @@ L'applicazione viene avviata preferibilmente dal file Docker Compose, che avvia 
 | ![Home page del cliente](images/Customer%20home%20page.png) Home page del cliente | ![Pagina dell'acquisto](images/Purchase%20page.png) Pagina dell'acquisto |
 | :-------------: | :-------------: |
 | ![Pagina del ticket](images/Ticket%20page.png) **Pagina del ticket** | ![Chat](images/Chat.png) **Chat** |
-| ![Pagina dell'esperto](images/Expert%20page.png) **Pagina dell'esperto** | ![Log dell'esperto](images/Expert%20logs.png) **Log dell'esperto** |
-| ![Grafana](images/Grafana.png) **Grafana** | |
+| ![Pagina del profilo dell'esperto](images/Expert%20profile%20page.png) **Pagina del profilo dell'esperto**  | ![Pagina dell'esperto (punto di vista del manager)](images/Expert%20page.png) **Pagina dell'esperto (punto di vista del manager)** |
+| ![Log dell'esperto (punto di vista del manager)](images/Expert%20logs.png) **Log dell'esperto (punto di vista del manager)** | ![Grafana](images/Grafana.png) **Grafana** |
 
 ### Contenuto delle cartelle e breve changelog
 - Laboratorio 2
@@ -79,7 +79,7 @@ L'applicazione viene avviata preferibilmente dal file Docker Compose, che avvia 
 
 - Laboratorio 5
 	- Iscrizione di clienti ed esperti con Keycloak
-	- Aggiunti i microserviziLoki, Tempo, Prometheus e Grafana al Docker Compose
+	- Aggiunti i microservizi Loki, Tempo, Prometheus e Grafana al Docker Compose
 
 - Progetto finale
 	- Chat per ogni ticket

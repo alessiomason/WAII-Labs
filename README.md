@@ -62,8 +62,8 @@ The application is preferably started from the Docker Compose file, which starts
 | ![Customer home page](images/Customer%20home%20page.png) Customer home page | ![Purchase page](images/Purchase%20page.png) Purchase page |
 | :-------------: | :-------------: |
 | ![Ticket page](images/Ticket%20page.png) **Ticket page** | ![Chat](images/Chat.png) **Chat** |
-| ![Expert page](images/Expert%20page.png) **Expert page** | ![Expert logs](images/Expert%20logs.png) **Expert logs** |
-| ![Grafana](images/Grafana.png) **Grafana** | |
+| ![Expert profile page](images/Expert%20profile%20page.png) **Expert profile page** | ![Expert page (manager point of view)](images/Expert%20page.png) **Expert page (manager point of view)** |
+| ![Expert logs (manager point of view)](images/Expert%20logs.png) **Expert logs (manager point of view)** | ![Grafana](images/Grafana.png) **Grafana** |
 
 ### Folders content and brief changelog
 - Lab 2
