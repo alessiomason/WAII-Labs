@@ -51,7 +51,7 @@ Nel progetto ci si è concentrati soprattutto sul server, che era il focus anche
 L'applicazione viene avviata preferibilmente dal file Docker Compose, che avvia diversi microservizi. Il microservizio `ticketing` è il server vero e proprio, che espone sia le API sia il client sulla porta 8080. Il database PostgreSQL è avviato sulla porta 5432; tutti gli altri microservizi raccolgono dati e supportano il monitoraggio delle prestazioni del sistema, che può essere svolta dalla dashboard di Grafana accessibile dalla porta 3000.
 
 ### Limitazioni e bug noti
-- La chat è aggiornata atraverso un polling continuo: questo a causa di limiti di tempo, ma altre soluzioni, come i web socket, sarebbero raccomandabili
+- La chat è aggiornata attraverso un polling continuo: questo a causa di limiti di tempo, ma altre soluzioni, come i web socket, sarebbero raccomandabili
 - L'implementazione dello scambio di token di Keycloak con il client è quasi certamente errata: funziona, ma non segue le migliori pratiche comunemente raccomandate. Di nuovo questo a causa di limiti di tempo e della mancanza di documentazione fornita da Keycloak o dal corso
 - Sarebbero necessarie molte ottimizzazioni per migliorare le prestazioni
 
