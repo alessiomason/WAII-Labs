@@ -11,32 +11,33 @@ The repository contains the 5 laboratories and the final project for the Web App
 [🌐 Qui in italiano](README_it.md)
 
 ## Lab 1: Kotlin Exercism exercises
-4 exercises from the Exercism Kotlin track: Flatten Array, Matrix, React and Word Count
+4 exercises from the Exercism Kotlin track: Flatten Array, Matrix, React and Word Count.
 
 ## Labs 2-5 and final project: Ticketing server
 The following labs and the final project were aimed at creating a web application that allows customers of electronic goods to
-manage assistance tickets.
+submit assistance tickets, which are than managed by specialized experts and managers.
 
 The application is what can be considered a proof of concept: its main goal was to test and showcase all the different technologies studied in the course, such as Spring Boot, Keycloak and the interaction of several microservices.  
-This is why several choices have been made knowing the goal of the project: had this been a real application, different solutions would defintely need to be applied, as described in the limitations section.
+This is why several choices have been made in light of the goal of the project: had this been a real application, different solutions would definitely need to be applied, as described in the limitations section.
 
-The focused mainly on the server, which was the focus of the course too; the final project, then, was aimed at testing the server by developing a client for it.
+The project focused mainly on the server, which was the focus of the course too; the final project, then, was aimed at testing the server by developing a client for it.
 
 ### Features
 - Insert purchases and additional warranties (to emulate the purchase of a specific good online)
 - Open tickets relative to a specific purchase
-- Chat with experts to further explain the issue descibed in the ticket
-- As an expert, manage the ticket status and priority and chat with the customer
+- Chat with experts to further explain the issue described in the ticket
+- As an expert, manage the ticket status and priority level and chat with the customer
+- As an expert, manage your own specializations (used by the managers to assign the tickets appropriately)
 - As a manager, assign experts to tickets and evaluate experts' performances by analysing the changes made to the ticket statuses
 
 ### Horizontal features
-- Gauge the performance of the system (in the Grafana dashboard) by monitoring the average request duration, the requests count, the percentage of successful and unsuccessful requests and the number of requests per second
+- Gauge the performance of the system in the Grafana dashboard by monitoring the requests count, the average request duration, the percentage of successful and unsuccessful requests and the number of requests per second
 
 ### Technologies used
 - Server
 	- Spring Boot (Kotlin)
 	- Spring Data JPA
-	- Postgres database
+	- PostgreSQL database
 	- Spring Security
 	- Keycloak
 	- Grafana
@@ -50,10 +51,10 @@ The focused mainly on the server, which was the focus of the course too; the fin
 	- Bootstrap
 
 ### System architecture
-The application is preferably started from the Docker Compose file, which starts several microservices. The `ticketing` microservice is the server itself, which exposes both the APIs and the client on port 8080. The Postgres database is started on port 5432; all the other microservices collect data and support the monitoring of the system performance, which can be carried out from the Grafana dashboard accessible from port 3000.
+The application is preferably started from the Docker Compose file, which starts several microservices. The `ticketing` microservice is the server itself, which exposes both the APIs and the client on port 8080. The PostgreSQL database is started on port 5432; all the other microservices collect data and support the monitoring of the system performance, which can be carried out from the Grafana dashboard accessible from port 3000.
 
 ### Known bugs and limitations
-- The chat is updated by continuous polling: this was done due to time limitations, although other solutions, such as web sockets, would be recommended
+- The chat is updated by continuous polling: this was done due to time limitations, but other solutions, such as web sockets, would be recommended
 - The implementation of Keycloak's exchange of tokens with the client is most likely wrong: it works, but it does not follow the common best practices. Again this is due to time limitations and the lack of documentation provided by Keycloak or by the course
 - Several performance optimizations would be needed
 
@@ -66,17 +67,17 @@ The application is preferably started from the Docker Compose file, which starts
 
 ### Folders content and brief changelog
 - Lab 2
-	- Profile and customer APIs
+	- Products and customers APIs
 	- Minimal client interface to verify the correct implementation of the APIs
 
 - Lab 3 
-	- Ticket, purchase, expert and manager APIs
-	- Integration tests to verify all APIs (these integration tests were for the most part not updated for the final project)
+	- Tickets, purchases, experts and managers APIs
+	- Integration tests to verify all APIs (these tests were for the most part not updated for the final project)
 	- Initial Docker Compose deployment
 
 - Lab 4
 	- Login with Keycloak
-	- APIs authorization by role
+	- APIs authorization by role (customer, expert or manager)
 
 - Lab 5
 	- Customer and expert sign up with Keycloak
