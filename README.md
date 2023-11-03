@@ -1,10 +1,4 @@
 # Web Applications II Labs
-Repository for the laboratories of the Web Applications II course
-
-At the end of the project, the application.properties file will be added
-
-
-# Web Applications II Labs
 ### Repository for the laboratories of the Web Applications II course
 The repository contains the 5 laboratories and the final project for the Web Applications II course (A.Y. 2022/23, Politecnico di Torino). Each folder contains the PDF of the assignment.
 
