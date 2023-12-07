@@ -52,6 +52,10 @@ The application is preferably started from the Docker Compose file, which starts
 - The implementation of Keycloak's exchange of tokens with the client is most likely wrong: it works, but it does not follow the common best practices. Again this is due to time limitations and the lack of documentation provided by Keycloak or by the course
 - Several performance optimizations would be needed
 
+### Running the software
+
+The Docker Compose file is located (for the final project) in the `server/src/main/docker` folder. It is necessary to build the server image running the command `gradle jibDockerBuild` in the `server` folder: the client image has already been built and included in the server. The `docker-compose up` command can then be used in the `server/src/main/docker` folder to start the server and the other microservices.
+
 ### Screenshots
 | ![Customer home page](images/Customer%20home%20page.png) Customer home page | ![Purchase page](images/Purchase%20page.png) Purchase page |
 | :-------------: | :-------------: |

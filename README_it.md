@@ -55,6 +55,10 @@ L'applicazione viene avviata preferibilmente dal file Docker Compose, che avvia 
 - L'implementazione dello scambio di token di Keycloak con il client è quasi certamente errata: funziona, ma non segue le migliori pratiche comunemente raccomandate. Di nuovo questo a causa di limiti di tempo e della mancanza di documentazione fornita da Keycloak o dal corso
 - Sarebbero necessarie molte ottimizzazioni per migliorare le prestazioni
 
+### Eseguire il software
+
+Il file Docker Compose file si trova (per il progetto finale) nella cartella `server/src/main/docker`. È necessario compilare l'immagine del server eseguendo il comando `gradle jibDockerBuild` nella cartella `server`: l'immagine del client è già stata compilata ed è inclusa nel server. Il comando `docker-compose up` può essere usato nella cartella `server/src/main/docker` per far partire il server e gli altri microservizi.
+
 ### Screenshot
 
 | ![Home page del cliente](images/Customer%20home%20page.png) Home page del cliente | ![Pagina dell'acquisto](images/Purchase%20page.png) Pagina dell'acquisto |
