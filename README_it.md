@@ -4,7 +4,7 @@ Il repository contiene i 5 laboratori e il progetto finale per il corso di Web A
 
 [🌐 Here in English](README.md)
 
-## Lab 1: exercizi Kotlin da Exercism
+## Lab 1: esercizi Kotlin da Exercism
 
 4 esercizi dalla track Kotlin di Exercism: Flatten Array, Matrix, React and Word Count.
 
